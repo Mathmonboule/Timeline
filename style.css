@@ -693,11 +693,12 @@ body {
   justify-content: center;
 }
 
-/* Video "portail" plein ecran : un tourbillon d'etoiles qui donne
+/* Video "portail" plein ecran : une nebuleuse qui derive, pour donner
    l'impression qu'on est deja dans l'univers du jeu avant meme de jouer.
-   Le badge TIMELINE est cale sur son point lumineux central (voir
-   .logo-timeline--grand) pour donner l'impression que le logo EST la
-   source du tourbillon. */
+   Contrairement au precedent choix de video, celle-ci n'a pas de point
+   lumineux fixe a suivre : la vignette radiale de .accueil-video-overlay
+   recree artificiellement un centre d'attention pour que le badge TIMELINE
+   (voir .logo-timeline--grand) reste le point focal quoi qu'il arrive. */
 .accueil-video-fond {
   position: absolute;
   inset: 0;
@@ -710,11 +711,13 @@ body {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg,
-    rgba(6, 10, 22, 0.5) 0%,
-    rgba(6, 10, 22, 0.22) 32%,
-    rgba(6, 10, 22, 0.3) 66%,
-    rgba(6, 10, 22, 0.78) 100%);
+  background:
+    radial-gradient(ellipse 68% 62% at 50% 46%, rgba(6, 10, 22, 0) 0%, rgba(6, 10, 22, 0.4) 62%, rgba(6, 10, 22, 0.8) 100%),
+    linear-gradient(180deg,
+      rgba(6, 10, 22, 0.5) 0%,
+      rgba(6, 10, 22, 0.18) 32%,
+      rgba(6, 10, 22, 0.22) 66%,
+      rgba(6, 10, 22, 0.8) 100%);
 }
 .accueil-contenu {
   position: relative;
