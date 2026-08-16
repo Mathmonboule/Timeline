@@ -79,6 +79,9 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   const inputDuree = document.getElementById('multi-duree-tour');
   if (btnIllimite) btnIllimite.classList.remove('actif');
   if (inputDuree) { inputDuree.disabled = false; inputDuree.value = 20; }
+  filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+  creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
+  majCompteFiltresMulti();
 });
 
 /* ================= CREER UNE PARTIE ================= */
@@ -222,6 +225,25 @@ document.getElementById('btn-duree-illimitee').addEventListener('click', () => {
   document.getElementById('multi-duree-tour').disabled = dureeIllimitee;
 });
 
+/* Filtres de categories (hote uniquement, avant le lancement). */
+let filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+function majCompteFiltresMulti() {
+  const n = compterCartesFiltrees(filtresMultiActifs);
+  const zone = document.getElementById('lobby-filtres-compte-multi');
+  if (!zone) return;
+  zone.textContent = `${n} carte${n > 1 ? 's' : ''} disponible${n > 1 ? 's' : ''} avec ce filtre.`;
+}
+document.getElementById('btn-filtres-multi-tout').addEventListener('click', () => {
+  filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+  creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
+  majCompteFiltresMulti();
+});
+document.getElementById('btn-filtres-multi-aucun').addEventListener('click', () => {
+  filtresMultiActifs.clear();
+  creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
+  majCompteFiltresMulti();
+});
+
 document.getElementById('btn-demarrer-partie').addEventListener('click', async () => {
   if (!codePartieActuelle || !estHote) return;
   const snap = await dbRef.ref(`parties/${codePartieActuelle}/joueurs`).get();
@@ -232,7 +254,10 @@ document.getElementById('btn-demarrer-partie').addEventListener('click', async (
   const dureeSaisie = parseInt(document.getElementById('multi-duree-tour').value, 10);
   const dureeTourMs = dureeIllimitee ? 0 : Math.max(5, dureeSaisie || 20) * 1000;
 
-  const toutes = melanger(BASE_CARTES);
+  const minimumRequis = 1 + TAILLE_MAIN_INITIALE * ids.length;
+  const pool = BASE_CARTES.filter((c) => filtresMultiActifs.has(c.famille));
+  const source = pool.length >= minimumRequis ? pool : BASE_CARTES;
+  const toutes = melanger(source);
   const carteRepere = toutes[0];
   let curseur = 1;
   const mains = {};
@@ -249,6 +274,7 @@ document.getElementById('btn-demarrer-partie').addEventListener('click', async (
     tour_actuel: ids[0],
     duree_tour_ms: dureeTourMs,
     tour_fin_a: dureeTourMs ? Date.now() + dureeTourMs : null,
+    familles_actives: source === pool ? Array.from(filtresMultiActifs) : null,
     carte_repere: carteRepere.id,
     timeline: [carteRepere.id],
     pioche,

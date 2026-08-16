@@ -14,6 +14,57 @@ let indexZoneSelectionnee = null;
 let carteInspectee = null;
 let carteRepereInitiale = null;
 
+/* ================= FILTRES PAR CATEGORIE =================
+   Liste partagee entre solo (ci-dessous) et multijoueur (multi.js) pour
+   construire les cases a cocher "quelles categories inclure dans la
+   partie". Les id doivent correspondre exactement aux valeurs de
+   carte.famille generees par generer_cartes.py (EMOJI_PAR_FAMILLE). */
+const FAMILLES_FILTRABLES = [
+  { id: 'histoire', label: 'Histoire', emoji: '📜' },
+  { id: 'science', label: 'Science', emoji: '🔬' },
+  { id: 'inventions', label: 'Inventions', emoji: '⚙️' },
+  { id: 'culture', label: 'Culture', emoji: '🎭' },
+  { id: 'cinema', label: 'Cinéma', emoji: '🎬' },
+  { id: 'television', label: 'Télévision', emoji: '📺' },
+  { id: 'jeuxvideo', label: 'Jeux vidéo', emoji: '🎮' },
+  { id: 'architecture', label: 'Architecture', emoji: '🏛️' },
+  { id: 'nature', label: 'Nature', emoji: '🌿' },
+  { id: 'guerre', label: 'Guerre', emoji: '⚔️' },
+  { id: 'exploration', label: 'Exploration', emoji: '🧭' },
+  { id: 'mythologie', label: 'Mythologie', emoji: '🐉' },
+  { id: 'sport', label: 'Sport', emoji: '🏅' }
+];
+// Nombre minimum de cartes necessaires pour qu'une partie soit jouable
+// (1 carte repere + au moins une main complete) ; sert a bloquer un
+// lancement de partie si le joueur a trop filtre les categories.
+const CARTES_MIN_PARTIE = 6;
+
+/* Construit une grille de cases a cocher dans #conteneurId, une par famille
+   filtrable, cochee si presente dans ensembleActif (un Set modifie sur
+   place). onChange est appele apres chaque clic (utile pour desactiver un
+   bouton "Demarrer" si plus assez de cartes ne restent, par ex.). */
+function creerGrilleFiltres(conteneurId, ensembleActif, onChange) {
+  const conteneur = document.getElementById(conteneurId);
+  if (!conteneur) return;
+  conteneur.innerHTML = '';
+  FAMILLES_FILTRABLES.forEach((f) => {
+    const label = document.createElement('label');
+    label.className = 'filtre-famille';
+    const coche = ensembleActif.has(f.id) ? 'checked' : '';
+    label.innerHTML = `<input type="checkbox" ${coche}><span>${f.emoji} ${f.label}</span>`;
+    const checkbox = label.querySelector('input');
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) ensembleActif.add(f.id); else ensembleActif.delete(f.id);
+      if (onChange) onChange();
+    });
+    conteneur.appendChild(label);
+  });
+}
+
+function compterCartesFiltrees(ensembleActif) {
+  return BASE_CARTES.reduce((n, c) => n + (ensembleActif.has(c.famille) ? 1 : 0), 0);
+}
+
 /* ================= INITIALISATION ================= */
 function melanger(array) {
   const a = [...array];
@@ -24,8 +75,13 @@ function melanger(array) {
   return a;
 }
 
+// Filtres actifs en solo : toutes les familles cochees par defaut.
+let filtresSoloActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+
 function initPartie() {
-  const toutes = melanger(BASE_CARTES);
+  const pool = BASE_CARTES.filter((c) => filtresSoloActifs.has(c.famille));
+  const source = pool.length >= CARTES_MIN_PARTIE ? pool : BASE_CARTES;
+  const toutes = melanger(source);
   carteRepereInitiale = toutes[0];
   timeline = [carteRepereInitiale];
   main = toutes.slice(1, 6);
@@ -38,6 +94,28 @@ function initPartie() {
   document.getElementById('ecran-fin-container').innerHTML = '';
   render();
 }
+
+/* ================= FILTRES SOLO (panneau Lobby) ================= */
+function majCompteFiltresSolo() {
+  const n = compterCartesFiltrees(filtresSoloActifs);
+  const zone = document.getElementById('lobby-filtres-compte-solo');
+  zone.textContent = n < CARTES_MIN_PARTIE
+    ? `⚠️ Seulement ${n} carte${n > 1 ? 's' : ''} avec ce filtre (minimum ${CARTES_MIN_PARTIE}) — toutes les catégories seront utilisées à la place.`
+    : `${n} carte${n > 1 ? 's' : ''} disponible${n > 1 ? 's' : ''} avec ce filtre.`;
+}
+creerGrilleFiltres('lobby-filtres-grille-solo', filtresSoloActifs, majCompteFiltresSolo);
+majCompteFiltresSolo();
+
+document.getElementById('btn-filtres-solo-tout').addEventListener('click', () => {
+  filtresSoloActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+  creerGrilleFiltres('lobby-filtres-grille-solo', filtresSoloActifs, majCompteFiltresSolo);
+  majCompteFiltresSolo();
+});
+document.getElementById('btn-filtres-solo-aucun').addEventListener('click', () => {
+  filtresSoloActifs.clear();
+  creerGrilleFiltres('lobby-filtres-grille-solo', filtresSoloActifs, majCompteFiltresSolo);
+  majCompteFiltresSolo();
+});
 
 /* ================= AUDIO (synthétisé, pas de fichier externe) ================= */
 function jouerSonBonneReponse() {

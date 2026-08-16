@@ -270,6 +270,50 @@ body {
   transition: background 0.15s ease;
 }
 .btn-quitter-partie:hover { background: rgba(231, 76, 60, 0.22); }
+
+/* ===== FILTRES PAR CATEGORIE (lobby solo + parametres hote multijoueur) ===== */
+.lobby-filtres {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.lobby-filtres-titre-ligne {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.lobby-filtres-titre { font-size: 11px; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
+.lobby-filtres-actions { font-size: 11px; opacity: 0.6; white-space: nowrap; }
+.lien-filtre {
+  background: none;
+  border: none;
+  color: #6be89a;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.lien-filtre:hover { text-decoration: underline; }
+.lobby-filtres-grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+}
+.filtre-famille {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  padding: 3px 0;
+}
+.filtre-famille input { accent-color: #2ecc71; cursor: pointer; }
+.filtre-famille span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lobby-filtres-compte { font-size: 11px; opacity: 0.55; margin-top: 8px; }
 .inspecteur-contenu {
   flex: 1;
   padding: 25px 20px;
@@ -816,6 +860,10 @@ body {
 .famille-sport .decor         { background: rgba(79,212,168,0.08); }
 .famille-jeuxvideo    { background: linear-gradient(160deg, #4a0d5a, #240a2e); }
 .famille-jeuxvideo .decor     { background: rgba(200,79,212,0.08); }
+.famille-cinema       { background: linear-gradient(160deg, #5a0d1a, #2e0509); }
+.famille-cinema .decor        { background: rgba(212,79,100,0.08); }
+.famille-television   { background: linear-gradient(160deg, #1a2f4a, #0d1826); }
+.famille-television .decor    { background: rgba(90,150,212,0.08); }
 
 /* ZONES DE DEPOT */
 .zone-depot {

@@ -39,18 +39,28 @@ FAMILLE_SLUG = {
 
 # Emoji par defaut pour une carte SANS emoji dedie ET sans image : mieux que "?" partout.
 # Cle = famille normalisee (categorie avant le "/", ou famille speciale ci-dessous).
+# Cette liste est aussi la liste des categories filtrables (script.js/multi.js
+# la reproduisent cote client pour construire les cases a cocher des filtres).
 EMOJI_PAR_FAMILLE = {
     "histoire": "📜", "science": "🔬", "inventions": "⚙️", "culture": "🎭",
+    "cinema": "🎬", "television": "📺", "jeuxvideo": "🎮",
     "architecture": "🏛️", "nature": "🌿", "guerre": "⚔️", "exploration": "🧭",
-    "mythologie": "🐉", "sport": "🏅", "jeuxvideo": "🎮",
+    "mythologie": "🐉", "sport": "🏅",
 }
 
 def normalise_famille(categorie):
-    """Deduit le slug de famille (pour la couleur + l'emoji par defaut) a partir
-    de la colonne categorie. Les nouvelles categories "Jeu video & ..." n'ont pas
-    de "/" donc on les detecte par prefixe avant de retomber sur la logique generale."""
+    """Deduit le slug de famille (pour la couleur, l'emoji par defaut et les
+    filtres de partie) a partir de la colonne categorie. Le cinema et la
+    television sont sortis de "Culture" (trop gros, et assez distincts pour
+    etre filtres separement) ; "Jeu video & ..." n'a pas de "/" donc se
+    detecte par prefixe avant de retomber sur la regle generale (mot avant
+    le premier "/")."""
     if categorie.startswith("Jeu vidéo") or categorie.startswith("Jeu video"):
         return "jeuxvideo"
+    if categorie.startswith("Culture / Cinéma") or categorie.startswith("Culture / Cinema"):
+        return "cinema"
+    if categorie.startswith("Culture / Télévision") or categorie.startswith("Culture / Television"):
+        return "television"
     famille = categorie.split('/')[0].strip()
     return FAMILLE_SLUG.get(famille, "culture")
 

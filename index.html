@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
@@ -94,6 +94,19 @@
           joueurs du salon, leurs pseudos, le nombre de cartes qu'il leur reste, et à
           qui c'est de jouer.
         </div>
+
+        <div class="lobby-filtres">
+          <div class="lobby-filtres-titre-ligne">
+            <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
+            <span class="lobby-filtres-actions">
+              <button type="button" class="lien-filtre" id="btn-filtres-solo-tout">Tout</button>
+              ·
+              <button type="button" class="lien-filtre" id="btn-filtres-solo-aucun">Aucun</button>
+            </span>
+          </div>
+          <div class="lobby-filtres-grille" id="lobby-filtres-grille-solo"></div>
+          <div class="lobby-filtres-compte" id="lobby-filtres-compte-solo"></div>
+        </div>
       </div>
 
       <!-- MULTIJOUEUR -->
@@ -110,6 +123,19 @@
             <input type="number" id="multi-duree-tour" min="5" max="600" value="20" step="5">
             <span>secondes</span>
             <button type="button" id="btn-duree-illimitee" class="btn-duree-illimitee">∞ Illimité</button>
+          </div>
+
+          <div class="lobby-filtres">
+            <div class="lobby-filtres-titre-ligne">
+              <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
+              <span class="lobby-filtres-actions">
+                <button type="button" class="lien-filtre" id="btn-filtres-multi-tout">Tout</button>
+                ·
+                <button type="button" class="lien-filtre" id="btn-filtres-multi-aucun">Aucun</button>
+              </span>
+            </div>
+            <div class="lobby-filtres-grille" id="lobby-filtres-grille-multi"></div>
+            <div class="lobby-filtres-compte" id="lobby-filtres-compte-multi"></div>
           </div>
         </div>
 
