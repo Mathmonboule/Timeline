@@ -569,7 +569,7 @@ body {
   justify-content: center;
   border: 4px solid rgba(255, 255, 255, 0.9);
   background: #0b1226;
-  box-shadow: 0 0 40px rgba(120, 255, 140, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 40px rgba(255, 110, 195, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 /* La variante petite n'a pas de mini-cartes : le disque anime est directement
    le conteneur exterieur (pas besoin du wrapper interieur). */
@@ -578,7 +578,7 @@ body {
   overflow: hidden;
   border: 2px solid rgba(255, 255, 255, 0.9);
   background: #0b1226;
-  box-shadow: 0 0 40px rgba(120, 255, 140, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 40px rgba(255, 110, 195, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* Texture du portail : UNE SEULE image SVG (images/logo-vortex.svg, generee
@@ -600,7 +600,7 @@ body {
   inset: -3%;
   z-index: 4;
   border-radius: 50%;
-  border: 1px dashed rgba(190, 255, 200, 0.3);
+  border: 1px dashed rgba(255, 190, 230, 0.3);
   animation: tourbillon 10s linear infinite;
   pointer-events: none;
 }
@@ -609,8 +609,8 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #d9ffe0;
-  box-shadow: 0 0 10px 3px rgba(150, 255, 170, 0.9);
+  background: #ffd9f0;
+  box-shadow: 0 0 10px 3px rgba(255, 130, 205, 0.9);
 }
 .logo-orbite-point--1 { top: -3.5px; left: 50%; transform: translateX(-50%); }
 .logo-orbite-point--2 { bottom: 22%; left: -3.5px; }
@@ -619,8 +619,8 @@ body {
   to { transform: rotate(360deg); }
 }
 @keyframes portail-pulse {
-  0%, 100% { box-shadow: 0 0 40px rgba(120, 255, 140, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5); }
-  50% { box-shadow: 0 0 58px rgba(140, 255, 165, 0.6), 0 10px 40px rgba(0, 0, 0, 0.5); }
+  0%, 100% { box-shadow: 0 0 40px rgba(255, 110, 195, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5); }
+  50% { box-shadow: 0 0 58px rgba(255, 140, 210, 0.6), 0 10px 40px rgba(0, 0, 0, 0.5); }
 }
 .logo-cercle-interieur, .logo-timeline--petit {
   animation: portail-pulse 4s ease-in-out infinite;
@@ -631,7 +631,7 @@ body {
   z-index: 5;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.35);
-  box-shadow: inset 0 0 22px rgba(140, 255, 160, 0.4);
+  box-shadow: inset 0 0 22px rgba(255, 130, 205, 0.4);
   pointer-events: none;
 }
 .logo-texte {
@@ -640,7 +640,7 @@ body {
   font-weight: 900;
   color: #fff;
   text-align: center;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 18px rgba(120, 255, 140, 0.55);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 18px rgba(255, 130, 205, 0.55);
 }
 .logo-carte-mini {
   position: absolute;
@@ -673,7 +673,7 @@ body {
 .logo-timeline--grand .logo-cercle-interieur {
   background: rgba(11, 18, 38, 0.5);
   backdrop-filter: blur(3px) saturate(1.3);
-  box-shadow: 0 0 70px rgba(140, 200, 255, 0.35), 0 0 40px rgba(120, 255, 140, 0.3), 0 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 70px rgba(140, 200, 255, 0.3), 0 0 40px rgba(255, 110, 195, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* Variante petite (en jeu, dans le header) — pas de mini-cartes, texte

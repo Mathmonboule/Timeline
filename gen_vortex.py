@@ -27,10 +27,10 @@ def build_ribbon(r0, r_max, turns, theta_offset, n=140):
     return pts
 
 
-DARK = (13, 58, 32)     # vert tres sombre (fond de bande)
-MID = (46, 143, 82)     # vert moyen
-LIGHT = (150, 232, 150) # vert clair
-HILITE = (232, 255, 210)  # filet lumineux presque blanc
+DARK = (58, 13, 45)      # rose tres sombre / prune (fond de bande)
+MID = (196, 46, 140)     # rose-magenta moyen
+LIGHT = (255, 150, 218)  # rose clair
+HILITE = (255, 227, 247) # filet lumineux presque blanc (teinte rose)
 
 
 def lerp(a, b, t):
@@ -46,16 +46,16 @@ parts.append('<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">')
 parts.append('<defs>')
 parts.append(
     '<radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">'
-    '<stop offset="0%" stop-color="#f2ffd8" stop-opacity="0.95"/>'
-    '<stop offset="45%" stop-color="#a6ffb4" stop-opacity="0.55"/>'
-    '<stop offset="100%" stop-color="#a6ffb4" stop-opacity="0"/>'
+    '<stop offset="0%" stop-color="#ffeafa" stop-opacity="0.95"/>'
+    '<stop offset="45%" stop-color="#ff9fdd" stop-opacity="0.55"/>'
+    '<stop offset="100%" stop-color="#ff9fdd" stop-opacity="0"/>'
     '</radialGradient>'
 )
 parts.append(
     '<radialGradient id="fieldGlow" cx="50%" cy="50%" r="50%">'
-    '<stop offset="0%" stop-color="#1c6b3b" stop-opacity="0.45"/>'
-    '<stop offset="70%" stop-color="#0d3a22" stop-opacity="0.18"/>'
-    '<stop offset="100%" stop-color="#0d3a22" stop-opacity="0"/>'
+    '<stop offset="0%" stop-color="#7a1a5c" stop-opacity="0.45"/>'
+    '<stop offset="70%" stop-color="#3a0d2e" stop-opacity="0.18"/>'
+    '<stop offset="100%" stop-color="#3a0d2e" stop-opacity="0"/>'
     '</radialGradient>'
 )
 parts.append('<filter id="blurSoft" x="-60%" y="-60%" width="220%" height="220%">'
@@ -65,9 +65,9 @@ parts.append('<filter id="blurWide" x="-60%" y="-60%" width="220%" height="220%"
 parts.append(
     '<radialGradient id="ribbonFade" gradientUnits="userSpaceOnUse" '
     f'cx="{CX}" cy="{CY}" r="92">'
-    '<stop offset="0%" stop-color="#c9f7b8" stop-opacity="0.98"/>'
-    '<stop offset="35%" stop-color="#5fbd7c" stop-opacity="0.9"/>'
-    '<stop offset="100%" stop-color="#123a24" stop-opacity="0.55"/>'
+    '<stop offset="0%" stop-color="#ffd0ec" stop-opacity="0.98"/>'
+    '<stop offset="35%" stop-color="#d94fa8" stop-opacity="0.9"/>'
+    '<stop offset="100%" stop-color="#3a0d2e" stop-opacity="0.55"/>'
     '</radialGradient>'
 )
 parts.append('</defs>')
@@ -112,7 +112,7 @@ for r, ang, rx, ry, op in wisp_specs:
     y = CY + r * math.sin(math.radians(ang))
     parts.append(
         f'<ellipse cx="{x:.2f}" cy="{y:.2f}" rx="{rx}" ry="{ry}" '
-        f'fill="#d3ffd0" opacity="{op}" filter="url(#blurWide)" '
+        f'fill="#ffd0ec" opacity="{op}" filter="url(#blurWide)" '
         f'transform="rotate({ang + 90:.1f} {x:.2f} {y:.2f})"/>'
     )
 
@@ -127,7 +127,7 @@ for _ in range(16):
     y = CY + r * math.sin(math.radians(ang))
     size = random.uniform(0.5, 1.4)
     op = random.uniform(0.4, 0.95)
-    color = random.choice(["#ffffff", "#d9ffe0", "#ffffff"])
+    color = random.choice(["#ffffff", "#ffd9f0", "#ffffff"])
     parts.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{size:.2f}" fill="{color}" opacity="{op:.2f}"/>')
 for _ in range(8):
     r = random.uniform(16, 50)
