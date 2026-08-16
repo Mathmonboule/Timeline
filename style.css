@@ -74,7 +74,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  background: linear-gradient(135deg, #ec4899, #db2777);
   border: none;
   color: white;
   cursor: pointer;
@@ -84,7 +84,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
   transition: transform 0.2s;
 }
 .btn-toggle-lobby:hover { transform: scale(1.1); }
@@ -113,9 +113,9 @@ body {
 }
 .lobby-mode-badge {
   display: inline-block;
-  background: rgba(46, 204, 113, 0.18);
-  border: 1px solid rgba(46, 204, 113, 0.4);
-  color: #6be89a;
+  background: rgba(236, 72, 153, 0.18);
+  border: 1px solid rgba(236, 72, 153, 0.4);
+  color: #ff8fc7;
   padding: 5px 12px;
   border-radius: 20px;
   font-size: 11px;
@@ -145,8 +145,8 @@ body {
   margin-bottom: 14px;
 }
 .lobby-joueur--actif {
-  border: 1px solid rgba(46, 204, 113, 0.5);
-  background: rgba(46, 204, 113, 0.08);
+  border: 1px solid rgba(236, 72, 153, 0.5);
+  background: rgba(236, 72, 153, 0.08);
 }
 .lobby-joueur--tour {
   border: 1px solid rgba(255, 205, 60, 0.6);
@@ -174,7 +174,7 @@ body {
   padding: 2px 4px;
   min-width: 0;
 }
-.lobby-pseudo-input:focus { outline: none; border-bottom-color: #6be89a; }
+.lobby-pseudo-input:focus { outline: none; border-bottom-color: #ff8fc7; }
 .lobby-joueur-cartes { font-size: 11px; opacity: 0.6; white-space: nowrap; }
 .lobby-note { font-size: 12px; margin-top: auto; }
 
@@ -186,14 +186,14 @@ body {
   flex-direction: column;
   gap: 4px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px dashed rgba(107, 232, 154, 0.4);
+  border: 1px dashed rgba(255, 143, 199, 0.4);
   border-radius: 12px;
   padding: 10px 14px;
   margin-bottom: 16px;
   text-align: center;
 }
 .lobby-code-label { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
-.lobby-code-valeur { font-size: 22px; font-weight: 900; letter-spacing: 4px; color: #6be89a; }
+.lobby-code-valeur { font-size: 22px; font-weight: 900; letter-spacing: 4px; color: #ff8fc7; }
 .lobby-joueurs-liste { display: flex; flex-direction: column; }
 .lobby-parametres {
   margin-top: 14px;
@@ -222,7 +222,7 @@ body {
   padding: 6px 8px;
 }
 #multi-duree-tour:disabled { opacity: 0.4; }
-#multi-duree-tour:focus, #multi-cible-cartes:focus { outline: none; border-color: #6be89a; }
+#multi-duree-tour:focus, #multi-cible-cartes:focus { outline: none; border-color: #ff8fc7; }
 .btn-duree-illimitee {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -237,9 +237,9 @@ body {
 }
 .btn-duree-illimitee:hover { background: rgba(255, 255, 255, 0.16); }
 .btn-duree-illimitee.actif {
-  background: rgba(46, 204, 113, 0.25);
-  border-color: rgba(46, 204, 113, 0.6);
-  color: #6be89a;
+  background: rgba(236, 72, 153, 0.25);
+  border-color: rgba(236, 72, 153, 0.6);
+  color: #ff8fc7;
 }
 .lobby-parametres-label-suivant {
   display: block;
@@ -272,7 +272,7 @@ body {
 .btn-demarrer-partie {
   border: none;
   border-radius: 10px;
-  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  background: linear-gradient(90deg, #ec4899, #db2777);
   color: white;
   font-family: inherit;
   font-weight: bold;
@@ -317,7 +317,7 @@ body {
 .lien-filtre {
   background: none;
   border: none;
-  color: #6be89a;
+  color: #ff8fc7;
   font-family: inherit;
   font-size: 11px;
   font-weight: bold;
@@ -339,7 +339,7 @@ body {
   user-select: none;
   padding: 3px 0;
 }
-.filtre-famille input { accent-color: #2ecc71; cursor: pointer; }
+.filtre-famille input { accent-color: #ec4899; cursor: pointer; }
 .filtre-famille span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lobby-filtres-compte { font-size: 11px; opacity: 0.55; margin-top: 8px; }
 .inspecteur-contenu {
@@ -420,7 +420,7 @@ body {
   margin-bottom: 14px;
   width: fit-content;
 }
-.badge-avere { background: #2ecc71; color: #063; }
+.badge-avere { background: #ec4899; color: #5c0a35; }
 .badge-debattu { background: #f39c12; color: #532; }
 .badge-legende { background: #e74c3c; color: #fff; }
 
@@ -515,9 +515,9 @@ body {
 }
 .multi-tour-banner[hidden] { display: none; }
 .multi-tour-banner--moi {
-  background: rgba(46, 204, 113, 0.15);
-  border-color: rgba(46, 204, 113, 0.5);
-  color: #6be89a;
+  background: rgba(236, 72, 153, 0.15);
+  border-color: rgba(236, 72, 153, 0.5);
+  color: #ff8fc7;
 }
 .multi-tour-compte {
   background: rgba(0, 0, 0, 0.3);
@@ -756,8 +756,8 @@ body {
   box-shadow: 0 6px 22px rgba(58, 123, 213, 0.45);
 }
 .btn-mode--multi {
-  background: linear-gradient(90deg, #2ecc71, #27ae60);
-  box-shadow: 0 6px 22px rgba(46, 204, 113, 0.4);
+  background: linear-gradient(90deg, #ec4899, #db2777);
+  box-shadow: 0 6px 22px rgba(236, 72, 153, 0.4);
 }
 .btn-mode:hover { transform: scale(1.06); }
 
@@ -766,8 +766,8 @@ body {
 .accueil-multi-panneau {
   width: 340px;
   max-width: 90vw;
-  background: rgba(46, 204, 113, 0.1);
-  border: 1px solid rgba(46, 204, 113, 0.35);
+  background: rgba(236, 72, 153, 0.1);
+  border: 1px solid rgba(236, 72, 153, 0.35);
   border-radius: 16px;
   padding: 20px 22px;
   display: flex;
@@ -790,7 +790,7 @@ body {
   padding: 9px 12px;
   min-width: 0;
 }
-.multi-champ input:focus, .multi-rejoindre input:focus { outline: none; border-color: #6be89a; }
+.multi-champ input:focus, .multi-rejoindre input:focus { outline: none; border-color: #ff8fc7; }
 .btn-multi-action {
   border: none;
   border-radius: 10px;
@@ -803,7 +803,7 @@ body {
   transition: transform 0.15s ease, filter 0.15s ease;
 }
 .btn-multi-action:hover { transform: scale(1.02); filter: brightness(1.1); }
-.btn-multi-creer { background: linear-gradient(90deg, #2ecc71, #27ae60); }
+.btn-multi-creer { background: linear-gradient(90deg, #ec4899, #db2777); }
 .multi-separateur { font-size: 11px; opacity: 0.55; text-align: center; margin: 2px 0; }
 .multi-rejoindre { display: flex; gap: 8px; }
 .multi-rejoindre input {
@@ -844,7 +844,7 @@ body {
   font-size: 20px;
   letter-spacing: 3px;
   margin-bottom: 14px;
-  color: #6be89a;
+  color: #ff8fc7;
 }
 
 .infos { display: flex; gap: 12px; margin-bottom: 4px; font-size: 12px; flex-wrap: wrap; justify-content: center; }
@@ -1068,7 +1068,7 @@ body {
   animation: popMessage 0.35s ease;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
-.message-resultat.bon { background: linear-gradient(90deg, #2ecc71, #27ae60); color: white; }
+.message-resultat.bon { background: linear-gradient(90deg, #ec4899, #db2777); color: white; }
 .message-resultat.mauvais { background: linear-gradient(90deg, #e74c3c, #c0392b); color: white; }
 .message-premier-fini {
   top: 60px;
@@ -1103,7 +1103,7 @@ body {
 .ecran-fin h2 {
   font-size: 32px;
   margin-bottom: 16px;
-  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  background: linear-gradient(90deg, #ec4899, #db2777);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
