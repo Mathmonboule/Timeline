@@ -138,6 +138,28 @@ function jouerSonBonneReponse() {
   } catch (e) { /* audio indisponible, on ignore */ }
 }
 
+/* Petite fanfare jouee quand le premier joueur d'une partie multijoueur
+   termine sa main (voir multi.js : afficherMessagePremierFini). */
+function jouerSonVictoire() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5];
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      const start = ctx.currentTime + i * 0.12;
+      gain.gain.setValueAtTime(0.18, start);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.45);
+      osc.start(start);
+      osc.stop(start + 0.45);
+    });
+  } catch (e) { /* audio indisponible, on ignore */ }
+}
+
 function jouerSonErreur() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -576,6 +598,13 @@ document.getElementById('btn-solo').addEventListener('click', () => {
   document.getElementById('zone-jeu-solo').hidden = false;
   document.getElementById('multi-attente').hidden = true;
   document.getElementById('multi-tour-banner').hidden = true;
+  // Repetes ici (en plus du handler de "Quitter la partie", qui est async et
+  // termine APRES ce bloc) pour ne jamais laisser affiche un reste d'etat
+  // "spectateur" multijoueur (main d'un autre joueur, note, bouton cache).
+  document.getElementById('multi-spectateur-note').hidden = true;
+  document.getElementById('label-main').textContent = '🃏 En main';
+  document.getElementById('btn-valider').hidden = false;
+  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Poubelle';
   afficherJeu();
   initPartie();
 });

@@ -181,7 +181,7 @@
 
     <div id="zone-jeu-solo">
       <div class="infos">
-        <div class="badge">🃏 En main : <span id="nb-main">5</span></div>
+        <div class="badge"><span id="label-main">🃏 En main</span> : <span id="nb-main">5</span></div>
         <div class="badge">❌ Erreurs : <span id="nb-erreurs">0</span></div>
         <div class="badge">📚 Pioche restante : <span id="nb-pioche">0</span></div>
       </div>
@@ -192,6 +192,7 @@
 
       <button class="btn-valider" id="btn-valider" disabled>✓ Valider le placement</button>
 
+      <div class="multi-spectateur-note" id="multi-spectateur-note" hidden></div>
       <div class="main-joueur" id="main-joueur"></div>
 
       <div class="pioche-erreurs-section">
@@ -223,10 +224,10 @@
 </div>
 
 <script src="cartes.js?v=2"></script>
-<script src="script.js?v=4"></script>
+<script src="script.js?v=6"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=2"></script>
+<script src="multi.js?v=3"></script>
 </body>
 </html>

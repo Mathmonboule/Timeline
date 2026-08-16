@@ -151,6 +151,7 @@ function entrerDansLobbyMulti(code, hote) {
   modeActuel = 'multi';
   enPartieMultiAnimeeDemarrage = false;
   premierFiniAnnonce = false;
+  multiSpectateJoueurId = null;
 
   document.getElementById('lobby-mode-badge').textContent = 'Partie multijoueur';
   document.getElementById('btn-nouvelle-partie').hidden = true;
@@ -160,7 +161,10 @@ function entrerDansLobbyMulti(code, hote) {
   document.getElementById('multi-attente-code-valeur').textContent = code;
   document.getElementById('zone-jeu-solo').hidden = true;
   document.getElementById('multi-attente').hidden = false;
-  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Ma poubelle';
+  document.getElementById('multi-spectateur-note').hidden = true;
+  document.getElementById('label-main').textContent = '🃏 En main';
+  document.getElementById('btn-valider').hidden = false;
+  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Poubelle commune';
 
   // Si l'onglet se ferme pendant qu'on est dans le lobby, on se retire proprement
   // pour que la liste des joueurs reste correcte pour les autres.
@@ -353,6 +357,7 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
   estHote = false;
   modeActuel = 'solo';
   dernierePartieMulti = null;
+  multiSpectateJoueurId = null;
 
   document.getElementById('lobby-mode-badge').textContent = 'Partie solo';
   document.getElementById('btn-nouvelle-partie').hidden = false;
@@ -361,6 +366,9 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
   document.getElementById('zone-jeu-solo').hidden = false;
   document.getElementById('multi-attente').hidden = true;
   document.getElementById('multi-tour-banner').hidden = true;
+  document.getElementById('multi-spectateur-note').hidden = true;
+  document.getElementById('label-main').textContent = '🃏 En main';
+  document.getElementById('btn-valider').hidden = false;
   document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Poubelle';
 
   afficherAccueil();
@@ -385,6 +393,7 @@ let multiIndexZoneSelectionnee = null;
 let multiCarteInspectee = null;
 let timerMultiHandle = null;
 let premierFiniAnnonce = false;
+let multiSpectateJoueurId = null;
 
 function surMiseAJourPartie(partie) {
   dernierePartieMulti = partie;
@@ -427,9 +436,25 @@ function surMiseAJourPartie(partie) {
 
 function mettreAJourEtatLocalMulti(partie) {
   multiTimeline = (partie.timeline || []).map((id) => CARTE_PAR_ID[id]).filter(Boolean);
-  multiMain = (((partie.mains || {})[JOUEUR_ID]) || []).map((id) => CARTE_PAR_ID[id]).filter(Boolean);
-  multiErreurs = (((partie.erreurs || {})[JOUEUR_ID]) || []).map((id) => CARTE_PAR_ID[id]).filter(Boolean);
   multiPiocheCount = (partie.pioche || []).length;
+
+  // Mode spectateur : une fois qu'on a soi-meme termine (plus de cartes a
+  // jouer, ou objectif atteint en mode "cible"), on n'a plus de main a
+  // afficher -- a la place on regarde la main du joueur dont c'est le tour,
+  // pour pouvoir suivre la fin de partie au lieu de fixer un ecran vide.
+  const jeSuisTermine = estJoueurTermine(partie, JOUEUR_ID);
+  if (jeSuisTermine && partie.statut === 'en_cours' && partie.tour_actuel) {
+    multiMain = (((partie.mains || {})[partie.tour_actuel]) || []).map((id) => CARTE_PAR_ID[id]).filter(Boolean);
+    multiSpectateJoueurId = partie.tour_actuel;
+  } else {
+    multiMain = (((partie.mains || {})[JOUEUR_ID]) || []).map((id) => CARTE_PAR_ID[id]).filter(Boolean);
+    multiSpectateJoueurId = null;
+  }
+
+  // Poubelle commune : toutes les cartes en erreur de TOUS les joueurs,
+  // visibles par tout le monde pendant toute la partie.
+  const idsErreursTous = Object.values(partie.erreurs || {}).flat();
+  multiErreurs = idsErreursTous.map((id) => CARTE_PAR_ID[id]).filter(Boolean);
 }
 
 /* Petit son + animation de "distribution" jouee une seule fois quand la
@@ -470,6 +495,19 @@ function renderJeuMulti(partie) {
   document.getElementById('nb-pioche').textContent = multiPiocheCount;
   document.getElementById('btn-valider').disabled = !(monTour && multiIndexZoneSelectionnee !== null && multiCarteChoisie);
   document.getElementById('main-joueur').classList.toggle('pas-mon-tour', !monTour);
+
+  const labelMain = document.getElementById('label-main');
+  const noteSpectateur = document.getElementById('multi-spectateur-note');
+  if (multiSpectateJoueurId) {
+    const pseudoRegarde = ((partie.joueurs || {})[multiSpectateJoueurId] || {}).pseudo || '?';
+    labelMain.textContent = `🃏 Main de ${pseudoRegarde}`;
+    noteSpectateur.hidden = false;
+    noteSpectateur.textContent = `👀 Tu as fini ! Tu regardes la main de ${pseudoRegarde} pendant son tour.`;
+  } else {
+    labelMain.textContent = '🃏 En main';
+    noteSpectateur.hidden = true;
+  }
+  document.getElementById('btn-valider').hidden = !!multiSpectateJoueurId;
 }
 
 function renderTimelineMulti(monTour) {
@@ -815,6 +853,7 @@ function afficherMessagePremierFini(cestMoi, pseudo) {
   msg.className = 'message-resultat bon message-premier-fini';
   msg.textContent = cestMoi ? '🎉 Bravo, tu as fini le premier !' : `🏆 ${pseudo} a fini le premier !`;
   document.body.appendChild(msg);
+  jouerSonVictoire();
   setTimeout(() => msg.remove(), 2800);
 }
 
