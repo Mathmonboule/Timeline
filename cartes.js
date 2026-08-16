@@ -665,7 +665,7 @@ const BASE_CARTES = [
     id: 48,
     categorie: "Invention / Vie quotidienne",
     famille: "inventions",
-    titre: "Shampooing moderne associé à Sake Dean Mahomed",
+    titre: "Shampooing moderne ",
     date: 1814,
     emoji: "🧴",
     image: "id-48.png",
