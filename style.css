@@ -1,0 +1,920 @@
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #16213e 100%);
+  color: white;
+  overflow: hidden;
+}
+
+/* ===== VUE JEU (conteneur 3 colonnes : lobby | zone-jeu | inspecteur) ===== */
+.vue-jeu {
+  display: flex;
+  height: 100vh;
+}
+
+/* ===== INSPECTEUR DROITE ===== */
+.inspecteur {
+  width: 420px;
+  min-width: 420px;
+  background: rgba(0, 0, 0, 0.4);
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  transition: width 0.35s ease, min-width 0.35s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  order: 3;
+}
+.inspecteur.replie { width: 50px; min-width: 50px; }
+.btn-toggle-inspecteur {
+  position: absolute;
+  top: 20px;
+  left: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);
+  transition: transform 0.2s;
+}
+.btn-toggle-inspecteur:hover { transform: scale(1.1); }
+
+/* ===== LOBBY GAUCHE ===== */
+.lobby {
+  width: 300px;
+  min-width: 300px;
+  background: rgba(0, 0, 0, 0.4);
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+  transition: width 0.35s ease, min-width 0.35s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  order: 1;
+}
+.lobby.replie { width: 50px; min-width: 50px; }
+.btn-toggle-lobby {
+  position: absolute;
+  top: 20px;
+  right: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+  transition: transform 0.2s;
+}
+.btn-toggle-lobby:hover { transform: scale(1.1); }
+.lobby-contenu {
+  flex: 1;
+  padding: 25px 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.lobby.replie .lobby-contenu { opacity: 0; pointer-events: none; }
+.lobby h2 {
+  font-size: 12px;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 16px 0;
+  font-weight: bold;
+}
+.lobby-mode-badge {
+  display: inline-block;
+  background: rgba(46, 204, 113, 0.18);
+  border: 1px solid rgba(46, 204, 113, 0.4);
+  color: #6be89a;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  width: fit-content;
+}
+.lobby-joueur {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+.lobby-joueur--actif {
+  border: 1px solid rgba(46, 204, 113, 0.5);
+  background: rgba(46, 204, 113, 0.08);
+}
+.lobby-joueur--tour {
+  border: 1px solid rgba(255, 205, 60, 0.6);
+  background: rgba(255, 205, 60, 0.1);
+  box-shadow: 0 0 14px rgba(255, 205, 60, 0.2);
+}
+.lobby-joueur-tour { font-size: 16px; }
+.lobby-joueur-nom {
+  flex: 1;
+  font-size: 13px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lobby-pseudo-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+  color: white;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 2px 4px;
+  min-width: 0;
+}
+.lobby-pseudo-input:focus { outline: none; border-bottom-color: #6be89a; }
+.lobby-joueur-cartes { font-size: 11px; opacity: 0.6; white-space: nowrap; }
+.lobby-note { font-size: 12px; margin-top: auto; }
+
+/* ===== LOBBY MULTIJOUEUR (code, liste de joueurs, demarrer/quitter) ===== */
+#lobby-multi-zone { display: flex; flex-direction: column; flex: 1; }
+#lobby-multi-zone[hidden] { display: none; }
+.lobby-code-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(107, 232, 154, 0.4);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.lobby-code-label { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
+.lobby-code-valeur { font-size: 22px; font-weight: 900; letter-spacing: 4px; color: #6be89a; }
+.lobby-joueurs-liste { display: flex; flex-direction: column; }
+.btn-demarrer-partie {
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  color: white;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 11px;
+  cursor: pointer;
+  margin: 6px 0 4px 0;
+  transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
+}
+.btn-demarrer-partie:hover:not(:disabled) { transform: scale(1.02); filter: brightness(1.1); }
+.btn-demarrer-partie:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-quitter-partie {
+  border: 1px solid rgba(231, 76, 60, 0.4);
+  border-radius: 10px;
+  background: rgba(231, 76, 60, 0.12);
+  color: #ffb3ab;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 9px;
+  cursor: pointer;
+  margin-top: auto;
+  transition: background 0.15s ease;
+}
+.btn-quitter-partie:hover { background: rgba(231, 76, 60, 0.22); }
+.inspecteur-contenu {
+  flex: 1;
+  padding: 25px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.inspecteur.replie .inspecteur-contenu { opacity: 0; pointer-events: none; }
+.inspecteur h2 {
+  font-size: 12px;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 20px 0;
+  font-weight: bold;
+}
+.placeholder-inspecteur {
+  opacity: 0.4;
+  text-align: center;
+  margin-top: 60px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.placeholder-inspecteur--petit {
+  margin-top: 0;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  border-left: 3px solid rgba(255, 255, 255, 0.15);
+}
+.carte-grande {
+  width: 100%;
+  aspect-ratio: 2/3;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  margin-bottom: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+}
+.carte-grande .decor-grand {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+.carte-grande .decor-grand img { width: 100%; height: 100%; object-fit: cover; }
+.carte-grande .titre-grand {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 12px 10px;
+  font-size: 15px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1.3;
+}
+.carte-grande .date-grand {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.carte-grande .date-grand.cachee { color: rgba(255, 255, 255, 0.15); font-size: 14px; }
+
+.badge-fiabilite {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 14px;
+  width: fit-content;
+}
+.badge-avere { background: #2ecc71; color: #063; }
+.badge-debattu { background: #f39c12; color: #532; }
+.badge-legende { background: #e74c3c; color: #fff; }
+
+.info-bloc {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  border-left: 3px solid rgba(58, 123, 213, 0.3);
+}
+.info-bloc-titre {
+  display: block;
+  opacity: 0.65;
+  margin-bottom: 6px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: bold;
+  color: #00d2ff;
+}
+.liste-liens { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.lien-externe {
+  color: #7fd6ff;
+  text-decoration: none;
+  font-size: 12.5px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(0, 210, 255, 0.08);
+  transition: background 0.2s;
+}
+.lien-externe:hover { background: rgba(0, 210, 255, 0.18); text-decoration: underline; }
+
+.inspecteur-contenu::-webkit-scrollbar { width: 6px; }
+.inspecteur-contenu::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+.inspecteur-contenu::-webkit-scrollbar-thumb { background: rgba(58, 123, 213, 0.3); border-radius: 10px; }
+.inspecteur-contenu::-webkit-scrollbar-thumb:hover { background: rgba(58, 123, 213, 0.5); }
+
+/* ===== ZONE DE JEU PRINCIPALE ===== */
+.zone-jeu {
+  flex: 1;
+  height: 100%;
+  padding: 8px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  order: 2;
+}
+/* Sans ça, les enfants (dont main-joueur avec ses cartes qui passent a la
+   ligne) se compressent pour tenir dans les 100vh au lieu de garder leur
+   taille naturelle et laisser .zone-jeu defiler. */
+.zone-jeu > * {
+  flex-shrink: 0;
+}
+.zone-jeu::-webkit-scrollbar { width: 8px; }
+.zone-jeu::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+.zone-jeu::-webkit-scrollbar-thumb { background: rgba(58, 123, 213, 0.3); border-radius: 10px; }
+.zone-jeu::-webkit-scrollbar-thumb:hover { background: rgba(58, 123, 213, 0.5); }
+
+.sous-titre { opacity: 0.55; margin: 6px 0 4px; font-size: 12px; letter-spacing: 0.5px; }
+
+/* Banniere de tour (multijoueur) */
+.multi-tour-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.multi-tour-banner[hidden] { display: none; }
+.multi-tour-banner--moi {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: rgba(46, 204, 113, 0.5);
+  color: #6be89a;
+}
+.multi-tour-compte {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 2px 9px;
+  font-variant-numeric: tabular-nums;
+}
+.main-joueur.pas-mon-tour { opacity: 0.5; filter: grayscale(0.4); }
+@keyframes distributionCartes {
+  0% { transform: translateY(30px) scale(0.85); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.main-joueur.anim-distribution .carte { animation: distributionCartes 0.5s ease backwards; }
+.main-joueur.anim-distribution .carte:nth-child(1) { animation-delay: 0s; }
+.main-joueur.anim-distribution .carte:nth-child(2) { animation-delay: 0.08s; }
+.main-joueur.anim-distribution .carte:nth-child(3) { animation-delay: 0.16s; }
+.main-joueur.anim-distribution .carte:nth-child(4) { animation-delay: 0.24s; }
+.main-joueur.anim-distribution .carte:nth-child(5) { animation-delay: 0.32s; }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= LOGO ANIME (tourbillon) =================
+   .logo-timeline est le conteneur exterieur, SANS decoupe circulaire, pour que
+   les mini-cartes puissent chevaucher le bord sans etre coupees (comme sur le
+   logo de reference). Le disque anime lui-meme (spirale + anneau + texte) est
+   dans .logo-cercle-interieur, qui porte la decoupe circulaire. */
+.logo-timeline {
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.logo-timeline:hover { transform: scale(1.04); filter: brightness(1.15); }
+.logo-timeline:active { transform: scale(0.98); }
+
+.logo-cercle-interieur {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  background: #0b1226;
+  box-shadow: 0 0 40px rgba(120, 255, 140, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+/* La variante petite n'a pas de mini-cartes : le disque anime est directement
+   le conteneur exterieur (pas besoin du wrapper interieur). */
+.logo-timeline--petit {
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: #0b1226;
+  box-shadow: 0 0 40px rgba(120, 255, 140, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Texture du portail : UNE SEULE image SVG (images/logo-vortex.svg, generee
+   par script) qui contient tout le rendu artistique du vortex (ruban en
+   spirale, degrade, volutes, etoiles). C'est le seul element qui tourne ;
+   anneau/texte/mini-cartes restent fixes par-dessus pour rester lisibles. */
+.logo-vortex-img {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  z-index: 1;
+  animation: tourbillon 16s linear infinite;
+}
+/* Fine orbite avec deux points lumineux qui tournent, comme le cercle en
+   pointille et ses deux billes sur le logo de reference. */
+.logo-orbite {
+  position: absolute;
+  inset: -3%;
+  z-index: 4;
+  border-radius: 50%;
+  border: 1px dashed rgba(190, 255, 200, 0.3);
+  animation: tourbillon 10s linear infinite;
+  pointer-events: none;
+}
+.logo-orbite-point {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d9ffe0;
+  box-shadow: 0 0 10px 3px rgba(150, 255, 170, 0.9);
+}
+.logo-orbite-point--1 { top: -3.5px; left: 50%; transform: translateX(-50%); }
+.logo-orbite-point--2 { bottom: 22%; left: -3.5px; }
+
+@keyframes tourbillon {
+  to { transform: rotate(360deg); }
+}
+@keyframes portail-pulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(120, 255, 140, 0.35), 0 10px 40px rgba(0, 0, 0, 0.5); }
+  50% { box-shadow: 0 0 58px rgba(140, 255, 165, 0.6), 0 10px 40px rgba(0, 0, 0, 0.5); }
+}
+.logo-cercle-interieur, .logo-timeline--petit {
+  animation: portail-pulse 4s ease-in-out infinite;
+}
+.logo-anneau {
+  position: absolute;
+  inset: 9%;
+  z-index: 5;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 0 22px rgba(140, 255, 160, 0.4);
+  pointer-events: none;
+}
+.logo-texte {
+  position: relative;
+  z-index: 6;
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 18px rgba(120, 255, 140, 0.55);
+}
+.logo-icone-petit {
+  position: relative;
+  z-index: 6;
+  font-size: 22px;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.8));
+}
+.logo-carte-mini {
+  position: absolute;
+  background: #0e1730;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+.logo-carte-mini svg { width: 60%; height: 60%; }
+
+/* Variante grande (page d'accueil) — les mini-cartes chevauchent le bord de
+   l'anneau au lieu d'etre a l'interieur, pour ne pas etre coupees. */
+.logo-timeline--grand { width: 260px; height: 260px; }
+.logo-timeline--grand .logo-texte { font-size: 32px; letter-spacing: 3px; }
+.logo-timeline--grand .logo-carte-mini { width: 46px; height: 62px; font-size: 22px; }
+.logo-timeline--grand .logo-carte-mini--1 { top: 4%; left: -8%; transform: rotate(-16deg); }
+.logo-timeline--grand .logo-carte-mini--2 { top: -2%; right: -8%; transform: rotate(14deg); }
+.logo-timeline--grand .logo-carte-mini--3 { bottom: -10%; left: 50%; transform: translateX(-50%) rotate(-4deg); }
+
+/* Variante petite (en jeu, dans le header) */
+.logo-timeline--petit { width: 56px; height: 56px; border-width: 2px; }
+.logo-timeline--petit .logo-carte-mini { display: none; }
+
+/* ================= VUE ACCUEIL ================= */
+.vue-accueil {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 20px;
+  text-align: center;
+  animation: slideDown 0.5s ease;
+}
+.accueil-sous-titre { opacity: 0.6; font-size: 15px; letter-spacing: 0.5px; margin-top: 4px; }
+.accueil-boutons { display: flex; gap: 18px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
+.btn-mode {
+  padding: 16px 34px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-mode--solo {
+  background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+  box-shadow: 0 6px 22px rgba(58, 123, 213, 0.45);
+}
+.btn-mode--multi {
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  box-shadow: 0 6px 22px rgba(46, 204, 113, 0.4);
+}
+.btn-mode:hover { transform: scale(1.06); }
+
+/* Panneau creer/rejoindre une partie, affiche sous les boutons quand on
+   clique sur "Jouer en multijoueur" */
+.accueil-multi-panneau {
+  width: 340px;
+  max-width: 90vw;
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid rgba(46, 204, 113, 0.35);
+  border-radius: 16px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: slideDown 0.3s ease;
+}
+.accueil-multi-panneau[hidden] { display: none; }
+.multi-champ { display: flex; flex-direction: column; gap: 5px; text-align: left; }
+.multi-champ label { font-size: 11px; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
+.multi-champ input,
+.multi-rejoindre input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 9px 12px;
+  min-width: 0;
+}
+.multi-champ input:focus, .multi-rejoindre input:focus { outline: none; border-color: #6be89a; }
+.btn-multi-action {
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 11px;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.btn-multi-action:hover { transform: scale(1.02); filter: brightness(1.1); }
+.btn-multi-creer { background: linear-gradient(90deg, #2ecc71, #27ae60); }
+.multi-separateur { font-size: 11px; opacity: 0.55; text-align: center; margin: 2px 0; }
+.multi-rejoindre { display: flex; gap: 8px; }
+.multi-rejoindre input {
+  flex: 1;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.btn-multi-rejoindre {
+  background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+  white-space: nowrap;
+  padding: 11px 16px;
+}
+.multi-erreur {
+  background: rgba(231, 76, 60, 0.18);
+  border: 1px solid rgba(231, 76, 60, 0.5);
+  color: #ffb3ab;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  text-align: left;
+}
+
+/* Panneau d'attente affiche dans la zone de jeu tant que le deroule de
+   partie multijoueur n'est pas encore branche (statut "en_cours"). */
+.multi-attente {
+  max-width: 480px;
+  margin: 40px auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 26px 28px;
+  text-align: center;
+  line-height: 1.6;
+  font-size: 14px;
+}
+.multi-attente-code {
+  font-size: 20px;
+  letter-spacing: 3px;
+  margin-bottom: 14px;
+  color: #6be89a;
+}
+
+.infos { display: flex; gap: 12px; margin-bottom: 4px; font-size: 12px; flex-wrap: wrap; justify-content: center; }
+.badge { background: rgba(255, 255, 255, 0.08); padding: 6px 14px; border-radius: 20px; }
+
+/* TIMELINE */
+.timeline-wrapper { width: 100%; max-width: 100%; margin-bottom: 6px; }
+.timeline-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 40px;
+  overflow-x: auto;
+  min-height: 168px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  border: 2px solid rgba(58, 123, 213, 0.2);
+  scroll-behavior: smooth;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+  /* justify-content: center seul rend le tout début du contenu inatteignable au
+     scroll dès que ça déborde (bug connu flexbox). "safe center" garde le rendu
+     centré quand tout tient, mais bascule sur un alignement scrollable dès que
+     ça déborde. Les deux déclarations sont volontaires : la 1re sert de repli
+     pour les navigateurs qui ignorent "safe center". */
+  justify-content: center;
+  justify-content: safe center;
+}
+.timeline-container::-webkit-scrollbar { height: 8px; }
+.timeline-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+.timeline-container::-webkit-scrollbar-thumb { background: rgba(58, 123, 213, 0.4); border-radius: 10px; }
+.timeline-container::-webkit-scrollbar-thumb:hover { background: rgba(58, 123, 213, 0.6); }
+
+.carte {
+  width: 128px;
+  height: 168px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border: 3px solid transparent;
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  user-select: none;
+}
+.carte:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(0, 0, 0, 0.55); }
+.carte:active { cursor: grabbing; }
+.carte.selectionnee { border-color: #3a7bd5; transform: scale(1.06); box-shadow: 0 15px 40px rgba(58, 123, 213, 0.5); }
+.carte.inspectee { border-color: #00d2ff; }
+.carte .decor { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 52px; overflow: hidden; }
+.carte .decor img { width: 100%; height: 100%; object-fit: cover; }
+.carte .titre-carte {
+  background: rgba(0, 0, 0, 0.62);
+  padding: 6px 6px;
+  font-size: 10.5px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1.2;
+}
+.carte .date-carte {
+  background: rgba(0, 0, 0, 0.82);
+  padding: 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.carte .date-carte.cachee { color: rgba(255, 255, 255, 0.2); }
+.carte.repere { border-color: #d4af37; }
+.carte.dragging { opacity: 0.3; }
+
+/* Familles de categories (couleurs) */
+.famille-histoire     { background: linear-gradient(160deg, #4a2f1a, #2b1a0f); }
+.famille-histoire .decor      { background: rgba(201,162,39,0.06); }
+.famille-science      { background: linear-gradient(160deg, #0b1a3a, #050b1a); }
+.famille-science .decor       { background: rgba(159,179,216,0.08); }
+.famille-inventions   { background: linear-gradient(160deg, #3a3a3a, #1a1a1a); }
+.famille-inventions .decor    { background: rgba(232,150,60,0.07); }
+.famille-culture      { background: linear-gradient(160deg, #4a1a3a, #2a0d1a); }
+.famille-culture .decor       { background: rgba(212,107,179,0.07); }
+.famille-architecture { background: linear-gradient(160deg, #5a4a2c, #33260f); }
+.famille-architecture .decor  { background: rgba(202,169,106,0.08); }
+.famille-nature       { background: linear-gradient(160deg, #1a4a2a, #0d2a15); }
+.famille-nature .decor        { background: rgba(111,207,122,0.07); }
+.famille-guerre       { background: linear-gradient(160deg, #4a1a1a, #2a0d0d); }
+.famille-guerre .decor        { background: rgba(212,87,79,0.08); }
+.famille-exploration  { background: linear-gradient(160deg, #0f3a3a, #0a2222); }
+.famille-exploration .decor   { background: rgba(95,212,212,0.08); }
+.famille-mythologie   { background: linear-gradient(160deg, #3a0d4a, #1f0526); }
+.famille-mythologie .decor    { background: rgba(185,103,212,0.08); }
+.famille-sport        { background: linear-gradient(160deg, #0d4a3a, #062822); }
+.famille-sport .decor         { background: rgba(79,212,168,0.08); }
+.famille-jeuxvideo    { background: linear-gradient(160deg, #4a0d5a, #240a2e); }
+.famille-jeuxvideo .decor     { background: rgba(200,79,212,0.08); }
+
+/* ZONES DE DEPOT */
+.zone-depot {
+  width: 38px;
+  height: 168px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  opacity: 0.5;
+  transition: all 0.25s;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+}
+.zone-depot:hover { opacity: 0.8; }
+.zone-depot.survol { opacity: 1; background: rgba(58, 123, 213, 0.25); border-color: #3a7bd5; transform: scale(1.1); }
+.zone-depot.attente {
+  background: rgba(212, 175, 55, 0.3);
+  border-color: #d4af37;
+  border-style: solid;
+  opacity: 1;
+  width: 128px;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 30px;
+}
+.zone-depot.attente .attente-titre { font-size: 10px; text-align: center; padding: 0 6px; opacity: 0.85; font-weight: bold; }
+
+/* MAIN DU JOUEUR */
+.main-joueur {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+  min-height: 178px;
+}
+
+.btn-valider {
+  padding: 10px 36px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+  box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
+  transition: all 0.2s;
+}
+.btn-valider:hover:not(:disabled) { transform: scale(1.06); box-shadow: 0 8px 26px rgba(58, 123, 213, 0.6); }
+.btn-valider:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* PIOCHE ERREURS */
+.pioche-erreurs-section { width: 100%; max-width: 100%; }
+.pioche-erreurs-section h3 {
+  font-size: 11px;
+  opacity: 0.55;
+  text-transform: uppercase;
+  margin: 0 0 6px 0;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+.pioche-erreurs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px;
+  background: rgba(231, 76, 60, 0.08);
+  border-radius: 14px;
+  border: 2px solid rgba(231, 76, 60, 0.2);
+  min-height: 104px;
+  scroll-behavior: smooth;
+}
+.pioche-erreurs::-webkit-scrollbar { height: 6px; }
+.pioche-erreurs::-webkit-scrollbar-track { background: rgba(231, 76, 60, 0.05); border-radius: 6px; }
+.pioche-erreurs::-webkit-scrollbar-thumb { background: rgba(231, 76, 60, 0.4); border-radius: 6px; }
+.pioche-erreurs::-webkit-scrollbar-thumb:hover { background: rgba(231, 76, 60, 0.6); }
+.pioche-erreurs .carte-erreur-vide { opacity: 0.35; font-size: 12px; margin: auto; }
+
+.carte-erreur {
+  width: 68px;
+  height: 96px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  opacity: 0.75;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid rgba(231, 76, 60, 0.3);
+}
+.carte-erreur:hover { opacity: 1; transform: scale(1.07); border-color: rgba(231, 76, 60, 0.6); }
+.carte-erreur .decor { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
+.carte-erreur .decor img { width: 100%; height: 100%; object-fit: cover; }
+.carte-erreur .titre-carte { font-size: 7px; padding: 3px 2px; background: rgba(0, 0, 0, 0.65); text-align: center; font-weight: bold; line-height: 1.05; }
+.carte-erreur .date-carte { font-size: 8.5px; padding: 2px; background: rgba(0, 0, 0, 0.85); text-align: center; }
+
+/* MESSAGES */
+.message-resultat {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 36px;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: 17px;
+  z-index: 100;
+  animation: popMessage 0.35s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+.message-resultat.bon { background: linear-gradient(90deg, #2ecc71, #27ae60); color: white; }
+.message-resultat.mauvais { background: linear-gradient(90deg, #e74c3c, #c0392b); color: white; }
+@keyframes popMessage {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.9); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* ECRAN FIN */
+.ecran-fin {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(58, 123, 213, 0.12));
+  padding: 55px 70px;
+  border-radius: 24px;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  border: 2px solid rgba(58, 123, 213, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  animation: slideDown 0.5s ease;
+  max-width: 700px;
+}
+.ecran-fin h2 {
+  font-size: 32px;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ecran-fin p { font-size: 14px; opacity: 0.8; margin-bottom: 12px; line-height: 1.6; }
+.btn-rejouer {
+  padding: 14px 38px;
+  background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+  box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
+  margin-top: 10px;
+}
+.btn-rejouer:hover { transform: scale(1.06); box-shadow: 0 8px 28px rgba(58, 123, 213, 0.6); }
+
+/* ANIMATIONS */
+@keyframes popIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.anim-pop { animation: popIn 0.45s ease; }
+.anim-shake { animation: shake 0.4s ease; }

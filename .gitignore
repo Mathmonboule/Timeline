@@ -1,0 +1,6 @@
+# Fichiers de verrouillage Excel/LibreOffice (le classeur est ouvert en édition)
+.~lock.*#
+
+# Fichiers systeme
+Thumbs.db
+.DS_Store

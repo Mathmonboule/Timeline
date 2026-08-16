@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline - Le Jeu</title>
+<link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+
+<!-- ================= VUE ACCUEIL ================= -->
+<div class="vue-accueil" id="vue-accueil">
+  <div class="logo-timeline logo-timeline--grand" id="logo-accueil" title="Timeline">
+    <div class="logo-cercle-interieur">
+      <img src="images/logo-vortex.svg" class="logo-vortex-img" alt="">
+      <div class="logo-orbite">
+        <span class="logo-orbite-point logo-orbite-point--1"></span>
+        <span class="logo-orbite-point logo-orbite-point--2"></span>
+      </div>
+      <div class="logo-anneau"></div>
+      <div class="logo-texte">TIMELINE</div>
+    </div>
+    <div class="logo-carte-mini logo-carte-mini--1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M12 4 L20 19 H4 Z"/>
+        <path d="M8 12 H16" stroke-width="1.1"/>
+        <path d="M6.5 15.5 H17.5" stroke-width="1.1"/>
+      </svg>
+    </div>
+    <div class="logo-carte-mini logo-carte-mini--2">
+      <svg viewBox="0 0 24 24">
+        <path fill="#4fb3ff" d="M12 2C8 2 5 5.2 5 9v3.5c0 1.3.6 2.5 1.6 3.3l.4.3V19h10v-2.9l.4-.3c1-.8 1.6-2 1.6-3.3V9c0-3.8-3-7-7-7z"/>
+        <rect x="5" y="10.1" width="14" height="2.3" fill="#0b1226"/>
+        <rect x="10.9" y="10.1" width="2.2" height="7.2" fill="#0b1226"/>
+        <path fill="#dff3ff" d="M9 19h6l-1.1 3h-3.8L9 19z"/>
+      </svg>
+    </div>
+    <div class="logo-carte-mini logo-carte-mini--3">
+      <svg viewBox="0 0 24 24">
+        <rect x="2" y="11" width="13" height="7" rx="1.4" fill="#f5a623"/>
+        <rect x="13" y="7" width="5" height="11" rx="1.4" fill="#f5a623"/>
+        <rect x="5" y="5" width="3" height="7" rx="0.6" fill="#f5a623"/>
+        <rect x="1" y="16.3" width="17" height="1.8" rx="0.9" fill="#c97a15"/>
+        <circle cx="5.5" cy="19.5" r="1.6" fill="#0b1226"/>
+        <circle cx="10.5" cy="19.5" r="1.6" fill="#0b1226"/>
+        <circle cx="15.5" cy="19.5" r="1.6" fill="#0b1226"/>
+      </svg>
+    </div>
+  </div>
+  <div class="accueil-sous-titre">Place les événements dans l'ordre chronologique</div>
+
+  <div class="accueil-boutons">
+    <button class="btn-mode btn-mode--solo" id="btn-solo">🧑 Jouer en solo</button>
+    <button class="btn-mode btn-mode--multi" id="btn-multi">👥 Jouer en multijoueur</button>
+  </div>
+  <div class="accueil-multi-panneau" id="accueil-multi-panneau" hidden>
+    <div class="multi-champ">
+      <label for="multi-pseudo">Ton pseudo</label>
+      <input type="text" id="multi-pseudo" maxlength="16" placeholder="Ex : Alex" spellcheck="false" autocomplete="off">
+    </div>
+    <button class="btn-multi-action btn-multi-creer" id="btn-creer-partie">➕ Créer une partie</button>
+    <div class="multi-separateur">ou rejoindre avec un code</div>
+    <div class="multi-rejoindre">
+      <input type="text" id="multi-code-input" maxlength="5" placeholder="CODE" spellcheck="false" autocomplete="off">
+      <button class="btn-multi-action btn-multi-rejoindre" id="btn-rejoindre-partie">Rejoindre</button>
+    </div>
+    <div class="multi-erreur" id="multi-erreur" hidden></div>
+  </div>
+</div>
+
+<!-- ================= VUE JEU ================= -->
+<div class="vue-jeu" id="vue-jeu">
+
+  <!-- LOBBY (gauche) -->
+  <div class="lobby" id="lobby">
+    <button class="btn-toggle-lobby" id="btn-toggle-lobby">◀</button>
+    <div class="lobby-contenu" id="lobby-contenu">
+      <h2>👥 Lobby</h2>
+      <div class="lobby-mode-badge" id="lobby-mode-badge">Partie solo</div>
+
+      <!-- SOLO -->
+      <div id="lobby-solo-zone">
+        <div class="lobby-joueur lobby-joueur--actif">
+          <span class="lobby-joueur-tour">🎯</span>
+          <input type="text" id="pseudo-joueur" class="lobby-pseudo-input" value="Toi" maxlength="16" spellcheck="false">
+          <span class="lobby-joueur-cartes" id="lobby-joueur-cartes">5 cartes</span>
+        </div>
+
+        <div class="info-bloc lobby-note">
+          En solo, c'est toujours ton tour. Le mode multijoueur affiche ici tous les
+          joueurs du salon, leurs pseudos, le nombre de cartes qu'il leur reste, et à
+          qui c'est de jouer.
+        </div>
+      </div>
+
+      <!-- MULTIJOUEUR -->
+      <div id="lobby-multi-zone" hidden>
+        <div class="lobby-code-zone">
+          <span class="lobby-code-label">Code de la partie</span>
+          <span class="lobby-code-valeur" id="lobby-code-valeur">-----</span>
+        </div>
+        <div class="lobby-joueurs-liste" id="lobby-joueurs-liste"></div>
+        <button class="btn-demarrer-partie" id="btn-demarrer-partie" hidden>▶ Démarrer la partie</button>
+        <div class="info-bloc lobby-note" id="lobby-multi-note">En attente que l'hôte démarre la partie…</div>
+        <button class="btn-quitter-partie" id="btn-quitter-partie">🚪 Quitter la partie</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE DE JEU (centre) -->
+  <div class="zone-jeu">
+    <div class="logo-timeline logo-timeline--petit" id="logo-jeu" title="Retour à l'accueil">
+      <img src="images/logo-vortex.svg" class="logo-vortex-img" alt="">
+      <div class="logo-anneau"></div>
+      <span class="logo-icone-petit">⏳</span>
+    </div>
+    <div class="sous-titre">Place les événements dans l'ordre chronologique</div>
+
+    <div class="multi-tour-banner" id="multi-tour-banner" hidden>
+      <span id="multi-tour-texte">C'est ton tour !</span>
+      <span class="multi-tour-compte" id="multi-tour-compte">20s</span>
+    </div>
+
+    <div id="zone-jeu-solo">
+      <div class="infos">
+        <div class="badge">🃏 En main : <span id="nb-main">5</span></div>
+        <div class="badge">❌ Erreurs : <span id="nb-erreurs">0</span></div>
+        <div class="badge">📚 Pioche restante : <span id="nb-pioche">0</span></div>
+      </div>
+
+      <div class="timeline-wrapper">
+        <div class="timeline-container" id="timeline-container"></div>
+      </div>
+
+      <button class="btn-valider" id="btn-valider" disabled>✓ Valider le placement</button>
+
+      <div class="main-joueur" id="main-joueur"></div>
+
+      <div class="pioche-erreurs-section">
+        <h3>🗑️ Cartes en erreur (scroll pour tout voir)</h3>
+        <div class="pioche-erreurs" id="pioche-erreurs"></div>
+      </div>
+
+      <div id="ecran-fin-container"></div>
+    </div>
+
+    <div class="multi-attente" id="multi-attente" hidden>
+      <div class="multi-attente-code">Code de la partie : <strong id="multi-attente-code-valeur">-----</strong></div>
+      <p>⏳ En attente que l'hôte démarre la partie…</p>
+      <p>Partage le code ci-dessus à tes amis pour qu'ils rejoignent depuis le panneau <strong>Lobby</strong> à gauche.</p>
+    </div>
+  </div>
+
+  <!-- INSPECTEUR (droite) -->
+  <div class="inspecteur" id="inspecteur">
+    <button class="btn-toggle-inspecteur" id="btn-toggle-inspecteur">▶</button>
+    <div class="inspecteur-contenu" id="inspecteur-contenu">
+      <h2>🔍 Inspecteur</h2>
+      <div id="contenu-inspecteur">
+        <div class="placeholder-inspecteur">Clique sur une carte (main, timeline ou pioche d'erreurs) pour voir ses détails complets ici.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="cartes.js"></script>
+<script src="script.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="multi.js"></script>
+</body>
+</html>

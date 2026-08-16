@@ -1,0 +1,550 @@
+{
+ "1": {
+  "description_longue": "Les premiers dinosaures apparaissent durant le Trias, entre 237 et 228 millions d'années environ, à partir de petits archosaures bipèdes. Ils cohabitent d'abord avec d'autres grands reptiles comme les phytosaures et ne dominent vraiment les écosystèmes terrestres qu'après une extinction survenue à la fin du Trias, il y a environ 201 millions d'années. Leur règne durera alors plus de 130 millions d'années, jusqu'à l'astéroïde de Chicxulub.",
+  "anecdote": "Les tout premiers dinosaures connus, retrouvés en Argentine et au Brésil, ne mesuraient qu'un à deux mètres de long — rien à voir avec les géants qui suivront des dizaines de millions d'années plus tard."
+ },
+ "2": {
+  "description_longue": "L'extinction se produit à la limite Crétacé-Paléogène, il y a environ 66 millions d'années. Un astéroïde de plus de 10 km percute la Terre près de l'actuel Yucatán, formant le cratère de Chicxulub, tandis que d'intenses éruptions volcaniques en Inde fragilisaient déjà les écosystèmes. Les dinosaures non aviens disparaissent, mais une de leurs lignées survit : les oiseaux.",
+  "anecdote": "Une fine couche d'iridium, un métal rare sur Terre mais courant dans les astéroïdes, a été retrouvée partout dans le monde à cette date précise — la preuve qui a confirmé l'hypothèse de l'impact."
+ },
+ "3": {
+  "description_longue": "Découverts au Kenya sur le site de Lomekwi 3 et datés d'environ 3,3 millions d'années, ce sont les plus anciens outils de pierre taillée connus à ce jour. Ils précèdent l'apparition du genre Homo, ce qui suggère qu'un autre hominidé savait déjà tailler la pierre. Cette découverte, publiée en 2015, a repoussé de 700 000 ans la date connue des débuts de la technologie humaine.",
+  "anecdote": "Ces outils sont si particuliers qu'on leur a donné leur propre nom : le « Lomekwien »."
+ },
+ "4": {
+  "description_longue": "Découverte en 2017 dans la grotte de Leang Tedongnge, sur l'île indonésienne de Sulawesi, cette peinture représente un sanglier à taille réelle et est datée d'au moins 45 500 ans. Elle a longtemps été considérée comme la plus ancienne œuvre d'art figuratif connue de l'humanité, avant que d'autres découvertes sur la même île ne repoussent encore le record avec des motifs non figuratifs vieux de plus de 67 000 ans.",
+  "anecdote": "La grotte est si isolée qu'il faut environ une heure de marche depuis la route la plus proche pour l'atteindre."
+ },
+ "5": {
+  "description_longue": "Le mouton est probablement le tout premier animal domestiqué pour l'élevage, à partir du mouflon sauvage du Proche-Orient, dans une région entre l'Anatolie orientale et le Zagros. D'abord élevé pour sa viande, il ne sera exploité pour son lait et sa laine que bien plus tard. Il atteint l'Europe avec les premiers agriculteurs néolithiques, plusieurs millénaires après sa domestication initiale.",
+  "anecdote": "Tous les moutons domestiques actuels descendent d'une seule lignée maternelle de mouflons du Proche-Orient."
+ },
+ "6": {
+  "description_longue": "La roue apparaît en Mésopotamie vers 3500 av. J.-C., probablement dérivée du tour de potier déjà utilisé à Sumer. Un pictogramme de l'époque montre un chariot à roues, mais des découvertes comme le pot de Bronocice en Pologne, orné d'un chariot similaire, suggèrent que l'invention a pu émerger presque simultanément dans plusieurs régions d'Europe et d'Asie.",
+  "anecdote": "Les civilisations précolombiennes d'Amérique connaissaient le principe de la roue, qu'on retrouve sur des jouets d'enfants, mais ne l'ont jamais utilisée pour le transport, faute de gros animaux de trait."
+ },
+ "7": {
+  "description_longue": "Selon la mythologie grecque, le Minotaure est un monstre mi-homme mi-taureau né de l'union de Pasiphaé, épouse du roi Minos de Crète, et d'un taureau envoyé par Poséidon. Enfermé par l'architecte Dédale dans un Labyrinthe inextricable, il dévore les tributs de jeunes Athéniens envoyés en offrande, jusqu'à ce que le héros Thésée le tue grâce au fil d'Ariane. Aucune trace historique ne correspond à ce récit : c'est un mythe, pas un fait daté.",
+  "anecdote": "Certains archéologues associent ce mythe au palais de Cnossos, dont le plan très complexe aurait pu inspirer l'image d'un labyrinthe — un lien qui reste toutefois spéculatif."
+ },
+ "8": {
+  "description_longue": "Les Égyptiens de l'Antiquité divisaient le jour et la nuit en douze parties chacun, quelle que soit la saison, et ont développé plusieurs instruments pour suivre le temps : cadrans solaires, horloges à ombre, et « merkhets », des fils à plomb utilisés par les premiers astronomes. Le cadran solaire égyptien était une simple planche horizontale surmontée d'une pièce verticale projetant une ombre, sans réel fondement mathématique mais d'une redoutable efficacité pratique.",
+  "anecdote": "Le mot « heure » descend directement du système égyptien de division du temps, transmis aux Grecs puis aux Romains."
+ },
+ "9": {
+  "description_longue": "Bien qu'il porte le nom de Pythagore, ce théorème sur les triangles rectangles était déjà connu, sous forme de triplets numériques, par les mathématiciens babyloniens plus de mille ans avant lui, ainsi qu'en Inde et en Chine. Pythagore et son école, au VIe siècle av. J.-C., en auraient proposé une démonstration formelle, mais aucun texte de sa main n'a survécu. Sa première formulation écrite connue apparaît dans les Éléments d'Euclide, vers 300 av. J.-C.",
+  "anecdote": "Il existe aujourd'hui plus de 350 démonstrations différentes de ce théorème, dont une attribuée à un futur président des États-Unis, James Garfield."
+ },
+ "10": {
+  "description_longue": "L'arbalète se généralise en Chine durant la période des Royaumes combattants, rendant les chars de guerre obsolètes face à des tirs plus puissants et plus faciles à maîtriser que l'arc. Plusieurs siècles plus tard, le stratège Zhuge Liang aurait perfectionné le concept avec le chu-ko-nu, une arbalète à répétition capable de tirer plusieurs carreaux sans recharger manuellement entre chaque tir.",
+  "anecdote": "Le nom du chu-ko-nu signifie littéralement « arbalète de Zhuge », en hommage à son inventeur présumé, une figure encore célébrée aujourd'hui à travers le roman Les Trois Royaumes."
+ },
+ "11": {
+  "description_longue": "Le chantier du phare d'Alexandrie débute sous Ptolémée Ier et s'achève sous son fils Ptolémée II, après une quinzaine d'années de travaux. Haut d'environ 130 à 140 mètres, il domine l'île de Pharos à l'entrée du port et guide les navires pendant près de dix-sept siècles, jusqu'à sa destruction par des séismes successifs au Moyen Âge. Il compte parmi les Sept Merveilles du monde antique.",
+  "anecdote": "Le mot « phare » vient directement du nom de l'île, Pharos, sur laquelle il fut construit."
+ },
+ "12": {
+  "description_longue": "Des murs défensifs existaient déjà dans plusieurs royaumes chinois avant que Qin Shi Huang, premier empereur de Chine, ne les fasse relier après avoir unifié le pays en 221 av. J.-C., pour protéger le territoire des invasions nomades venues du nord. Plus de 300 000 soldats et 500 000 paysans participent à ce chantier titanesque. La muraille visible aujourd'hui date cependant presque entièrement de la dynastie Ming, près de 1800 ans plus tard.",
+  "anecdote": "Contrairement à une légende tenace, la Grande Muraille n'est pas visible à l'œil nu depuis l'espace."
+ },
+ "13": {
+  "description_longue": "Gladiateur d'origine thrace réduit en esclavage, Spartacus s'évade de l'école de gladiateurs de Capoue avec une poignée de compagnons et déclenche la troisième guerre servile, la plus importante révolte d'esclaves de l'histoire romaine. Son armée improvisée inflige plusieurs défaites humiliantes aux légions romaines avant d'être écrasée par Crassus en 71 av. J.-C. Le sort exact de Spartacus reste incertain : son corps n'a jamais été formellement identifié.",
+  "anecdote": "Après la défaite, environ 6 000 survivants furent crucifiés le long de la voie Appienne, sur plus de 200 kilomètres, en guise d'avertissement."
+ },
+ "14": {
+  "description_longue": "À la mort de son père Ptolémée XII, Cléopâtre VII monte sur le trône d'Égypte à seulement 18 ans, co-régnant d'abord avec ses frères-époux avant de s'imposer grâce à ses alliances avec Rome, d'abord Jules César puis Marc Antoine. Dernière reine de la dynastie ptolémaïque, elle parle plusieurs langues et gère activement l'économie égyptienne, tentant jusqu'au bout de préserver l'indépendance de son royaume face à l'expansion romaine.",
+  "anecdote": "Cléopâtre était en réalité d'origine grecque macédonienne, descendante des généraux d'Alexandre le Grand — elle aurait été la première de sa dynastie à réellement apprendre l'égyptien."
+ },
+ "15": {
+  "description_longue": "En février 44 av. J.-C., le Sénat romain nomme Jules César dictateur à perpétuité, rompant avec la tradition républicaine où cette fonction était temporaire. Craignant qu'il ne se proclame roi, un groupe de sénateurs mené par Brutus et Cassius l'assassine un mois plus tard, le 15 mars, jour resté célèbre sous le nom des Ides de mars. Loin de sauver la République, ce meurtre précipite une nouvelle guerre civile qui aboutira à l'Empire.",
+  "anecdote": "César aurait reçu 23 coups de poignard, mais selon les médecins de l'époque, un seul, à la poitrine, aurait été mortel."
+ },
+ "16": {
+  "description_longue": "Le 24 octobre 79, le Vésuve entre en éruption et ensevelit en quelques heures les villes voisines de Pompéi, Herculanum, Oplontis et Stabies sous les cendres et les roches volcaniques. L'épaisseur des dépôts atteint près de 3 mètres à Pompéi, figeant la ville dans le temps. Paradoxalement, cette catastrophe a permis une conservation exceptionnelle qui offre aujourd'hui l'un des témoignages les plus complets de la vie quotidienne romaine.",
+  "anecdote": "Les célèbres moulages de corps de victimes ne sont pas les corps eux-mêmes, mais du plâtre coulé dans les cavités laissées par leur décomposition dans la cendre durcie."
+ },
+ "17": {
+  "description_longue": "Le chaturanga, ancêtre direct des échecs, apparaît en Inde vers le Ve-VIe siècle. Son nom sanskrit signifie « quatre corps », en référence aux quatre unités de l'armée indienne classique — fantassins, cavaliers, chars et éléphants — qui deviendront pions, cavaliers, fous et tours. Le jeu voyage ensuite vers la Perse sous le nom de shatranj, puis est transmis aux Arabes, qui le font connaître à l'Europe chrétienne vers le IXe siècle.",
+  "anecdote": "Une légende raconte qu'un roi indien offrit à l'inventeur du jeu tout ce qu'il voudrait ; celui-ci demanda un grain de riz sur la première case de l'échiquier, doublé à chaque case suivante — un total si astronomique qu'aucun royaume n'aurait pu le fournir."
+ },
+ "18": {
+  "description_longue": "Vers 789, trois navires venus de Norvège accostent près de Portland, dans le Dorset. Prenant les Vikings pour des marchands, le représentant royal local, chargé d'identifier les étrangers débarquant sur les côtes, s'approche d'eux et est tué. Cet épisode, rapporté par la Chronique anglo-saxonne, est considéré comme le tout premier raid viking attesté sur le sol anglais.",
+  "anecdote": "Le raid de Lindisfarne, en 793, reste bien plus célèbre dans la mémoire collective — alors qu'il n'est en réalité que le deuxième, quatre ans après celui de Portland."
+ },
+ "19": {
+  "description_longue": "La fourchette apparaît d'abord à Byzance puis en Italie autour du XIe siècle, où une princesse byzantine choque la cour en l'utilisant pour manger. Longtemps jugée comme un raffinement superflu, voire une offense envers Dieu qui avait donné des doigts pour manger, elle met des siècles à s'imposer en Europe du Nord : en France, elle n'apparaît vraiment à la cour qu'à la fin du XVIe siècle.",
+  "anecdote": "Un moine du XIe siècle qualifia l'usage de la fourchette d'« excès de délicatesse » et y vit un signe de décadence morale."
+ },
+ "20": {
+  "description_longue": "L'histoire de l'éducation des sourds en France prend un tournant décisif au XVIIIe siècle avec l'abbé de l'Épée, qui fonde à Paris la première école publique et gratuite pour sourds, où il codifie une langue des signes structurée à partir des signes déjà utilisés par la communauté sourde parisienne. Son travail pose les bases de ce qui deviendra la langue des signes française, qui influencera à son tour de nombreuses langues des signes dans le monde.",
+  "anecdote": "L'abbé de l'Épée refusait d'être payé pour son enseignement, estimant que l'éducation des sourds relevait d'un devoir moral et non d'un commerce."
+ },
+ "21": {
+  "description_longue": "Fondé à Jérusalem par le chevalier Hugues de Payns pour protéger les pèlerins chrétiens en route vers les Lieux saints, l'ordre du Temple s'installe sur l'ancien emplacement du Temple de Salomon, d'où son nom. Reconnu officiellement lors du concile de Troyes en 1129, il devient l'un des ordres militaro-religieux les plus puissants d'Europe, avant d'être brutalement dissous par le pape Clément V en 1312, sous la pression du roi de France Philippe le Bel.",
+  "anecdote": "Les Templiers ont mis en place une forme précoce de système bancaire international, permettant aux pèlerins de déposer de l'argent dans une commanderie et de le retirer ailleurs grâce à une simple lettre de change."
+ },
+ "22": {
+  "description_longue": "Les premières armes à poudre apparaissent en Europe au début du XIVe siècle, à la croisée des influences chinoises et arabes. La ville de Gand, dans l'actuelle Belgique, figure parmi les tout premiers lieux à mentionner l'usage d'un canon, marquant les débuts de l'artillerie occidentale. Ces premières pièces, rudimentaires et peu fiables, mettront encore plusieurs décennies à transformer réellement l'art de la guerre médiéval.",
+  "anecdote": "Les premiers canons européens étaient si dangereux à utiliser qu'ils représentaient parfois un risque plus grand pour leurs propres artilleurs que pour l'ennemi visé."
+ },
+ "23": {
+  "description_longue": "Selon la légende officielle aztèque, les Mexicas, tribu nomade errant depuis deux siècles à la recherche d'un signe divin, découvrent sur une île du lac Texcoco un aigle perché sur un figuier de barbarie, dévorant un serpent — exactement le présage annoncé par leur dieu Huitzilopochtli. Ils y fondent Tenochtitlan, qui deviendra la capitale de l'empire aztèque puis, après la conquête espagnole, l'actuelle Mexico.",
+  "anecdote": "Cette scène du serpent et de l'aigle est toujours visible aujourd'hui au centre du drapeau mexicain."
+ },
+ "24": {
+  "description_longue": "Originaire probablement d'Asie centrale, la peste atteint l'Europe via des navires marchands génois fuyant le siège mongol de Caffa, en Crimée, et débarque à Marseille en novembre 1347. Elle se propage ensuite à une vitesse foudroyante par les routes commerciales terrestres et maritimes, tuant en cinq à six ans environ 25 millions de personnes en Europe, soit près d'un tiers à la moitié de la population du continent.",
+  "anecdote": "Faute de comprendre la transmission par les puces des rats, certains médecins conseillaient de porter des masques en forme de bec rempli d'herbes odorantes, pensant se protéger des « mauvais airs »."
+ },
+ "25": {
+  "description_longue": "Vers 1450, l'orfèvre allemand Johannes Gutenberg assemble à Mayence plusieurs innovations décisives : des caractères mobiles en alliage de plomb faciles à couler et à réutiliser, une presse à vis inspirée des pressoirs à vin, et une encre grasse adaptée au métal. La Bible à 42 lignes, imprimée vers 1455, est le premier grand livre issu de ce procédé, qui bouleverse la diffusion du savoir en Europe en quelques décennies à peine.",
+  "anecdote": "On estime qu'en 50 ans, l'imprimerie a permis de produire plus de livres que tous les scribes européens n'en avaient copiés à la main durant le millénaire précédent."
+ },
+ "26": {
+  "description_longue": "Financé par les souverains espagnols après la fin de la Reconquista, le navigateur génois Christophe Colomb cherche une route maritime vers l'Asie en naviguant vers l'ouest. Dans la nuit du 11 au 12 octobre 1492, sa flotte atteint une île des Bahamas, qu'il baptise San Salvador, persuadé jusqu'à sa mort d'avoir atteint les abords de l'Asie. Il effectuera trois autres voyages vers les Caraïbes et l'Amérique du Sud.",
+  "anecdote": "Colomb n'a jamais mis le pied sur le sol du continent nord-américain : ses expéditions se sont limitées aux Caraïbes et à l'Amérique centrale et du Sud."
+ },
+ "27": {
+  "description_longue": "En Chine, on attribue traditionnellement l'invention de la brosse à dents moderne à soies de porc à la fin du XVe siècle : un manche d'os ou de bambou garni de poils rigides prélevés sur le cou de porcs, capables de résister au froid. L'objet gagne l'Europe au XVIe siècle, mais il faudra encore attendre 1780 et le Britannique William Addis pour voir apparaître la première brosse à dents produite en série.",
+  "anecdote": "Jusqu'au milieu du XXe siècle, les brosses à dents restaient en soies de porc, un matériau peu hygiénique ; ce n'est qu'en 1938 que le nylon, inventé par DuPont, les a remplacées."
+ },
+ "28": {
+  "description_longue": "L'invention de la montre portative est traditionnellement attribuée à l'horloger allemand Peter Henlein, à Nuremberg, au début du XVIe siècle. Ces premières « montres de poche » ou « œufs de Nuremberg » abandonnent le poids moteur des horloges pour un ressort spiralé, ce qui les rend transportables mais bien moins précises. L'attribution à Henlein reste débattue, certains textes mentionnant des horloges portatives fabriquées un peu plus tôt en Italie.",
+  "anecdote": "Ces premières montres n'avaient souvent qu'une seule aiguille, celle des heures — la précision des minutes n'avait pas encore vraiment d'intérêt pratique."
+ },
+ "29": {
+  "description_longue": "Parti en 1519 sous le commandement du Portugais Fernand de Magellan à la recherche d'une route occidentale vers les Moluques, l'expédition perd son chef, tué aux Philippines en 1521. C'est l'Espagnol Juan Sebastián Elcano qui prend le commandement du seul navire survivant, le Victoria, et ramène à Séville, en septembre 1522, les derniers survivants sur les 241 marins partis trois ans plus tôt.",
+  "anecdote": "Le voyage a duré si longtemps que l'équipage, en tenant scrupuleusement son propre calendrier, avait perdu un jour entier sans s'en rendre compte — une conséquence, alors incomprise, du tour du monde vers l'ouest."
+ },
+ "30": {
+  "description_longue": "Galilée perfectionne en 1609 la lunette d'approche inventée l'année précédente aux Pays-Bas, portant son grossissement à une vingtaine de fois. Pointée vers le ciel plutôt que vers l'horizon, elle lui permet de découvrir les cratères de la Lune, les quatre plus gros satellites de Jupiter et les phases de Vénus — des observations qui remettent en cause le modèle géocentrique de l'univers et le transforment de physicien en astronome.",
+  "anecdote": "Les quatre lunes de Jupiter découvertes par Galilée portent aujourd'hui son nom, les « lunes galiléennes »."
+ },
+ "31": {
+  "description_longue": "En observant qu'un liquide se dilate de façon régulière avec la chaleur, Galilée met au point vers 1592 un « thermoscope à air », l'un des tout premiers instruments capables de traduire une variation de température en un mouvement visible. Il faudra encore attendre le XVIIe siècle et les travaux de l'Accademia del Cimento de Florence, où travaillaient d'anciens élèves de Galilée, pour voir apparaître un véritable thermomètre gradué et fermé, moins sensible aux variations de pression atmosphérique.",
+  "anecdote": "Le mot « thermomètre » lui-même n'a été inventé qu'en 1624, par le jésuite Jean Leurechon, bien après les premiers prototypes."
+ },
+ "32": {
+  "description_longue": "Écrite entre 1591 et 1595, la tragédie de William Shakespeare est publiée pour la première fois en 1597 dans une édition de piètre qualité, probablement reconstituée de mémoire par des acteurs. Des éditions plus fidèles au texte original suivront. L'histoire des amants de Vérone, séparés par la rivalité de leurs familles, s'inspire de récits italiens antérieurs et deviendra l'une des œuvres les plus jouées et adaptées de toute l'histoire du théâtre.",
+  "anecdote": "Vérone, ville où se déroule l'intrigue, a construit un faux « balcon de Juliette » au XXe siècle pour satisfaire les touristes, bien que le personnage soit entièrement fictif."
+ },
+ "33": {
+  "description_longue": "L'empereur moghol Shah Jahan fait construire ce mausolée de marbre blanc à Agra en mémoire de son épouse Mumtaz Mahal, morte en 1631 en donnant naissance à leur quatorzième enfant. Le chantier commence dès 1631 et s'achève dans ses grandes lignes en 1648, mobilisant des artisans venus de toute l'Asie. Shah Jahan y sera lui-même enterré à sa mort, aux côtés de son épouse.",
+  "anecdote": "Une légende tenace, sans fondement historique solide, prétend que Shah Jahan aurait fait couper les mains des artisans pour qu'ils ne puissent jamais reproduire un tel chef-d'œuvre."
+ },
+ "34": {
+  "description_longue": "Déclenché accidentellement dans la nuit du 2 septembre 1666 dans une boulangerie de Pudding Lane, l'incendie ravage Londres pendant quatre jours et détruit environ 80 % de la ville intra-muros : plus de 13 000 maisons, 87 églises paroissiales et la cathédrale Saint-Paul. La reconstruction qui suit impose des bâtiments en pierre et en brique plutôt qu'en bois, transformant durablement le visage de la capitale anglaise.",
+  "anecdote": "L'incendie aurait aussi eu un effet inattendu bénéfique : il aurait contribué à éliminer une partie des rats responsables de la Grande Peste de Londres, survenue l'année précédente."
+ },
+ "35": {
+  "description_longue": "Selon une légende sans confirmation historique solide, le croissant aurait été inventé à Vienne pour célébrer la fin du second siège de la ville par les Ottomans en 1683 : des boulangers levés avant l'aube auraient donné l'alerte en entendant les assiégeants creuser un tunnel, et sa forme rappellerait le croissant du drapeau ottoman. La viennoiserie ne prendra sa forme feuilletée actuelle, très éloignée du pain autrichien d'origine, qu'en France, bien plus tard.",
+  "anecdote": "Le siège de Vienne fut finalement levé grâce à l'arrivée des troupes polonaises du roi Jean III Sobieski, dont la charge décisive à cheval reste l'une des plus grandes batailles de cavalerie de l'histoire."
+ },
+ "36": {
+  "description_longue": "Cette éruption du mont Fuji, la plus récente à ce jour, débute le 16 décembre 1707 et dure environ deux semaines. Sans provoquer de coulée de lave, elle projette près de 800 millions de mètres cubes de cendres volcaniques, qui recouvrent des provinces entières et atteignent Edo (l'actuelle Tokyo), à une centaine de kilomètres de là. Elle survient seulement 49 jours après un séisme majeur, qui aurait pu déstabiliser la chambre magmatique du volcan.",
+  "anecdote": "Depuis cette éruption de 1707, le mont Fuji n'est plus jamais entré en activité — plus de trois siècles de silence qui inquiètent aujourd'hui les volcanologues japonais."
+ },
+ "37": {
+  "description_longue": "Le sextant, instrument permettant de mesurer avec précision l'angle entre un astre et l'horizon pour déterminer sa position en mer, est développé indépendamment et presque simultanément vers 1730 par l'Anglais John Hadley et l'Américain Thomas Godfrey. Il perfectionne le quadrant de navigation en utilisant un jeu de miroirs qui compense le roulis du navire, rendant les mesures bien plus fiables que les instruments précédents.",
+  "anecdote": "Le sextant est resté l'instrument de référence de la navigation astronomique pendant plus de deux siècles, jusqu'à l'arrivée du GPS à la fin du XXe siècle."
+ },
+ "38": {
+  "description_longue": "En 1742, l'astronome suédois Anders Celsius propose une échelle de température à 100 degrés où 0° correspond au point d'ébullition de l'eau et 100° à son point de congélation — l'inverse de l'échelle que nous connaissons aujourd'hui. C'est un autre scientifique, souvent identifié comme le botaniste Carl von Linné ou le physicien Jean-Pierre Christin, qui inverse l'échelle après la mort de Celsius pour lui donner sa forme actuelle.",
+  "anecdote": "L'échelle a longtemps été appelée « degré centigrade » plutôt que « Celsius » ; ce n'est qu'en 1948 qu'une conférence internationale a officiellement adopté le nom de son inventeur."
+ },
+ "39": {
+  "description_longue": "Le naturaliste allemand Jacob Christian Schäffer conçoit vers 1767 l'une des premières machines à laver mécaniques connues, un tambour en bois actionné à la main censé remplacer le lavage au battoir. Ces prototypes resteront des curiosités pendant plus d'un siècle : la mécanisation industrielle du lavage du linge ne s'imposera vraiment qu'à la fin du XIXe siècle, avec l'arrivée de l'électricité dans les foyers.",
+  "anecdote": "Il faudra attendre 1908 pour voir le premier lave-linge électrique commercialisé, plus de 140 ans après le premier prototype manuel de Schäffer."
+ },
+ "40": {
+  "description_longue": "Adoptée le 4 juillet 1776 par le Congrès continental, rédigée principalement par Thomas Jefferson, la Déclaration proclame la rupture des Treize Colonies britanniques d'Amérique du Nord avec la couronne anglaise et affirme des principes de liberté individuelle qui inspireront de nombreux mouvements révolutionnaires ultérieurs, dont la Révolution française. La guerre d'indépendance, débutée un an plus tôt, se poursuivra jusqu'en 1783.",
+  "anecdote": "Deux futurs présidents des États-Unis, John Adams et Thomas Jefferson, sont tous deux morts le même jour — le 4 juillet 1826, exactement cinquante ans après la signature de la Déclaration."
+ },
+ "41": {
+  "description_longue": "Le 7 janvier 1785, le Français Jean-Pierre Blanchard et l'Américain John Jeffries réalisent la première traversée de la Manche en ballon à hydrogène, reliant Douvres à Calais. Ils doivent jeter par-dessus bord une grande partie de leur équipement, et même une partie de leurs vêtements, pour éviter de s'abîmer en mer en cours de route. Quelques mois plus tard, un autre pionnier de l'aérostation, Pilâtre de Rozier, périt en tentant la traversée dans l'autre sens.",
+  "anecdote": "Pour alléger le ballon en catastrophe au-dessus de la Manche, Blanchard et Jeffries ont fini par jeter leurs vêtements par-dessus bord et ont atterri en France presque nus."
+ },
+ "42": {
+  "description_longue": "Le 14 juillet 1789, des Parisiens en colère prennent d'assaut la forteresse de la Bastille, symbole de l'arbitraire royal, dans un contexte de crise économique et de tensions politiques exacerbées par la réunion des états généraux. Bien qu'elle ne marque pas techniquement le tout début de la Révolution, cette journée devient l'événement fondateur et le symbole de la chute de la monarchie absolue en France.",
+  "anecdote": "Au moment de sa prise, la Bastille ne comptait que sept prisonniers, dont quatre faussaires, un « fou » et deux internés à la demande de leur famille — bien loin de l'image d'une prison politique surpeuplée."
+ },
+ "43": {
+  "description_longue": "Le blocus imposé par les guerres napoléoniennes prive la France de graphite pur importé d'Angleterre. En 1795, le chimiste français Nicolas-Jacques Conté invente un procédé mélangeant de la poudre de graphite à de l'argile, cuite ensuite comme une céramique, ce qui permet non seulement de contourner le blocus mais aussi de faire varier la dureté de la mine selon la proportion d'argile — le principe encore utilisé aujourd'hui.",
+  "anecdote": "L'échelle de dureté des mines de crayon inventée par Conté, de la plus tendre à la plus dure, est directement à l'origine du système « HB, 2B, 2H » encore utilisé sur les crayons du monde entier."
+ },
+ "44": {
+  "description_longue": "En 1800, le physicien italien Alessandro Volta empile des disques de zinc et de cuivre séparés par des tissus imbibés d'eau salée, créant ainsi la première pile capable de produire un courant électrique continu et stable. Cette invention ouvre la voie à l'électrochimie moderne et permettra rapidement à d'autres scientifiques, comme Humphry Davy, d'isoler par électrolyse de nouveaux éléments chimiques.",
+  "anecdote": "L'unité de tension électrique, le volt, tire directement son nom de Volta — un honneur scientifique rarement accordé à une seule personne de son vivant."
+ },
+ "45": {
+  "description_longue": "Le 2 décembre 1804, à Notre-Dame de Paris et en présence du pape Pie VII, Napoléon Bonaparte se couronne lui-même empereur des Français, un geste symbolique marquant son indépendance vis-à-vis de l'Église et rompant avec la tradition du sacre à Reims. Le tableau que le peintre Jacques-Louis David consacre à la scène, aujourd'hui exposé au Louvre, prend d'importantes libertés avec le déroulement réel de la cérémonie.",
+  "anecdote": "Sur le tableau de David, Napoléon est représenté en train de couronner l'impératrice Joséphine plutôt que de se couronner lui-même — la scène la plus spectaculaire du sacre a été choisie pour l'immortaliser."
+ },
+ "46": {
+  "description_longue": "Le 21 février 1804, l'ingénieur cornouaillais Richard Trevithick fait circuler à Penydarren, au pays de Galles, la première locomotive à vapeur autoportée de l'histoire, tractant du fer et 70 passagers. Trop lourde pour les rails de l'époque, elle les endommage régulièrement et reste un échec commercial, mais elle démontre pour la première fois qu'une machine à vapeur peut se déplacer sur des rails — un principe qui révolutionnera les transports une génération plus tard.",
+  "anecdote": "La deuxième locomotive construite par Trevithick, en 1808, portait un nom bien trouvé : « Catch Me Who Can » (« attrape-moi qui peut »)."
+ },
+ "47": {
+  "description_longue": "Le principe de la conservation des aliments par la chaleur dans un contenant hermétique est mis au point en France par Nicolas Appert dès 1795, d'abord dans des bocaux en verre. C'est l'Anglais Peter Durand qui adapte le procédé au métal en 1810, faisant breveter la boîte de conserve en fer-blanc, plus légère et plus solide que le verre — une invention qui transformera durablement l'alimentation, en particulier pour les armées et les longs voyages en mer.",
+  "anecdote": "Il faudra attendre encore près de 40 ans après l'invention de la boîte de conserve pour qu'apparaisse un véritable ouvre-boîte : jusque-là, on l'ouvrait au marteau et au burin, ou même à la baïonnette."
+ },
+ "48": {
+  "description_longue": "En 1814, l'entrepreneur d'origine indienne Sake Dean Mahomed ouvre à Brighton, en Angleterre, des bains de vapeur médicinaux inspirés des traditions indiennes, où il propose à ses clients un massage et un soin capillaire qu'il nomme « champi » — un mot hindi qui donnera en anglais le terme « shampoo ». Son établissement rencontre un tel succès qu'il devient officiellement masseur-chirurgien attitré des rois George IV puis Guillaume IV.",
+  "anecdote": "Le mot « shampooing », aujourd'hui utilisé dans le monde entier pour désigner un produit capillaire, vient donc directement d'un mot hindi désignant un massage du crâne."
+ },
+ "49": {
+  "description_longue": "Après sa défaite finale à Waterloo et sa seconde abdication en 1815, Napoléon est capturé par les Britanniques et déporté sur l'île de Sainte-Hélène, un rocher isolé en plein Atlantique Sud, pour qu'il ne puisse plus « nuire au repos du monde ». Il y passe ses six dernières années, dictant ses mémoires à ses compagnons d'exil, avant de mourir en 1821, probablement d'un cancer de l'estomac.",
+  "anecdote": "Certains historiens ont longtemps soupçonné un empoisonnement à l'arsenic, une théorie aujourd'hui largement écartée par la plupart des experts au profit d'une mort naturelle."
+ },
+ "50": {
+  "description_longue": "En 1823, le chimiste allemand Johann Wolfgang Döbereiner met au point un dispositif produisant de l'hydrogène par réaction d'acide sulfurique sur du zinc, le gaz s'enflammant alors spontanément au contact d'une éponge de platine servant de catalyseur. Volumineux et potentiellement dangereux, ce « briquet de Döbereiner » n'en connaît pas moins un grand succès commercial en Europe pendant plus d'un demi-siècle.",
+  "anecdote": "Le briquet de Döbereiner, bien qu'encombrant comme une bouteille de vin, s'est vendu à plusieurs centaines de milliers d'exemplaires en Europe avant de disparaître face à des technologies plus sûres."
+ },
+ "51": {
+  "description_longue": "En 1826, le chimiste anglais John Walker met au point la première allumette s'enflammant par simple friction sur une surface rugueuse, à base de trisulfure d'antimoine et de chlorate de potassium. Il ne dépose jamais de brevet, ce qui permet à d'autres de copier et d'améliorer rapidement son invention — notamment le Français Charles Sauria, qui ajoute du phosphore blanc en 1831 pour réduire l'odeur désagréable des premières allumettes.",
+  "anecdote": "Le phosphore blanc utilisé dans les premières allumettes était si toxique qu'il provoquait une maladie osseuse terrible chez les ouvrières des usines, la « nécrose phosphorée de la mâchoire »."
+ },
+ "52": {
+  "description_longue": "Développé à partir de 1837 par le peintre américain Samuel Morse et son assistant Alfred Vail, le télégraphe électrique permet pour la première fois de transmettre un message à grande distance quasiment instantanément, grâce à un code associant à chaque lettre une combinaison d'impulsions courtes et longues. Le premier message officiel, « What hath God wrought » (« Qu'a accompli Dieu »), est envoyé en 1844 entre Washington et Baltimore.",
+  "anecdote": "Le signal de détresse SOS, souvent associé au code Morse, n'a en réalité pas été choisi pour avoir un sens en anglais : sa simplicité de transmission (trois points, trois traits, trois points) est la seule raison de son adoption internationale en 1906."
+ },
+ "53": {
+  "description_longue": "La découverte d'or par James Marshall à Sutter's Mill, en Californie, en janvier 1848 déclenche l'année suivante une ruée massive : plus de 300 000 aventuriers du monde entier, surnommés les « Forty-Niners », affluent vers l'ouest américain. San Francisco, simple hameau de tentes, se transforme en quelques années en grande ville, tandis que la région produit en moyenne 300 à 400 millions de francs-or par an entre 1848 et 1856.",
+  "anecdote": "L'homme sur les terres duquel l'or fut découvert, Johann Sutter, ne profita jamais de cette richesse : sa propriété fut envahie par les chercheurs d'or et il finit ruiné."
+ },
+ "54": {
+  "description_longue": "Sous la IIe République, le décret du 27 avril 1848, porté notamment par Victor Schœlcher, abolit définitivement l'esclavage dans les colonies françaises et libère plus de 251 000 personnes. Il s'agit de la seconde abolition après celle, éphémère, de 1794, que Napoléon avait rétablie dès 1802 — l'un des rares exemples de recul des droits humains dans l'histoire de France.",
+  "anecdote": "Le décret d'abolition s'accompagne, chose aujourd'hui difficile à comprendre, d'une indemnisation financière versée non pas aux esclaves libérés, mais à leurs anciens propriétaires."
+ },
+ "55": {
+  "description_longue": "Bien que la boîte de conserve existe depuis 1810, il faut attendre 1850 pour voir apparaître le premier ouvre-boîte breveté, conçu par le coutelier français Léon Bernard Claverie, suivi de près par l'Américain Ezra Warner en 1858, dont le modèle en forme de baïonnette-faucille est massivement adopté par l'armée pendant la guerre de Sécession. Jusque-là, on ouvrait les boîtes au marteau et au burin.",
+  "anecdote": "Le design de l'ouvre-boîte à roulette que nous connaissons aujourd'hui, bien plus simple et sûr, n'apparaîtra que plusieurs décennies plus tard, au tout début du XXe siècle."
+ },
+ "56": {
+  "description_longue": "Le 17 mars 1861, à l'issue du Risorgimento, mouvement d'unification mené notamment par Cavour et Garibaldi, le royaume d'Italie est proclamé sous Victor-Emmanuel II de Savoie. L'unification n'est cependant pas encore achevée : la Vénétie ne rejoint le royaume qu'en 1866 et Rome, dernier bastion des États pontificaux, n'est annexée qu'en 1870, mettant fin à plus de mille ans de pouvoir temporel du pape.",
+  "anecdote": "Garibaldi, l'un des artisans de l'unification, avait conquis à lui seul et avec seulement un millier de volontaires, les « Chemises rouges », l'ensemble du royaume des Deux-Siciles en 1860."
+ },
+ "57": {
+  "description_longue": "Le 14 avril 1865, à peine cinq jours après la reddition des forces confédérées mettant fin à la guerre de Sécession, le président Abraham Lincoln est abattu par l'acteur sudiste John Wilkes Booth alors qu'il assiste à une pièce de théâtre à Washington. Booth, en fuite avec un complice, est traqué pendant douze jours avant d'être abattu, tandis que la mort de Lincoln prive le pays de la figure qui aurait pu adoucir la période de Reconstruction qui suit.",
+  "anecdote": "Lincoln aurait raconté à ses proches, quelques jours avant sa mort, avoir rêvé de sa propre veillée funèbre dans la Maison-Blanche."
+ },
+ "58": {
+  "description_longue": "Adopté par le Congrès en janvier 1865 et ratifié en décembre de la même année, le treizième amendement de la Constitution abolit définitivement l'esclavage et la servitude involontaire aux États-Unis, sauf comme peine pour un crime. Il complète la Proclamation d'émancipation de 1863, qui ne libérait juridiquement que les esclaves des États sécessionnistes, sans mettre fin à l'esclavage dans tout le pays.",
+  "anecdote": "La clause « sauf comme peine pour un crime » de cet amendement est encore aujourd'hui débattue, certains historiens et juristes y voyant l'origine du travail carcéral forcé aux États-Unis."
+ },
+ "59": {
+  "description_longue": "Le 7 décembre 1869, Jesse James et sa bande attaquent la banque de Gallatin, dans le Missouri, tuant le caissier et ne repartant qu'avec 500 dollars — l'un des tout premiers braquages de banque en temps de paix aux États-Unis. Ancien combattant confédéré devenu hors-la-loi, Jesse James multipliera les attaques de banques et de trains pendant plus d'une décennie, devenant une figure légendaire du folklore américain, entre bandit et symbole de résistance sudiste.",
+  "anecdote": "Jesse James fut finalement tué par balle dans le dos, en 1882, par l'un de ses propres complices, Robert Ford, qui espérait toucher la prime promise pour sa capture."
+ },
+ "60": {
+  "description_longue": "En 1873, le tailleur Jacob Davis, qui achète ses tissus au grossiste Levi Strauss, a l'idée de renforcer les poches et la braguette des pantalons de travail avec des rivets en cuivre, pour répondre à la demande d'une cliente dont le mari bûcheron usait trop vite ses vêtements. N'ayant pas les moyens de déposer seul le brevet, il propose à Levi Strauss de s'associer : le blue-jean moderne est né.",
+  "anecdote": "Le tissu utilisé, la toile denim, tirait son nom de la ville française de Nîmes (« de Nîmes »), d'où provenait à l'origine ce tissu robuste."
+ },
+ "61": {
+  "description_longue": "Alexander Graham Bell dépose le brevet du téléphone le 14 février 1876, seulement quelques heures avant un autre inventeur, Elisha Gray, qui déposait un projet similaire le même jour — une coïncidence qui donnera lieu à des décennies de controverse. En 2002, la Chambre des représentants des États-Unis a même adopté une résolution reconnaissant l'Italien Antonio Meucci comme véritable inventeur du téléphone, sans toutefois retirer officiellement le mérite à Bell.",
+  "anecdote": "La toute première phrase prononcée au téléphone par Bell, adressée à son assistant dans la pièce voisine, aurait été : « Monsieur Watson, venez, j'ai besoin de vous »."
+ },
+ "62": {
+  "description_longue": "En décembre 1877, Thomas Edison invente le phonographe, capable d'enregistrer puis de reproduire le son sur un cylindre recouvert de papier d'étain. Quelques mois plus tôt, le Français Charles Cros avait décrit un principe similaire, baptisé « paléophone », dans un mémoire adressé à l'Académie des sciences, mais sans jamais construire d'appareil fonctionnel — c'est donc Edison qui reste dans l'histoire comme l'inventeur de l'enregistrement sonore.",
+  "anecdote": "Le tout premier enregistrement réalisé par Edison sur son phonographe était sa propre voix récitant la comptine « Mary Had a Little Lamb »."
+ },
+ "63": {
+  "description_longue": "Le principe de la lampe à incandescence est expérimenté dès les années 1830, et le Britannique Joseph Swan dépose un brevet dès 1878. Mais c'est Thomas Edison qui, après avoir testé plus de 6 000 matériaux, met au point en 1879-1880 un filament de bambou carbonisé suffisamment durable pour un usage commercial, avant de s'associer avec Swan pour fabriquer et vendre des ampoules à grande échelle.",
+  "anecdote": "Contrairement à une idée reçue, Edison n'a donc pas « inventé » l'ampoule électrique, mais il en a fait la première version réellement viable et commercialisable."
+ },
+ "64": {
+  "description_longue": "Achevé en 1885 à Chicago, le Home Insurance Building est souvent considéré comme le tout premier gratte-ciel de l'histoire, non pas par sa hauteur modeste de 42 mètres, mais parce qu'il repose sur une véritable ossature métallique portante, remplaçant les murs porteurs en pierre qui limitaient jusque-là la hauteur des immeubles. Cette innovation, développée par l'École de Chicago, rend possible la course à la hauteur qui transformera les grandes villes du monde entier.",
+  "anecdote": "L'ossature métallique du Home Insurance Building a permis de réduire de moitié environ le poids du bâtiment par rapport à une construction en pierre équivalente."
+ },
+ "65": {
+  "description_longue": "Conçue par l'ingénieur Gustave Eiffel pour l'Exposition universelle de 1889, la tour est achevée en deux ans, deux mois et cinq jours de travaux, un chantier record pour l'époque. Culminant à 300 mètres, elle reste le plus haut édifice du monde pendant plus de 40 ans. Prévue au départ pour être démontée après vingt ans, elle est finalement conservée grâce à son utilité pour les transmissions radio naissantes.",
+  "anecdote": "De nombreux artistes et intellectuels parisiens, dont Maupassant, signèrent une pétition dénonçant cette « tour de fer » qu'ils jugeaient hideuse — Maupassant aurait ensuite pris l'habitude de déjeuner dans son restaurant, seul endroit de Paris d'où il ne pouvait pas la voir."
+ },
+ "66": {
+  "description_longue": "En 1892, le dentiste américain Washington Sheffield, jusque-là vendeur de dentifrice en pot, s'inspire des tubes en étain utilisés par les peintres pour créer le premier tube de dentifrice souple et hermétique. Bien plus hygiénique et pratique que les pots partagés, ce nouveau conditionnement s'impose rapidement et reste, dans son principe, quasiment inchangé encore aujourd'hui.",
+  "anecdote": "Selon la légende familiale, c'est le fils de Sheffield, témoin à Paris de peintres utilisant des tubes métalliques, qui aurait soufflé l'idée à son père."
+ },
+ "67": {
+  "description_longue": "En 1894, le docteur John Harvey Kellogg, directeur d'un établissement de santé végétarien à Battle Creek, dans le Michigan, met au point des flocons de céréales grillés pour ses patients. Son frère Will Keith Kellogg, chargé de la gestion de l'établissement, décide en 1906 de commercialiser le produit à grande échelle — mais les deux frères se brouillent sur l'ajout de sucre, que John juge contraire à leurs principes de santé et que Will estime indispensable au succès commercial.",
+  "anecdote": "Cette dispute entre les deux frères Kellogg sur le sucre a duré toute leur vie et les a définitivement séparés, chacun accusant l'autre d'avoir trahi l'esprit du produit original."
+ },
+ "68": {
+  "description_longue": "En 1895-1896, l'Italien Guglielmo Marconi rassemble et perfectionne les découvertes de plusieurs scientifiques qui l'ont précédé — les ondes de Hertz, le cohéreur de Branly, l'antenne de Popov — pour transmettre un signal radio sur une distance de 250 mètres depuis le jardin de ses parents. Il fonde en 1897 sa propre compagnie et ouvre en 1898 la première usine de radios au monde, en Angleterre.",
+  "anecdote": "Marconi a longtemps été crédité comme seul inventeur de la radio, mais le Serbe Nikola Tesla détenait des brevets antérieurs sur des principes similaires, reconnus après sa mort par la Cour suprême américaine."
+ },
+ "69": {
+  "description_longue": "Les frères Auguste et Louis Lumière n'inventent pas le cinéma à proprement parler, mais organisent le 28 décembre 1895, au Grand Café de Paris, la première projection publique et payante de films sur grand écran devant plusieurs dizaines de spectateurs. Leur film « L'Arroseur arrosé », tourné la même année, est aussi considéré comme la toute première fiction comique de l'histoire du cinéma.",
+  "anecdote": "Selon la légende, certains spectateurs terrifiés par le film montrant un train entrant en gare auraient reculé leur chaise, persuadés que le train allait littéralement sortir de l'écran."
+ },
+ "70": {
+  "description_longue": "Le 2 juillet 1900, le comte allemand Ferdinand von Zeppelin fait voler au-dessus du lac de Constance le LZ 1, le tout premier dirigeable rigide de l'histoire, capable de transporter cinq passagers durant vingt minutes. Bien que ce premier vol se termine par un amerrissage forcé, la technologie démontre son potentiel et donnera naissance, quelques décennies plus tard, aux gigantesques zeppelins transatlantiques de l'entre-deux-guerres.",
+  "anecdote": "Le nom « zeppelin » est devenu depuis un terme générique pour désigner tout dirigeable rigide, quel que soit son fabricant réel — un peu comme « frigidaire » pour les réfrigérateurs."
+ },
+ "71": {
+  "description_longue": "En 1902, à la fois aux États-Unis et en Allemagne, apparaissent les premiers ours en peluche, à une époque où grandit une prise de conscience sur la déforestation et la chasse excessive aux animaux sauvages. La version américaine tire son nom du président Theodore « Teddy » Roosevelt, à qui l'on prête l'anecdote d'avoir refusé d'abattre un ourson lors d'une partie de chasse, un geste immortalisé par une caricature de presse.",
+  "anecdote": "Ce simple dessin de presse a inspiré un commerçant new-yorkais à créer et vendre un jouet en peluche baptisé « Teddy's bear », donnant naissance à l'expression « teddy bear » encore utilisée dans le monde entier."
+ },
+ "72": {
+  "description_longue": "Le 17 décembre 1903, dans les dunes de Kitty Hawk, en Caroline du Nord, les frères Orville et Wilbur Wright réalisent avec leur Flyer, propulsé par un moteur de 12 chevaux, le premier vol motorisé et contrôlé de l'histoire de l'aviation. Le vol le plus long de la journée, piloté par Orville, ne parcourt que 284 mètres en 59 secondes — mais il ouvre l'ère de l'aviation moderne.",
+  "anecdote": "Les frères Wright n'étaient pas ingénieurs de formation : ils dirigeaient un petit atelier de réparation de bicyclettes, dont les compétences en mécanique légère se sont révélées décisives pour leur invention."
+ },
+ "73": {
+  "description_longue": "En 1903, Marie et Pierre Curie reçoivent, avec Henri Becquerel, le prix Nobel de physique pour leurs travaux sur la radioactivité, un phénomène qu'elle a elle-même baptisé. Marie Curie devient ainsi la première femme lauréate d'un prix Nobel. Elle recevra un second Nobel, de chimie cette fois, en 1911, pour la découverte du polonium et du radium — restant à ce jour la seule personne récompensée dans deux domaines scientifiques distincts.",
+  "anecdote": "Ses carnets de laboratoire sont encore aujourd'hui si radioactifs qu'ils sont conservés dans des boîtes plombées, et les consulter nécessite de signer une décharge et de porter une combinaison de protection."
+ },
+ "74": {
+  "description_longue": "Vers 1908, le marchand de thé new-yorkais Thomas Sullivan envoie à ses clients des échantillons de thé dans de petits sachets de soie, destinés uniquement à protéger les arômes avant infusion des feuilles hors du sachet. Ses clients, par commodité, se mettent à infuser directement le thé dans le sachet — une utilisation détournée qui donne naissance, sans que Sullivan ne l'ait vraiment prévu, au sachet de thé tel qu'on le connaît aujourd'hui.",
+  "anecdote": "Il faudra encore attendre 1929 pour que l'Allemand Adolf Rambold invente la machine capable de fabriquer industriellement des sachets de thé en papier filtre, rendant le produit vraiment accessible au grand public."
+ },
+ "75": {
+  "description_longue": "Le 28 mars 1910, sur l'étang de Berre près de Marseille, l'ingénieur français Henri Fabre décolle à bord de son « Hydravion Canard », premier appareil au monde à décoller de façon autonome depuis l'eau, à voler, puis à s'y poser à nouveau. Ce premier vol ne parcourt que 800 mètres, mais fait immédiatement de Fabre, alors âgé de 27 ans, une figure mondialement reconnue de l'aviation naissante.",
+  "anecdote": "Deux exemplaires de cet hydravion pionnier existent encore aujourd'hui : l'un à l'aéroport de Marignane, non loin du lieu du premier vol, l'autre au musée de l'Air et de l'Espace du Bourget."
+ },
+ "76": {
+  "description_longue": "Considéré comme insubmersible, le paquebot RMS Titanic heurte un iceberg dans la nuit du 14 au 15 avril 1912, lors de son tout premier voyage entre Southampton et New York, et sombre en moins de trois heures. Faute de canots de sauvetage en nombre suffisant — vingt seulement pour plus de 2 200 personnes à bord — plus de 1 500 personnes périssent, dans l'une des pires catastrophes maritimes en temps de paix.",
+  "anecdote": "Le compositeur du groupe de musiciens du bord, qui continua à jouer pour calmer les passagers pendant l'évacuation, périt avec le navire — un geste devenu l'un des symboles les plus marquants du naufrage."
+ },
+ "77": {
+  "description_longue": "Déclenchée après l'assassinat de l'archiduc François-Ferdinand à Sarajevo le 28 juin 1914, la Première Guerre mondiale oppose pendant plus de quatre ans les puissances de la Triple-Entente aux empires centraux, dans des tranchées qui s'étendent sur des centaines de kilomètres à travers l'Europe. Elle entraînera la chute de quatre empires — russe, austro-hongrois, allemand et ottoman — et fera plus de 18 millions de morts.",
+  "anecdote": "Un soldat français, Octave Delaluque, aurait été le tout dernier tué au combat, seulement quelques minutes avant l'entrée en vigueur de l'armistice à 11 heures, le 11 novembre 1918."
+ },
+ "78": {
+  "description_longue": "Le 28 juin 1914, à Sarajevo, le nationaliste serbe de Bosnie Gavrilo Princip assassine l'archiduc François-Ferdinand, héritier du trône austro-hongrois, et son épouse Sophie. Cet attentat déclenche une crise diplomatique en chaîne, alimentée par un jeu d'alliances militaires complexes entre grandes puissances européennes, qui débouche en quelques semaines sur la Première Guerre mondiale.",
+  "anecdote": "L'attentat a failli échouer : après une première tentative ratée dans la matinée, c'est un simple hasard de circulation — le chauffeur de l'archiduc se trompant de route — qui a replacé la voiture juste devant Princip."
+ },
+ "79": {
+  "description_longue": "Le 7 mai 1915, le paquebot britannique Lusitania est torpillé par un sous-marin allemand au large de l'Irlande et coule en seulement dix-huit minutes, faisant près de 1 200 morts, dont 128 citoyens américains. Ce drame, largement relayé par la presse américaine, contribue fortement à retourner l'opinion publique des États-Unis contre l'Allemagne et prépare le terrain à leur entrée en guerre, deux ans plus tard.",
+  "anecdote": "L'Allemagne avait publié, quelques jours avant le départ du navire, une annonce dans les journaux new-yorkais avertissant les passagers des risques encourus à voyager sur un navire d'une nation en guerre — un avertissement resté largement ignoré."
+ },
+ "80": {
+  "description_longue": "L'armistice est signé le 11 novembre 1918 à 5h15 du matin, dans un wagon-restaurant aménagé en forêt de Compiègne, et entre en vigueur à 11 heures précises. Il met fin provisoirement aux combats de la Première Guerre mondiale, qui a fait plus de 18,6 millions de morts et blessés ; la paix ne sera officiellement scellée que le 28 juin 1919, avec la signature du traité de Versailles.",
+  "anecdote": "Le même wagon-restaurant servira, plus de vingt ans plus tard en juin 1940, de cadre à la signature de l'armistice de la défaite française face à l'Allemagne nazie — un symbole de revanche voulu par Hitler."
+ },
+ "81": {
+  "description_longue": "Signé le 28 juin 1919 dans la galerie des Glaces du château de Versailles, exactement cinq ans après l'attentat de Sarajevo, le traité impose à l'Allemagne vaincue de lourdes réparations financières, la reconnaissance de sa responsabilité dans le déclenchement de la guerre et une réduction drastique de ses forces armées. Il crée aussi la Société des Nations, ancêtre de l'ONU, censée garantir désormais la paix mondiale.",
+  "anecdote": "Beaucoup d'historiens considèrent que la dureté des sanctions imposées par ce traité a alimenté le ressentiment allemand qui contribuera, deux décennies plus tard, à la montée du nazisme."
+ },
+ "82": {
+  "description_longue": "Après des années de fouilles infructueuses financées par Lord Carnarvon, l'archéologue britannique Howard Carter découvre le 4 novembre 1922, dans la vallée des Rois, l'entrée d'une tombe presque intacte : celle du jeune pharaon Toutânkhamon, mort vers 18 ans. Contrairement à la plupart des sépultures royales égyptiennes, pillées dans l'Antiquité, celle-ci recèle un trésor funéraire d'une richesse exceptionnelle, encore étudié aujourd'hui.",
+  "anecdote": "La rumeur d'une « malédiction du pharaon » a enflé après la mort de Lord Carnarvon, quelques mois après l'ouverture de la tombe, d'une simple infection consécutive à la piqûre d'un moustique."
+ },
+ "83": {
+  "description_longue": "Les 20 et 21 mai 1927, l'aviateur américain Charles Lindbergh relie en solitaire New York à Paris à bord de son monoplan Spirit of St. Louis, sans escale et sans radio, en un peu plus de 33 heures de vol. Il ne s'agit pas de la toute première traversée aérienne de l'Atlantique, mais bien du premier vol en solitaire et sans escale entre les deux villes, un exploit qui fait de lui une célébrité mondiale instantanée.",
+  "anecdote": "Pour gagner en légèreté et en autonomie de carburant, Lindbergh avait renoncé à tout parachute, radio et même à un siège confortable, ne conservant que le strict nécessaire pour tenir le cap."
+ },
+ "84": {
+  "description_longue": "En septembre 1928, revenant de vacances, le bactériologiste écossais Alexander Fleming remarque qu'une moisissure ayant accidentellement contaminé une de ses cultures de bactéries a empêché celles-ci de se développer autour d'elle. Il isole la substance responsable et la nomme pénicilline, sans toutefois parvenir à la purifier suffisamment pour un usage médical — il faudra attendre 1940 et les travaux d'Howard Florey et Ernst Chain pour transformer cette découverte en traitement sauvant des vies.",
+  "anecdote": "Fleming lui-même a longtemps douté de l'utilité pratique de sa découverte, jugeant trop difficile de produire de la pénicilline en quantité suffisante — un scepticisme qui a retardé son exploitation de plus de dix ans."
+ },
+ "85": {
+  "description_longue": "Les premières guitares électriques commercialisées apparaissent à la fin des années 1920, portées par les progrès de l'amplification électronique. En 1928, la petite entreprise Stromberg-Voisinet en propose une version, sans grand succès commercial ; il faudra attendre 1936 et le modèle Gibson ES-150, adopté par le guitariste de jazz Charlie Christian, pour voir l'instrument s'imposer réellement, ouvrant la voie au son électrique qui dominera la musique populaire du XXe siècle.",
+  "anecdote": "Avant de connaître le succès, l'un des tout premiers modèles de guitare électrique avait été conçu comme un accessoire pour piano — le brevet du capteur magnétique déposé en 1911 visait en réalité un tout autre instrument."
+ },
+ "86": {
+  "description_longue": "Entre le 24 et le 29 octobre 1929, la Bourse de New York s'effondre après plusieurs années de spéculation effrénée alimentée par l'achat d'actions à crédit. Ce krach, dont les journées les plus sombres sont surnommées « jeudi noir » et « mardi noir », déclenche la Grande Dépression, la plus grave crise économique du XXe siècle, dont les effets se feront sentir dans le monde entier pendant toute la décennie suivante.",
+  "anecdote": "Certains historiens estiment aujourd'hui largement exagérée l'image populaire de financiers ruinés se jetant par les fenêtres de Wall Street, un mythe entretenu par la presse de l'époque."
+ },
+ "87": {
+  "description_longue": "Organisée par la naissante FIFA sous l'impulsion de son président Jules Rimet, la première Coupe du monde de football se déroule en Uruguay en juillet 1930, pays choisi pour célébrer le centenaire de son indépendance et parce qu'il s'était engagé à financer le voyage de toutes les équipes participantes. L'Uruguay remporte le tournoi à domicile en battant l'Argentine 4 à 2 en finale, devant le tout nouveau stade Centenario construit pour l'occasion.",
+  "anecdote": "Plusieurs sélections européennes, dont l'Angleterre, refusèrent de faire le long voyage en bateau jusqu'en Uruguay, privant cette première édition de certaines des meilleures équipes de l'époque."
+ },
+ "88": {
+  "description_longue": "Le 1er septembre 1939, l'Allemagne nazie envahit la Pologne, une semaine seulement après avoir signé un pacte de non-agression secret avec l'URSS, qui envahit à son tour le pays par l'est. La France et le Royaume-Uni, liés à la Pologne par traité, déclarent la guerre à l'Allemagne le 3 septembre : c'est le début officiel de la Seconde Guerre mondiale, qui fera au total plus de 60 millions de morts.",
+  "anecdote": "Pour justifier son invasion, l'Allemagne nazie avait mis en scène une fausse attaque polonaise contre un poste-frontière allemand, orchestrée par ses propres services secrets."
+ },
+ "89": {
+  "description_longue": "Le 6 juin 1944, dans le cadre de l'opération Overlord, environ 176 000 soldats alliés débarquent sur cinq plages du littoral normand — Utah, Omaha, Gold, Juno et Sword — ouvrant un second front décisif à l'ouest contre l'Allemagne nazie. Une brève accalmie météorologique, repérée juste à temps par les prévisionnistes alliés, permet de maintenir l'opération malgré une mer agitée qui avait failli entraîner un report de plusieurs semaines.",
+  "anecdote": "Pour tromper les Allemands sur le lieu réel du débarquement, les Alliés avaient monté une vaste opération de désinformation, l'opération Fortitude, avec de faux campements militaires gonflables visibles depuis les airs."
+ },
+ "90": {
+  "description_longue": "Le 6 août 1945, le bombardier américain Enola Gay largue sur Hiroshima la première bombe atomique jamais utilisée au combat, tuant plus de 70 000 personnes sur le coup et bien davantage dans les mois suivants des suites des radiations. Trois jours plus tard, une seconde bombe est larguée sur Nagasaki, précipitant la capitulation du Japon et marquant l'entrée du monde dans l'ère nucléaire.",
+  "anecdote": "Le pilote de l'Enola Gay avait baptisé l'avion du nom de sa propre mère, Enola Gay Tibbets, juste avant la mission."
+ },
+ "91": {
+  "description_longue": "Après les bombardements d'Hiroshima et de Nagasaki et la déclaration de guerre soviétique contre le Japon le 8 août 1945, l'empereur Hirohito annonce dans un discours radiodiffusé, le 15 août, la reddition de son pays. La cérémonie officielle de capitulation se tient le 2 septembre 1945 à bord du cuirassé USS Missouri, dans la baie de Tokyo, mettant un terme définitif à six années de conflit mondial.",
+  "anecdote": "Ce discours radiodiffusé du 15 août 1945 était la toute première fois que la voix de l'empereur Hirohito était entendue publiquement par ses sujets, la plupart des Japonais n'ayant jamais entendu leur souverain parler."
+ },
+ "92": {
+  "description_longue": "Réunis à San Francisco du 25 avril au 26 juin 1945, les représentants de 51 États rédigent en seulement deux mois la Charte des Nations unies, dans l'espoir d'éviter qu'un nouveau conflit mondial ne se reproduise après les échecs de la Société des Nations. L'organisation, dotée d'un Conseil de sécurité aux pouvoirs contraignants, entre officiellement en vigueur le 24 octobre 1945.",
+  "anecdote": "La Charte des Nations unies a été rédigée dans un temps record de deux mois, alors que sa devancière, le pacte de la Société des Nations, avait mis des années à voir le jour après la Première Guerre mondiale."
+ },
+ "93": {
+  "description_longue": "Par deux ordonnances des 4 et 19 octobre 1945, le gouvernement provisoire de la République française, sous l'impulsion du gaulliste Pierre Laroque et du communiste Ambroise Croizat, crée un système de protection sociale universel couvrant maladie, maternité, invalidité, vieillesse et décès. Ce compromis entre gaullistes et communistes à la Libération pose les fondations de l'un des systèmes de santé les plus complets au monde.",
+  "anecdote": "Pierre Laroque et Ambroise Croizat, issus de courants politiques opposés, ont pourtant collaboré étroitement à la conception de ce système, aujourd'hui considéré comme l'un des piliers du modèle social français."
+ },
+ "94": {
+  "description_longue": "Sans date de début officielle unique, l'entrée en guerre froide entre les États-Unis et l'URSS se cristallise en 1947, notamment avec l'annonce du plan Marshall, destiné à aider économiquement l'Europe de l'Ouest pour contenir l'influence soviétique. L'expression « guerre froide » elle-même se répand cette année-là, popularisée par le journaliste américain Walter Lippmann à la suite d'un discours du conseiller présidentiel Bernard Baruch.",
+  "anecdote": "Cette confrontation sans affrontement militaire direct entre les deux superpuissances va durer plus de quarante ans, jusqu'à la chute de l'URSS en 1991."
+ },
+ "95": {
+  "description_longue": "Le 15 août 1947, après des décennies de mouvement pour l'indépendance mené notamment par Gandhi et Nehru, l'Inde britannique accède à l'indépendance, immédiatement suivie d'une partition douloureuse entre l'Inde à majorité hindoue et le Pakistan à majorité musulmane. Ce découpage précipité, tracé par le vice-roi Louis Mountbatten, provoque des déplacements de population massifs et des violences intercommunautaires qui feront des centaines de milliers de morts.",
+  "anecdote": "La ligne de partition entre les deux nouveaux pays, tracée par un juriste britannique n'ayant jamais mis les pieds en Inde auparavant, n'a été rendue publique que deux jours après l'indépendance elle-même."
+ },
+ "96": {
+  "description_longue": "Le 14 octobre 1947, le pilote d'essai américain Chuck Yeager devient le premier homme à franchir le mur du son en vol, à bord de l'avion-fusée expérimental Bell X-1, dont la forme s'inspire directement d'une balle de fusil supersonique. Il atteint Mach 1,06, soit environ 1 100 km/h, malgré deux côtes fêlées quelques jours plus tôt lors d'une chute de cheval, qu'il avait cachées à sa hiérarchie pour ne pas être écarté du vol.",
+  "anecdote": "Yeager avait tellement mal aux côtes qu'il ne pouvait pas fermer lui-même la trappe du cockpit — un mécanicien lui a fabriqué un levier improvisé, taillé dans un manche à balai, pour qu'il puisse la refermer seul."
+ },
+ "97": {
+  "description_longue": "Le 23 décembre 1947, aux laboratoires Bell Labs, les physiciens John Bardeen, Walter Brattain et William Shockley présentent le premier transistor de l'histoire, un composant capable d'amplifier ou de commuter un signal électrique sans les inconvénients des tubes à vide — plus gros, plus fragiles et plus gourmands en énergie. Cette invention, qui leur vaudra le prix Nobel en 1956, est à l'origine de toute l'électronique moderne, des ordinateurs aux smartphones.",
+  "anecdote": "Le tout premier transistor fonctionnel tenait dans la paume de la main et amplifiait un simple signal vocal — une prouesse minuscule qui allait pourtant rendre possible, des décennies plus tard, des puces contenant des milliards de transistors."
+ },
+ "98": {
+  "description_longue": "Le 24 juin 1947, le pilote privé Kenneth Arnold rapporte avoir observé neuf objets volants non identifiés se déplaçant à grande vitesse près du mont Rainier, dans l'État de Washington. Son témoignage, largement relayé par la presse, popularise l'expression « soucoupe volante » et déclenche l'ère moderne de la fascination pour les ovnis aux États-Unis, quelques jours seulement avant l'incident tout aussi célèbre de Roswell.",
+  "anecdote": "Arnold n'a en réalité jamais parlé d'objets en forme de « soucoupe » : c'est la façon dont il a décrit leur mouvement, comme des soucoupes ricochant sur l'eau, qui a été mal interprétée par un journaliste et a donné naissance à l'expression."
+ },
+ "99": {
+  "description_longue": "Le 10 janvier 1949, la firme américaine RCA Victor lance le disque 45 tours, un format compact d'environ 17,5 cm conçu spécifiquement pour concurrencer le microsillon de son rival Columbia et pour alimenter le marché en plein essor des jukebox. Son grand trou central, pensé pour un chargement automatique rapide, restera la signature visuelle du format jusqu'à son déclin face à la cassette puis au CD.",
+  "anecdote": "Le disque 45 tours deviendra, des décennies durant, le format de prédilection des adolescents pour acheter leur chanson préférée sans se ruiner sur un album entier."
+ },
+ "100": {
+  "description_longue": "Le 29 mai 1953, le Néo-Zélandais Edmund Hillary et le sherpa népalais Tensing Norgay deviennent les premiers hommes à atteindre le sommet de l'Everest, à 8 849 mètres d'altitude, au terme d'une expédition britannique dirigée par le général John Hunt. La nouvelle de leur exploit parvient à Londres juste à temps pour être annoncée le matin même du couronnement de la reine Élisabeth II, offrant à la Grande-Bretagne un double motif de fierté nationale.",
+  "anecdote": "Par respect mutuel, Hillary et Norgay n'ont jamais révélé publiquement lequel des deux avait posé le pied en premier sur le sommet, laissant l'exploit rester une réussite commune."
+ },
+ "101": {
+  "description_longue": "Le 25 avril 1953, les chercheurs James Watson et Francis Crick publient dans la revue Nature le modèle en double hélice de l'ADN, s'appuyant largement sur les clichés de diffraction aux rayons X réalisés par la chercheuse Rosalind Franklin, transmis à leur insu par leur collègue Maurice Wilkins. Cette découverte, qui explique comment l'information génétique est stockée et transmise, révolutionne durablement la biologie moderne.",
+  "anecdote": "Rosalind Franklin, morte en 1958 d'un cancer, n'a jamais pu recevoir le prix Nobel attribué en 1962 à Watson, Crick et Wilkins pour cette découverte, le prix n'étant jamais décerné à titre posthume."
+ },
+ "102": {
+  "description_longue": "Le 1er décembre 1955, à Montgomery en Alabama, la couturière afro-américaine Rosa Parks refuse de céder sa place assise dans un bus à un passager blanc, comme l'exigeaient les lois de ségrégation raciale de l'époque. Son arrestation déclenche un boycott des bus mené par un jeune pasteur alors peu connu, Martin Luther King, qui durera 381 jours et se conclura par une décision de la Cour suprême déclarant la ségrégation dans les bus inconstitutionnelle.",
+  "anecdote": "Rosa Parks n'était pas la première personne à refuser de céder sa place ; plusieurs femmes noires, dont Claudette Colvin neuf mois plus tôt, avaient déjà été arrêtées pour le même motif, mais son cas fut jugé le plus mobilisateur politiquement."
+ },
+ "103": {
+  "description_longue": "Le 4 octobre 1957, l'URSS place en orbite Spoutnik 1, une simple sphère métallique de 58 centimètres de diamètre équipée d'un émetteur radio, devenant le premier objet fabriqué par l'homme à orbiter autour de la Terre. Ce succès surprend et inquiète profondément les États-Unis, déclenchant la course à l'espace qui mènera, douze ans plus tard, au premier pas de l'homme sur la Lune.",
+  "anecdote": "Le simple « bip bip » régulier émis par Spoutnik, captable par n'importe quel poste de radio amateur sur Terre, a suffi à provoquer une onde de choc psychologique majeure aux États-Unis, où l'on craignait désormais une supériorité technologique soviétique."
+ },
+ "104": {
+  "description_longue": "Organisés à Rome en septembre 1960, une semaine après les Jeux olympiques, les premiers Jeux paralympiques réunissent environ 400 athlètes en situation de handicap venus de 23 pays, dans huit disciplines sportives. L'événement est co-organisé par le neurologue britannique Ludwig Guttmann, pionnier de la rééducation par le sport pour les blessés médullaires, considéré comme le fondateur du mouvement paralympique.",
+  "anecdote": "Le village olympique de Rome n'était pas du tout accessible aux fauteuils roulants : les athlètes devaient être portés à bras par des volontaires pour franchir les escaliers."
+ },
+ "105": {
+  "description_longue": "Le 12 avril 1961, le cosmonaute soviétique Youri Gagarine devient le premier être humain à voyager dans l'espace, effectuant une orbite complète autour de la Terre en 108 minutes à bord du vaisseau Vostok 1. Cet exploit, obtenu à peine quatre ans après Spoutnik, place l'URSS en tête de la course à l'espace et pousse les États-Unis à accélérer leurs propres programmes spatiaux, jusqu'à la Lune huit ans plus tard.",
+  "anecdote": "Gagarine n'a pas atterri à bord de sa capsule : conformément au protocole soviétique de l'époque, il s'est éjecté et a terminé sa descente en parachute, un détail longtemps tenu secret pour préserver l'homologation de son vol comme premier vol spatial habité."
+ },
+ "106": {
+  "description_longue": "Dans la nuit du 12 au 13 août 1961, les autorités est-allemandes érigent en quelques heures des barrières de fil barbelé séparant Berlin-Est de Berlin-Ouest, rapidement remplacées par un mur en dur. Ce chantier, tenu secret jusqu'au dernier moment, vise à stopper l'exode massif des habitants de la RDA vers l'Ouest, qui menaçait l'effondrement économique et démographique du régime est-allemand.",
+  "anecdote": "Le mur restera en place pendant plus de 28 ans, séparant parfois des familles entières et des rues coupées en deux du jour au lendemain."
+ },
+ "107": {
+  "description_longue": "Du 14 au 27 octobre 1962, les États-Unis et l'URSS s'affrontent dans une confrontation diplomatique et militaire d'une intensité inédite, après la découverte de missiles nucléaires soviétiques installés à Cuba, à quelques centaines de kilomètres seulement des côtes américaines. Le monde frôle alors la guerre nucléaire directe entre les deux superpuissances avant qu'un compromis secret ne permette le retrait des missiles.",
+  "anecdote": "Le compromis final incluait une clause tenue secrète pendant des décennies : en échange du retrait soviétique, les États-Unis retiraient discrètement leurs propres missiles nucléaires installés en Turquie."
+ },
+ "108": {
+  "description_longue": "Le 22 novembre 1963, le président John F. Kennedy est mortellement blessé par balle à Dallas, au Texas, alors que son cortège traverse la ville en voiture décapotable. Lee Harvey Oswald est arrêté quelques heures plus tard, avant d'être lui-même assassiné en direct à la télévision deux jours après, ce qui alimentera durablement les théories du complot autour de cet assassinat encore débattu aujourd'hui.",
+  "anecdote": "Kennedy est le quatrième président américain assassiné en exercice, mais le premier dont la mort a été filmée : l'amateur Abraham Zapruder a capturé la scène sur une caméra 8 mm, devenue depuis l'un des documents les plus étudiés de l'histoire américaine."
+ },
+ "109": {
+  "description_longue": "Le 4 avril 1968, le pasteur et militant des droits civiques Martin Luther King est abattu sur le balcon de son motel à Memphis, dans le Tennessee, où il s'était rendu pour soutenir une grève d'éboueurs noirs. Sa mort déclenche des émeutes dans plus de 125 villes américaines et prive le mouvement des droits civiques de sa figure la plus emblématique, un an seulement après son discours contre la guerre du Vietnam.",
+  "anecdote": "La veille de sa mort, dans son dernier discours public, Martin Luther King avait étrangement évoqué sa propre mort possible, déclarant qu'il avait « vu la Terre promise » mais qu'il n'était pas certain d'y parvenir avec les autres."
+ },
+ "110": {
+  "description_longue": "Le 21 juillet 1969, l'astronaute américain Neil Armstrong pose le pied sur la Lune lors de la mission Apollo 11, suivi quelques minutes plus tard par Buzz Aldrin, pendant que Michael Collins les attend en orbite lunaire. Suivi en direct par des centaines de millions de téléspectateurs à travers le monde, cet exploit marque l'aboutissement de la course à l'espace lancée douze ans plus tôt par Spoutnik.",
+  "anecdote": "La célèbre phrase d'Armstrong, « un petit pas pour l'homme, un bond de géant pour l'humanité », a été partiellement brouillée par les communications radio : il aurait en réalité prononcé « for a man », un article manquant qui a fait débat pendant des décennies."
+ },
+ "111": {
+  "description_longue": "Le 21 novembre 1969, les universités UCLA et Stanford établissent la première connexion d'ARPANET, un réseau financé par le Pentagone pour permettre à des ordinateurs distants de communiquer par commutation de paquets. Ce réseau expérimental, qui ne comptera que quatre nœuds fin 1969, est considéré comme l'ancêtre direct d'Internet, dont l'architecture décentralisée s'inspire directement de ses principes fondateurs.",
+  "anecdote": "Le tout premier message envoyé sur ARPANET devait être le mot « LOGIN » ; le système a planté après seulement les deux premières lettres, faisant du mot « LO » le véritable premier message de l'histoire d'Internet."
+ },
+ "112": {
+  "description_longue": "Commercialisée par Magnavox à partir de septembre 1972 aux États-Unis, l'Odyssey est la première console de jeux vidéo domestique de l'histoire, conçue à partir des travaux de l'ingénieur Ralph Baer dès les années 1960. Sans son ni couleur, elle n'affiche que trois points carrés blancs sur l'écran du téléviseur auquel elle est branchée, mais elle ouvre la voie à toute l'industrie du jeu vidéo domestique.",
+  "anecdote": "Faute de graphismes, l'Odyssey était vendue avec des feuilles de plastique transparentes colorées à coller directement sur l'écran du téléviseur pour simuler des décors de jeu."
+ },
+ "113": {
+  "description_longue": "Publiée pour la première fois en 1979 dans un magazine de jeux américain sous le nom « Number Place », la grille aujourd'hui connue sous le nom de sudoku est probablement conçue par l'architecte à la retraite Howard Garns, en s'inspirant du carré latin, une structure mathématique étudiée depuis le XVIIIe siècle. Ce n'est qu'en 1984 que l'éditeur japonais Nikoli la popularise sous le nom de « sudoku », qui deviendra un phénomène mondial dans les années 2000.",
+  "anecdote": "Howard Garns est mort en 1989 sans jamais connaître le succès planétaire que son jeu allait rencontrer une quinzaine d'années plus tard."
+ },
+ "114": {
+  "description_longue": "Sorti en 1981, réalisé par Steven Spielberg sur une histoire coécrite par George Lucas, « Les Aventuriers de l'arche perdue » introduit le personnage de l'archéologue aventurier Indiana Jones, incarné par Harrison Ford. Premier volet d'une saga culte, le film mêle action, humour et références aux serials d'aventure des années 1930, et devient l'un des plus grands succès commerciaux de l'année.",
+  "anecdote": "La scène où Indiana Jones abat froidement un adversaire armé d'un sabre, plutôt que de se lancer dans un combat chorégraphié prévu au scénario, est née d'une improvisation d'Harrison Ford, alors souffrant d'une dysenterie et pressé d'en finir avec la scène."
+ },
+ "115": {
+  "description_longue": "Sorti le 30 novembre 1982, produit par Quincy Jones, « Thriller » de Michael Jackson devient l'album le plus vendu de tous les temps, porté par des tubes comme « Billie Jean » et « Beat It ». Son clip de 14 minutes, réalisé par John Landis dans le style d'un court-métrage d'horreur, coûte un budget alors inédit pour un clip musical et transforme durablement la manière dont l'industrie conçoit la promotion vidéo de la musique.",
+  "anecdote": "Ce clip de 14 minutes, jugé trop coûteux et trop long, fut d'abord refusé par la chaîne MTV avant de devenir, une fois diffusé, l'un des programmes les plus demandés de son histoire."
+ },
+ "116": {
+  "description_longue": "Créé à partir de juin 1984 par l'informaticien soviétique Alexeï Pajitnov, avec l'aide de collègues du centre de calcul de l'Académie des sciences de Moscou, Tetris consiste à empiler des pièces géométriques pour compléter des lignes complètes. Le jeu se diffuse d'abord de manière informelle en URSS avant d'être négocié à l'international dans des conditions complexes liées au régime soviétique, puis popularisé mondialement par son association avec la Game Boy de Nintendo en 1989.",
+  "anecdote": "Comme toute création réalisée dans un institut d'État soviétique, les droits de Tetris appartenaient au gouvernement de l'URSS : Pajitnov n'a personnellement touché aucun revenu de son jeu avant la chute de l'Union soviétique, une décennie plus tard."
+ },
+ "117": {
+  "description_longue": "Le 9 novembre 1989, à la suite d'une conférence de presse est-allemande maladroitement formulée laissant croire à une ouverture immédiate des frontières, des milliers de Berlinois de l'Est se pressent aux points de passage et forcent l'ouverture du mur, sans intervention des gardes-frontières. Cet événement, retransmis en direct dans le monde entier, précipite la réunification allemande, officialisée moins d'un an plus tard, le 3 octobre 1990.",
+  "anecdote": "L'ouverture du mur est en grande partie due à une erreur de communication : le porte-parole est-allemand Günter Schabowski, mal informé, a annoncé par erreur que les nouvelles règles de voyage entraient en vigueur « immédiatement », alors qu'elles ne devaient s'appliquer que le lendemain."
+ },
+ "118": {
+  "description_longue": "En 1989, au laboratoire européen de physique des particules (CERN), l'ingénieur britannique Tim Berners-Lee propose un système hypertexte permettant de relier et de partager facilement des documents scientifiques entre chercheurs du monde entier. Développé avec le soutien de Robert Cailliau, ce projet donnera naissance au World Wide Web, rendu public en 1991 et qui deviendra, en quelques années, la porte d'entrée grand public vers Internet.",
+  "anecdote": "Le tout premier site web de l'histoire, mis en ligne par Berners-Lee lui-même au CERN, expliquait simplement ce qu'était le World Wide Web — et reste consultable aujourd'hui à son adresse d'origine."
+ },
+ "119": {
+  "description_longue": "Le 11 février 1990, après 27 années passées en prison, Nelson Mandela est libéré à la suite de l'annonce, par le président sud-africain Frederik de Klerk, de la légalisation du Congrès national africain (ANC) et de la fin programmée de l'apartheid. Sa libération, retransmise en direct dans le monde entier depuis le balcon de l'hôtel de ville du Cap, marque le début d'une transition négociée qui aboutira, quatre ans plus tard, aux premières élections multiraciales du pays.",
+  "anecdote": "Mandela et de Klerk, artisans conjoints de cette transition pacifique, recevront ensemble le prix Nobel de la paix en 1993, alors qu'ils avaient été, quelques années plus tôt seulement, adversaires politiques déclarés."
+ },
+ "120": {
+  "description_longue": "Le 8 décembre 1991, les dirigeants de la Russie, de l'Ukraine et de la Biélorussie signent les accords de Minsk, actant la dissolution de l'URSS et la création de la Communauté des États indépendants. Le 25 décembre, Mikhaïl Gorbatchev démissionne de la présidence soviétique et transmet le contrôle des codes nucléaires à Boris Eltsine, président de la Fédération de Russie, mettant fin à près de 70 ans d'existence de l'Union soviétique.",
+  "anecdote": "La dissolution de l'URSS fait suite à un coup d'État manqué de conservateurs communistes en août 1991 contre Gorbatchev, qui a paradoxalement précipité l'effondrement du régime qu'ils cherchaient à sauver."
+ },
+ "121": {
+  "description_longue": "Sorti fin 1993 sur Mega Drive, « FIFA International Soccer » est le tout premier jeu de la désormais célèbre licence FIFA d'Electronic Arts, lancé pour profiter de l'engouement autour de la Coupe du monde 1994 aux États-Unis. Avec sa vue en perspective inhabituelle pour l'époque et ses commentaires audio, il devient le jeu vidéo le plus vendu de l'année au Royaume-Uni et lance une franchise qui durera près de trente ans.",
+  "anecdote": "La franchise FIFA a connu un divorce spectaculaire en 2023 : Electronic Arts a rompu son partenariat avec la FIFA pour créer sa propre licence, EA Sports FC, laissant le nom « FIFA » disponible pour un futur concurrent."
+ },
+ "122": {
+  "description_longue": "Du 26 au 29 avril 1994 se tiennent les premières élections multiraciales de l'histoire d'Afrique du Sud, remportées à 63 % des voix par le Congrès national africain de Nelson Mandela, qui devient le 10 mai le premier président noir du pays. Un gouvernement d'union nationale associe alors Mandela à son ancien adversaire Frederik de Klerk, marquant la fin officielle du régime d'apartheid instauré en 1948.",
+  "anecdote": "Des files d'attente de plusieurs kilomètres se sont formées devant les bureaux de vote lors de ces élections, certains électeurs patientant plus de cinq heures pour voter pour la toute première fois de leur vie."
+ },
+ "123": {
+  "description_longue": "Le 5 juillet 1996, en Écosse, les chercheurs Ian Wilmut et Keith Campbell donnent naissance à Dolly, la brebis, premier mammifère cloné avec succès à partir d'une cellule d'un animal adulte plutôt que d'un embryon. Sur 277 tentatives de transfert nucléaire, un seul embryon a survécu jusqu'à l'âge adulte — une prouesse scientifique qui soulève immédiatement d'intenses débats éthiques sur les possibilités futures du clonage.",
+  "anecdote": "Dolly doit son nom à la chanteuse américaine Dolly Parton, en référence humoristique au fait qu'elle avait été clonée à partir d'une cellule de glande mammaire."
+ },
+ "124": {
+  "description_longue": "Sorti en 1999, écrit et réalisé par les sœurs Wachowski, « Matrix » dépeint un futur où l'humanité, sans le savoir, vit connectée à une simulation informatique créée par des machines pour exploiter son énergie corporelle. Mêlant science-fiction, arts martiaux et effets spéciaux révolutionnaires comme le « bullet time », le film marque durablement la culture populaire et la manière de filmer l'action au cinéma.",
+  "anecdote": "Le fameux effet visuel où le temps semble se figer autour d'un personnage en mouvement, devenu un classique du cinéma d'action, nécessitait l'installation de plus d'une centaine d'appareils photo synchronisés autour de la scène."
+ },
+ "125": {
+  "description_longue": "Le 11 septembre 2001, dix-neuf terroristes du réseau Al-Qaïda détournent quatre avions de ligne aux États-Unis : deux percutent les tours jumelles du World Trade Center à New York, un troisième s'écrase sur le Pentagone, et le quatrième s'abîme en Pennsylvanie après que des passagers ont tenté de reprendre le contrôle de l'appareil. Ces attentats, les plus meurtriers jamais commis sur le sol américain, font près de 3 000 morts et bouleversent durablement la politique internationale.",
+  "anecdote": "Les passagers du vol 93, en Pennsylvanie, ont appris par téléphone portable ce qui se passait à New York et au Pentagone avant de tenter de reprendre l'avion aux terroristes — une action qui a probablement empêché une cinquième cible d'être atteinte, vraisemblablement le Capitole ou la Maison-Blanche."
+ },
+ "126": {
+  "description_longue": "Lancée le 15 janvier 2001 par Jimmy Wales et Larry Sanger comme projet complémentaire à l'encyclopédie Nupedia, jugée trop lente à produire du fait de sa validation stricte par des experts, Wikipédia mise au contraire sur une rédaction collaborative ouverte à tous via le principe du wiki. La version française voit le jour dès le 23 mars 2001, seulement deux mois après la version anglaise, suivie de près par les versions allemande et catalane.",
+  "anecdote": "Le tout premier article jamais publié sur Wikipédia, écrit par Jimmy Wales lui-même le lendemain du lancement, ne contenait qu'une phrase de test."
+ },
+ "127": {
+  "description_longue": "Le 4 février 2004, l'étudiant de Harvard Mark Zuckerberg lance « TheFacebook », un réseau social d'abord réservé aux étudiants de son université, avec l'aide de quatre camarades de promotion. Le service s'étend rapidement à d'autres universités américaines, puis au grand public en septembre 2006, avant de devenir l'un des plus grands réseaux sociaux au monde et de donner naissance, en 2021, au groupe Meta.",
+  "anecdote": "Dès le premier mois de lancement, plus de la moitié des étudiants de premier cycle de Harvard s'étaient déjà inscrits sur ce tout nouveau réseau, encore réservé au seul campus."
+ },
+ "128": {
+  "description_longue": "Présenté par Steve Jobs le 9 janvier 2007 lors de la conférence Macworld et commercialisé aux États-Unis le 29 juin suivant, le premier iPhone combine en un seul appareil un téléphone, un lecteur de musique et un accès à Internet, avec un écran tactile capacitif sans clavier physique, alors inédit sur le marché. Ce choix radical redéfinit en quelques années les standards de toute l'industrie du téléphone mobile.",
+  "anecdote": "Des files d'attente se sont formées plusieurs jours avant le lancement devant les boutiques Apple et AT&T aux États-Unis, un phénomène de foule qui deviendra ensuite une tradition à chaque nouvelle sortie d'iPhone."
+ },
+ "129": {
+  "description_longue": "Le 4 novembre 2008, le sénateur démocrate de l'Illinois Barack Obama est élu 44e président des États-Unis face au républicain John McCain, devenant le premier Afro-Américain à accéder à la présidence du pays. Son élection intervient tout juste 45 ans après le célèbre discours « I Have a Dream » de Martin Luther King, une coïncidence hautement symbolique dans l'histoire du mouvement des droits civiques.",
+  "anecdote": "Son discours de victoire, prononcé devant environ 240 000 personnes réunies à Grant Park, à Chicago, reste l'un des plus grands rassemblements électoraux de l'histoire américaine."
+ },
+ "130": {
+  "description_longue": "Aux Jeux olympiques de Pékin en 2008, le sprinteur jamaïcain Usain Bolt remporte le 100 mètres en 9,69 secondes en ralentissant volontairement avant la ligne d'arrivée, puis établit un nouveau record du monde du 200 mètres en 19,30 secondes, devenant le premier athlète depuis Carl Lewis en 1984 à réaliser ce doublé olympique. Sa médaille de relais 4x100 mètres lui sera toutefois retirée en 2017, après la disqualification rétroactive d'un de ses coéquipiers pour dopage.",
+  "anecdote": "Usain Bolt aurait pu courir le 100 mètres encore plus vite : les analystes estiment qu'en maintenant son effort jusqu'à la ligne au lieu de célébrer par avance, il serait passé sous la barre des 9,60 secondes."
+ },
+ "131": {
+  "description_longue": "Le 22 mai 2010, l'informaticien américain Laszlo Hanyecz propose sur un forum en ligne 10 000 bitcoins, alors une monnaie numérique expérimentale sans quasiment aucune valeur marchande reconnue, en échange de deux pizzas livrées à son domicile. Un autre utilisateur accepte l'échange, réalisant ainsi la toute première transaction commerciale documentée en bitcoins de l'histoire — un geste anodin devenu, avec l'envolée ultérieure du cours, l'une des pizzas les plus chères jamais achetées.",
+  "anecdote": "Au cours le plus élevé jamais atteint par le bitcoin, ces 10 000 bitcoins auraient valu, à eux seuls, plusieurs centaines de millions de dollars — pour deux pizzas."
+ },
+ "132": {
+  "description_longue": "Le 14 octobre 2012, l'Autrichien Felix Baumgartner saute depuis une capsule portée à près de 39 000 mètres d'altitude par un ballon stratosphérique, dans le cadre de la mission Red Bull Stratos. Durant sa chute libre de plus de 36 000 mètres, il devient le premier homme à franchir le mur du son sans l'aide d'un véhicule motorisé, atteignant environ Mach 1,25 avant d'ouvrir son parachute.",
+  "anecdote": "Durant sa descente, Baumgartner est brièvement entré en vrille incontrôlée à très haute vitesse, une situation potentiellement mortelle qu'il a réussi à stabiliser seul grâce à son entraînement intensif de parachutiste professionnel."
+ },
+ "133": {
+  "description_longue": "Le 4 juillet 2012, les équipes des détecteurs ATLAS et CMS du CERN annoncent avoir observé une nouvelle particule compatible avec le boson de Higgs, dont l'existence avait été théorisée dès 1964 pour expliquer pourquoi les particules élémentaires possèdent une masse. Cette découverte, confirmée en 2013, complète le modèle standard de la physique des particules et vaut le prix Nobel de physique à Peter Higgs et François Englert la même année.",
+  "anecdote": "Le surnom médiatique de « particule de Dieu », donné au boson de Higgs par un éditeur de livre scientifique qui trouvait le titre original trop technique, agace profondément la plupart des physiciens, qui le jugent trompeur et sensationnaliste."
+ },
+ "134": {
+  "description_longue": "Durant l'été 2014, le défi consistant à se verser un seau d'eau glacée sur la tête, puis à nominer d'autres personnes pour faire de même ou faire un don, devient un phénomène viral mondial destiné à sensibiliser à la sclérose latérale amyotrophique (SLA), une maladie neurodégénérative incurable. Popularisé notamment par l'ancien joueur de baseball Pete Frates, lui-même atteint de la maladie, le défi permet de récolter environ 115 millions de dollars pour la recherche en quelques semaines seulement.",
+  "anecdote": "Cette campagne virale, initialement jugée par certains comme un simple gadget de réseaux sociaux, a directement contribué au financement d'une découverte scientifique majeure sur un gène impliqué dans la SLA, publiée quelques années plus tard."
+ },
+ "135": {
+  "description_longue": "Diffusée en Espagne à partir de mai 2017 puis mise en ligne sur Netflix fin 2017, « La casa de papel » suit un groupe de braqueurs masqués menés par un stratège surnommé « le Professeur » lors du casse de la Fabrique nationale de la monnaie espagnole. Portée par le succès international de sa diffusion sur Netflix, la série devient un phénomène mondial, traduite dans de nombreuses langues et prolongée sur plusieurs saisons.",
+  "anecdote": "Les masques de Salvador Dalí portés par les braqueurs, devenus l'un des symboles les plus reconnaissables de la culture populaire des années 2010, ont été choisis en référence à la contestation et à l'anticonformisme associés à l'artiste espagnol."
+ },
+ "136": {
+  "description_longue": "Publiée le 27 juin 2019 sous forme de blague, une invitation Facebook à « prendre d'assaut » la zone militaire secrète américaine de la Zone 51, réputée pour ses théories du complot extraterrestre, devient virale sur TikTok, Reddit et Instagram, rassemblant plus de deux millions de participants intéressés en quelques semaines. L'événement, jamais réellement organisé sérieusement, reste un cas d'école de la viralité et de l'humour absurde propre à Internet.",
+  "anecdote": "L'armée américaine a pris la menace suffisamment au sérieux pour publier un avertissement officiel dissuadant quiconque de s'approcher de la base, rappelant que la zone était surveillée et défendue par la force si nécessaire."
+ },
+ "137": {
+  "description_longue": "Le 10 septembre 2021, le rover Perseverance de la NASA, posé sur Mars depuis février de la même année, prend un autoportrait au-dessus d'un rocher surnommé « Rochette », où l'on distingue les deux trous laissés par son bras robotique après un prélèvement d'échantillon. Cette image, composée de dizaines de photos assemblées, illustre la mission plus large de Perseverance : rechercher d'anciennes traces de vie microbienne et préparer un futur retour d'échantillons martiens vers la Terre.",
+  "anecdote": "Le rover ne possède pas d'appareil « selfie » à proprement parler : l'image est en réalité une mosaïque de plusieurs dizaines de photos individuelles prises par une caméra fixée au bout de son bras articulé, puis assemblées sur Terre."
+ }
+}
