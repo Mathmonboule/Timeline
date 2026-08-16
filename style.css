@@ -614,12 +614,6 @@ body {
   text-align: center;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 18px rgba(120, 255, 140, 0.55);
 }
-.logo-icone-petit {
-  position: relative;
-  z-index: 6;
-  font-size: 22px;
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.8));
-}
 .logo-carte-mini {
   position: absolute;
   background: #0e1730;
@@ -642,9 +636,12 @@ body {
 .logo-timeline--grand .logo-carte-mini--2 { top: -2%; right: -8%; transform: rotate(14deg); }
 .logo-timeline--grand .logo-carte-mini--3 { bottom: -10%; left: 50%; transform: translateX(-50%) rotate(-4deg); }
 
-/* Variante petite (en jeu, dans le header) */
-.logo-timeline--petit { width: 56px; height: 56px; border-width: 2px; }
+/* Variante petite (en jeu, dans le header) — pas de mini-cartes, texte
+   "TIMELINE" au lieu d'une icone, comme demande (plus proche du logo de
+   l'accueil, juste sans les cartes qui tournent autour). */
+.logo-timeline--petit { width: 74px; height: 74px; border-width: 2px; }
 .logo-timeline--petit .logo-carte-mini { display: none; }
+.logo-timeline--petit .logo-texte { font-size: 9.5px; letter-spacing: 0.4px; }
 
 /* ================= VUE ACCUEIL ================= */
 .vue-accueil {
@@ -1092,7 +1089,8 @@ body {
   .btn-toggle-inspecteur { right: 10px; left: auto; }
 
   .zone-jeu { width: 100%; padding: 8px 12px 16px; }
-  .logo-timeline--petit { width: 46px; height: 46px; }
+  .logo-timeline--petit { width: 58px; height: 58px; }
+  .logo-timeline--petit .logo-texte { font-size: 7.5px; letter-spacing: 0.2px; }
 
   .timeline-container { padding: 10px 20px; min-height: 140px; }
   .main-joueur { gap: 8px; padding: 10px; }

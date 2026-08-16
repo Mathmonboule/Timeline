@@ -155,7 +155,7 @@ function entrerDansLobbyMulti(code, hote) {
   document.getElementById('multi-attente-code-valeur').textContent = code;
   document.getElementById('zone-jeu-solo').hidden = true;
   document.getElementById('multi-attente').hidden = false;
-  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Mes cartes en erreur (scroll pour tout voir)';
+  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Ma poubelle';
 
   // Si l'onglet se ferme pendant qu'on est dans le lobby, on se retire proprement
   // pour que la liste des joueurs reste correcte pour les autres.
@@ -311,7 +311,7 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
   document.getElementById('zone-jeu-solo').hidden = false;
   document.getElementById('multi-attente').hidden = true;
   document.getElementById('multi-tour-banner').hidden = true;
-  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Cartes en erreur (scroll pour tout voir)';
+  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Poubelle';
 
   afficherAccueil();
 });

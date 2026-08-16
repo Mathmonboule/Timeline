@@ -565,5 +565,23 @@ document.getElementById('logo-jeu').addEventListener('click', afficherAccueil);
 // mais reste cliquable sans effet pour rester coherent visuellement.
 document.getElementById('logo-accueil').addEventListener('click', afficherAccueil);
 
+/* ================= SCROLL MOLETTE -> DEFILEMENT HORIZONTAL =================
+   La timeline (et la poubelle) defilent horizontalement ; sur un ordinateur
+   de bureau la molette ne produit que du scroll vertical par defaut. On
+   convertit ce scroll vertical en scroll horizontal pour eviter d'avoir a
+   utiliser la barre de defilement ou le shift+molette. Un seul listener
+   suffit : les deux modes (solo/multi) reutilisent le meme element DOM. */
+function activerScrollHorizontal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; // deja un scroll horizontal (trackpad)
+    e.preventDefault();
+    el.scrollLeft += e.deltaY;
+  }, { passive: false });
+}
+activerScrollHorizontal('timeline-container');
+activerScrollHorizontal('pioche-erreurs');
+
 /* ================= DEMARRAGE ================= */
 afficherAccueil();
