@@ -71,6 +71,14 @@ function pseudoSaisi() {
 document.getElementById('btn-multi').addEventListener('click', () => {
   const panneau = document.getElementById('accueil-multi-panneau');
   panneau.hidden = !panneau.hidden;
+  // Repart sur un reglage neutre a chaque ouverture du panneau, pour qu'un
+  // "illimite" choisi lors d'une partie precedente (dans la meme session)
+  // ne reste pas colle silencieusement a la partie suivante.
+  dureeIllimitee = false;
+  const btnIllimite = document.getElementById('btn-duree-illimitee');
+  const inputDuree = document.getElementById('multi-duree-tour');
+  if (btnIllimite) btnIllimite.classList.remove('actif');
+  if (inputDuree) { inputDuree.disabled = false; inputDuree.value = 20; }
 });
 
 /* ================= CREER UNE PARTIE ================= */
@@ -137,6 +145,7 @@ function entrerDansLobbyMulti(code, hote) {
   enPartieMultiAnimeeDemarrage = false;
 
   document.getElementById('lobby-mode-badge').textContent = 'Partie multijoueur';
+  document.getElementById('btn-nouvelle-partie').hidden = true;
   document.getElementById('lobby-solo-zone').hidden = true;
   document.getElementById('lobby-multi-zone').hidden = false;
   document.getElementById('lobby-code-valeur').textContent = code;
@@ -182,15 +191,18 @@ function renderLobbyMulti(partie) {
 
   const note = document.getElementById('lobby-multi-note');
   const btnDemarrer = document.getElementById('btn-demarrer-partie');
+  const parametres = document.getElementById('lobby-parametres');
   if (partie.statut === 'lobby') {
     btnDemarrer.hidden = !estHote;
     btnDemarrer.disabled = ids.length < 2;
+    parametres.hidden = !estHote;
     note.hidden = false;
     note.textContent = estHote
       ? (ids.length < 2 ? 'Il faut au moins 2 joueurs pour démarrer.' : `${ids.length} joueurs dans le salon — tu peux démarrer.`)
       : `En attente que l'hôte démarre la partie… (${ids.length} joueur${ids.length > 1 ? 's' : ''} dans le salon)`;
   } else {
     btnDemarrer.hidden = true;
+    parametres.hidden = true;
     note.hidden = true;
   }
 }
@@ -201,7 +213,14 @@ function renderLobbyMulti(partie) {
    partagee, et fixe l'ordre des tours = ordre d'arrivee dans le salon. */
 const TAILLE_MAIN_INITIALE = 5;
 const TAILLE_MAIN_MAX = 10;
-const DUREE_TOUR_MS = 20000;
+
+/* Reglage du temps de tour par l'hote, avant le lancement de la partie. */
+let dureeIllimitee = false;
+document.getElementById('btn-duree-illimitee').addEventListener('click', () => {
+  dureeIllimitee = !dureeIllimitee;
+  document.getElementById('btn-duree-illimitee').classList.toggle('actif', dureeIllimitee);
+  document.getElementById('multi-duree-tour').disabled = dureeIllimitee;
+});
 
 document.getElementById('btn-demarrer-partie').addEventListener('click', async () => {
   if (!codePartieActuelle || !estHote) return;
@@ -209,6 +228,9 @@ document.getElementById('btn-demarrer-partie').addEventListener('click', async (
   const joueurs = snap.val() || {};
   const ids = Object.keys(joueurs).sort((a, b) => (joueurs[a].rejoint_le || 0) - (joueurs[b].rejoint_le || 0));
   if (ids.length < 2) return;
+
+  const dureeSaisie = parseInt(document.getElementById('multi-duree-tour').value, 10);
+  const dureeTourMs = dureeIllimitee ? 0 : Math.max(5, dureeSaisie || 20) * 1000;
 
   const toutes = melanger(BASE_CARTES);
   const carteRepere = toutes[0];
@@ -225,7 +247,8 @@ document.getElementById('btn-demarrer-partie').addEventListener('click', async (
     ordre_tours: ids,
     tour_index: 0,
     tour_actuel: ids[0],
-    tour_fin_a: Date.now() + DUREE_TOUR_MS,
+    duree_tour_ms: dureeTourMs,
+    tour_fin_a: dureeTourMs ? Date.now() + dureeTourMs : null,
     carte_repere: carteRepere.id,
     timeline: [carteRepere.id],
     pioche,
@@ -256,6 +279,7 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
   dernierePartieMulti = null;
 
   document.getElementById('lobby-mode-badge').textContent = 'Partie solo';
+  document.getElementById('btn-nouvelle-partie').hidden = false;
   document.getElementById('lobby-solo-zone').hidden = false;
   document.getElementById('lobby-multi-zone').hidden = true;
   document.getElementById('zone-jeu-solo').hidden = false;
@@ -574,18 +598,24 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
     premier_fini: premierFini,
     tour_index: prochainIndex,
     tour_actuel: ordre[prochainIndex],
-    tour_fin_a: Date.now() + DUREE_TOUR_MS,
+    tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null,
     statut: tousVides ? 'termine' : 'en_cours'
   };
 
   await refPartie.update(maj);
 }
 
-/* ---- Timer de tour (20s), gere par le client dont c'est le tour ---- */
+/* ---- Timer de tour (duree choisie par l'hote, ou illimite), gere par le
+   client dont c'est le tour ---- */
 function demarrerTimerMulti(partie) {
   arreterTimerMulti();
+  if (!partie.duree_tour_ms) {
+    majBanniereTour(partie, null); // temps illimite : pas de compte a rebours
+    return;
+  }
   const tick = () => {
     if (!dernierePartieMulti) return;
+    if (!dernierePartieMulti.duree_tour_ms) { majBanniereTour(dernierePartieMulti, null); return; }
     const restant = Math.max(0, Math.round((dernierePartieMulti.tour_fin_a - Date.now()) / 1000));
     majBanniereTour(dernierePartieMulti, restant);
     if (restant <= 0 && dernierePartieMulti.tour_actuel === JOUEUR_ID && dernierePartieMulti.statut === 'en_cours') {
@@ -616,7 +646,8 @@ function majBanniereTour(partie, restant) {
   const joueurActuel = (partie.joueurs || {})[partie.tour_actuel];
   const pseudoActuel = joueurActuel ? joueurActuel.pseudo : '…';
   texte.textContent = monTour ? '🎯 À toi de jouer !' : `⏳ Tour de ${pseudoActuel}`;
-  compte.textContent = restant + 's';
+  compte.hidden = restant === null;
+  if (restant !== null) compte.textContent = restant + 's';
 }
 
 /* Quand le temps est ecoule, le joueur dont c'est le tour fait simplement
@@ -635,7 +666,7 @@ async function passerTourParTimeout() {
   await refPartie.update({
     tour_index: prochainIndex,
     tour_actuel: ordre[prochainIndex],
-    tour_fin_a: Date.now() + DUREE_TOUR_MS
+    tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null
   });
 
   multiCarteChoisie = null;

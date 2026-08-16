@@ -427,21 +427,26 @@ function afficherEcranFin() {
   document.getElementById('btn-rejouer').addEventListener('click', initPartie);
 }
 
-/* ================= TOGGLE INSPECTEUR (droite) ================= */
+/* ================= TOGGLE INSPECTEUR (droite) =================
+   L'icone du bouton (🔍) reste fixe : elle identifie le panneau, seul son
+   etat ouvert/ferme change (classe .replie). */
 document.getElementById('btn-toggle-inspecteur').addEventListener('click', () => {
-  const inspecteur = document.getElementById('inspecteur');
-  inspecteur.classList.toggle('replie');
-  const btn = document.getElementById('btn-toggle-inspecteur');
-  btn.textContent = inspecteur.classList.contains('replie') ? '◀' : '▶';
+  document.getElementById('inspecteur').classList.toggle('replie');
 });
 
 /* ================= TOGGLE LOBBY (gauche) ================= */
 document.getElementById('btn-toggle-lobby').addEventListener('click', () => {
-  const lobby = document.getElementById('lobby');
-  lobby.classList.toggle('replie');
-  const btn = document.getElementById('btn-toggle-lobby');
-  btn.textContent = lobby.classList.contains('replie') ? '▶' : '◀';
+  document.getElementById('lobby').classList.toggle('replie');
 });
+
+/* ================= MISE EN PAGE MOBILE =================
+   Sur petit ecran, lobby et inspecteur passent en panneaux superposes
+   (voir media query dans style.css) : on les demarre fermes pour laisser
+   toute la place au jeu, l'utilisateur les ouvre via les boutons ronds. */
+if (window.matchMedia('(max-width: 860px)').matches) {
+  document.getElementById('lobby').classList.add('replie');
+  document.getElementById('inspecteur').classList.add('replie');
+}
 
 /* ================= NAVIGATION ACCUEIL <-> JEU ================= */
 function afficherAccueil() {
@@ -468,6 +473,12 @@ document.getElementById('btn-solo').addEventListener('click', () => {
   document.getElementById('multi-attente').hidden = true;
   document.getElementById('multi-tour-banner').hidden = true;
   afficherJeu();
+  initPartie();
+});
+
+/* Relance une partie solo sans quitter la page (bouton dans le panneau Lobby). */
+document.getElementById('btn-nouvelle-partie').addEventListener('click', () => {
+  if (modeActuel !== 'solo') return;
   initPartie();
 });
 

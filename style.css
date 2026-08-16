@@ -43,7 +43,7 @@ body {
   color: white;
   cursor: pointer;
   z-index: 10;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -79,7 +79,7 @@ body {
   color: white;
   cursor: pointer;
   z-index: 10;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -104,6 +104,13 @@ body {
   margin: 0 0 16px 0;
   font-weight: bold;
 }
+.lobby-mode-badge-ligne {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
 .lobby-mode-badge {
   display: inline-block;
   background: rgba(46, 204, 113, 0.18);
@@ -113,9 +120,21 @@ body {
   border-radius: 20px;
   font-size: 11px;
   font-weight: bold;
-  margin-bottom: 16px;
   width: fit-content;
 }
+.btn-nouvelle-partie {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.btn-nouvelle-partie:hover { background: rgba(255, 255, 255, 0.16); transform: scale(1.03); }
 .lobby-joueur {
   display: flex;
   align-items: center;
@@ -176,6 +195,52 @@ body {
 .lobby-code-label { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
 .lobby-code-valeur { font-size: 22px; font-weight: 900; letter-spacing: 4px; color: #6be89a; }
 .lobby-joueurs-liste { display: flex; flex-direction: column; }
+.lobby-parametres {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.lobby-parametres label {
+  display: block;
+  font-size: 11px;
+  opacity: 0.65;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.lobby-duree-ligne { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.lobby-duree-ligne span { font-size: 12px; opacity: 0.7; }
+#multi-duree-tour {
+  width: 62px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 6px 8px;
+}
+#multi-duree-tour:disabled { opacity: 0.4; }
+#multi-duree-tour:focus { outline: none; border-color: #6be89a; }
+.btn-duree-illimitee {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.btn-duree-illimitee:hover { background: rgba(255, 255, 255, 0.16); }
+.btn-duree-illimitee.actif {
+  background: rgba(46, 204, 113, 0.25);
+  border-color: rgba(46, 204, 113, 0.6);
+  color: #6be89a;
+}
 .btn-demarrer-partie {
   border: none;
   border-radius: 10px;
@@ -326,6 +391,11 @@ body {
 /* ===== ZONE DE JEU PRINCIPALE ===== */
 .zone-jeu {
   flex: 1;
+  min-width: 0; /* sans ça, un flex-item refuse de rétrécir sous la largeur
+    naturelle de son contenu (ex: beaucoup de cartes dans la timeline), ce qui
+    pousse toute la zone plus large que l'espace dispo entre lobby/inspecteur
+    et coupe/décentre l'affichage au lieu de laisser le scroll horizontal
+    interne (timeline-container) faire son travail. */
   height: 100%;
   padding: 8px 30px;
   display: flex;
@@ -347,6 +417,16 @@ body {
 .zone-jeu::-webkit-scrollbar-thumb:hover { background: rgba(58, 123, 213, 0.5); }
 
 .sous-titre { opacity: 0.55; margin: 6px 0 4px; font-size: 12px; letter-spacing: 0.5px; }
+
+/* .zone-jeu centre ses enfants (align-items: center) sans les etirer, donc
+   sans ceci #zone-jeu-solo se dimensionne sur son contenu le plus large (la
+   timeline avec beaucoup de cartes) au lieu de rester a 100% de la largeur
+   dispo — c'est ce qui empechait le scroll interne de la timeline de
+   fonctionner et decalait le bouton Valider hors du centre visible. */
+#zone-jeu-solo, .multi-attente {
+  align-self: stretch;
+  width: 100%;
+}
 
 /* Banniere de tour (multijoueur) */
 .multi-tour-banner {
@@ -918,3 +998,61 @@ body {
 }
 .anim-pop { animation: popIn 0.45s ease; }
 .anim-shake { animation: shake 0.4s ease; }
+
+/* ================= MISE EN PAGE MOBILE =================
+   En dessous de 860px, lobby et inspecteur ne prennent plus de place dans
+   la mise en page : ils deviennent des panneaux superposes (position fixed)
+   qui glissent depuis les bords, par-dessus la zone de jeu qui reste toujours
+   pleine largeur. Les boutons ronds (toujours visibles, coins haut) servent
+   a les ouvrir/fermer. script.js les demarre fermes (.replie) sur mobile. */
+@media (max-width: 860px) {
+  /* On anime "left"/"right" plutot que "transform" : un transform sur .lobby/
+     .inspecteur creerait un nouveau bloc conteneur pour leurs enfants en
+     position:fixed (les boutons ronds), qui se retrouveraient alors ancres
+     au panneau au lieu du viewport et sortiraient de l'ecran avec lui. */
+  .lobby, .inspecteur {
+    position: fixed;
+    top: 0;
+    height: 100dvh;
+    width: 84vw;
+    max-width: 320px;
+    min-width: 0;
+    z-index: 60;
+    transition: left 0.3s ease, right 0.3s ease;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+  }
+  .lobby { left: 0; right: auto; border-right: none; }
+  .lobby.replie { left: -84vw; }
+  .inspecteur { right: 0; left: auto; border-left: none; }
+  .inspecteur.replie { right: -84vw; }
+
+  .lobby.replie .lobby-contenu,
+  .inspecteur.replie .inspecteur-contenu {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .btn-toggle-lobby, .btn-toggle-inspecteur {
+    position: fixed;
+    top: 12px;
+    z-index: 70;
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+  .btn-toggle-lobby { left: 10px; right: auto; }
+  .btn-toggle-inspecteur { right: 10px; left: auto; }
+
+  .zone-jeu { width: 100%; padding: 8px 12px 16px; }
+  .logo-timeline--petit { width: 46px; height: 46px; }
+
+  .timeline-container { padding: 10px 20px; min-height: 140px; }
+  .main-joueur { gap: 8px; padding: 10px; }
+
+  .multi-tour-banner { font-size: 12px; padding: 6px 12px; }
+}
+
+@media (max-width: 420px) {
+  .accueil-boutons { flex-direction: column; width: 100%; max-width: 280px; }
+  .btn-mode { width: 100%; }
+}

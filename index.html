@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -73,10 +73,13 @@
 
   <!-- LOBBY (gauche) -->
   <div class="lobby" id="lobby">
-    <button class="btn-toggle-lobby" id="btn-toggle-lobby">◀</button>
+    <button class="btn-toggle-lobby" id="btn-toggle-lobby">👥</button>
     <div class="lobby-contenu" id="lobby-contenu">
       <h2>👥 Lobby</h2>
-      <div class="lobby-mode-badge" id="lobby-mode-badge">Partie solo</div>
+      <div class="lobby-mode-badge-ligne">
+        <div class="lobby-mode-badge" id="lobby-mode-badge">Partie solo</div>
+        <button class="btn-nouvelle-partie" id="btn-nouvelle-partie" title="Recommencer une partie solo">🔄 Nouvelle partie</button>
+      </div>
 
       <!-- SOLO -->
       <div id="lobby-solo-zone">
@@ -100,6 +103,16 @@
           <span class="lobby-code-valeur" id="lobby-code-valeur">-----</span>
         </div>
         <div class="lobby-joueurs-liste" id="lobby-joueurs-liste"></div>
+
+        <div class="lobby-parametres" id="lobby-parametres" hidden>
+          <label for="multi-duree-tour">⏱️ Temps par tour</label>
+          <div class="lobby-duree-ligne">
+            <input type="number" id="multi-duree-tour" min="5" max="600" value="20" step="5">
+            <span>secondes</span>
+            <button type="button" id="btn-duree-illimitee" class="btn-duree-illimitee">∞ Illimité</button>
+          </div>
+        </div>
+
         <button class="btn-demarrer-partie" id="btn-demarrer-partie" hidden>▶ Démarrer la partie</button>
         <div class="info-bloc lobby-note" id="lobby-multi-note">En attente que l'hôte démarre la partie…</div>
         <button class="btn-quitter-partie" id="btn-quitter-partie">🚪 Quitter la partie</button>
@@ -153,7 +166,7 @@
 
   <!-- INSPECTEUR (droite) -->
   <div class="inspecteur" id="inspecteur">
-    <button class="btn-toggle-inspecteur" id="btn-toggle-inspecteur">▶</button>
+    <button class="btn-toggle-inspecteur" id="btn-toggle-inspecteur">🔍</button>
     <div class="inspecteur-contenu" id="inspecteur-contenu">
       <h2>🔍 Inspecteur</h2>
       <div id="contenu-inspecteur">
