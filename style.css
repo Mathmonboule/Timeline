@@ -210,7 +210,7 @@ body {
 }
 .lobby-duree-ligne { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .lobby-duree-ligne span { font-size: 12px; opacity: 0.7; }
-#multi-duree-tour {
+#multi-duree-tour, #multi-cible-cartes {
   width: 62px;
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -222,7 +222,7 @@ body {
   padding: 6px 8px;
 }
 #multi-duree-tour:disabled { opacity: 0.4; }
-#multi-duree-tour:focus { outline: none; border-color: #6be89a; }
+#multi-duree-tour:focus, #multi-cible-cartes:focus { outline: none; border-color: #6be89a; }
 .btn-duree-illimitee {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -241,6 +241,34 @@ body {
   border-color: rgba(46, 204, 113, 0.6);
   color: #6be89a;
 }
+.lobby-parametres-label-suivant {
+  display: block;
+  font-size: 11px;
+  opacity: 0.65;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 14px 0 6px 0;
+}
+.lobby-mode-longueur-boutons { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn-mode-longueur {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.btn-mode-longueur:hover { background: rgba(255, 255, 255, 0.16); }
+.btn-mode-longueur.actif {
+  background: rgba(58, 123, 213, 0.25);
+  border-color: rgba(58, 123, 213, 0.6);
+  color: #7fc4ff;
+}
+.lobby-mode-longueur-boutons + .lobby-duree-ligne { margin-top: 8px; }
 .btn-demarrer-partie {
   border: none;
   border-radius: 10px;
@@ -986,6 +1014,18 @@ body {
 }
 .message-resultat.bon { background: linear-gradient(90deg, #2ecc71, #27ae60); color: white; }
 .message-resultat.mauvais { background: linear-gradient(90deg, #e74c3c, #c0392b); color: white; }
+.message-premier-fini {
+  top: 60px;
+  font-size: 22px;
+  padding: 20px 46px;
+  background: linear-gradient(90deg, #f5c518, #e8930b) !important;
+  box-shadow: 0 10px 34px rgba(245, 197, 24, 0.5);
+  animation: popMessage 0.35s ease, brillePremierFini 1.4s ease-in-out 0.35s 2;
+}
+@keyframes brillePremierFini {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.05); }
+}
 @keyframes popMessage {
   0% { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.9); }
   100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }

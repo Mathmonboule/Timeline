@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
 
@@ -125,6 +125,16 @@
             <button type="button" id="btn-duree-illimitee" class="btn-duree-illimitee">∞ Illimité</button>
           </div>
 
+          <label class="lobby-parametres-label-suivant">🏁 Mode de partie</label>
+          <div class="lobby-mode-longueur-boutons">
+            <button type="button" class="btn-mode-longueur actif" id="btn-mode-illimite">♾️ Jusqu'au bout</button>
+            <button type="button" class="btn-mode-longueur" id="btn-mode-cible">🎯 Nombre de cartes</button>
+          </div>
+          <div class="lobby-duree-ligne" id="lobby-cible-ligne" hidden>
+            <input type="number" id="multi-cible-cartes" min="5" max="100" value="10" step="5">
+            <span>cartes à réussir chacun</span>
+          </div>
+
           <div class="lobby-filtres">
             <div class="lobby-filtres-titre-ligne">
               <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
@@ -140,6 +150,7 @@
         </div>
 
         <button class="btn-demarrer-partie" id="btn-demarrer-partie" hidden>▶ Démarrer la partie</button>
+        <button class="btn-demarrer-partie" id="btn-nouvelle-partie-multi" hidden>🔄 Nouvelle partie</button>
         <div class="info-bloc lobby-note" id="lobby-multi-note">En attente que l'hôte démarre la partie…</div>
         <button class="btn-quitter-partie" id="btn-quitter-partie">🚪 Quitter la partie</button>
       </div>
@@ -203,11 +214,11 @@
 
 </div>
 
-<script src="cartes.js"></script>
-<script src="script.js"></script>
+<script src="cartes.js?v=2"></script>
+<script src="script.js?v=2"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="multi.js"></script>
+<script src="firebase-config.js?v=2"></script>
+<script src="multi.js?v=2"></script>
 </body>
 </html>

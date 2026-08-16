@@ -79,6 +79,10 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   const inputDuree = document.getElementById('multi-duree-tour');
   if (btnIllimite) btnIllimite.classList.remove('actif');
   if (inputDuree) { inputDuree.disabled = false; inputDuree.value = 20; }
+  modeLongueurChoisi = 'illimite';
+  document.getElementById('btn-mode-illimite').classList.add('actif');
+  document.getElementById('btn-mode-cible').classList.remove('actif');
+  document.getElementById('lobby-cible-ligne').hidden = true;
   filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
   majCompteFiltresMulti();
@@ -146,6 +150,7 @@ function entrerDansLobbyMulti(code, hote) {
   estHote = hote;
   modeActuel = 'multi';
   enPartieMultiAnimeeDemarrage = false;
+  premierFiniAnnonce = false;
 
   document.getElementById('lobby-mode-badge').textContent = 'Partie multijoueur';
   document.getElementById('btn-nouvelle-partie').hidden = true;
@@ -176,10 +181,15 @@ function renderLobbyMulti(partie) {
   const joueurs = partie.joueurs || {};
   const ids = Object.keys(joueurs).sort((a, b) => (joueurs[a].rejoint_le || 0) - (joueurs[b].rejoint_le || 0));
 
+  const modeLongueur = partie.mode_longueur || 'illimite';
   liste.innerHTML = '';
   ids.forEach((id) => {
     const j = joueurs[id];
     const estTour = partie.tour_actuel === id;
+    const enJeu = partie.statut === 'en_cours' || partie.statut === 'termine';
+    const texteCartes = (enJeu && modeLongueur === 'cible')
+      ? `${j.cartes_correctes || 0}/${partie.cible_cartes || 0} ✓`
+      : (j.nb_cartes != null ? j.nb_cartes + ' cartes' : '');
     const div = document.createElement('div');
     div.className = 'lobby-joueur'
       + (id === JOUEUR_ID ? ' lobby-joueur--actif' : '')
@@ -187,25 +197,31 @@ function renderLobbyMulti(partie) {
     div.innerHTML = `
       <span class="lobby-joueur-tour">${estTour ? '🎯' : (j.hote ? '👑' : '👤')}</span>
       <span class="lobby-joueur-nom">${j.pseudo}${id === JOUEUR_ID ? ' (toi)' : ''}</span>
-      <span class="lobby-joueur-cartes">${j.nb_cartes != null ? j.nb_cartes + ' cartes' : ''}</span>
+      <span class="lobby-joueur-cartes">${texteCartes}</span>
     `;
     liste.appendChild(div);
   });
 
   const note = document.getElementById('lobby-multi-note');
   const btnDemarrer = document.getElementById('btn-demarrer-partie');
+  const btnNouvelleMulti = document.getElementById('btn-nouvelle-partie-multi');
   const parametres = document.getElementById('lobby-parametres');
+  // Les parametres (duree, mode, filtres) restent modifiables par l'hote a
+  // tout moment, y compris en cours de partie, pour preparer la manche
+  // suivante sans avoir a quitter le salon.
+  parametres.hidden = !estHote;
+
   if (partie.statut === 'lobby') {
     btnDemarrer.hidden = !estHote;
     btnDemarrer.disabled = ids.length < 2;
-    parametres.hidden = !estHote;
+    btnNouvelleMulti.hidden = true;
     note.hidden = false;
     note.textContent = estHote
       ? (ids.length < 2 ? 'Il faut au moins 2 joueurs pour démarrer.' : `${ids.length} joueurs dans le salon — tu peux démarrer.`)
       : `En attente que l'hôte démarre la partie… (${ids.length} joueur${ids.length > 1 ? 's' : ''} dans le salon)`;
   } else {
     btnDemarrer.hidden = true;
-    parametres.hidden = true;
+    btnNouvelleMulti.hidden = !estHote;
     note.hidden = true;
   }
 }
@@ -244,7 +260,29 @@ document.getElementById('btn-filtres-multi-aucun').addEventListener('click', () 
   majCompteFiltresMulti();
 });
 
-document.getElementById('btn-demarrer-partie').addEventListener('click', async () => {
+/* Mode de partie (hote uniquement) : "illimite" (comportement d'origine,
+   on joue jusqu'a epuisement naturel de la main) ou "cible" (chacun doit
+   reussir un nombre choisi de cartes ; sa main est alors redessinee apres
+   CHAQUE coup, correct ou pas, jusqu'a avoir atteint l'objectif). */
+let modeLongueurChoisi = 'illimite';
+document.getElementById('btn-mode-illimite').addEventListener('click', () => {
+  modeLongueurChoisi = 'illimite';
+  document.getElementById('btn-mode-illimite').classList.add('actif');
+  document.getElementById('btn-mode-cible').classList.remove('actif');
+  document.getElementById('lobby-cible-ligne').hidden = true;
+});
+document.getElementById('btn-mode-cible').addEventListener('click', () => {
+  modeLongueurChoisi = 'cible';
+  document.getElementById('btn-mode-cible').classList.add('actif');
+  document.getElementById('btn-mode-illimite').classList.remove('actif');
+  document.getElementById('lobby-cible-ligne').hidden = false;
+});
+
+/* Distribue une nouvelle manche a la partie en cours : reutilise le meme
+   salon/code/joueurs, mais remet a zero timeline/mains/pioche/scores. Sert
+   au demarrage initial (bouton "Demarrer") ET a "Nouvelle partie" (rejouer
+   sans quitter le salon), avec les reglages actuels de l'hote. */
+async function lancerNouvelleManche() {
   if (!codePartieActuelle || !estHote) return;
   const snap = await dbRef.ref(`parties/${codePartieActuelle}/joueurs`).get();
   const joueurs = snap.val() || {};
@@ -253,6 +291,9 @@ document.getElementById('btn-demarrer-partie').addEventListener('click', async (
 
   const dureeSaisie = parseInt(document.getElementById('multi-duree-tour').value, 10);
   const dureeTourMs = dureeIllimitee ? 0 : Math.max(5, dureeSaisie || 20) * 1000;
+
+  const cibleSaisie = parseInt(document.getElementById('multi-cible-cartes').value, 10);
+  const cibleCartes = modeLongueurChoisi === 'cible' ? Math.max(5, cibleSaisie || 10) : null;
 
   const minimumRequis = 1 + TAILLE_MAIN_INITIALE * ids.length;
   const pool = BASE_CARTES.filter((c) => filtresMultiActifs.has(c.famille));
@@ -267,6 +308,9 @@ document.getElementById('btn-demarrer-partie').addEventListener('click', async (
   });
   const pioche = toutes.slice(curseur).map((c) => c.id);
 
+  premierFiniAnnonce = false;
+  enPartieMultiAnimeeDemarrage = false;
+
   const maj = {
     statut: 'en_cours',
     ordre_tours: ids,
@@ -274,6 +318,8 @@ document.getElementById('btn-demarrer-partie').addEventListener('click', async (
     tour_actuel: ids[0],
     duree_tour_ms: dureeTourMs,
     tour_fin_a: dureeTourMs ? Date.now() + dureeTourMs : null,
+    mode_longueur: modeLongueurChoisi,
+    cible_cartes: cibleCartes,
     familles_actives: source === pool ? Array.from(filtresMultiActifs) : null,
     carte_repere: carteRepere.id,
     timeline: [carteRepere.id],
@@ -285,10 +331,14 @@ document.getElementById('btn-demarrer-partie').addEventListener('click', async (
   ids.forEach((id) => {
     maj[`joueurs/${id}/nb_cartes`] = mains[id].length;
     maj[`joueurs/${id}/nb_erreurs`] = 0;
+    maj[`joueurs/${id}/cartes_correctes`] = 0;
   });
 
   await dbRef.ref('parties/' + codePartieActuelle).update(maj);
-});
+}
+
+document.getElementById('btn-demarrer-partie').addEventListener('click', lancerNouvelleManche);
+document.getElementById('btn-nouvelle-partie-multi').addEventListener('click', lancerNouvelleManche);
 
 /* ================= QUITTER LA PARTIE ================= */
 document.getElementById('btn-quitter-partie').addEventListener('click', async () => {
@@ -334,6 +384,7 @@ let multiCarteEnDrag = null;
 let multiIndexZoneSelectionnee = null;
 let multiCarteInspectee = null;
 let timerMultiHandle = null;
+let premierFiniAnnonce = false;
 
 function surMiseAJourPartie(partie) {
   dernierePartieMulti = partie;
@@ -355,6 +406,12 @@ function surMiseAJourPartie(partie) {
     animerDistributionCartes();
   }
 
+  if (partie.premier_fini && !premierFiniAnnonce) {
+    premierFiniAnnonce = true;
+    const pseudoGagnant = ((partie.joueurs || {})[partie.premier_fini] || {}).pseudo || '?';
+    afficherMessagePremierFini(partie.premier_fini === JOUEUR_ID, pseudoGagnant);
+  }
+
   mettreAJourEtatLocalMulti(partie);
   renderJeuMulti(partie);
 
@@ -363,6 +420,7 @@ function surMiseAJourPartie(partie) {
     document.getElementById('multi-tour-banner').hidden = true;
     afficherEcranFinMulti(partie);
   } else {
+    document.getElementById('ecran-fin-container').innerHTML = '';
     demarrerTimerMulti(partie);
   }
 }
@@ -575,8 +633,44 @@ function validerPlacementMulti() {
   setTimeout(() => appliquerResolutionTour(correct, carteResolue, indexResolu), 450);
 }
 
+/* ---- Aides "qui a fini ?" / "qui joue apres ?" (mode-aware) =================
+   Un joueur est "termine" :
+   - mode illimite : sa main est vide
+   - mode cible : il a reussi au moins "cible_cartes" placements corrects
+   Utilise a la fois pour sauter les joueurs finis quand on cherche le
+   prochain tour, ET pour savoir quand la partie entiere est terminee. C'est
+   le coeur du correctif du bug ou la partie restait bloquee sur un joueur
+   qui n'avait plus de carte a jouer. */
+function estJoueurTermine(partie, id) {
+  const mode = partie.mode_longueur || 'illimite';
+  if (mode === 'cible') {
+    const cc = ((partie.joueurs || {})[id] || {}).cartes_correctes || 0;
+    return cc >= (partie.cible_cartes || 0);
+  }
+  const m = ((partie.mains || {})[id]) || [];
+  return m.length === 0;
+}
+
+/* Cherche le prochain joueur non-termine a partir de idxDepart (exclu). Si
+   surchargeLocale est fourni ({id, termine}), remplace la valeur stockee
+   (pas encore ecrite en base) pour ce joueur — utile pour se juger soi-meme
+   juste apres avoir joue, avant l'ecriture Firebase. */
+function prochainIndexActif(partie, idxDepart, surchargeLocale) {
+  const ordre = partie.ordre_tours || [];
+  for (let i = 1; i <= ordre.length; i++) {
+    const idx = (idxDepart + i) % ordre.length;
+    const id = ordre[idx];
+    const termine = (surchargeLocale && surchargeLocale.id === id)
+      ? surchargeLocale.termine
+      : estJoueurTermine(partie, id);
+    if (!termine) return idx;
+  }
+  return idxDepart;
+}
+
 /* Relit l'etat le plus frais depuis Firebase avant d'ecrire (defensif contre
-   un decalage local), puis avance le tour vers le joueur suivant. */
+   un decalage local), puis avance le tour vers le prochain joueur qui a
+   encore des cartes a jouer. */
 async function appliquerResolutionTour(correct, carte, indexResolu) {
   const refPartie = dbRef.ref('parties/' + codePartieActuelle);
   const snap = await refPartie.get();
@@ -587,32 +681,43 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
   let main = ((partie.mains || {})[JOUEUR_ID]) || [];
   let erreurs = ((partie.erreurs || {})[JOUEUR_ID]) || [];
   let pioche = partie.pioche || [];
+  let cartesCorrectes = ((partie.joueurs || {})[JOUEUR_ID] || {}).cartes_correctes || 0;
 
   main = main.filter((id) => id !== carte.id);
 
   if (correct) {
     timeline = [...timeline.slice(0, indexResolu), carte.id, ...timeline.slice(indexResolu)];
+    cartesCorrectes += 1;
   } else {
     erreurs = [...erreurs, carte.id];
-    if (pioche.length > 0 && main.length < TAILLE_MAIN_MAX) {
-      const [pioch, ...reste] = pioche;
-      main = [...main, pioch];
-      pioche = reste;
-    }
+  }
+
+  const modeLongueur = partie.mode_longueur || 'illimite';
+  const cible = partie.cible_cartes || 0;
+  const jeSuisTermine = modeLongueur === 'cible' ? cartesCorrectes >= cible : main.length === 0;
+
+  // Redessine une carte pour rester a taille pleine :
+  // - mode illimite : uniquement sur une erreur (comportement d'origine —
+  //   une bonne reponse fait baisser durablement la main)
+  // - mode cible : apres CHAQUE coup, correct ou pas, tant que l'objectif
+  //   personnel n'est pas encore atteint
+  const doitRedessiner = modeLongueur === 'cible' ? !jeSuisTermine : !correct;
+  if (doitRedessiner && pioche.length > 0 && main.length < TAILLE_MAIN_MAX) {
+    const [pioch, ...reste] = pioche;
+    main = [...main, pioch];
+    pioche = reste;
   }
 
   const ordre = partie.ordre_tours || [];
   const idxActuel = ordre.indexOf(JOUEUR_ID);
-  const prochainIndex = ordre.length > 0 ? (idxActuel + 1) % ordre.length : 0;
+  const prochainIndex = prochainIndexActif(partie, idxActuel, { id: JOUEUR_ID, termine: jeSuisTermine });
 
   let premierFini = partie.premier_fini || null;
-  if (!premierFini && main.length === 0) premierFini = JOUEUR_ID;
+  if (!premierFini && jeSuisTermine) premierFini = JOUEUR_ID;
 
-  const tousVides = ordre.every((id) => {
-    if (id === JOUEUR_ID) return main.length === 0;
-    const m = ((partie.mains || {})[id]) || [];
-    return m.length === 0;
-  });
+  const tousTermines = ordre.every((id) => (
+    id === JOUEUR_ID ? jeSuisTermine : estJoueurTermine(partie, id)
+  ));
 
   const maj = {
     timeline,
@@ -621,11 +726,12 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
     [`erreurs/${JOUEUR_ID}`]: erreurs,
     [`joueurs/${JOUEUR_ID}/nb_cartes`]: main.length,
     [`joueurs/${JOUEUR_ID}/nb_erreurs`]: erreurs.length,
+    [`joueurs/${JOUEUR_ID}/cartes_correctes`]: cartesCorrectes,
     premier_fini: premierFini,
     tour_index: prochainIndex,
     tour_actuel: ordre[prochainIndex],
     tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null,
-    statut: tousVides ? 'termine' : 'en_cours'
+    statut: tousTermines ? 'termine' : 'en_cours'
   };
 
   await refPartie.update(maj);
@@ -687,7 +793,7 @@ async function passerTourParTimeout() {
 
   const ordre = partie.ordre_tours || [];
   const idxActuel = ordre.indexOf(JOUEUR_ID);
-  const prochainIndex = ordre.length > 0 ? (idxActuel + 1) % ordre.length : 0;
+  const prochainIndex = prochainIndexActif(partie, idxActuel);
 
   await refPartie.update({
     tour_index: prochainIndex,
@@ -699,12 +805,27 @@ async function passerTourParTimeout() {
   multiIndexZoneSelectionnee = null;
 }
 
-/* ---- Ecran de fin (quand tous les joueurs ont la main vide) ---- */
+/* ---- Message "premier fini" (annonce immediate, avant la fin de partie) ----
+   Affiche des que premier_fini passe de null a un joueur, sur TOUS les
+   clients (pas seulement celui qui vient de finir) : chacun voit soit "tu as
+   gagne la course" soit "X a fini le premier". La partie continue ensuite
+   normalement pour les autres, comme demande. */
+function afficherMessagePremierFini(cestMoi, pseudo) {
+  const msg = document.createElement('div');
+  msg.className = 'message-resultat bon message-premier-fini';
+  msg.textContent = cestMoi ? '🎉 Bravo, tu as fini le premier !' : `🏆 ${pseudo} a fini le premier !`;
+  document.body.appendChild(msg);
+  setTimeout(() => msg.remove(), 2800);
+}
+
+/* ---- Ecran de fin (quand tous les joueurs ont fini, selon le mode) ---- */
 function afficherEcranFinMulti(partie) {
   const container = document.getElementById('ecran-fin-container');
   const joueurs = partie.joueurs || {};
   const ordre = partie.ordre_tours || Object.keys(joueurs);
   const premierPseudo = partie.premier_fini && joueurs[partie.premier_fini] ? joueurs[partie.premier_fini].pseudo : null;
+  const modeLongueur = partie.mode_longueur || 'illimite';
+  const texteVictoire = modeLongueur === 'cible' ? 'a atteint son objectif en premier' : 'a vidé sa main en premier';
 
   const lignes = ordre.map((id) => {
     const j = joueurs[id] || { pseudo: '?' };
@@ -715,7 +836,7 @@ function afficherEcranFinMulti(partie) {
   container.innerHTML = `
     <div class="ecran-fin">
       <h2>🎉 Partie terminée !</h2>
-      ${premierPseudo ? `<p><strong>${premierPseudo}</strong> a vidé sa main en premier 🏆</p>` : ''}
+      ${premierPseudo ? `<p><strong>${premierPseudo}</strong> ${texteVictoire} 🏆</p>` : ''}
       <ul style="text-align:left; margin: 10px auto; max-width: 320px; opacity: 0.85; font-size: 13px;">${lignes}</ul>
       <button class="btn-rejouer" id="btn-quitter-fin-multi">🚪 Retour à l'accueil</button>
     </div>
