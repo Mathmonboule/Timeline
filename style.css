@@ -1172,6 +1172,13 @@ body {
     z-index: 60;
     transition: left 0.3s ease, right 0.3s ease;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+    /* Sur desktop ces panneaux sont cote a cote avec le jeu (40% d'opacite
+       suffit, le fond de la page est deja sombre). Sur mobile ils glissent
+       PAR-DESSUS le jeu (cartes colorees, images) : il faut un fond quasi
+       opaque, sinon le texte devient illisible par-dessus ce qu'il y a
+       derriere (repere sur un rapport utilisateur avec capture d'ecran). */
+    background: rgba(10, 14, 28, 0.98);
+    backdrop-filter: blur(6px);
   }
   .lobby { left: 0; right: auto; border-right: none; }
   .lobby.replie { left: -84vw; }
