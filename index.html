@@ -4,12 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
-<link rel="stylesheet" href="style.css?v=11">
+<link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
 
 <!-- ================= VUE ACCUEIL ================= -->
 <div class="vue-accueil" id="vue-accueil">
+  <!-- Pas de <source> ni d'autoplay ici : injectes par script.js uniquement
+       sur grand ecran + mouvement non reduit, pour ne jamais telecharger
+       la video sur mobile (display:none seul ne suffit pas a l'empecher). -->
+  <video class="accueil-video-fond" id="accueil-video" muted loop playsinline preload="none" poster="images/portail-accueil-poster.jpg"></video>
+  <div class="accueil-video-overlay"></div>
+
+  <div class="accueil-contenu">
   <div class="logo-timeline logo-timeline--grand" id="logo-accueil" title="Timeline">
     <div class="logo-cercle-interieur">
       <img src="images/logo-vortex.svg" class="logo-vortex-img" alt="">
@@ -65,6 +72,7 @@
       <button class="btn-multi-action btn-multi-rejoindre" id="btn-rejoindre-partie">Rejoindre</button>
     </div>
     <div class="multi-erreur" id="multi-erreur" hidden></div>
+  </div>
   </div>
 </div>
 
@@ -215,7 +223,7 @@
 </div>
 
 <script src="cartes.js?v=2"></script>
-<script src="script.js?v=2"></script>
+<script src="script.js?v=4"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>

@@ -656,13 +656,25 @@ body {
 .logo-carte-mini svg { width: 60%; height: 60%; }
 
 /* Variante grande (page d'accueil) — les mini-cartes chevauchent le bord de
-   l'anneau au lieu d'etre a l'interieur, pour ne pas etre coupees. */
+   l'anneau au lieu d'etre a l'interieur, pour ne pas etre coupees.
+   TODO (plus tard) : d'autres personnages/cartes pourront rejoindre
+   .logo-carte-mini--1/2/3 en orbite autour du badge, sur le meme principe
+   que .logo-orbite (positions calculees en pourcentage/rotation) — cette
+   variante est deja construite pour accueillir davantage d'elements. */
 .logo-timeline--grand { width: 260px; height: 260px; }
 .logo-timeline--grand .logo-texte { font-size: 32px; letter-spacing: 3px; }
 .logo-timeline--grand .logo-carte-mini { width: 46px; height: 62px; font-size: 22px; }
 .logo-timeline--grand .logo-carte-mini--1 { top: 4%; left: -8%; transform: rotate(-16deg); }
 .logo-timeline--grand .logo-carte-mini--2 { top: -2%; right: -8%; transform: rotate(14deg); }
 .logo-timeline--grand .logo-carte-mini--3 { bottom: -10%; left: 50%; transform: translateX(-50%) rotate(-4deg); }
+/* Le badge laisse deviner la video derriere lui (fond translucide + flou),
+   comme si le tourbillon plein ecran et le tourbillon du badge n'etaient
+   qu'un seul et meme portail. */
+.logo-timeline--grand .logo-cercle-interieur {
+  background: rgba(11, 18, 38, 0.5);
+  backdrop-filter: blur(3px) saturate(1.3);
+  box-shadow: 0 0 70px rgba(140, 200, 255, 0.35), 0 0 40px rgba(120, 255, 140, 0.3), 0 10px 40px rgba(0, 0, 0, 0.5);
+}
 
 /* Variante petite (en jeu, dans le header) — pas de mini-cartes, texte
    "TIMELINE" au lieu d'une icone, comme demande (plus proche du logo de
@@ -673,16 +685,57 @@ body {
 
 /* ================= VUE ACCUEIL ================= */
 .vue-accueil {
+  position: relative;
   height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Video "portail" plein ecran : un tourbillon d'etoiles qui donne
+   l'impression qu'on est deja dans l'univers du jeu avant meme de jouer.
+   Le badge TIMELINE est cale sur son point lumineux central (voir
+   .logo-timeline--grand) pour donner l'impression que le logo EST la
+   source du tourbillon. */
+.accueil-video-fond {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.accueil-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg,
+    rgba(6, 10, 22, 0.5) 0%,
+    rgba(6, 10, 22, 0.22) 32%,
+    rgba(6, 10, 22, 0.3) 66%,
+    rgba(6, 10, 22, 0.78) 100%);
+}
+.accueil-contenu {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 18px;
   padding: 20px;
   text-align: center;
-  animation: slideDown 0.5s ease;
+  animation: slideDown 0.6s ease;
 }
+
+/* Sur ecran etroit ou si l'utilisateur prefere moins d'animation, on
+   n'affiche pas la video (poids + confort) : le fond degrade + le
+   tourbillon SVG du badge suffisent a poser l'ambiance. */
+@media (max-width: 640px), (prefers-reduced-motion: reduce) {
+  .accueil-video-fond { display: none; }
+  .accueil-video-overlay { background: radial-gradient(circle at 50% 42%, rgba(20, 40, 70, 0.55), rgba(6, 10, 22, 0.92) 70%); }
+}
+
 .accueil-sous-titre { opacity: 0.6; font-size: 15px; letter-spacing: 0.5px; margin-top: 4px; }
 .accueil-boutons { display: flex; gap: 18px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
 .btn-mode {

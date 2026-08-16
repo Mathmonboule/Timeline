@@ -526,14 +526,40 @@ if (window.matchMedia('(max-width: 860px)').matches) {
   document.getElementById('inspecteur').classList.add('replie');
 }
 
+/* ================= VIDEO DE FOND DE L'ACCUEIL =================
+   N'attache la source (donc ne declenche AUCUN telechargement) que sur
+   grand ecran et si l'utilisateur n'a pas demande moins d'animations —
+   display:none seul ne suffit pas a empecher le navigateur de charger une
+   balise <video preload>, d'ou cette injection conditionnelle en JS. */
+function initVideoAccueil() {
+  const video = document.getElementById('accueil-video');
+  if (!video) return;
+  const veutVideo = window.matchMedia('(min-width: 641px)').matches
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!veutVideo) return;
+  const source = document.createElement('source');
+  source.src = 'Video/portail-accueil.mp4';
+  source.type = 'video/mp4';
+  video.appendChild(source);
+  video.load();
+  video.play().catch(() => {});
+}
+
 /* ================= NAVIGATION ACCUEIL <-> JEU ================= */
 function afficherAccueil() {
   document.getElementById('vue-accueil').style.display = 'flex';
   document.getElementById('vue-jeu').style.display = 'none';
+  // Relance la video du portail (coupee pendant le jeu pour ne pas consommer
+  // de ressources inutilement) ; catch silencieux car certains navigateurs
+  // refusent play() avant une interaction utilisateur.
+  const videoAccueil = document.getElementById('accueil-video');
+  if (videoAccueil) videoAccueil.play().catch(() => {});
 }
 function afficherJeu() {
   document.getElementById('vue-accueil').style.display = 'none';
   document.getElementById('vue-jeu').style.display = 'flex';
+  const videoAccueil = document.getElementById('accueil-video');
+  if (videoAccueil) videoAccueil.pause();
 }
 
 document.getElementById('btn-solo').addEventListener('click', () => {
@@ -584,4 +610,5 @@ activerScrollHorizontal('timeline-container');
 activerScrollHorizontal('pioche-erreurs');
 
 /* ================= DEMARRAGE ================= */
+initVideoAccueil();
 afficherAccueil();

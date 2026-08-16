@@ -4,3 +4,8 @@
 # Fichiers systeme
 Thumbs.db
 .DS_Store
+
+# Videos source brutes (non compressees) : seule la version optimisee
+# (Video/portail-accueil.mp4) est utilisee par le site.
+Video/vid-1.mp4
+Video/vid-2.mp4
