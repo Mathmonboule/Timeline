@@ -953,6 +953,11 @@ body {
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   border: 3px solid transparent;
+  /* Sans ca, Firefox ajoute son propre contour de focus bleu (les cartes
+     sont draggable donc focusables) par-dessus la couleur de bordure du
+     jeu (repere, famille, etc.), donnant un double contour bleu + orange
+     que Chrome n'affiche pas de la meme facon. */
+  outline: none;
   transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
   user-select: none;
 }
