@@ -178,16 +178,31 @@ function jouerSonErreur() {
 }
 
 /* ================= UTILITAIRES ================= */
+/* Formate une duree en "X millions/milliards d'annees" ou, au-dela de mille
+   milliards, en notation "10^N ans" (seule maniere lisible d'exprimer des
+   echelles comme la mort thermique de l'univers, ~10^100 ans). */
+function formaterGrandeDuree(abs) {
+  if (abs >= 1e12) return `10^${Math.round(Math.log10(abs))} ans`;
+  if (abs >= 1e9) {
+    const milliards = abs / 1e9;
+    const arrondi = Number.isInteger(milliards) ? milliards : Math.round(milliards * 10) / 10;
+    return `${arrondi.toLocaleString('fr-FR')} milliard${arrondi > 1 ? 's' : ''} d'années`;
+  }
+  const millions = abs / 1e6;
+  const arrondi = Number.isInteger(millions) ? millions : Math.round(millions * 10) / 10;
+  return `${arrondi.toLocaleString('fr-FR')} million${arrondi > 1 ? 's' : ''} d'années`;
+}
+
 function formaterDate(date) {
   const abs = Math.abs(date);
-  if (date < 0) {
-    if (abs >= 1000000) {
-      const millions = abs / 1000000;
-      const arrondi = Number.isInteger(millions) ? millions : Math.round(millions * 10) / 10;
-      return `il y a ${arrondi.toLocaleString('fr-FR')} millions d'années`;
-    }
-    return `${abs.toLocaleString('fr-FR')} av. J.-C.`;
+  if (abs >= 1000000) {
+    return date < 0 ? `il y a ${formaterGrandeDuree(abs)}` : `dans ${formaterGrandeDuree(abs)}`;
   }
+  if (date < 0) return `${abs.toLocaleString('fr-FR')} av. J.-C.`;
+  // Dates futures exprimees comme une duree simple (ex: "100 000 ans"), pas
+  // une annee calendaire : au-dela de l'horizon plausible d'une annee (~3000)
+  // on l'affiche comme un delai plutot qu'un nombre brut.
+  if (date >= 3000) return `dans ${abs.toLocaleString('fr-FR')} ans`;
   return `${date}`;
 }
 
@@ -631,8 +646,18 @@ function etiquetteEre(date) {
   if (date < 1500) return 'Moyen Âge';
   if (date < 1800) return 'Renaissance & Temps modernes';
   if (date < 1900) return 'XIXe siècle';
-  const decennie = Math.floor(date / 10) * 10;
-  return `Années ${decennie}`;
+  if (date < 2000) {
+    const decennie = Math.floor(date / 10) * 10;
+    return `Années ${decennie}`;
+  }
+  // Au-dela de l'an 2000, les cartes normales restent par decennie ; les
+  // dates exprimees en duree (projections lointaines, ex: "dans 1 million
+  // d'annees") reutilisent le meme formatage lisible que formaterDate.
+  if (date < 3000) {
+    const decennie = Math.floor(date / 10) * 10;
+    return `Années ${decennie}`;
+  }
+  return `Futur lointain — ${formaterDate(date)}`;
 }
 
 let friseConstruite = false;

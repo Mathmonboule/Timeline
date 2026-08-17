@@ -64,6 +64,18 @@ def normalise_famille(categorie):
     famille = categorie.split('/')[0].strip()
     return FAMILLE_SLUG.get(famille, "culture")
 
+def formatte_date_js(valeur):
+    """Ecrit un literal JS propre pour la date. Au-dela de 10^15, un entier
+    Python exact (issu de int(float)) produit une chaine de dizaines de
+    chiffres illisible dans cartes.js : on ecrit alors une notation
+    exponentielle (ex: 1e+30), tout aussi valide en JS et bien plus lisible.
+    Les echelles cosmologiques (evaporation des trous noirs, etc.) n'ont de
+    toute facon besoin que de l'ordre de grandeur, pas d'une valeur exacte."""
+    v = float(valeur)
+    if abs(v) >= 1e15:
+        return repr(v)
+    return str(int(v))
+
 FIAB_SLUG = {
     "Avéré": "avere",
     "Débattu par les historiens": "debattu",
@@ -102,7 +114,7 @@ for row in ws_cartes.iter_rows(min_row=2, values_only=True):
         "categorie": categorie,
         "famille": slug,
         "titre": row[col_idx['titre']],
-        "date": int(row[col_idx['date']]),
+        "date": row[col_idx['date']],
         "emoji": EMOJIS.get(cid, EMOJI_PAR_FAMILLE.get(slug, "🃏")),
         "image": (image or "").strip(),
         "description_courte": row[col_idx['description_courte']],
@@ -139,7 +151,7 @@ for c in cartes:
     lines.append(f'    categorie: {json.dumps(c["categorie"], ensure_ascii=False)},')
     lines.append(f'    famille: {json.dumps(c["famille"], ensure_ascii=False)},')
     lines.append(f'    titre: {json.dumps(c["titre"], ensure_ascii=False)},')
-    lines.append(f'    date: {c["date"]},')
+    lines.append(f'    date: {formatte_date_js(c["date"])},')
     lines.append(f'    emoji: {json.dumps(c["emoji"], ensure_ascii=False)},')
     lines.append(f'    image: {json.dumps(c["image"], ensure_ascii=False)},')
     lines.append(f'    description_courte: {json.dumps(c["description_courte"], ensure_ascii=False)},')
