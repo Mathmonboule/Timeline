@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
 <link rel="icon" type="image/svg+xml" href="images/logo-vortex.svg?v=2">
-<link rel="stylesheet" href="style.css?v=26">
+<link rel="stylesheet" href="style.css?v=27">
 </head>
 <body>
 
@@ -116,7 +116,10 @@
 
         <div class="lobby-filtres">
           <div class="lobby-filtres-titre-ligne">
-            <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
+            <button type="button" class="lobby-filtres-titre-toggle">
+              <span class="lobby-filtres-chevron">▸</span>
+              <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
+            </button>
             <span class="lobby-filtres-actions">
               <button type="button" class="lien-filtre" id="btn-filtres-solo-tout">Tout</button>
               ·
@@ -125,6 +128,22 @@
           </div>
           <div class="lobby-filtres-grille" id="lobby-filtres-grille-solo"></div>
           <div class="lobby-filtres-compte" id="lobby-filtres-compte-solo"></div>
+        </div>
+
+        <div class="lobby-filtres">
+          <div class="lobby-filtres-titre-ligne">
+            <button type="button" class="lobby-filtres-titre-toggle">
+              <span class="lobby-filtres-chevron">▸</span>
+              <span class="lobby-filtres-titre">🎚️ Difficulté</span>
+            </button>
+            <span class="lobby-filtres-actions">
+              <button type="button" class="lien-filtre" id="btn-filtres-difficulte-solo-tout">Tout</button>
+              ·
+              <button type="button" class="lien-filtre" id="btn-filtres-difficulte-solo-aucun">Aucun</button>
+            </span>
+          </div>
+          <div class="lobby-filtres-grille lobby-filtres-grille--difficulte" id="lobby-filtres-difficulte-grille-solo"></div>
+          <div class="lobby-filtres-compte" id="lobby-filtres-compte-solo-difficulte"></div>
         </div>
       </div>
 
@@ -156,7 +175,10 @@
 
           <div class="lobby-filtres">
             <div class="lobby-filtres-titre-ligne">
-              <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
+              <button type="button" class="lobby-filtres-titre-toggle">
+                <span class="lobby-filtres-chevron">▸</span>
+                <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
+              </button>
               <span class="lobby-filtres-actions">
                 <button type="button" class="lien-filtre" id="btn-filtres-multi-tout">Tout</button>
                 ·
@@ -165,6 +187,22 @@
             </div>
             <div class="lobby-filtres-grille" id="lobby-filtres-grille-multi"></div>
             <div class="lobby-filtres-compte" id="lobby-filtres-compte-multi"></div>
+          </div>
+
+          <div class="lobby-filtres">
+            <div class="lobby-filtres-titre-ligne">
+              <button type="button" class="lobby-filtres-titre-toggle">
+                <span class="lobby-filtres-chevron">▸</span>
+                <span class="lobby-filtres-titre">🎚️ Difficulté</span>
+              </button>
+              <span class="lobby-filtres-actions">
+                <button type="button" class="lien-filtre" id="btn-filtres-difficulte-multi-tout">Tout</button>
+                ·
+                <button type="button" class="lien-filtre" id="btn-filtres-difficulte-multi-aucun">Aucun</button>
+              </span>
+            </div>
+            <div class="lobby-filtres-grille lobby-filtres-grille--difficulte" id="lobby-filtres-difficulte-grille-multi"></div>
+            <div class="lobby-filtres-compte" id="lobby-filtres-compte-multi-difficulte"></div>
           </div>
         </div>
 
@@ -237,7 +275,7 @@
   <div class="inspecteur" id="inspecteur">
     <button class="btn-toggle-inspecteur" id="btn-toggle-inspecteur">🔍</button>
     <div class="inspecteur-contenu" id="inspecteur-contenu">
-      <h2>🔍 Inspecteur</h2>
+      <h2>Inspecteur</h2>
       <div id="contenu-inspecteur">
         <div class="placeholder-inspecteur">Clique sur une carte (main, timeline ou pioche d'erreurs) pour voir ses détails complets ici.</div>
       </div>
@@ -269,11 +307,11 @@
   </div>
 </div>
 
-<script src="cartes.js?v=10"></script>
-<script src="script.js?v=15"></script>
+<script src="cartes.js?v=11"></script>
+<script src="script.js?v=16"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=7"></script>
+<script src="multi.js?v=8"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 // Genere automatiquement a partir de data/cartes_maitre.xlsx (feuilles Cartes + Liens)
 // Ne pas editer ce fichier a la main : modifier le xlsx puis lancer generer_cartes.py
 // image: nom de fichier dans images/ (vide = emoji utilise a la place)
+// difficulte: 'facile'|'moyenne'|'difficile', sert au filtre de difficulte
 // liens: tableau de { type: 'youtube'|'wikipedia'|'publication'|'livre'|'autre', label, url }
 const BASE_CARTES = [
   {
@@ -15,6 +16,7 @@ const BASE_CARTES = [
     description_longue: "Les premiers dinosaures apparaissent durant le Trias, entre 237 et 228 millions d'années environ, à partir de petits archosaures bipèdes. Ils cohabitent d'abord avec d'autres grands reptiles comme les phytosaures et ne dominent vraiment les écosystèmes terrestres qu'après une extinction survenue à la fin du Trias, il y a environ 201 millions d'années. Leur règne durera alors plus de 130 millions d'années, jusqu'à l'astéroïde de Chicxulub.",
     anecdote: "Les tout premiers dinosaures connus, retrouvés en Argentine et au Brésil, ne mesuraient qu'un à deux mètres de long — rien à voir avec les géants qui suivront des dizaines de millions d'années plus tard.",
     fiabilite: "debattu",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire évolutive des dinosaures", "url": "https://fr.wikipedia.org/wiki/Histoire_%C3%A9volutive_des_dinosaures"}]
   },
   {
@@ -29,6 +31,7 @@ const BASE_CARTES = [
     description_longue: "L'extinction se produit à la limite Crétacé-Paléogène, il y a environ 66 millions d'années. Un astéroïde de plus de 10 km percute la Terre près de l'actuel Yucatán, formant le cratère de Chicxulub, tandis que d'intenses éruptions volcaniques en Inde fragilisaient déjà les écosystèmes. Les dinosaures non aviens disparaissent, mais une de leurs lignées survit : les oiseaux.",
     anecdote: "Une fine couche d'iridium, un métal rare sur Terre mais courant dans les astéroïdes, a été retrouvée partout dans le monde à cette date précise — la preuve qui a confirmé l'hypothèse de l'impact.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Extinction Crétacé-Paléogène", "url": "https://fr.wikipedia.org/wiki/Extinction_Cr%C3%A9tac%C3%A9-Pal%C3%A9og%C3%A8ne"}, {"type": "youtube", "label": "La chute de l'astéroïde qui causa l'extinction des dinosaures", "url": "https://www.youtube.com/watch?v=q_KltAML-_E"}]
   },
   {
@@ -43,6 +46,7 @@ const BASE_CARTES = [
     description_longue: "Découverts au Kenya sur le site de Lomekwi 3 et datés d'environ 3,3 millions d'années, ce sont les plus anciens outils de pierre taillée connus à ce jour. Ils précèdent l'apparition du genre Homo, ce qui suggère qu'un autre hominidé savait déjà tailler la pierre. Cette découverte, publiée en 2015, a repoussé de 700 000 ans la date connue des débuts de la technologie humaine.",
     anecdote: "Ces outils sont si particuliers qu'on leur a donné leur propre nom : le « Lomekwien ».",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Futura-Sciences : des outils vieux de 3,3 millions d'années", "url": "https://www.futura-sciences.com/sciences/actualites/archeologie-hominines-taillaient-deja-outils-il-y-33-millions-annees-58333/"}]
   },
   {
@@ -57,6 +61,7 @@ const BASE_CARTES = [
     description_longue: "Découverte en 2017 dans la grotte de Leang Tedongnge, sur l'île indonésienne de Sulawesi, cette peinture représente un sanglier à taille réelle et est datée d'au moins 45 500 ans. Elle a longtemps été considérée comme la plus ancienne œuvre d'art figuratif connue de l'humanité, avant que d'autres découvertes sur la même île ne repoussent encore le record avec des motifs non figuratifs vieux de plus de 67 000 ans.",
     anecdote: "La grotte est si isolée qu'il faut environ une heure de marche depuis la route la plus proche pour l'atteindre.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Leang Bulu Sipong 4 (grotte de Sulawesi)", "url": "https://fr.wikipedia.org/wiki/Leang_Bulu_Sipong_4"}, {"type": "publication", "label": "Futura-Sciences : la plus ancienne peinture rupestre au monde", "url": "https://www.futura-sciences.com/sciences/actualites/prehistoire-plus-ancienne-peinture-rupestre-monde-moins-45500-ans-73504/"}]
   },
   {
@@ -71,6 +76,7 @@ const BASE_CARTES = [
     description_longue: "Le mouton est probablement le tout premier animal domestiqué pour l'élevage, à partir du mouflon sauvage du Proche-Orient, dans une région entre l'Anatolie orientale et le Zagros. D'abord élevé pour sa viande, il ne sera exploité pour son lait et sa laine que bien plus tard. Il atteint l'Europe avec les premiers agriculteurs néolithiques, plusieurs millénaires après sa domestication initiale.",
     anecdote: "Tous les moutons domestiques actuels descendent d'une seule lignée maternelle de mouflons du Proche-Orient.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Révolution néolithique", "url": "https://fr.wikipedia.org/wiki/R%C3%A9volution_n%C3%A9olithique"}, {"type": "publication", "label": "CNRS : l'origine du mouton domestique enfin élucidée", "url": "https://www.inee.cnrs.fr/fr/cnrsinfo/lorigine-du-mouton-domestique-enfin-elucidee"}]
   },
   {
@@ -85,6 +91,7 @@ const BASE_CARTES = [
     description_longue: "La roue apparaît en Mésopotamie vers 3500 av. J.-C., probablement dérivée du tour de potier déjà utilisé à Sumer. Un pictogramme de l'époque montre un chariot à roues, mais des découvertes comme le pot de Bronocice en Pologne, orné d'un chariot similaire, suggèrent que l'invention a pu émerger presque simultanément dans plusieurs régions d'Europe et d'Asie.",
     anecdote: "Les civilisations précolombiennes d'Amérique connaissaient le principe de la roue, qu'on retrouve sur des jouets d'enfants, mais ne l'ont jamais utilisée pour le transport, faute de gros animaux de trait.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Roue", "url": "https://fr.wikipedia.org/wiki/Roue"}, {"type": "publication", "label": "Futura-Sciences : de quand date l'invention de la roue ?", "url": "https://www.futura-sciences.com/sciences/questions-reponses/histoire-date-invention-roue-6799/"}]
   },
   {
@@ -99,6 +106,7 @@ const BASE_CARTES = [
     description_longue: "Selon la mythologie grecque, le Minotaure est un monstre mi-homme mi-taureau né de l'union de Pasiphaé, épouse du roi Minos de Crète, et d'un taureau envoyé par Poséidon. Enfermé par l'architecte Dédale dans un Labyrinthe inextricable, il dévore les tributs de jeunes Athéniens envoyés en offrande, jusqu'à ce que le héros Thésée le tue grâce au fil d'Ariane. Aucune trace historique ne correspond à ce récit : c'est un mythe, pas un fait daté.",
     anecdote: "Certains archéologues associent ce mythe au palais de Cnossos, dont le plan très complexe aurait pu inspirer l'image d'un labyrinthe — un lien qui reste toutefois spéculatif.",
     fiabilite: "legende",
+    difficulte: "difficile",
     liens: [{"type": "autre", "label": "Vikidia : le Minotaure", "url": "https://fr.vikidia.org/wiki/Minotaure"}, {"type": "autre", "label": "Vikidia : le Labyrinthe (mythologie grecque)", "url": "https://fr.vikidia.org/wiki/Labyrinthe_(mythologie_grecque)"}]
   },
   {
@@ -113,6 +121,7 @@ const BASE_CARTES = [
     description_longue: "Les Égyptiens de l'Antiquité divisaient le jour et la nuit en douze parties chacun, quelle que soit la saison, et ont développé plusieurs instruments pour suivre le temps : cadrans solaires, horloges à ombre, et « merkhets », des fils à plomb utilisés par les premiers astronomes. Le cadran solaire égyptien était une simple planche horizontale surmontée d'une pièce verticale projetant une ombre, sans réel fondement mathématique mais d'une redoutable efficacité pratique.",
     anecdote: "Le mot « heure » descend directement du système égyptien de division du temps, transmis aux Grecs puis aux Romains.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Indicateur solaire dans l'Égypte antique", "url": "https://fr.wikipedia.org/wiki/Indicateur_solaire_dans_l'%C3%89gypte_antique"}]
   },
   {
@@ -127,6 +136,7 @@ const BASE_CARTES = [
     description_longue: "Bien qu'il porte le nom de Pythagore, ce théorème sur les triangles rectangles était déjà connu, sous forme de triplets numériques, par les mathématiciens babyloniens plus de mille ans avant lui, ainsi qu'en Inde et en Chine. Pythagore et son école, au VIe siècle av. J.-C., en auraient proposé une démonstration formelle, mais aucun texte de sa main n'a survécu. Sa première formulation écrite connue apparaît dans les Éléments d'Euclide, vers 300 av. J.-C.",
     anecdote: "Il existe aujourd'hui plus de 350 démonstrations différentes de ce théorème, dont une attribuée à un futur président des États-Unis, James Garfield.",
     fiabilite: "debattu",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Théorème de Pythagore", "url": "https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Pythagore"}]
   },
   {
@@ -141,6 +151,7 @@ const BASE_CARTES = [
     description_longue: "L'arbalète se généralise en Chine durant la période des Royaumes combattants, rendant les chars de guerre obsolètes face à des tirs plus puissants et plus faciles à maîtriser que l'arc. Plusieurs siècles plus tard, le stratège Zhuge Liang aurait perfectionné le concept avec le chu-ko-nu, une arbalète à répétition capable de tirer plusieurs carreaux sans recharger manuellement entre chaque tir.",
     anecdote: "Le nom du chu-ko-nu signifie littéralement « arbalète de Zhuge », en hommage à son inventeur présumé, une figure encore célébrée aujourd'hui à travers le roman Les Trois Royaumes.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Arbalète", "url": "https://fr.wikipedia.org/wiki/Arbal%C3%A8te"}, {"type": "wikipedia", "label": "Wikipédia : Chu ko nu (arbalète chinoise à répétition)", "url": "https://fr.wikipedia.org/wiki/Chu_ko_nu"}]
   },
   {
@@ -155,6 +166,7 @@ const BASE_CARTES = [
     description_longue: "Le chantier du phare d'Alexandrie débute sous Ptolémée Ier et s'achève sous son fils Ptolémée II, après une quinzaine d'années de travaux. Haut d'environ 130 à 140 mètres, il domine l'île de Pharos à l'entrée du port et guide les navires pendant près de dix-sept siècles, jusqu'à sa destruction par des séismes successifs au Moyen Âge. Il compte parmi les Sept Merveilles du monde antique.",
     anecdote: "Le mot « phare » vient directement du nom de l'île, Pharos, sur laquelle il fut construit.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Phare d'Alexandrie", "url": "https://fr.wikipedia.org/wiki/Phare_d'Alexandrie"}]
   },
   {
@@ -169,6 +181,7 @@ const BASE_CARTES = [
     description_longue: "Des murs défensifs existaient déjà dans plusieurs royaumes chinois avant que Qin Shi Huang, premier empereur de Chine, ne les fasse relier après avoir unifié le pays en 221 av. J.-C., pour protéger le territoire des invasions nomades venues du nord. Plus de 300 000 soldats et 500 000 paysans participent à ce chantier titanesque. La muraille visible aujourd'hui date cependant presque entièrement de la dynastie Ming, près de 1800 ans plus tard.",
     anecdote: "Contrairement à une légende tenace, la Grande Muraille n'est pas visible à l'œil nu depuis l'espace.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire de la Grande Muraille", "url": "https://fr.wikipedia.org/wiki/Histoire_de_la_Grande_Muraille"}]
   },
   {
@@ -183,6 +196,7 @@ const BASE_CARTES = [
     description_longue: "Gladiateur d'origine thrace réduit en esclavage, Spartacus s'évade de l'école de gladiateurs de Capoue avec une poignée de compagnons et déclenche la troisième guerre servile, la plus importante révolte d'esclaves de l'histoire romaine. Son armée improvisée inflige plusieurs défaites humiliantes aux légions romaines avant d'être écrasée par Crassus en 71 av. J.-C. Le sort exact de Spartacus reste incertain : son corps n'a jamais été formellement identifié.",
     anecdote: "Après la défaite, environ 6 000 survivants furent crucifiés le long de la voie Appienne, sur plus de 200 kilomètres, en guise d'avertissement.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Troisième guerre servile", "url": "https://fr.wikipedia.org/wiki/Troisi%C3%A8me_guerre_servile"}]
   },
   {
@@ -197,6 +211,7 @@ const BASE_CARTES = [
     description_longue: "À la mort de son père Ptolémée XII, Cléopâtre VII monte sur le trône d'Égypte à seulement 18 ans, co-régnant d'abord avec ses frères-époux avant de s'imposer grâce à ses alliances avec Rome, d'abord Jules César puis Marc Antoine. Dernière reine de la dynastie ptolémaïque, elle parle plusieurs langues et gère activement l'économie égyptienne, tentant jusqu'au bout de préserver l'indépendance de son royaume face à l'expansion romaine.",
     anecdote: "Cléopâtre était en réalité d'origine grecque macédonienne, descendante des généraux d'Alexandre le Grand — elle aurait été la première de sa dynastie à réellement apprendre l'égyptien.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Cléopâtre VII", "url": "https://fr.wikipedia.org/wiki/Cl%C3%A9op%C3%A2tre_VII"}, {"type": "youtube", "label": "Arte : Reines de l'Égypte antique - L'autre Cléopâtre", "url": "https://www.youtube.com/watch?v=p4tYS--jh-E"}]
   },
   {
@@ -211,6 +226,7 @@ const BASE_CARTES = [
     description_longue: "En février 44 av. J.-C., le Sénat romain nomme Jules César dictateur à perpétuité, rompant avec la tradition républicaine où cette fonction était temporaire. Craignant qu'il ne se proclame roi, un groupe de sénateurs mené par Brutus et Cassius l'assassine un mois plus tard, le 15 mars, jour resté célèbre sous le nom des Ides de mars. Loin de sauver la République, ce meurtre précipite une nouvelle guerre civile qui aboutira à l'Empire.",
     anecdote: "César aurait reçu 23 coups de poignard, mais selon les médecins de l'époque, un seul, à la poitrine, aurait été mortel.",
     fiabilite: "debattu",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jules César", "url": "https://fr.wikipedia.org/wiki/Jules_C%C3%A9sar"}, {"type": "wikipedia", "label": "Wikipédia : Assassinat de Jules César", "url": "https://fr.wikipedia.org/wiki/Assassinat_de_Jules_C%C3%A9sar"}]
   },
   {
@@ -225,6 +241,7 @@ const BASE_CARTES = [
     description_longue: "Le 24 octobre 79, le Vésuve entre en éruption et ensevelit en quelques heures les villes voisines de Pompéi, Herculanum, Oplontis et Stabies sous les cendres et les roches volcaniques. L'épaisseur des dépôts atteint près de 3 mètres à Pompéi, figeant la ville dans le temps. Paradoxalement, cette catastrophe a permis une conservation exceptionnelle qui offre aujourd'hui l'un des témoignages les plus complets de la vie quotidienne romaine.",
     anecdote: "Les célèbres moulages de corps de victimes ne sont pas les corps eux-mêmes, mais du plâtre coulé dans les cavités laissées par leur décomposition dans la cendre durcie.",
     fiabilite: "debattu",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Destruction de Pompéi", "url": "https://fr.wikipedia.org/wiki/Destruction_de_Pomp%C3%A9i"}]
   },
   {
@@ -239,6 +256,7 @@ const BASE_CARTES = [
     description_longue: "Le chaturanga, ancêtre direct des échecs, apparaît en Inde vers le Ve-VIe siècle. Son nom sanskrit signifie « quatre corps », en référence aux quatre unités de l'armée indienne classique — fantassins, cavaliers, chars et éléphants — qui deviendront pions, cavaliers, fous et tours. Le jeu voyage ensuite vers la Perse sous le nom de shatranj, puis est transmis aux Arabes, qui le font connaître à l'Europe chrétienne vers le IXe siècle.",
     anecdote: "Une légende raconte qu'un roi indien offrit à l'inventeur du jeu tout ce qu'il voudrait ; celui-ci demanda un grain de riz sur la première case de l'échiquier, doublé à chaque case suivante — un total si astronomique qu'aucun royaume n'aurait pu le fournir.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire du jeu d'échecs", "url": "https://fr.wikipedia.org/wiki/Histoire_du_jeu_d'%C3%A9checs"}]
   },
   {
@@ -253,6 +271,7 @@ const BASE_CARTES = [
     description_longue: "Vers 789, trois navires venus de Norvège accostent près de Portland, dans le Dorset. Prenant les Vikings pour des marchands, le représentant royal local, chargé d'identifier les étrangers débarquant sur les côtes, s'approche d'eux et est tué. Cet épisode, rapporté par la Chronique anglo-saxonne, est considéré comme le tout premier raid viking attesté sur le sol anglais.",
     anecdote: "Le raid de Lindisfarne, en 793, reste bien plus célèbre dans la mémoire collective — alors qu'il n'est en réalité que le deuxième, quatre ans après celui de Portland.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Vikings dans les îles Britanniques", "url": "https://fr.wikipedia.org/wiki/Vikings_dans_les_%C3%AEles_Britanniques"}]
   },
   {
@@ -267,6 +286,7 @@ const BASE_CARTES = [
     description_longue: "La fourchette apparaît d'abord à Byzance puis en Italie autour du XIe siècle, où une princesse byzantine choque la cour en l'utilisant pour manger. Longtemps jugée comme un raffinement superflu, voire une offense envers Dieu qui avait donné des doigts pour manger, elle met des siècles à s'imposer en Europe du Nord : en France, elle n'apparaît vraiment à la cour qu'à la fin du XVIe siècle.",
     anecdote: "Un moine du XIe siècle qualifia l'usage de la fourchette d'« excès de délicatesse » et y vit un signe de décadence morale.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Fourchette", "url": "https://fr.wikipedia.org/wiki/Fourchette"}]
   },
   {
@@ -281,6 +301,7 @@ const BASE_CARTES = [
     description_longue: "L'histoire de l'éducation des sourds en France prend un tournant décisif au XVIIIe siècle avec l'abbé de l'Épée, qui fonde à Paris la première école publique et gratuite pour sourds, où il codifie une langue des signes structurée à partir des signes déjà utilisés par la communauté sourde parisienne. Son travail pose les bases de ce qui deviendra la langue des signes française, qui influencera à son tour de nombreuses langues des signes dans le monde.",
     anecdote: "L'abbé de l'Épée refusait d'être payé pour son enseignement, estimant que l'éducation des sourds relevait d'un devoir moral et non d'un commerce.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire de la langue des signes", "url": "https://fr.wikipedia.org/wiki/Histoire_de_la_langue_des_signes"}, {"type": "wikipedia", "label": "Wikipédia : Histoire de l'éducation des sourds en France", "url": "https://fr.wikipedia.org/wiki/Histoire_de_l'%C3%A9ducation_des_sourds_en_France"}]
   },
   {
@@ -295,6 +316,7 @@ const BASE_CARTES = [
     description_longue: "Fondé à Jérusalem par le chevalier Hugues de Payns pour protéger les pèlerins chrétiens en route vers les Lieux saints, l'ordre du Temple s'installe sur l'ancien emplacement du Temple de Salomon, d'où son nom. Reconnu officiellement lors du concile de Troyes en 1129, il devient l'un des ordres militaro-religieux les plus puissants d'Europe, avant d'être brutalement dissous par le pape Clément V en 1312, sous la pression du roi de France Philippe le Bel.",
     anecdote: "Les Templiers ont mis en place une forme précoce de système bancaire international, permettant aux pèlerins de déposer de l'argent dans une commanderie et de le retirer ailleurs grâce à une simple lettre de change.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Ordre du Temple", "url": "https://fr.wikipedia.org/wiki/Ordre_du_Temple"}]
   },
   {
@@ -309,6 +331,7 @@ const BASE_CARTES = [
     description_longue: "Les premières armes à poudre apparaissent en Europe au début du XIVe siècle, à la croisée des influences chinoises et arabes. La ville de Gand, dans l'actuelle Belgique, figure parmi les tout premiers lieux à mentionner l'usage d'un canon, marquant les débuts de l'artillerie occidentale. Ces premières pièces, rudimentaires et peu fiables, mettront encore plusieurs décennies à transformer réellement l'art de la guerre médiéval.",
     anecdote: "Les premiers canons européens étaient si dangereux à utiliser qu'ils représentaient parfois un risque plus grand pour leurs propres artilleurs que pour l'ennemi visé.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Artillerie de la France au Moyen Âge", "url": "https://fr.wikipedia.org/wiki/Artillerie_de_la_France_au_Moyen_%C3%82ge"}]
   },
   {
@@ -323,6 +346,7 @@ const BASE_CARTES = [
     description_longue: "Selon la légende officielle aztèque, les Mexicas, tribu nomade errant depuis deux siècles à la recherche d'un signe divin, découvrent sur une île du lac Texcoco un aigle perché sur un figuier de barbarie, dévorant un serpent — exactement le présage annoncé par leur dieu Huitzilopochtli. Ils y fondent Tenochtitlan, qui deviendra la capitale de l'empire aztèque puis, après la conquête espagnole, l'actuelle Mexico.",
     anecdote: "Cette scène du serpent et de l'aigle est toujours visible aujourd'hui au centre du drapeau mexicain.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Mexico-Tenochtitlan", "url": "https://fr.wikipedia.org/wiki/Mexico-Tenochtitlan"}]
   },
   {
@@ -337,6 +361,7 @@ const BASE_CARTES = [
     description_longue: "Originaire probablement d'Asie centrale, la peste atteint l'Europe via des navires marchands génois fuyant le siège mongol de Caffa, en Crimée, et débarque à Marseille en novembre 1347. Elle se propage ensuite à une vitesse foudroyante par les routes commerciales terrestres et maritimes, tuant en cinq à six ans environ 25 millions de personnes en Europe, soit près d'un tiers à la moitié de la population du continent.",
     anecdote: "Faute de comprendre la transmission par les puces des rats, certains médecins conseillaient de porter des masques en forme de bec rempli d'herbes odorantes, pensant se protéger des « mauvais airs ».",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Peste noire", "url": "https://fr.wikipedia.org/wiki/Peste_noire"}]
   },
   {
@@ -351,6 +376,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1450, l'orfèvre allemand Johannes Gutenberg assemble à Mayence plusieurs innovations décisives : des caractères mobiles en alliage de plomb faciles à couler et à réutiliser, une presse à vis inspirée des pressoirs à vin, et une encre grasse adaptée au métal. La Bible à 42 lignes, imprimée vers 1455, est le premier grand livre issu de ce procédé, qui bouleverse la diffusion du savoir en Europe en quelques décennies à peine.",
     anecdote: "On estime qu'en 50 ans, l'imprimerie a permis de produire plus de livres que tous les scribes européens n'en avaient copiés à la main durant le millénaire précédent.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire de l'imprimerie", "url": "https://fr.wikipedia.org/wiki/Histoire_de_l'imprimerie"}, {"type": "wikipedia", "label": "Wikipédia : Bible de Gutenberg", "url": "https://fr.wikipedia.org/wiki/Bible_de_Gutenberg"}]
   },
   {
@@ -365,6 +391,7 @@ const BASE_CARTES = [
     description_longue: "Financé par les souverains espagnols après la fin de la Reconquista, le navigateur génois Christophe Colomb cherche une route maritime vers l'Asie en naviguant vers l'ouest. Dans la nuit du 11 au 12 octobre 1492, sa flotte atteint une île des Bahamas, qu'il baptise San Salvador, persuadé jusqu'à sa mort d'avoir atteint les abords de l'Asie. Il effectuera trois autres voyages vers les Caraïbes et l'Amérique du Sud.",
     anecdote: "Colomb n'a jamais mis le pied sur le sol du continent nord-américain : ses expéditions se sont limitées aux Caraïbes et à l'Amérique centrale et du Sud.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Christophe Colomb", "url": "https://fr.wikipedia.org/wiki/Christophe_Colomb"}]
   },
   {
@@ -379,6 +406,7 @@ const BASE_CARTES = [
     description_longue: "En Chine, on attribue traditionnellement l'invention de la brosse à dents moderne à soies de porc à la fin du XVe siècle : un manche d'os ou de bambou garni de poils rigides prélevés sur le cou de porcs, capables de résister au froid. L'objet gagne l'Europe au XVIe siècle, mais il faudra encore attendre 1780 et le Britannique William Addis pour voir apparaître la première brosse à dents produite en série.",
     anecdote: "Jusqu'au milieu du XXe siècle, les brosses à dents restaient en soies de porc, un matériau peu hygiénique ; ce n'est qu'en 1938 que le nylon, inventé par DuPont, les a remplacées.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Brosse à dents", "url": "https://fr.wikipedia.org/wiki/Brosse_%C3%A0_dents"}]
   },
   {
@@ -393,6 +421,7 @@ const BASE_CARTES = [
     description_longue: "L'invention de la montre portative est traditionnellement attribuée à l'horloger allemand Peter Henlein, à Nuremberg, au début du XVIe siècle. Ces premières « montres de poche » ou « œufs de Nuremberg » abandonnent le poids moteur des horloges pour un ressort spiralé, ce qui les rend transportables mais bien moins précises. L'attribution à Henlein reste débattue, certains textes mentionnant des horloges portatives fabriquées un peu plus tôt en Italie.",
     anecdote: "Ces premières montres n'avaient souvent qu'une seule aiguille, celle des heures — la précision des minutes n'avait pas encore vraiment d'intérêt pratique.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Montre (horlogerie)", "url": "https://fr.wikipedia.org/wiki/Montre_(horlogerie)"}, {"type": "wikipedia", "label": "Wikipédia : Montre Pomander de 1505", "url": "https://fr.wikipedia.org/wiki/Montre_Pomander_de_1505"}]
   },
   {
@@ -407,6 +436,7 @@ const BASE_CARTES = [
     description_longue: "Parti en 1519 sous le commandement du Portugais Fernand de Magellan à la recherche d'une route occidentale vers les Moluques, l'expédition perd son chef, tué aux Philippines en 1521. C'est l'Espagnol Juan Sebastián Elcano qui prend le commandement du seul navire survivant, le Victoria, et ramène à Séville, en septembre 1522, les derniers survivants sur les 241 marins partis trois ans plus tôt.",
     anecdote: "Le voyage a duré si longtemps que l'équipage, en tenant scrupuleusement son propre calendrier, avait perdu un jour entier sans s'en rendre compte — une conséquence, alors incomprise, du tour du monde vers l'ouest.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Circumnavigation Magellan-Elcano", "url": "https://fr.wikipedia.org/wiki/Circumnavigation_Magellan-Elcano"}]
   },
   {
@@ -421,6 +451,7 @@ const BASE_CARTES = [
     description_longue: "Galilée perfectionne en 1609 la lunette d'approche inventée l'année précédente aux Pays-Bas, portant son grossissement à une vingtaine de fois. Pointée vers le ciel plutôt que vers l'horizon, elle lui permet de découvrir les cratères de la Lune, les quatre plus gros satellites de Jupiter et les phases de Vénus — des observations qui remettent en cause le modèle géocentrique de l'univers et le transforment de physicien en astronome.",
     anecdote: "Les quatre lunes de Jupiter découvertes par Galilée portent aujourd'hui son nom, les « lunes galiléennes ».",
     fiabilite: "debattu",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Lunette astronomique", "url": "https://fr.wikipedia.org/wiki/Lunette_astronomique"}, {"type": "wikipedia", "label": "Wikipédia : Galilée (savant)", "url": "https://fr.wikipedia.org/wiki/Galil%C3%A9e_(savant)"}]
   },
   {
@@ -435,6 +466,7 @@ const BASE_CARTES = [
     description_longue: "En observant qu'un liquide se dilate de façon régulière avec la chaleur, Galilée met au point vers 1592 un « thermoscope à air », l'un des tout premiers instruments capables de traduire une variation de température en un mouvement visible. Il faudra encore attendre le XVIIe siècle et les travaux de l'Accademia del Cimento de Florence, où travaillaient d'anciens élèves de Galilée, pour voir apparaître un véritable thermomètre gradué et fermé, moins sensible aux variations de pression atmosphérique.",
     anecdote: "Le mot « thermomètre » lui-même n'a été inventé qu'en 1624, par le jésuite Jean Leurechon, bien après les premiers prototypes.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Thermomètre de Galilée", "url": "https://fr.wikipedia.org/wiki/Thermom%C3%A8tre_de_Galil%C3%A9e"}]
   },
   {
@@ -449,6 +481,7 @@ const BASE_CARTES = [
     description_longue: "Écrite entre 1591 et 1595, la tragédie de William Shakespeare est publiée pour la première fois en 1597 dans une édition de piètre qualité, probablement reconstituée de mémoire par des acteurs. Des éditions plus fidèles au texte original suivront. L'histoire des amants de Vérone, séparés par la rivalité de leurs familles, s'inspire de récits italiens antérieurs et deviendra l'une des œuvres les plus jouées et adaptées de toute l'histoire du théâtre.",
     anecdote: "Vérone, ville où se déroule l'intrigue, a construit un faux « balcon de Juliette » au XXe siècle pour satisfaire les touristes, bien que le personnage soit entièrement fictif.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Roméo et Juliette", "url": "https://fr.wikipedia.org/wiki/Rom%C3%A9o_et_Juliette"}]
   },
   {
@@ -463,6 +496,7 @@ const BASE_CARTES = [
     description_longue: "L'empereur moghol Shah Jahan fait construire ce mausolée de marbre blanc à Agra en mémoire de son épouse Mumtaz Mahal, morte en 1631 en donnant naissance à leur quatorzième enfant. Le chantier commence dès 1631 et s'achève dans ses grandes lignes en 1648, mobilisant des artisans venus de toute l'Asie. Shah Jahan y sera lui-même enterré à sa mort, aux côtés de son épouse.",
     anecdote: "Une légende tenace, sans fondement historique solide, prétend que Shah Jahan aurait fait couper les mains des artisans pour qu'ils ne puissent jamais reproduire un tel chef-d'œuvre.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Taj Mahal", "url": "https://fr.wikipedia.org/wiki/T%C3%A2j_Mahal"}]
   },
   {
@@ -477,6 +511,7 @@ const BASE_CARTES = [
     description_longue: "Déclenché accidentellement dans la nuit du 2 septembre 1666 dans une boulangerie de Pudding Lane, l'incendie ravage Londres pendant quatre jours et détruit environ 80 % de la ville intra-muros : plus de 13 000 maisons, 87 églises paroissiales et la cathédrale Saint-Paul. La reconstruction qui suit impose des bâtiments en pierre et en brique plutôt qu'en bois, transformant durablement le visage de la capitale anglaise.",
     anecdote: "L'incendie aurait aussi eu un effet inattendu bénéfique : il aurait contribué à éliminer une partie des rats responsables de la Grande Peste de Londres, survenue l'année précédente.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Grand incendie de Londres", "url": "https://fr.wikipedia.org/wiki/Grand_incendie_de_Londres"}]
   },
   {
@@ -491,6 +526,7 @@ const BASE_CARTES = [
     description_longue: "Selon une légende sans confirmation historique solide, le croissant aurait été inventé à Vienne pour célébrer la fin du second siège de la ville par les Ottomans en 1683 : des boulangers levés avant l'aube auraient donné l'alerte en entendant les assiégeants creuser un tunnel, et sa forme rappellerait le croissant du drapeau ottoman. La viennoiserie ne prendra sa forme feuilletée actuelle, très éloignée du pain autrichien d'origine, qu'en France, bien plus tard.",
     anecdote: "Le siège de Vienne fut finalement levé grâce à l'arrivée des troupes polonaises du roi Jean III Sobieski, dont la charge décisive à cheval reste l'une des plus grandes batailles de cavalerie de l'histoire.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Croissant (viennoiserie)", "url": "https://fr.wikipedia.org/wiki/Croissant_(viennoiserie)"}, {"type": "wikipedia", "label": "Wikipédia : Siège de Vienne (1683)", "url": "https://fr.wikipedia.org/wiki/Si%C3%A8ge_de_Vienne_(1683)"}]
   },
   {
@@ -505,6 +541,7 @@ const BASE_CARTES = [
     description_longue: "Cette éruption du mont Fuji, la plus récente à ce jour, débute le 16 décembre 1707 et dure environ deux semaines. Sans provoquer de coulée de lave, elle projette près de 800 millions de mètres cubes de cendres volcaniques, qui recouvrent des provinces entières et atteignent Edo (l'actuelle Tokyo), à une centaine de kilomètres de là. Elle survient seulement 49 jours après un séisme majeur, qui aurait pu déstabiliser la chambre magmatique du volcan.",
     anecdote: "Depuis cette éruption de 1707, le mont Fuji n'est plus jamais entré en activité — plus de trois siècles de silence qui inquiètent aujourd'hui les volcanologues japonais.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Éruption du mont Fuji de l'ère Hōei", "url": "https://fr.wikipedia.org/wiki/%C3%89ruption_du_mont_Fuji_de_l'%C3%A8re_H%C5%8Dei"}]
   },
   {
@@ -519,6 +556,7 @@ const BASE_CARTES = [
     description_longue: "Le sextant, instrument permettant de mesurer avec précision l'angle entre un astre et l'horizon pour déterminer sa position en mer, est développé indépendamment et presque simultanément vers 1730 par l'Anglais John Hadley et l'Américain Thomas Godfrey. Il perfectionne le quadrant de navigation en utilisant un jeu de miroirs qui compense le roulis du navire, rendant les mesures bien plus fiables que les instruments précédents.",
     anecdote: "Le sextant est resté l'instrument de référence de la navigation astronomique pendant plus de deux siècles, jusqu'à l'arrivée du GPS à la fin du XXe siècle.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire de la navigation astronomique", "url": "https://fr.wikipedia.org/wiki/Histoire_de_la_navigation_astronomique"}]
   },
   {
@@ -533,6 +571,7 @@ const BASE_CARTES = [
     description_longue: "En 1742, l'astronome suédois Anders Celsius propose une échelle de température à 100 degrés où 0° correspond au point d'ébullition de l'eau et 100° à son point de congélation — l'inverse de l'échelle que nous connaissons aujourd'hui. C'est un autre scientifique, souvent identifié comme le botaniste Carl von Linné ou le physicien Jean-Pierre Christin, qui inverse l'échelle après la mort de Celsius pour lui donner sa forme actuelle.",
     anecdote: "L'échelle a longtemps été appelée « degré centigrade » plutôt que « Celsius » ; ce n'est qu'en 1948 qu'une conférence internationale a officiellement adopté le nom de son inventeur.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Degré centigrade", "url": "https://fr.wikipedia.org/wiki/Degr%C3%A9_centigrade"}]
   },
   {
@@ -547,6 +586,7 @@ const BASE_CARTES = [
     description_longue: "Le naturaliste allemand Jacob Christian Schäffer conçoit vers 1767 l'une des premières machines à laver mécaniques connues, un tambour en bois actionné à la main censé remplacer le lavage au battoir. Ces prototypes resteront des curiosités pendant plus d'un siècle : la mécanisation industrielle du lavage du linge ne s'imposera vraiment qu'à la fin du XIXe siècle, avec l'arrivée de l'électricité dans les foyers.",
     anecdote: "Il faudra attendre 1908 pour voir le premier lave-linge électrique commercialisé, plus de 140 ans après le premier prototype manuel de Schäffer.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Lave-linge", "url": "https://fr.wikipedia.org/wiki/Lave-linge"}]
   },
   {
@@ -561,6 +601,7 @@ const BASE_CARTES = [
     description_longue: "Adoptée le 4 juillet 1776 par le Congrès continental, rédigée principalement par Thomas Jefferson, la Déclaration proclame la rupture des Treize Colonies britanniques d'Amérique du Nord avec la couronne anglaise et affirme des principes de liberté individuelle qui inspireront de nombreux mouvements révolutionnaires ultérieurs, dont la Révolution française. La guerre d'indépendance, débutée un an plus tôt, se poursuivra jusqu'en 1783.",
     anecdote: "Deux futurs présidents des États-Unis, John Adams et Thomas Jefferson, sont tous deux morts le même jour — le 4 juillet 1826, exactement cinquante ans après la signature de la Déclaration.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Déclaration d'indépendance des États-Unis", "url": "https://fr.wikipedia.org/wiki/D%C3%A9claration_d'ind%C3%A9pendance_des_%C3%89tats-Unis"}]
   },
   {
@@ -575,6 +616,7 @@ const BASE_CARTES = [
     description_longue: "Le 7 janvier 1785, le Français Jean-Pierre Blanchard et l'Américain John Jeffries réalisent la première traversée de la Manche en ballon à hydrogène, reliant Douvres à Calais. Ils doivent jeter par-dessus bord une grande partie de leur équipement, et même une partie de leurs vêtements, pour éviter de s'abîmer en mer en cours de route. Quelques mois plus tard, un autre pionnier de l'aérostation, Pilâtre de Rozier, périt en tentant la traversée dans l'autre sens.",
     anecdote: "Pour alléger le ballon en catastrophe au-dessus de la Manche, Blanchard et Jeffries ont fini par jeter leurs vêtements par-dessus bord et ont atterri en France presque nus.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire de l'aérostation", "url": "https://fr.wikipedia.org/wiki/Histoire_de_l'a%C3%A9rostation"}]
   },
   {
@@ -589,6 +631,7 @@ const BASE_CARTES = [
     description_longue: "Le 14 juillet 1789, des Parisiens en colère prennent d'assaut la forteresse de la Bastille, symbole de l'arbitraire royal, dans un contexte de crise économique et de tensions politiques exacerbées par la réunion des états généraux. Bien qu'elle ne marque pas techniquement le tout début de la Révolution, cette journée devient l'événement fondateur et le symbole de la chute de la monarchie absolue en France.",
     anecdote: "Au moment de sa prise, la Bastille ne comptait que sept prisonniers, dont quatre faussaires, un « fou » et deux internés à la demande de leur famille — bien loin de l'image d'une prison politique surpeuplée.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Prise de la Bastille", "url": "https://fr.wikipedia.org/wiki/Prise_de_la_Bastille"}, {"type": "wikipedia", "label": "Wikipédia : Révolution française", "url": "https://fr.wikipedia.org/wiki/R%C3%A9volution_fran%C3%A7aise"}, {"type": "youtube", "label": "Arte (Karambolage) : la Bastille", "url": "https://www.youtube.com/watch?v=o0RAVTSiIyM"}]
   },
   {
@@ -603,6 +646,7 @@ const BASE_CARTES = [
     description_longue: "Le blocus imposé par les guerres napoléoniennes prive la France de graphite pur importé d'Angleterre. En 1795, le chimiste français Nicolas-Jacques Conté invente un procédé mélangeant de la poudre de graphite à de l'argile, cuite ensuite comme une céramique, ce qui permet non seulement de contourner le blocus mais aussi de faire varier la dureté de la mine selon la proportion d'argile — le principe encore utilisé aujourd'hui.",
     anecdote: "L'échelle de dureté des mines de crayon inventée par Conté, de la plus tendre à la plus dure, est directement à l'origine du système « HB, 2B, 2H » encore utilisé sur les crayons du monde entier.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Crayon", "url": "https://fr.wikipedia.org/wiki/Crayon"}, {"type": "wikipedia", "label": "Wikipédia : Mine (crayon)", "url": "https://fr.wikipedia.org/wiki/Mine_(crayon)"}]
   },
   {
@@ -617,6 +661,7 @@ const BASE_CARTES = [
     description_longue: "En 1800, le physicien italien Alessandro Volta empile des disques de zinc et de cuivre séparés par des tissus imbibés d'eau salée, créant ainsi la première pile capable de produire un courant électrique continu et stable. Cette invention ouvre la voie à l'électrochimie moderne et permettra rapidement à d'autres scientifiques, comme Humphry Davy, d'isoler par électrolyse de nouveaux éléments chimiques.",
     anecdote: "L'unité de tension électrique, le volt, tire directement son nom de Volta — un honneur scientifique rarement accordé à une seule personne de son vivant.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Pile voltaïque", "url": "https://fr.wikipedia.org/wiki/Pile_volta%C3%AFque"}]
   },
   {
@@ -631,6 +676,7 @@ const BASE_CARTES = [
     description_longue: "Le 2 décembre 1804, à Notre-Dame de Paris et en présence du pape Pie VII, Napoléon Bonaparte se couronne lui-même empereur des Français, un geste symbolique marquant son indépendance vis-à-vis de l'Église et rompant avec la tradition du sacre à Reims. Le tableau que le peintre Jacques-Louis David consacre à la scène, aujourd'hui exposé au Louvre, prend d'importantes libertés avec le déroulement réel de la cérémonie.",
     anecdote: "Sur le tableau de David, Napoléon est représenté en train de couronner l'impératrice Joséphine plutôt que de se couronner lui-même — la scène la plus spectaculaire du sacre a été choisie pour l'immortaliser.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Sacre de Napoléon Ier", "url": "https://fr.wikipedia.org/wiki/Sacre_de_Napol%C3%A9on_Ier"}, {"type": "wikipedia", "label": "Wikipédia : Le Sacre de Napoléon (tableau de David)", "url": "https://fr.wikipedia.org/wiki/Le_Sacre_de_Napol%C3%A9on"}, {"type": "youtube", "label": "L'Histoire par l'image : le sacre de Napoléon Ier", "url": "https://www.youtube.com/watch?v=F531O_lbrzE"}]
   },
   {
@@ -645,6 +691,7 @@ const BASE_CARTES = [
     description_longue: "Le 21 février 1804, l'ingénieur cornouaillais Richard Trevithick fait circuler à Penydarren, au pays de Galles, la première locomotive à vapeur autoportée de l'histoire, tractant du fer et 70 passagers. Trop lourde pour les rails de l'époque, elle les endommage régulièrement et reste un échec commercial, mais elle démontre pour la première fois qu'une machine à vapeur peut se déplacer sur des rails — un principe qui révolutionnera les transports une génération plus tard.",
     anecdote: "La deuxième locomotive construite par Trevithick, en 1808, portait un nom bien trouvé : « Catch Me Who Can » (« attrape-moi qui peut »).",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Locomotive à vapeur", "url": "https://fr.wikipedia.org/wiki/Locomotive_%C3%A0_vapeur"}]
   },
   {
@@ -659,6 +706,7 @@ const BASE_CARTES = [
     description_longue: "Le principe de la conservation des aliments par la chaleur dans un contenant hermétique est mis au point en France par Nicolas Appert dès 1795, d'abord dans des bocaux en verre. C'est l'Anglais Peter Durand qui adapte le procédé au métal en 1810, faisant breveter la boîte de conserve en fer-blanc, plus légère et plus solide que le verre — une invention qui transformera durablement l'alimentation, en particulier pour les armées et les longs voyages en mer.",
     anecdote: "Il faudra attendre encore près de 40 ans après l'invention de la boîte de conserve pour qu'apparaisse un véritable ouvre-boîte : jusque-là, on l'ouvrait au marteau et au burin, ou même à la baïonnette.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Boîte de conserve", "url": "https://fr.wikipedia.org/wiki/Bo%C3%AEte_de_conserve"}, {"type": "wikipedia", "label": "Wikipédia : François-Nicolas Appert", "url": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois-Nicolas_Appert"}]
   },
   {
@@ -673,6 +721,7 @@ const BASE_CARTES = [
     description_longue: "En 1814, l'entrepreneur d'origine indienne Sake Dean Mahomed ouvre à Brighton, en Angleterre, des bains de vapeur médicinaux inspirés des traditions indiennes, où il propose à ses clients un massage et un soin capillaire qu'il nomme « champi » — un mot hindi qui donnera en anglais le terme « shampoo ». Son établissement rencontre un tel succès qu'il devient officiellement masseur-chirurgien attitré des rois George IV puis Guillaume IV.",
     anecdote: "Le mot « shampooing », aujourd'hui utilisé dans le monde entier pour désigner un produit capillaire, vient donc directement d'un mot hindi désignant un massage du crâne.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Shampooing", "url": "https://fr.wikipedia.org/wiki/Shampooing"}]
   },
   {
@@ -687,6 +736,7 @@ const BASE_CARTES = [
     description_longue: "Après sa défaite finale à Waterloo et sa seconde abdication en 1815, Napoléon est capturé par les Britanniques et déporté sur l'île de Sainte-Hélène, un rocher isolé en plein Atlantique Sud, pour qu'il ne puisse plus « nuire au repos du monde ». Il y passe ses six dernières années, dictant ses mémoires à ses compagnons d'exil, avant de mourir en 1821, probablement d'un cancer de l'estomac.",
     anecdote: "Certains historiens ont longtemps soupçonné un empoisonnement à l'arsenic, une théorie aujourd'hui largement écartée par la plupart des experts au profit d'une mort naturelle.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Exil de Napoléon Ier à Sainte-Hélène", "url": "https://fr.wikipedia.org/wiki/Exil_de_Napol%C3%A9on_Ier_%C3%A0_Sainte-H%C3%A9l%C3%A8ne"}]
   },
   {
@@ -701,6 +751,7 @@ const BASE_CARTES = [
     description_longue: "En 1823, le chimiste allemand Johann Wolfgang Döbereiner met au point un dispositif produisant de l'hydrogène par réaction d'acide sulfurique sur du zinc, le gaz s'enflammant alors spontanément au contact d'une éponge de platine servant de catalyseur. Volumineux et potentiellement dangereux, ce « briquet de Döbereiner » n'en connaît pas moins un grand succès commercial en Europe pendant plus d'un demi-siècle.",
     anecdote: "Le briquet de Döbereiner, bien qu'encombrant comme une bouteille de vin, s'est vendu à plusieurs centaines de milliers d'exemplaires en Europe avant de disparaître face à des technologies plus sûres.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Briquet Döbereiner", "url": "https://fr.wikipedia.org/wiki/Briquet_D%C3%B6bereiner"}]
   },
   {
@@ -715,6 +766,7 @@ const BASE_CARTES = [
     description_longue: "En 1826, le chimiste anglais John Walker met au point la première allumette s'enflammant par simple friction sur une surface rugueuse, à base de trisulfure d'antimoine et de chlorate de potassium. Il ne dépose jamais de brevet, ce qui permet à d'autres de copier et d'améliorer rapidement son invention — notamment le Français Charles Sauria, qui ajoute du phosphore blanc en 1831 pour réduire l'odeur désagréable des premières allumettes.",
     anecdote: "Le phosphore blanc utilisé dans les premières allumettes était si toxique qu'il provoquait une maladie osseuse terrible chez les ouvrières des usines, la « nécrose phosphorée de la mâchoire ».",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Allumette", "url": "https://fr.wikipedia.org/wiki/Allumette"}]
   },
   {
@@ -729,6 +781,7 @@ const BASE_CARTES = [
     description_longue: "Développé à partir de 1837 par le peintre américain Samuel Morse et son assistant Alfred Vail, le télégraphe électrique permet pour la première fois de transmettre un message à grande distance quasiment instantanément, grâce à un code associant à chaque lettre une combinaison d'impulsions courtes et longues. Le premier message officiel, « What hath God wrought » (« Qu'a accompli Dieu »), est envoyé en 1844 entre Washington et Baltimore.",
     anecdote: "Le signal de détresse SOS, souvent associé au code Morse, n'a en réalité pas été choisi pour avoir un sens en anglais : sa simplicité de transmission (trois points, trois traits, trois points) est la seule raison de son adoption internationale en 1906.",
     fiabilite: "debattu",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Code Morse international", "url": "https://fr.wikipedia.org/wiki/Code_Morse_international"}, {"type": "wikipedia", "label": "Wikipédia : Télégraphe de Morse", "url": "https://fr.wikipedia.org/wiki/T%C3%A9l%C3%A9graphe_de_Morse"}]
   },
   {
@@ -743,6 +796,7 @@ const BASE_CARTES = [
     description_longue: "La découverte d'or par James Marshall à Sutter's Mill, en Californie, en janvier 1848 déclenche l'année suivante une ruée massive : plus de 300 000 aventuriers du monde entier, surnommés les « Forty-Niners », affluent vers l'ouest américain. San Francisco, simple hameau de tentes, se transforme en quelques années en grande ville, tandis que la région produit en moyenne 300 à 400 millions de francs-or par an entre 1848 et 1856.",
     anecdote: "L'homme sur les terres duquel l'or fut découvert, Johann Sutter, ne profita jamais de cette richesse : sa propriété fut envahie par les chercheurs d'or et il finit ruiné.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Ruée vers l'or en Californie", "url": "https://fr.wikipedia.org/wiki/Ru%C3%A9e_vers_l'or_en_Californie"}]
   },
   {
@@ -757,6 +811,7 @@ const BASE_CARTES = [
     description_longue: "Sous la IIe République, le décret du 27 avril 1848, porté notamment par Victor Schœlcher, abolit définitivement l'esclavage dans les colonies françaises et libère plus de 251 000 personnes. Il s'agit de la seconde abolition après celle, éphémère, de 1794, que Napoléon avait rétablie dès 1802 — l'un des rares exemples de recul des droits humains dans l'histoire de France.",
     anecdote: "Le décret d'abolition s'accompagne, chose aujourd'hui difficile à comprendre, d'une indemnisation financière versée non pas aux esclaves libérés, mais à leurs anciens propriétaires.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Décret d'abolition de l'esclavage du 27 avril 1848", "url": "https://fr.wikipedia.org/wiki/D%C3%A9cret_d'abolition_de_l'esclavage_du_27_avril_1848"}]
   },
   {
@@ -771,6 +826,7 @@ const BASE_CARTES = [
     description_longue: "Bien que la boîte de conserve existe depuis 1810, il faut attendre 1850 pour voir apparaître le premier ouvre-boîte breveté, conçu par le coutelier français Léon Bernard Claverie, suivi de près par l'Américain Ezra Warner en 1858, dont le modèle en forme de baïonnette-faucille est massivement adopté par l'armée pendant la guerre de Sécession. Jusque-là, on ouvrait les boîtes au marteau et au burin.",
     anecdote: "Le design de l'ouvre-boîte à roulette que nous connaissons aujourd'hui, bien plus simple et sûr, n'apparaîtra que plusieurs décennies plus tard, au tout début du XXe siècle.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Ouvre-boîte", "url": "https://fr.wikipedia.org/wiki/Ouvre-bo%C3%AEte"}]
   },
   {
@@ -785,6 +841,7 @@ const BASE_CARTES = [
     description_longue: "Le 17 mars 1861, à l'issue du Risorgimento, mouvement d'unification mené notamment par Cavour et Garibaldi, le royaume d'Italie est proclamé sous Victor-Emmanuel II de Savoie. L'unification n'est cependant pas encore achevée : la Vénétie ne rejoint le royaume qu'en 1866 et Rome, dernier bastion des États pontificaux, n'est annexée qu'en 1870, mettant fin à plus de mille ans de pouvoir temporel du pape.",
     anecdote: "Garibaldi, l'un des artisans de l'unification, avait conquis à lui seul et avec seulement un millier de volontaires, les « Chemises rouges », l'ensemble du royaume des Deux-Siciles en 1860.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Royaume d'Italie (1861-1946)", "url": "https://fr.wikipedia.org/wiki/Royaume_d%27Italie_(1861-1946)"}]
   },
   {
@@ -799,6 +856,7 @@ const BASE_CARTES = [
     description_longue: "Le 14 avril 1865, à peine cinq jours après la reddition des forces confédérées mettant fin à la guerre de Sécession, le président Abraham Lincoln est abattu par l'acteur sudiste John Wilkes Booth alors qu'il assiste à une pièce de théâtre à Washington. Booth, en fuite avec un complice, est traqué pendant douze jours avant d'être abattu, tandis que la mort de Lincoln prive le pays de la figure qui aurait pu adoucir la période de Reconstruction qui suit.",
     anecdote: "Lincoln aurait raconté à ses proches, quelques jours avant sa mort, avoir rêvé de sa propre veillée funèbre dans la Maison-Blanche.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Assassinat d'Abraham Lincoln", "url": "https://fr.wikipedia.org/wiki/Assassinat_d'Abraham_Lincoln"}]
   },
   {
@@ -813,6 +871,7 @@ const BASE_CARTES = [
     description_longue: "Adopté par le Congrès en janvier 1865 et ratifié en décembre de la même année, le treizième amendement de la Constitution abolit définitivement l'esclavage et la servitude involontaire aux États-Unis, sauf comme peine pour un crime. Il complète la Proclamation d'émancipation de 1863, qui ne libérait juridiquement que les esclaves des États sécessionnistes, sans mettre fin à l'esclavage dans tout le pays.",
     anecdote: "La clause « sauf comme peine pour un crime » de cet amendement est encore aujourd'hui débattue, certains historiens et juristes y voyant l'origine du travail carcéral forcé aux États-Unis.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Treizième amendement de la Constitution des États-Unis", "url": "https://fr.wikipedia.org/wiki/Treizi%C3%A8me_amendement_de_la_Constitution_des_%C3%89tats-Unis"}]
   },
   {
@@ -827,6 +886,7 @@ const BASE_CARTES = [
     description_longue: "Le 7 décembre 1869, Jesse James et sa bande attaquent la banque de Gallatin, dans le Missouri, tuant le caissier et ne repartant qu'avec 500 dollars — l'un des tout premiers braquages de banque en temps de paix aux États-Unis. Ancien combattant confédéré devenu hors-la-loi, Jesse James multipliera les attaques de banques et de trains pendant plus d'une décennie, devenant une figure légendaire du folklore américain, entre bandit et symbole de résistance sudiste.",
     anecdote: "Jesse James fut finalement tué par balle dans le dos, en 1882, par l'un de ses propres complices, Robert Ford, qui espérait toucher la prime promise pour sa capture.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Gang James-Younger", "url": "https://fr.wikipedia.org/wiki/Gang_James-Younger"}]
   },
   {
@@ -841,6 +901,7 @@ const BASE_CARTES = [
     description_longue: "En 1873, le tailleur Jacob Davis, qui achète ses tissus au grossiste Levi Strauss, a l'idée de renforcer les poches et la braguette des pantalons de travail avec des rivets en cuivre, pour répondre à la demande d'une cliente dont le mari bûcheron usait trop vite ses vêtements. N'ayant pas les moyens de déposer seul le brevet, il propose à Levi Strauss de s'associer : le blue-jean moderne est né.",
     anecdote: "Le tissu utilisé, la toile denim, tirait son nom de la ville française de Nîmes (« de Nîmes »), d'où provenait à l'origine ce tissu robuste.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Levi Strauss (jeans)", "url": "https://fr.wikipedia.org/wiki/Levi_Strauss_(jeans)"}]
   },
   {
@@ -855,6 +916,7 @@ const BASE_CARTES = [
     description_longue: "Alexander Graham Bell dépose le brevet du téléphone le 14 février 1876, seulement quelques heures avant un autre inventeur, Elisha Gray, qui déposait un projet similaire le même jour — une coïncidence qui donnera lieu à des décennies de controverse. En 2002, la Chambre des représentants des États-Unis a même adopté une résolution reconnaissant l'Italien Antonio Meucci comme véritable inventeur du téléphone, sans toutefois retirer officiellement le mérite à Bell.",
     anecdote: "La toute première phrase prononcée au téléphone par Bell, adressée à son assistant dans la pièce voisine, aurait été : « Monsieur Watson, venez, j'ai besoin de vous ».",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Invention du téléphone", "url": "https://fr.wikipedia.org/wiki/Invention_du_t%C3%A9l%C3%A9phone"}]
   },
   {
@@ -869,6 +931,7 @@ const BASE_CARTES = [
     description_longue: "En décembre 1877, Thomas Edison invente le phonographe, capable d'enregistrer puis de reproduire le son sur un cylindre recouvert de papier d'étain. Quelques mois plus tôt, le Français Charles Cros avait décrit un principe similaire, baptisé « paléophone », dans un mémoire adressé à l'Académie des sciences, mais sans jamais construire d'appareil fonctionnel — c'est donc Edison qui reste dans l'histoire comme l'inventeur de l'enregistrement sonore.",
     anecdote: "Le tout premier enregistrement réalisé par Edison sur son phonographe était sa propre voix récitant la comptine « Mary Had a Little Lamb ».",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Cylindre phonographique", "url": "https://fr.wikipedia.org/wiki/Cylindre_phonographique"}]
   },
   {
@@ -883,6 +946,7 @@ const BASE_CARTES = [
     description_longue: "Le principe de la lampe à incandescence est expérimenté dès les années 1830, et le Britannique Joseph Swan dépose un brevet dès 1878. Mais c'est Thomas Edison qui, après avoir testé plus de 6 000 matériaux, met au point en 1879-1880 un filament de bambou carbonisé suffisamment durable pour un usage commercial, avant de s'associer avec Swan pour fabriquer et vendre des ampoules à grande échelle.",
     anecdote: "Contrairement à une idée reçue, Edison n'a donc pas « inventé » l'ampoule électrique, mais il en a fait la première version réellement viable et commercialisable.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire de l'électricité", "url": "https://fr.wikipedia.org/wiki/Histoire_de_l'%C3%A9lectricit%C3%A9"}, {"type": "wikipedia", "label": "Wikipédia : Thomas Edison", "url": "https://fr.wikipedia.org/wiki/Thomas_Alva_Edison"}]
   },
   {
@@ -897,6 +961,7 @@ const BASE_CARTES = [
     description_longue: "Achevé en 1885 à Chicago, le Home Insurance Building est souvent considéré comme le tout premier gratte-ciel de l'histoire, non pas par sa hauteur modeste de 42 mètres, mais parce qu'il repose sur une véritable ossature métallique portante, remplaçant les murs porteurs en pierre qui limitaient jusque-là la hauteur des immeubles. Cette innovation, développée par l'École de Chicago, rend possible la course à la hauteur qui transformera les grandes villes du monde entier.",
     anecdote: "L'ossature métallique du Home Insurance Building a permis de réduire de moitié environ le poids du bâtiment par rapport à une construction en pierre équivalente.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire des gratte-ciel (1884-1939)", "url": "https://fr.wikipedia.org/wiki/Histoire_des_gratte-ciel_(1884-1939)"}]
   },
   {
@@ -911,6 +976,7 @@ const BASE_CARTES = [
     description_longue: "Conçue par l'ingénieur Gustave Eiffel pour l'Exposition universelle de 1889, la tour est achevée en deux ans, deux mois et cinq jours de travaux, un chantier record pour l'époque. Culminant à 300 mètres, elle reste le plus haut édifice du monde pendant plus de 40 ans. Prévue au départ pour être démontée après vingt ans, elle est finalement conservée grâce à son utilité pour les transmissions radio naissantes.",
     anecdote: "De nombreux artistes et intellectuels parisiens, dont Maupassant, signèrent une pétition dénonçant cette « tour de fer » qu'ils jugeaient hideuse — Maupassant aurait ensuite pris l'habitude de déjeuner dans son restaurant, seul endroit de Paris d'où il ne pouvait pas la voir.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Tour Eiffel", "url": "https://fr.wikipedia.org/wiki/Tour_Eiffel"}]
   },
   {
@@ -925,6 +991,7 @@ const BASE_CARTES = [
     description_longue: "En 1892, le dentiste américain Washington Sheffield, jusque-là vendeur de dentifrice en pot, s'inspire des tubes en étain utilisés par les peintres pour créer le premier tube de dentifrice souple et hermétique. Bien plus hygiénique et pratique que les pots partagés, ce nouveau conditionnement s'impose rapidement et reste, dans son principe, quasiment inchangé encore aujourd'hui.",
     anecdote: "Selon la légende familiale, c'est le fils de Sheffield, témoin à Paris de peintres utilisant des tubes métalliques, qui aurait soufflé l'idée à son père.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dentifrice", "url": "https://fr.wikipedia.org/wiki/Dentifrice"}]
   },
   {
@@ -939,6 +1006,7 @@ const BASE_CARTES = [
     description_longue: "En 1894, le docteur John Harvey Kellogg, directeur d'un établissement de santé végétarien à Battle Creek, dans le Michigan, met au point des flocons de céréales grillés pour ses patients. Son frère Will Keith Kellogg, chargé de la gestion de l'établissement, décide en 1906 de commercialiser le produit à grande échelle — mais les deux frères se brouillent sur l'ajout de sucre, que John juge contraire à leurs principes de santé et que Will estime indispensable au succès commercial.",
     anecdote: "Cette dispute entre les deux frères Kellogg sur le sucre a duré toute leur vie et les a définitivement séparés, chacun accusant l'autre d'avoir trahi l'esprit du produit original.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Flocon de maïs (corn flakes)", "url": "https://fr.wikipedia.org/wiki/Flocon_de_ma%C3%AFs"}]
   },
   {
@@ -953,6 +1021,7 @@ const BASE_CARTES = [
     description_longue: "En 1895-1896, l'Italien Guglielmo Marconi rassemble et perfectionne les découvertes de plusieurs scientifiques qui l'ont précédé — les ondes de Hertz, le cohéreur de Branly, l'antenne de Popov — pour transmettre un signal radio sur une distance de 250 mètres depuis le jardin de ses parents. Il fonde en 1897 sa propre compagnie et ouvre en 1898 la première usine de radios au monde, en Angleterre.",
     anecdote: "Marconi a longtemps été crédité comme seul inventeur de la radio, mais le Serbe Nikola Tesla détenait des brevets antérieurs sur des principes similaires, reconnus après sa mort par la Cour suprême américaine.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire de la radio", "url": "https://fr.wikipedia.org/wiki/Histoire_de_la_radio"}]
   },
   {
@@ -967,6 +1036,7 @@ const BASE_CARTES = [
     description_longue: "Les frères Auguste et Louis Lumière n'inventent pas le cinéma à proprement parler, mais organisent le 28 décembre 1895, au Grand Café de Paris, la première projection publique et payante de films sur grand écran devant plusieurs dizaines de spectateurs. Leur film « L'Arroseur arrosé », tourné la même année, est aussi considéré comme la toute première fiction comique de l'histoire du cinéma.",
     anecdote: "Selon la légende, certains spectateurs terrifiés par le film montrant un train entrant en gare auraient reculé leur chaise, persuadés que le train allait littéralement sortir de l'écran.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Auguste et Louis Lumière", "url": "https://fr.wikipedia.org/wiki/Auguste_et_Louis_Lumi%C3%A8re"}, {"type": "wikipedia", "label": "Wikipédia : L'Arroseur arrosé", "url": "https://fr.wikipedia.org/wiki/L'Arroseur_arros%C3%A9_(court-m%C3%A9trage,_1895)"}]
   },
   {
@@ -981,6 +1051,7 @@ const BASE_CARTES = [
     description_longue: "Le 2 juillet 1900, le comte allemand Ferdinand von Zeppelin fait voler au-dessus du lac de Constance le LZ 1, le tout premier dirigeable rigide de l'histoire, capable de transporter cinq passagers durant vingt minutes. Bien que ce premier vol se termine par un amerrissage forcé, la technologie démontre son potentiel et donnera naissance, quelques décennies plus tard, aux gigantesques zeppelins transatlantiques de l'entre-deux-guerres.",
     anecdote: "Le nom « zeppelin » est devenu depuis un terme générique pour désigner tout dirigeable rigide, quel que soit son fabricant réel — un peu comme « frigidaire » pour les réfrigérateurs.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dirigeable Zeppelin", "url": "https://fr.wikipedia.org/wiki/Dirigeable_Zeppelin"}]
   },
   {
@@ -995,6 +1066,7 @@ const BASE_CARTES = [
     description_longue: "En 1902, à la fois aux États-Unis et en Allemagne, apparaissent les premiers ours en peluche, à une époque où grandit une prise de conscience sur la déforestation et la chasse excessive aux animaux sauvages. La version américaine tire son nom du président Theodore « Teddy » Roosevelt, à qui l'on prête l'anecdote d'avoir refusé d'abattre un ourson lors d'une partie de chasse, un geste immortalisé par une caricature de presse.",
     anecdote: "Ce simple dessin de presse a inspiré un commerçant new-yorkais à créer et vendre un jouet en peluche baptisé « Teddy's bear », donnant naissance à l'expression « teddy bear » encore utilisée dans le monde entier.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Ours en peluche", "url": "https://fr.wikipedia.org/wiki/Ours_en_peluche"}]
   },
   {
@@ -1009,6 +1081,7 @@ const BASE_CARTES = [
     description_longue: "Le 17 décembre 1903, dans les dunes de Kitty Hawk, en Caroline du Nord, les frères Orville et Wilbur Wright réalisent avec leur Flyer, propulsé par un moteur de 12 chevaux, le premier vol motorisé et contrôlé de l'histoire de l'aviation. Le vol le plus long de la journée, piloté par Orville, ne parcourt que 284 mètres en 59 secondes — mais il ouvre l'ère de l'aviation moderne.",
     anecdote: "Les frères Wright n'étaient pas ingénieurs de formation : ils dirigeaient un petit atelier de réparation de bicyclettes, dont les compétences en mécanique légère se sont révélées décisives pour leur invention.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Orville et Wilbur Wright", "url": "https://fr.wikipedia.org/wiki/Orville_et_Wilbur_Wright"}]
   },
   {
@@ -1023,6 +1096,7 @@ const BASE_CARTES = [
     description_longue: "En 1903, Marie et Pierre Curie reçoivent, avec Henri Becquerel, le prix Nobel de physique pour leurs travaux sur la radioactivité, un phénomène qu'elle a elle-même baptisé. Marie Curie devient ainsi la première femme lauréate d'un prix Nobel. Elle recevra un second Nobel, de chimie cette fois, en 1911, pour la découverte du polonium et du radium — restant à ce jour la seule personne récompensée dans deux domaines scientifiques distincts.",
     anecdote: "Ses carnets de laboratoire sont encore aujourd'hui si radioactifs qu'ils sont conservés dans des boîtes plombées, et les consulter nécessite de signer une décharge et de porter une combinaison de protection.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Marie Curie", "url": "https://fr.wikipedia.org/wiki/Maria_Sklodowska-Curie"}, {"type": "youtube", "label": "Arte : Marie Curie, au-delà du mythe", "url": "https://www.youtube.com/watch?v=FVsta51URtg"}]
   },
   {
@@ -1037,6 +1111,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1908, le marchand de thé new-yorkais Thomas Sullivan envoie à ses clients des échantillons de thé dans de petits sachets de soie, destinés uniquement à protéger les arômes avant infusion des feuilles hors du sachet. Ses clients, par commodité, se mettent à infuser directement le thé dans le sachet — une utilisation détournée qui donne naissance, sans que Sullivan ne l'ait vraiment prévu, au sachet de thé tel qu'on le connaît aujourd'hui.",
     anecdote: "Il faudra encore attendre 1929 pour que l'Allemand Adolf Rambold invente la machine capable de fabriquer industriellement des sachets de thé en papier filtre, rendant le produit vraiment accessible au grand public.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Sachet de thé", "url": "https://fr.wikipedia.org/wiki/Sachet_de_th%C3%A9"}]
   },
   {
@@ -1051,6 +1126,7 @@ const BASE_CARTES = [
     description_longue: "Le 28 mars 1910, sur l'étang de Berre près de Marseille, l'ingénieur français Henri Fabre décolle à bord de son « Hydravion Canard », premier appareil au monde à décoller de façon autonome depuis l'eau, à voler, puis à s'y poser à nouveau. Ce premier vol ne parcourt que 800 mètres, mais fait immédiatement de Fabre, alors âgé de 27 ans, une figure mondialement reconnue de l'aviation naissante.",
     anecdote: "Deux exemplaires de cet hydravion pionnier existent encore aujourd'hui : l'un à l'aéroport de Marignane, non loin du lieu du premier vol, l'autre au musée de l'Air et de l'Espace du Bourget.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Henri Fabre (ingénieur)", "url": "https://fr.wikipedia.org/wiki/Henri_Fabre_(ing%C3%A9nieur)"}]
   },
   {
@@ -1065,6 +1141,7 @@ const BASE_CARTES = [
     description_longue: "Considéré comme insubmersible, le paquebot RMS Titanic heurte un iceberg dans la nuit du 14 au 15 avril 1912, lors de son tout premier voyage entre Southampton et New York, et sombre en moins de trois heures. Faute de canots de sauvetage en nombre suffisant — vingt seulement pour plus de 2 200 personnes à bord — plus de 1 500 personnes périssent, dans l'une des pires catastrophes maritimes en temps de paix.",
     anecdote: "Le compositeur du groupe de musiciens du bord, qui continua à jouer pour calmer les passagers pendant l'évacuation, périt avec le navire — un geste devenu l'un des symboles les plus marquants du naufrage.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Naufrage du Titanic", "url": "https://fr.wikipedia.org/wiki/Naufrage_du_Titanic"}, {"type": "youtube", "label": "Archive INA : l'épave du Titanic", "url": "https://www.youtube.com/watch?v=yrdlBsY2lFE"}]
   },
   {
@@ -1079,6 +1156,7 @@ const BASE_CARTES = [
     description_longue: "Déclenchée après l'assassinat de l'archiduc François-Ferdinand à Sarajevo le 28 juin 1914, la Première Guerre mondiale oppose pendant plus de quatre ans les puissances de la Triple-Entente aux empires centraux, dans des tranchées qui s'étendent sur des centaines de kilomètres à travers l'Europe. Elle entraînera la chute de quatre empires — russe, austro-hongrois, allemand et ottoman — et fera plus de 18 millions de morts.",
     anecdote: "Un soldat français, Octave Delaluque, aurait été le tout dernier tué au combat, seulement quelques minutes avant l'entrée en vigueur de l'armistice à 11 heures, le 11 novembre 1918.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Première Guerre mondiale", "url": "https://fr.wikipedia.org/wiki/Premi%C3%A8re_Guerre_mondiale"}, {"type": "youtube", "label": "Arte (Le Dessous des cartes) : les facteurs de la guerre en 1914", "url": "https://www.youtube.com/watch?v=jJEYM_ew_cI"}]
   },
   {
@@ -1093,6 +1171,7 @@ const BASE_CARTES = [
     description_longue: "Le 28 juin 1914, à Sarajevo, le nationaliste serbe de Bosnie Gavrilo Princip assassine l'archiduc François-Ferdinand, héritier du trône austro-hongrois, et son épouse Sophie. Cet attentat déclenche une crise diplomatique en chaîne, alimentée par un jeu d'alliances militaires complexes entre grandes puissances européennes, qui débouche en quelques semaines sur la Première Guerre mondiale.",
     anecdote: "L'attentat a failli échouer : après une première tentative ratée dans la matinée, c'est un simple hasard de circulation — le chauffeur de l'archiduc se trompant de route — qui a replacé la voiture juste devant Princip.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Attentat de Sarajevo", "url": "https://fr.wikipedia.org/wiki/Attentat_de_Sarajevo"}]
   },
   {
@@ -1107,6 +1186,7 @@ const BASE_CARTES = [
     description_longue: "Le 7 mai 1915, le paquebot britannique Lusitania est torpillé par un sous-marin allemand au large de l'Irlande et coule en seulement dix-huit minutes, faisant près de 1 200 morts, dont 128 citoyens américains. Ce drame, largement relayé par la presse américaine, contribue fortement à retourner l'opinion publique des États-Unis contre l'Allemagne et prépare le terrain à leur entrée en guerre, deux ans plus tard.",
     anecdote: "L'Allemagne avait publié, quelques jours avant le départ du navire, une annonce dans les journaux new-yorkais avertissant les passagers des risques encourus à voyager sur un navire d'une nation en guerre — un avertissement resté largement ignoré.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Entrée américaine dans la Première Guerre mondiale (contexte Lusitania)", "url": "https://fr.wikipedia.org/wiki/Entr%C3%A9e_am%C3%A9ricaine_dans_la_Premi%C3%A8re_Guerre_mondiale"}]
   },
   {
@@ -1121,6 +1201,7 @@ const BASE_CARTES = [
     description_longue: "L'armistice est signé le 11 novembre 1918 à 5h15 du matin, dans un wagon-restaurant aménagé en forêt de Compiègne, et entre en vigueur à 11 heures précises. Il met fin provisoirement aux combats de la Première Guerre mondiale, qui a fait plus de 18,6 millions de morts et blessés ; la paix ne sera officiellement scellée que le 28 juin 1919, avec la signature du traité de Versailles.",
     anecdote: "Le même wagon-restaurant servira, plus de vingt ans plus tard en juin 1940, de cadre à la signature de l'armistice de la défaite française face à l'Allemagne nazie — un symbole de revanche voulu par Hitler.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Armistice du 11 novembre 1918", "url": "https://fr.wikipedia.org/wiki/Armistice_du_11_novembre_1918"}]
   },
   {
@@ -1135,6 +1216,7 @@ const BASE_CARTES = [
     description_longue: "Signé le 28 juin 1919 dans la galerie des Glaces du château de Versailles, exactement cinq ans après l'attentat de Sarajevo, le traité impose à l'Allemagne vaincue de lourdes réparations financières, la reconnaissance de sa responsabilité dans le déclenchement de la guerre et une réduction drastique de ses forces armées. Il crée aussi la Société des Nations, ancêtre de l'ONU, censée garantir désormais la paix mondiale.",
     anecdote: "Beaucoup d'historiens considèrent que la dureté des sanctions imposées par ce traité a alimenté le ressentiment allemand qui contribuera, deux décennies plus tard, à la montée du nazisme.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Traité de Versailles", "url": "https://fr.wikipedia.org/wiki/Trait%C3%A9_de_Versailles"}]
   },
   {
@@ -1149,6 +1231,7 @@ const BASE_CARTES = [
     description_longue: "Après des années de fouilles infructueuses financées par Lord Carnarvon, l'archéologue britannique Howard Carter découvre le 4 novembre 1922, dans la vallée des Rois, l'entrée d'une tombe presque intacte : celle du jeune pharaon Toutânkhamon, mort vers 18 ans. Contrairement à la plupart des sépultures royales égyptiennes, pillées dans l'Antiquité, celle-ci recèle un trésor funéraire d'une richesse exceptionnelle, encore étudié aujourd'hui.",
     anecdote: "La rumeur d'une « malédiction du pharaon » a enflé après la mort de Lord Carnarvon, quelques mois après l'ouverture de la tombe, d'une simple infection consécutive à la piqûre d'un moustique.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Tombeau de Toutânkhamon", "url": "https://fr.wikipedia.org/wiki/Tombeau_de_Tout%C3%A2nkhamon"}, {"type": "youtube", "label": "Arte : Toutankhamon, le trésor redécouvert", "url": "https://www.youtube.com/watch?v=cb8cyi7JaMw"}]
   },
   {
@@ -1163,6 +1246,7 @@ const BASE_CARTES = [
     description_longue: "Les 20 et 21 mai 1927, l'aviateur américain Charles Lindbergh relie en solitaire New York à Paris à bord de son monoplan Spirit of St. Louis, sans escale et sans radio, en un peu plus de 33 heures de vol. Il ne s'agit pas de la toute première traversée aérienne de l'Atlantique, mais bien du premier vol en solitaire et sans escale entre les deux villes, un exploit qui fait de lui une célébrité mondiale instantanée.",
     anecdote: "Pour gagner en légèreté et en autonomie de carburant, Lindbergh avait renoncé à tout parachute, radio et même à un siège confortable, ne conservant que le strict nécessaire pour tenir le cap.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Spirit of Saint Louis (avion de Lindbergh)", "url": "https://fr.wikipedia.org/wiki/Spirit_of_Saint_Louis"}]
   },
   {
@@ -1177,6 +1261,7 @@ const BASE_CARTES = [
     description_longue: "En septembre 1928, revenant de vacances, le bactériologiste écossais Alexander Fleming remarque qu'une moisissure ayant accidentellement contaminé une de ses cultures de bactéries a empêché celles-ci de se développer autour d'elle. Il isole la substance responsable et la nomme pénicilline, sans toutefois parvenir à la purifier suffisamment pour un usage médical — il faudra attendre 1940 et les travaux d'Howard Florey et Ernst Chain pour transformer cette découverte en traitement sauvant des vies.",
     anecdote: "Fleming lui-même a longtemps douté de l'utilité pratique de sa découverte, jugeant trop difficile de produire de la pénicilline en quantité suffisante — un scepticisme qui a retardé son exploitation de plus de dix ans.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Découverte de la pénicilline", "url": "https://fr.wikipedia.org/wiki/D%C3%A9couverte_de_la_p%C3%A9nicilline"}, {"type": "youtube", "label": "Arte : Alexander Fleming et la découverte de la pénicilline", "url": "https://www.youtube.com/watch?v=gTA4aPMNSkg"}]
   },
   {
@@ -1191,6 +1276,7 @@ const BASE_CARTES = [
     description_longue: "Les premières guitares électriques commercialisées apparaissent à la fin des années 1920, portées par les progrès de l'amplification électronique. En 1928, la petite entreprise Stromberg-Voisinet en propose une version, sans grand succès commercial ; il faudra attendre 1936 et le modèle Gibson ES-150, adopté par le guitariste de jazz Charlie Christian, pour voir l'instrument s'imposer réellement, ouvrant la voie au son électrique qui dominera la musique populaire du XXe siècle.",
     anecdote: "Avant de connaître le succès, l'un des tout premiers modèles de guitare électrique avait été conçu comme un accessoire pour piano — le brevet du capteur magnétique déposé en 1911 visait en réalité un tout autre instrument.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guitare électrique", "url": "https://fr.wikipedia.org/wiki/Guitare_%C3%A9lectrique"}]
   },
   {
@@ -1205,6 +1291,7 @@ const BASE_CARTES = [
     description_longue: "Entre le 24 et le 29 octobre 1929, la Bourse de New York s'effondre après plusieurs années de spéculation effrénée alimentée par l'achat d'actions à crédit. Ce krach, dont les journées les plus sombres sont surnommées « jeudi noir » et « mardi noir », déclenche la Grande Dépression, la plus grave crise économique du XXe siècle, dont les effets se feront sentir dans le monde entier pendant toute la décennie suivante.",
     anecdote: "Certains historiens estiment aujourd'hui largement exagérée l'image populaire de financiers ruinés se jetant par les fenêtres de Wall Street, un mythe entretenu par la presse de l'époque.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Krach de 1929", "url": "https://fr.wikipedia.org/wiki/Krach_de_1929"}]
   },
   {
@@ -1219,6 +1306,7 @@ const BASE_CARTES = [
     description_longue: "Organisée par la naissante FIFA sous l'impulsion de son président Jules Rimet, la première Coupe du monde de football se déroule en Uruguay en juillet 1930, pays choisi pour célébrer le centenaire de son indépendance et parce qu'il s'était engagé à financer le voyage de toutes les équipes participantes. L'Uruguay remporte le tournoi à domicile en battant l'Argentine 4 à 2 en finale, devant le tout nouveau stade Centenario construit pour l'occasion.",
     anecdote: "Plusieurs sélections européennes, dont l'Angleterre, refusèrent de faire le long voyage en bateau jusqu'en Uruguay, privant cette première édition de certaines des meilleures équipes de l'époque.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Coupe du monde de football 1930", "url": "https://fr.wikipedia.org/wiki/Coupe_du_monde_de_football_1930"}]
   },
   {
@@ -1233,6 +1321,7 @@ const BASE_CARTES = [
     description_longue: "Le 1er septembre 1939, l'Allemagne nazie envahit la Pologne, une semaine seulement après avoir signé un pacte de non-agression secret avec l'URSS, qui envahit à son tour le pays par l'est. La France et le Royaume-Uni, liés à la Pologne par traité, déclarent la guerre à l'Allemagne le 3 septembre : c'est le début officiel de la Seconde Guerre mondiale, qui fera au total plus de 60 millions de morts.",
     anecdote: "Pour justifier son invasion, l'Allemagne nazie avait mis en scène une fausse attaque polonaise contre un poste-frontière allemand, orchestrée par ses propres services secrets.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Campagne de Pologne (1939)", "url": "https://fr.wikipedia.org/wiki/Campagne_de_Pologne_(1939)"}, {"type": "wikipedia", "label": "Wikipédia : Seconde Guerre mondiale", "url": "https://fr.wikipedia.org/wiki/Seconde_Guerre_mondiale"}]
   },
   {
@@ -1247,6 +1336,7 @@ const BASE_CARTES = [
     description_longue: "Le 6 juin 1944, dans le cadre de l'opération Overlord, environ 176 000 soldats alliés débarquent sur cinq plages du littoral normand — Utah, Omaha, Gold, Juno et Sword — ouvrant un second front décisif à l'ouest contre l'Allemagne nazie. Une brève accalmie météorologique, repérée juste à temps par les prévisionnistes alliés, permet de maintenir l'opération malgré une mer agitée qui avait failli entraîner un report de plusieurs semaines.",
     anecdote: "Pour tromper les Allemands sur le lieu réel du débarquement, les Alliés avaient monté une vaste opération de désinformation, l'opération Fortitude, avec de faux campements militaires gonflables visibles depuis les airs.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Débarquement de Normandie", "url": "https://fr.wikipedia.org/wiki/D%C3%A9barquement_de_Normandie"}, {"type": "youtube", "label": "L'Histoire par l'image : le débarquement du 6 juin 1944", "url": "https://www.youtube.com/watch?v=UzKsn_fAvno"}]
   },
   {
@@ -1261,6 +1351,7 @@ const BASE_CARTES = [
     description_longue: "Le 6 août 1945, le bombardier américain Enola Gay largue sur Hiroshima la première bombe atomique jamais utilisée au combat, tuant plus de 70 000 personnes sur le coup et bien davantage dans les mois suivants des suites des radiations. Trois jours plus tard, une seconde bombe est larguée sur Nagasaki, précipitant la capitulation du Japon et marquant l'entrée du monde dans l'ère nucléaire.",
     anecdote: "Le pilote de l'Enola Gay avait baptisé l'avion du nom de sa propre mère, Enola Gay Tibbets, juste avant la mission.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Bombardements atomiques d'Hiroshima et de Nagasaki", "url": "https://fr.wikipedia.org/wiki/Bombardements_atomiques_d'Hiroshima_et_de_Nagasaki"}, {"type": "youtube", "label": "Arte (Quand l'histoire fait dates) : 6 août 1945, Hiroshima", "url": "https://www.youtube.com/watch?v=l8Fr6vOkjdE"}]
   },
   {
@@ -1275,6 +1366,7 @@ const BASE_CARTES = [
     description_longue: "Après les bombardements d'Hiroshima et de Nagasaki et la déclaration de guerre soviétique contre le Japon le 8 août 1945, l'empereur Hirohito annonce dans un discours radiodiffusé, le 15 août, la reddition de son pays. La cérémonie officielle de capitulation se tient le 2 septembre 1945 à bord du cuirassé USS Missouri, dans la baie de Tokyo, mettant un terme définitif à six années de conflit mondial.",
     anecdote: "Ce discours radiodiffusé du 15 août 1945 était la toute première fois que la voix de l'empereur Hirohito était entendue publiquement par ses sujets, la plupart des Japonais n'ayant jamais entendu leur souverain parler.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Capitulation du Japon", "url": "https://fr.wikipedia.org/wiki/Capitulation_du_Japon"}]
   },
   {
@@ -1289,6 +1381,7 @@ const BASE_CARTES = [
     description_longue: "Réunis à San Francisco du 25 avril au 26 juin 1945, les représentants de 51 États rédigent en seulement deux mois la Charte des Nations unies, dans l'espoir d'éviter qu'un nouveau conflit mondial ne se reproduise après les échecs de la Société des Nations. L'organisation, dotée d'un Conseil de sécurité aux pouvoirs contraignants, entre officiellement en vigueur le 24 octobre 1945.",
     anecdote: "La Charte des Nations unies a été rédigée dans un temps record de deux mois, alors que sa devancière, le pacte de la Société des Nations, avait mis des années à voir le jour après la Première Guerre mondiale.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Création de l'Organisation des Nations unies", "url": "https://fr.wikipedia.org/wiki/Cr%C3%A9ation_de_l'Organisation_des_Nations_unies"}]
   },
   {
@@ -1303,6 +1396,7 @@ const BASE_CARTES = [
     description_longue: "Par deux ordonnances des 4 et 19 octobre 1945, le gouvernement provisoire de la République française, sous l'impulsion du gaulliste Pierre Laroque et du communiste Ambroise Croizat, crée un système de protection sociale universel couvrant maladie, maternité, invalidité, vieillesse et décès. Ce compromis entre gaullistes et communistes à la Libération pose les fondations de l'un des systèmes de santé les plus complets au monde.",
     anecdote: "Pierre Laroque et Ambroise Croizat, issus de courants politiques opposés, ont pourtant collaboré étroitement à la conception de ce système, aujourd'hui considéré comme l'un des piliers du modèle social français.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Sécurité sociale (France)", "url": "https://fr.wikipedia.org/wiki/S%C3%A9curit%C3%A9_sociale_(France)"}]
   },
   {
@@ -1317,6 +1411,7 @@ const BASE_CARTES = [
     description_longue: "Sans date de début officielle unique, l'entrée en guerre froide entre les États-Unis et l'URSS se cristallise en 1947, notamment avec l'annonce du plan Marshall, destiné à aider économiquement l'Europe de l'Ouest pour contenir l'influence soviétique. L'expression « guerre froide » elle-même se répand cette année-là, popularisée par le journaliste américain Walter Lippmann à la suite d'un discours du conseiller présidentiel Bernard Baruch.",
     anecdote: "Cette confrontation sans affrontement militaire direct entre les deux superpuissances va durer plus de quarante ans, jusqu'à la chute de l'URSS en 1991.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre froide", "url": "https://fr.wikipedia.org/wiki/Guerre_froide"}]
   },
   {
@@ -1331,6 +1426,7 @@ const BASE_CARTES = [
     description_longue: "Le 15 août 1947, après des décennies de mouvement pour l'indépendance mené notamment par Gandhi et Nehru, l'Inde britannique accède à l'indépendance, immédiatement suivie d'une partition douloureuse entre l'Inde à majorité hindoue et le Pakistan à majorité musulmane. Ce découpage précipité, tracé par le vice-roi Louis Mountbatten, provoque des déplacements de population massifs et des violences intercommunautaires qui feront des centaines de milliers de morts.",
     anecdote: "La ligne de partition entre les deux nouveaux pays, tracée par un juriste britannique n'ayant jamais mis les pieds en Inde auparavant, n'a été rendue publique que deux jours après l'indépendance elle-même.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Partition des Indes", "url": "https://fr.wikipedia.org/wiki/Partition_des_Indes"}]
   },
   {
@@ -1345,6 +1441,7 @@ const BASE_CARTES = [
     description_longue: "Le 14 octobre 1947, le pilote d'essai américain Chuck Yeager devient le premier homme à franchir le mur du son en vol, à bord de l'avion-fusée expérimental Bell X-1, dont la forme s'inspire directement d'une balle de fusil supersonique. Il atteint Mach 1,06, soit environ 1 100 km/h, malgré deux côtes fêlées quelques jours plus tôt lors d'une chute de cheval, qu'il avait cachées à sa hiérarchie pour ne pas être écarté du vol.",
     anecdote: "Yeager avait tellement mal aux côtes qu'il ne pouvait pas fermer lui-même la trappe du cockpit — un mécanicien lui a fabriqué un levier improvisé, taillé dans un manche à balai, pour qu'il puisse la refermer seul.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Mur du son", "url": "https://fr.wikipedia.org/wiki/Mur_du_son"}, {"type": "wikipedia", "label": "Wikipédia : Chuck Yeager", "url": "https://fr.wikipedia.org/wiki/Charles_Elwood_Yeager"}]
   },
   {
@@ -1359,6 +1456,7 @@ const BASE_CARTES = [
     description_longue: "Le 23 décembre 1947, aux laboratoires Bell Labs, les physiciens John Bardeen, Walter Brattain et William Shockley présentent le premier transistor de l'histoire, un composant capable d'amplifier ou de commuter un signal électrique sans les inconvénients des tubes à vide — plus gros, plus fragiles et plus gourmands en énergie. Cette invention, qui leur vaudra le prix Nobel en 1956, est à l'origine de toute l'électronique moderne, des ordinateurs aux smartphones.",
     anecdote: "Le tout premier transistor fonctionnel tenait dans la paume de la main et amplifiait un simple signal vocal — une prouesse minuscule qui allait pourtant rendre possible, des décennies plus tard, des puces contenant des milliards de transistors.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Transistor à contact ponctuel", "url": "https://fr.wikipedia.org/wiki/Transistor_%C3%A0_contact_ponctuel"}]
   },
   {
@@ -1373,6 +1471,7 @@ const BASE_CARTES = [
     description_longue: "Le 24 juin 1947, le pilote privé Kenneth Arnold rapporte avoir observé neuf objets volants non identifiés se déplaçant à grande vitesse près du mont Rainier, dans l'État de Washington. Son témoignage, largement relayé par la presse, popularise l'expression « soucoupe volante » et déclenche l'ère moderne de la fascination pour les ovnis aux États-Unis, quelques jours seulement avant l'incident tout aussi célèbre de Roswell.",
     anecdote: "Arnold n'a en réalité jamais parlé d'objets en forme de « soucoupe » : c'est la façon dont il a décrit leur mouvement, comme des soucoupes ricochant sur l'eau, qui a été mal interprétée par un journaliste et a donné naissance à l'expression.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Chronologie de l'ufologie", "url": "https://fr.wikipedia.org/wiki/Chronologie_de_l'ufologie"}]
   },
   {
@@ -1387,6 +1486,7 @@ const BASE_CARTES = [
     description_longue: "Le 10 janvier 1949, la firme américaine RCA Victor lance le disque 45 tours, un format compact d'environ 17,5 cm conçu spécifiquement pour concurrencer le microsillon de son rival Columbia et pour alimenter le marché en plein essor des jukebox. Son grand trou central, pensé pour un chargement automatique rapide, restera la signature visuelle du format jusqu'à son déclin face à la cassette puis au CD.",
     anecdote: "Le disque 45 tours deviendra, des décennies durant, le format de prédilection des adolescents pour acheter leur chanson préférée sans se ruiner sur un album entier.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Disque microsillon", "url": "https://fr.wikipedia.org/wiki/Disque_microsillon"}, {"type": "wikipedia", "label": "Wikipédia : Disque phonographique", "url": "https://fr.wikipedia.org/wiki/Disque_phonographique"}]
   },
   {
@@ -1401,6 +1501,7 @@ const BASE_CARTES = [
     description_longue: "Le 29 mai 1953, le Néo-Zélandais Edmund Hillary et le sherpa népalais Tensing Norgay deviennent les premiers hommes à atteindre le sommet de l'Everest, à 8 849 mètres d'altitude, au terme d'une expédition britannique dirigée par le général John Hunt. La nouvelle de leur exploit parvient à Londres juste à temps pour être annoncée le matin même du couronnement de la reine Élisabeth II, offrant à la Grande-Bretagne un double motif de fierté nationale.",
     anecdote: "Par respect mutuel, Hillary et Norgay n'ont jamais révélé publiquement lequel des deux avait posé le pied en premier sur le sommet, laissant l'exploit rester une réussite commune.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Expédition britannique à l'Everest de 1953", "url": "https://fr.wikipedia.org/wiki/Exp%C3%A9dition_britannique_%C3%A0_l'Everest_de_1953"}]
   },
   {
@@ -1415,6 +1516,7 @@ const BASE_CARTES = [
     description_longue: "Le 25 avril 1953, les chercheurs James Watson et Francis Crick publient dans la revue Nature le modèle en double hélice de l'ADN, s'appuyant largement sur les clichés de diffraction aux rayons X réalisés par la chercheuse Rosalind Franklin, transmis à leur insu par leur collègue Maurice Wilkins. Cette découverte, qui explique comment l'information génétique est stockée et transmise, révolutionne durablement la biologie moderne.",
     anecdote: "Rosalind Franklin, morte en 1958 d'un cancer, n'a jamais pu recevoir le prix Nobel attribué en 1962 à Watson, Crick et Wilkins pour cette découverte, le prix n'étant jamais décerné à titre posthume.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Acide désoxyribonucléique (ADN)", "url": "https://fr.wikipedia.org/wiki/Acide_d%C3%A9soxyribonucl%C3%A9ique"}, {"type": "wikipedia", "label": "Wikipédia : Rosalind Franklin", "url": "https://fr.wikipedia.org/wiki/Rosalind_Elsie_Franklin"}]
   },
   {
@@ -1429,6 +1531,7 @@ const BASE_CARTES = [
     description_longue: "Le 1er décembre 1955, à Montgomery en Alabama, la couturière afro-américaine Rosa Parks refuse de céder sa place assise dans un bus à un passager blanc, comme l'exigeaient les lois de ségrégation raciale de l'époque. Son arrestation déclenche un boycott des bus mené par un jeune pasteur alors peu connu, Martin Luther King, qui durera 381 jours et se conclura par une décision de la Cour suprême déclarant la ségrégation dans les bus inconstitutionnelle.",
     anecdote: "Rosa Parks n'était pas la première personne à refuser de céder sa place ; plusieurs femmes noires, dont Claudette Colvin neuf mois plus tôt, avaient déjà été arrêtées pour le même motif, mais son cas fut jugé le plus mobilisateur politiquement.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Boycott des bus de Montgomery", "url": "https://fr.wikipedia.org/wiki/Boycott_des_bus_de_Montgomery"}]
   },
   {
@@ -1443,6 +1546,7 @@ const BASE_CARTES = [
     description_longue: "Le 4 octobre 1957, l'URSS place en orbite Spoutnik 1, une simple sphère métallique de 58 centimètres de diamètre équipée d'un émetteur radio, devenant le premier objet fabriqué par l'homme à orbiter autour de la Terre. Ce succès surprend et inquiète profondément les États-Unis, déclenchant la course à l'espace qui mènera, douze ans plus tard, au premier pas de l'homme sur la Lune.",
     anecdote: "Le simple « bip bip » régulier émis par Spoutnik, captable par n'importe quel poste de radio amateur sur Terre, a suffi à provoquer une onde de choc psychologique majeure aux États-Unis, où l'on craignait désormais une supériorité technologique soviétique.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Spoutnik", "url": "https://fr.wikipedia.org/wiki/Spoutnik"}]
   },
   {
@@ -1457,6 +1561,7 @@ const BASE_CARTES = [
     description_longue: "Organisés à Rome en septembre 1960, une semaine après les Jeux olympiques, les premiers Jeux paralympiques réunissent environ 400 athlètes en situation de handicap venus de 23 pays, dans huit disciplines sportives. L'événement est co-organisé par le neurologue britannique Ludwig Guttmann, pionnier de la rééducation par le sport pour les blessés médullaires, considéré comme le fondateur du mouvement paralympique.",
     anecdote: "Le village olympique de Rome n'était pas du tout accessible aux fauteuils roulants : les athlètes devaient être portés à bras par des volontaires pour franchir les escaliers.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jeux paralympiques d'été de 1960", "url": "https://fr.wikipedia.org/wiki/Jeux_paralympiques_d'%C3%A9t%C3%A9_de_1960"}]
   },
   {
@@ -1471,6 +1576,7 @@ const BASE_CARTES = [
     description_longue: "Le 12 avril 1961, le cosmonaute soviétique Youri Gagarine devient le premier être humain à voyager dans l'espace, effectuant une orbite complète autour de la Terre en 108 minutes à bord du vaisseau Vostok 1. Cet exploit, obtenu à peine quatre ans après Spoutnik, place l'URSS en tête de la course à l'espace et pousse les États-Unis à accélérer leurs propres programmes spatiaux, jusqu'à la Lune huit ans plus tard.",
     anecdote: "Gagarine n'a pas atterri à bord de sa capsule : conformément au protocole soviétique de l'époque, il s'est éjecté et a terminé sa descente en parachute, un détail longtemps tenu secret pour préserver l'homologation de son vol comme premier vol spatial habité.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Iouri Gagarine", "url": "https://fr.wikipedia.org/wiki/Iouri_Gagarine"}, {"type": "youtube", "label": "Archive INA : Youri Gagarine, le premier homme de l'espace", "url": "https://www.youtube.com/watch?v=ysihplhRo7w"}]
   },
   {
@@ -1485,6 +1591,7 @@ const BASE_CARTES = [
     description_longue: "Dans la nuit du 12 au 13 août 1961, les autorités est-allemandes érigent en quelques heures des barrières de fil barbelé séparant Berlin-Est de Berlin-Ouest, rapidement remplacées par un mur en dur. Ce chantier, tenu secret jusqu'au dernier moment, vise à stopper l'exode massif des habitants de la RDA vers l'Ouest, qui menaçait l'effondrement économique et démographique du régime est-allemand.",
     anecdote: "Le mur restera en place pendant plus de 28 ans, séparant parfois des familles entières et des rues coupées en deux du jour au lendemain.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Mur de Berlin", "url": "https://fr.wikipedia.org/wiki/Mur_de_Berlin"}, {"type": "youtube", "label": "Archive INA : 1961, la construction du Mur de Berlin", "url": "https://www.youtube.com/watch?v=DJLVdtMizBo"}]
   },
   {
@@ -1499,6 +1606,7 @@ const BASE_CARTES = [
     description_longue: "Du 14 au 27 octobre 1962, les États-Unis et l'URSS s'affrontent dans une confrontation diplomatique et militaire d'une intensité inédite, après la découverte de missiles nucléaires soviétiques installés à Cuba, à quelques centaines de kilomètres seulement des côtes américaines. Le monde frôle alors la guerre nucléaire directe entre les deux superpuissances avant qu'un compromis secret ne permette le retrait des missiles.",
     anecdote: "Le compromis final incluait une clause tenue secrète pendant des décennies : en échange du retrait soviétique, les États-Unis retiraient discrètement leurs propres missiles nucléaires installés en Turquie.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Crise des missiles de Cuba", "url": "https://fr.wikipedia.org/wiki/Crise_des_missiles_de_Cuba"}, {"type": "youtube", "label": "Arte (Les coulisses de l'histoire) : la crise des missiles de Cuba", "url": "https://www.youtube.com/watch?v=iXbXVHxNRu8"}]
   },
   {
@@ -1513,6 +1621,7 @@ const BASE_CARTES = [
     description_longue: "Le 22 novembre 1963, le président John F. Kennedy est mortellement blessé par balle à Dallas, au Texas, alors que son cortège traverse la ville en voiture décapotable. Lee Harvey Oswald est arrêté quelques heures plus tard, avant d'être lui-même assassiné en direct à la télévision deux jours après, ce qui alimentera durablement les théories du complot autour de cet assassinat encore débattu aujourd'hui.",
     anecdote: "Kennedy est le quatrième président américain assassiné en exercice, mais le premier dont la mort a été filmée : l'amateur Abraham Zapruder a capturé la scène sur une caméra 8 mm, devenue depuis l'un des documents les plus étudiés de l'histoire américaine.",
     fiabilite: "debattu",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Assassinat de John F. Kennedy", "url": "https://fr.wikipedia.org/wiki/Assassinat_de_John_F._Kennedy"}, {"type": "youtube", "label": "Archive INA : l'assassinat de John Fitzgerald Kennedy à Dallas", "url": "https://www.youtube.com/watch?v=3yNPIi9d8wY"}]
   },
   {
@@ -1527,6 +1636,7 @@ const BASE_CARTES = [
     description_longue: "Le 4 avril 1968, le pasteur et militant des droits civiques Martin Luther King est abattu sur le balcon de son motel à Memphis, dans le Tennessee, où il s'était rendu pour soutenir une grève d'éboueurs noirs. Sa mort déclenche des émeutes dans plus de 125 villes américaines et prive le mouvement des droits civiques de sa figure la plus emblématique, un an seulement après son discours contre la guerre du Vietnam.",
     anecdote: "La veille de sa mort, dans son dernier discours public, Martin Luther King avait étrangement évoqué sa propre mort possible, déclarant qu'il avait « vu la Terre promise » mais qu'il n'était pas certain d'y parvenir avec les autres.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Assassinat de Martin Luther King", "url": "https://fr.wikipedia.org/wiki/Assassinat_de_Martin_Luther_King"}]
   },
   {
@@ -1541,6 +1651,7 @@ const BASE_CARTES = [
     description_longue: "Le 21 juillet 1969, l'astronaute américain Neil Armstrong pose le pied sur la Lune lors de la mission Apollo 11, suivi quelques minutes plus tard par Buzz Aldrin, pendant que Michael Collins les attend en orbite lunaire. Suivi en direct par des centaines de millions de téléspectateurs à travers le monde, cet exploit marque l'aboutissement de la course à l'espace lancée douze ans plus tôt par Spoutnik.",
     anecdote: "La célèbre phrase d'Armstrong, « un petit pas pour l'homme, un bond de géant pour l'humanité », a été partiellement brouillée par les communications radio : il aurait en réalité prononcé « for a man », un article manquant qui a fait débat pendant des décennies.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Premiers sur la Lune", "url": "https://fr.wikipedia.org/wiki/Premiers_sur_la_Lune"}, {"type": "youtube", "label": "Arte (History Catchers) : le premier cameraman de la Lune", "url": "https://www.youtube.com/watch?v=S6Pc-XaBjqk"}]
   },
   {
@@ -1555,6 +1666,7 @@ const BASE_CARTES = [
     description_longue: "Le 21 novembre 1969, les universités UCLA et Stanford établissent la première connexion d'ARPANET, un réseau financé par le Pentagone pour permettre à des ordinateurs distants de communiquer par commutation de paquets. Ce réseau expérimental, qui ne comptera que quatre nœuds fin 1969, est considéré comme l'ancêtre direct d'Internet, dont l'architecture décentralisée s'inspire directement de ses principes fondateurs.",
     anecdote: "Le tout premier message envoyé sur ARPANET devait être le mot « LOGIN » ; le système a planté après seulement les deux premières lettres, faisant du mot « LO » le véritable premier message de l'histoire d'Internet.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire d'Internet", "url": "https://fr.wikipedia.org/wiki/Histoire_d'Internet"}]
   },
   {
@@ -1569,6 +1681,7 @@ const BASE_CARTES = [
     description_longue: "Commercialisée par Magnavox à partir de septembre 1972 aux États-Unis, l'Odyssey est la première console de jeux vidéo domestique de l'histoire, conçue à partir des travaux de l'ingénieur Ralph Baer dès les années 1960. Sans son ni couleur, elle n'affiche que trois points carrés blancs sur l'écran du téléviseur auquel elle est branchée, mais elle ouvre la voie à toute l'industrie du jeu vidéo domestique.",
     anecdote: "Faute de graphismes, l'Odyssey était vendue avec des feuilles de plastique transparentes colorées à coller directement sur l'écran du téléviseur pour simuler des décors de jeu.",
     fiabilite: "debattu",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Magnavox Odyssey", "url": "https://fr.wikipedia.org/wiki/Odyssey_(console_de_jeux_vid%C3%A9o)"}]
   },
   {
@@ -1583,6 +1696,7 @@ const BASE_CARTES = [
     description_longue: "Publiée pour la première fois en 1979 dans un magazine de jeux américain sous le nom « Number Place », la grille aujourd'hui connue sous le nom de sudoku est probablement conçue par l'architecte à la retraite Howard Garns, en s'inspirant du carré latin, une structure mathématique étudiée depuis le XVIIIe siècle. Ce n'est qu'en 1984 que l'éditeur japonais Nikoli la popularise sous le nom de « sudoku », qui deviendra un phénomène mondial dans les années 2000.",
     anecdote: "Howard Garns est mort en 1989 sans jamais connaître le succès planétaire que son jeu allait rencontrer une quinzaine d'années plus tard.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Mathématiques du sudoku", "url": "https://fr.wikipedia.org/wiki/Math%C3%A9matiques_du_sudoku"}]
   },
   {
@@ -1597,6 +1711,7 @@ const BASE_CARTES = [
     description_longue: "Sorti en 1981, réalisé par Steven Spielberg sur une histoire coécrite par George Lucas, « Les Aventuriers de l'arche perdue » introduit le personnage de l'archéologue aventurier Indiana Jones, incarné par Harrison Ford. Premier volet d'une saga culte, le film mêle action, humour et références aux serials d'aventure des années 1930, et devient l'un des plus grands succès commerciaux de l'année.",
     anecdote: "La scène où Indiana Jones abat froidement un adversaire armé d'un sabre, plutôt que de se lancer dans un combat chorégraphié prévu au scénario, est née d'une improvisation d'Harrison Ford, alors souffrant d'une dysenterie et pressé d'en finir avec la scène.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Les Aventuriers de l'arche perdue", "url": "https://fr.wikipedia.org/wiki/Les_Aventuriers_de_l'arche_perdue"}]
   },
   {
@@ -1611,6 +1726,7 @@ const BASE_CARTES = [
     description_longue: "Sorti le 30 novembre 1982, produit par Quincy Jones, « Thriller » de Michael Jackson devient l'album le plus vendu de tous les temps, porté par des tubes comme « Billie Jean » et « Beat It ». Son clip de 14 minutes, réalisé par John Landis dans le style d'un court-métrage d'horreur, coûte un budget alors inédit pour un clip musical et transforme durablement la manière dont l'industrie conçoit la promotion vidéo de la musique.",
     anecdote: "Ce clip de 14 minutes, jugé trop coûteux et trop long, fut d'abord refusé par la chaîne MTV avant de devenir, une fois diffusé, l'un des programmes les plus demandés de son histoire.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Thriller (Michael Jackson)", "url": "https://fr.wikipedia.org/wiki/Thriller_(Michael_Jackson)"}]
   },
   {
@@ -1625,6 +1741,7 @@ const BASE_CARTES = [
     description_longue: "Créé à partir de juin 1984 par l'informaticien soviétique Alexeï Pajitnov, avec l'aide de collègues du centre de calcul de l'Académie des sciences de Moscou, Tetris consiste à empiler des pièces géométriques pour compléter des lignes complètes. Le jeu se diffuse d'abord de manière informelle en URSS avant d'être négocié à l'international dans des conditions complexes liées au régime soviétique, puis popularisé mondialement par son association avec la Game Boy de Nintendo en 1989.",
     anecdote: "Comme toute création réalisée dans un institut d'État soviétique, les droits de Tetris appartenaient au gouvernement de l'URSS : Pajitnov n'a personnellement touché aucun revenu de son jeu avant la chute de l'Union soviétique, une décennie plus tard.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Tétris", "url": "https://fr.wikipedia.org/wiki/T%C3%A9tris"}]
   },
   {
@@ -1639,6 +1756,7 @@ const BASE_CARTES = [
     description_longue: "Le 9 novembre 1989, à la suite d'une conférence de presse est-allemande maladroitement formulée laissant croire à une ouverture immédiate des frontières, des milliers de Berlinois de l'Est se pressent aux points de passage et forcent l'ouverture du mur, sans intervention des gardes-frontières. Cet événement, retransmis en direct dans le monde entier, précipite la réunification allemande, officialisée moins d'un an plus tard, le 3 octobre 1990.",
     anecdote: "L'ouverture du mur est en grande partie due à une erreur de communication : le porte-parole est-allemand Günter Schabowski, mal informé, a annoncé par erreur que les nouvelles règles de voyage entraient en vigueur « immédiatement », alors qu'elles ne devaient s'appliquer que le lendemain.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Chute du mur de Berlin", "url": "https://fr.wikipedia.org/wiki/Chute_du_mur_de_Berlin"}, {"type": "youtube", "label": "Arte (Karambolage) : la chute du Mur de Berlin", "url": "https://www.youtube.com/watch?v=rnNHlUjD3xI"}]
   },
   {
@@ -1653,6 +1771,7 @@ const BASE_CARTES = [
     description_longue: "En 1989, au laboratoire européen de physique des particules (CERN), l'ingénieur britannique Tim Berners-Lee propose un système hypertexte permettant de relier et de partager facilement des documents scientifiques entre chercheurs du monde entier. Développé avec le soutien de Robert Cailliau, ce projet donnera naissance au World Wide Web, rendu public en 1991 et qui deviendra, en quelques années, la porte d'entrée grand public vers Internet.",
     anecdote: "Le tout premier site web de l'histoire, mis en ligne par Berners-Lee lui-même au CERN, expliquait simplement ce qu'était le World Wide Web — et reste consultable aujourd'hui à son adresse d'origine.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : World Wide Web", "url": "https://fr.wikipedia.org/wiki/WWW"}]
   },
   {
@@ -1667,6 +1786,7 @@ const BASE_CARTES = [
     description_longue: "Le 11 février 1990, après 27 années passées en prison, Nelson Mandela est libéré à la suite de l'annonce, par le président sud-africain Frederik de Klerk, de la légalisation du Congrès national africain (ANC) et de la fin programmée de l'apartheid. Sa libération, retransmise en direct dans le monde entier depuis le balcon de l'hôtel de ville du Cap, marque le début d'une transition négociée qui aboutira, quatre ans plus tard, aux premières élections multiraciales du pays.",
     anecdote: "Mandela et de Klerk, artisans conjoints de cette transition pacifique, recevront ensemble le prix Nobel de la paix en 1993, alors qu'ils avaient été, quelques années plus tôt seulement, adversaires politiques déclarés.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Nelson Mandela", "url": "https://fr.wikipedia.org/w/index.php?title=Nelson_Mandela"}, {"type": "youtube", "label": "Arte (Quand l'histoire fait dates) : la libération de Nelson Mandela", "url": "https://www.youtube.com/watch?v=Ihzo16oaBnE"}]
   },
   {
@@ -1681,6 +1801,7 @@ const BASE_CARTES = [
     description_longue: "Le 8 décembre 1991, les dirigeants de la Russie, de l'Ukraine et de la Biélorussie signent les accords de Minsk, actant la dissolution de l'URSS et la création de la Communauté des États indépendants. Le 25 décembre, Mikhaïl Gorbatchev démissionne de la présidence soviétique et transmet le contrôle des codes nucléaires à Boris Eltsine, président de la Fédération de Russie, mettant fin à près de 70 ans d'existence de l'Union soviétique.",
     anecdote: "La dissolution de l'URSS fait suite à un coup d'État manqué de conservateurs communistes en août 1991 contre Gorbatchev, qui a paradoxalement précipité l'effondrement du régime qu'ils cherchaient à sauver.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dislocation de l'URSS", "url": "https://fr.wikipedia.org/wiki/Dislocation_de_l'URSS"}]
   },
   {
@@ -1695,6 +1816,7 @@ const BASE_CARTES = [
     description_longue: "Sorti fin 1993 sur Mega Drive, « FIFA International Soccer » est le tout premier jeu de la désormais célèbre licence FIFA d'Electronic Arts, lancé pour profiter de l'engouement autour de la Coupe du monde 1994 aux États-Unis. Avec sa vue en perspective inhabituelle pour l'époque et ses commentaires audio, il devient le jeu vidéo le plus vendu de l'année au Royaume-Uni et lance une franchise qui durera près de trente ans.",
     anecdote: "La franchise FIFA a connu un divorce spectaculaire en 2023 : Electronic Arts a rompu son partenariat avec la FIFA pour créer sa propre licence, EA Sports FC, laissant le nom « FIFA » disponible pour un futur concurrent.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : FIFA (série de jeux vidéo)", "url": "https://fr.wikipedia.org/wiki/FIFA_(s%C3%A9rie_de_jeux_vid%C3%A9o)"}]
   },
   {
@@ -1709,6 +1831,7 @@ const BASE_CARTES = [
     description_longue: "Du 26 au 29 avril 1994 se tiennent les premières élections multiraciales de l'histoire d'Afrique du Sud, remportées à 63 % des voix par le Congrès national africain de Nelson Mandela, qui devient le 10 mai le premier président noir du pays. Un gouvernement d'union nationale associe alors Mandela à son ancien adversaire Frederik de Klerk, marquant la fin officielle du régime d'apartheid instauré en 1948.",
     anecdote: "Des files d'attente de plusieurs kilomètres se sont formées devant les bureaux de vote lors de ces élections, certains électeurs patientant plus de cinq heures pour voter pour la toute première fois de leur vie.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Élections générales sud-africaines de 1994", "url": "https://fr.wikipedia.org/wiki/%C3%89lections_g%C3%A9n%C3%A9rales_sud-africaines_de_1994"}, {"type": "youtube", "label": "Arte Reportage : Afrique du Sud, retour en apartheid", "url": "https://www.youtube.com/watch?v=bg2ag5QUgm8"}]
   },
   {
@@ -1723,6 +1846,7 @@ const BASE_CARTES = [
     description_longue: "Le 5 juillet 1996, en Écosse, les chercheurs Ian Wilmut et Keith Campbell donnent naissance à Dolly, la brebis, premier mammifère cloné avec succès à partir d'une cellule d'un animal adulte plutôt que d'un embryon. Sur 277 tentatives de transfert nucléaire, un seul embryon a survécu jusqu'à l'âge adulte — une prouesse scientifique qui soulève immédiatement d'intenses débats éthiques sur les possibilités futures du clonage.",
     anecdote: "Dolly doit son nom à la chanteuse américaine Dolly Parton, en référence humoristique au fait qu'elle avait été clonée à partir d'une cellule de glande mammaire.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dolly (brebis)", "url": "https://fr.wikipedia.org/wiki/Dolly_(brebis)"}]
   },
   {
@@ -1737,6 +1861,7 @@ const BASE_CARTES = [
     description_longue: "Sorti en 1999, écrit et réalisé par les sœurs Wachowski, « Matrix » dépeint un futur où l'humanité, sans le savoir, vit connectée à une simulation informatique créée par des machines pour exploiter son énergie corporelle. Mêlant science-fiction, arts martiaux et effets spéciaux révolutionnaires comme le « bullet time », le film marque durablement la culture populaire et la manière de filmer l'action au cinéma.",
     anecdote: "Le fameux effet visuel où le temps semble se figer autour d'un personnage en mouvement, devenu un classique du cinéma d'action, nécessitait l'installation de plus d'une centaine d'appareils photo synchronisés autour de la scène.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Matrix (film)", "url": "https://fr.wikipedia.org/wiki/Matrix_(film)"}]
   },
   {
@@ -1751,6 +1876,7 @@ const BASE_CARTES = [
     description_longue: "Le 11 septembre 2001, dix-neuf terroristes du réseau Al-Qaïda détournent quatre avions de ligne aux États-Unis : deux percutent les tours jumelles du World Trade Center à New York, un troisième s'écrase sur le Pentagone, et le quatrième s'abîme en Pennsylvanie après que des passagers ont tenté de reprendre le contrôle de l'appareil. Ces attentats, les plus meurtriers jamais commis sur le sol américain, font près de 3 000 morts et bouleversent durablement la politique internationale.",
     anecdote: "Les passagers du vol 93, en Pennsylvanie, ont appris par téléphone portable ce qui se passait à New York et au Pentagone avant de tenter de reprendre l'avion aux terroristes — une action qui a probablement empêché une cinquième cible d'être atteinte, vraisemblablement le Capitole ou la Maison-Blanche.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Attentats du 11 septembre 2001", "url": "https://fr.wikipedia.org/wiki/Attentats_du_11_septembre_2001"}, {"type": "youtube", "label": "Archive INA : l'attentat du World Trade Center à New York", "url": "https://www.youtube.com/watch?v=JJ70vt3FQb4"}]
   },
   {
@@ -1765,6 +1891,7 @@ const BASE_CARTES = [
     description_longue: "Lancée le 15 janvier 2001 par Jimmy Wales et Larry Sanger comme projet complémentaire à l'encyclopédie Nupedia, jugée trop lente à produire du fait de sa validation stricte par des experts, Wikipédia mise au contraire sur une rédaction collaborative ouverte à tous via le principe du wiki. La version française voit le jour dès le 23 mars 2001, seulement deux mois après la version anglaise, suivie de près par les versions allemande et catalane.",
     anecdote: "Le tout premier article jamais publié sur Wikipédia, écrit par Jimmy Wales lui-même le lendemain du lancement, ne contenait qu'une phrase de test.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Histoire de Wikipédia", "url": "https://fr.wikipedia.org/wiki/Histoire_de_Wikip%C3%A9dia"}]
   },
   {
@@ -1779,6 +1906,7 @@ const BASE_CARTES = [
     description_longue: "Le 4 février 2004, l'étudiant de Harvard Mark Zuckerberg lance « TheFacebook », un réseau social d'abord réservé aux étudiants de son université, avec l'aide de quatre camarades de promotion. Le service s'étend rapidement à d'autres universités américaines, puis au grand public en septembre 2006, avant de devenir l'un des plus grands réseaux sociaux au monde et de donner naissance, en 2021, au groupe Meta.",
     anecdote: "Dès le premier mois de lancement, plus de la moitié des étudiants de premier cycle de Harvard s'étaient déjà inscrits sur ce tout nouveau réseau, encore réservé au seul campus.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Facebook", "url": "https://fr.wikipedia.org/wiki/Facebook.com"}]
   },
   {
@@ -1793,6 +1921,7 @@ const BASE_CARTES = [
     description_longue: "Présenté par Steve Jobs le 9 janvier 2007 lors de la conférence Macworld et commercialisé aux États-Unis le 29 juin suivant, le premier iPhone combine en un seul appareil un téléphone, un lecteur de musique et un accès à Internet, avec un écran tactile capacitif sans clavier physique, alors inédit sur le marché. Ce choix radical redéfinit en quelques années les standards de toute l'industrie du téléphone mobile.",
     anecdote: "Des files d'attente se sont formées plusieurs jours avant le lancement devant les boutiques Apple et AT&T aux États-Unis, un phénomène de foule qui deviendra ensuite une tradition à chaque nouvelle sortie d'iPhone.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : iPhone 2G (premier iPhone)", "url": "https://fr.wikipedia.org/wiki/IPhone_2G"}]
   },
   {
@@ -1807,6 +1936,7 @@ const BASE_CARTES = [
     description_longue: "Le 4 novembre 2008, le sénateur démocrate de l'Illinois Barack Obama est élu 44e président des États-Unis face au républicain John McCain, devenant le premier Afro-Américain à accéder à la présidence du pays. Son élection intervient tout juste 45 ans après le célèbre discours « I Have a Dream » de Martin Luther King, une coïncidence hautement symbolique dans l'histoire du mouvement des droits civiques.",
     anecdote: "Son discours de victoire, prononcé devant environ 240 000 personnes réunies à Grant Park, à Chicago, reste l'un des plus grands rassemblements électoraux de l'histoire américaine.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Campagne présidentielle de Barack Obama en 2008", "url": "https://fr.wikipedia.org/wiki/Campagne_pr%C3%A9sidentielle_de_Barack_Obama"}]
   },
   {
@@ -1821,6 +1951,7 @@ const BASE_CARTES = [
     description_longue: "Aux Jeux olympiques de Pékin en 2008, le sprinteur jamaïcain Usain Bolt remporte le 100 mètres en 9,69 secondes en ralentissant volontairement avant la ligne d'arrivée, puis établit un nouveau record du monde du 200 mètres en 19,30 secondes, devenant le premier athlète depuis Carl Lewis en 1984 à réaliser ce doublé olympique. Sa médaille de relais 4x100 mètres lui sera toutefois retirée en 2017, après la disqualification rétroactive d'un de ses coéquipiers pour dopage.",
     anecdote: "Usain Bolt aurait pu courir le 100 mètres encore plus vite : les analystes estiment qu'en maintenant son effort jusqu'à la ligne au lieu de célébrer par avance, il serait passé sous la barre des 9,60 secondes.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jeux olympiques d'été de 2008 (Pékin)", "url": "https://fr.wikipedia.org/wiki/Jeux_olympiques_d'%C3%A9t%C3%A9_de_2008"}]
   },
   {
@@ -1835,6 +1966,7 @@ const BASE_CARTES = [
     description_longue: "Le 22 mai 2010, l'informaticien américain Laszlo Hanyecz propose sur un forum en ligne 10 000 bitcoins, alors une monnaie numérique expérimentale sans quasiment aucune valeur marchande reconnue, en échange de deux pizzas livrées à son domicile. Un autre utilisateur accepte l'échange, réalisant ainsi la toute première transaction commerciale documentée en bitcoins de l'histoire — un geste anodin devenu, avec l'envolée ultérieure du cours, l'une des pizzas les plus chères jamais achetées.",
     anecdote: "Au cours le plus élevé jamais atteint par le bitcoin, ces 10 000 bitcoins auraient valu, à eux seuls, plusieurs centaines de millions de dollars — pour deux pizzas.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Réseau Bitcoin", "url": "https://fr.wikipedia.org/wiki/R%C3%A9seau_Bitcoin"}]
   },
   {
@@ -1849,6 +1981,7 @@ const BASE_CARTES = [
     description_longue: "Le 14 octobre 2012, l'Autrichien Felix Baumgartner saute depuis une capsule portée à près de 39 000 mètres d'altitude par un ballon stratosphérique, dans le cadre de la mission Red Bull Stratos. Durant sa chute libre de plus de 36 000 mètres, il devient le premier homme à franchir le mur du son sans l'aide d'un véhicule motorisé, atteignant environ Mach 1,25 avant d'ouvrir son parachute.",
     anecdote: "Durant sa descente, Baumgartner est brièvement entré en vrille incontrôlée à très haute vitesse, une situation potentiellement mortelle qu'il a réussi à stabiliser seul grâce à son entraînement intensif de parachutiste professionnel.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Felix Baumgartner", "url": "https://fr.wikipedia.org/wiki/F%C3%A9lix_Baumgartner"}]
   },
   {
@@ -1863,6 +1996,7 @@ const BASE_CARTES = [
     description_longue: "Le 4 juillet 2012, les équipes des détecteurs ATLAS et CMS du CERN annoncent avoir observé une nouvelle particule compatible avec le boson de Higgs, dont l'existence avait été théorisée dès 1964 pour expliquer pourquoi les particules élémentaires possèdent une masse. Cette découverte, confirmée en 2013, complète le modèle standard de la physique des particules et vaut le prix Nobel de physique à Peter Higgs et François Englert la même année.",
     anecdote: "Le surnom médiatique de « particule de Dieu », donné au boson de Higgs par un éditeur de livre scientifique qui trouvait le titre original trop technique, agace profondément la plupart des physiciens, qui le jugent trompeur et sensationnaliste.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Boson de Higgs", "url": "https://fr.wikipedia.org/wiki/Boson_de_Higgs"}]
   },
   {
@@ -1877,6 +2011,7 @@ const BASE_CARTES = [
     description_longue: "Durant l'été 2014, le défi consistant à se verser un seau d'eau glacée sur la tête, puis à nominer d'autres personnes pour faire de même ou faire un don, devient un phénomène viral mondial destiné à sensibiliser à la sclérose latérale amyotrophique (SLA), une maladie neurodégénérative incurable. Popularisé notamment par l'ancien joueur de baseball Pete Frates, lui-même atteint de la maladie, le défi permet de récolter environ 115 millions de dollars pour la recherche en quelques semaines seulement.",
     anecdote: "Cette campagne virale, initialement jugée par certains comme un simple gadget de réseaux sociaux, a directement contribué au financement d'une découverte scientifique majeure sur un gène impliqué dans la SLA, publiée quelques années plus tard.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Ice Bucket Challenge", "url": "https://fr.wikipedia.org/wiki/Ice_Bucket_Challenge"}]
   },
   {
@@ -1891,6 +2026,7 @@ const BASE_CARTES = [
     description_longue: "Diffusée en Espagne à partir de mai 2017 puis mise en ligne sur Netflix fin 2017, « La casa de papel » suit un groupe de braqueurs masqués menés par un stratège surnommé « le Professeur » lors du casse de la Fabrique nationale de la monnaie espagnole. Portée par le succès international de sa diffusion sur Netflix, la série devient un phénomène mondial, traduite dans de nombreuses langues et prolongée sur plusieurs saisons.",
     anecdote: "Les masques de Salvador Dalí portés par les braqueurs, devenus l'un des symboles les plus reconnaissables de la culture populaire des années 2010, ont été choisis en référence à la contestation et à l'anticonformisme associés à l'artiste espagnol.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : La casa de papel", "url": "https://fr.wikipedia.org/wiki/La_casa_de_papel"}]
   },
   {
@@ -1905,6 +2041,7 @@ const BASE_CARTES = [
     description_longue: "Publiée le 27 juin 2019 sous forme de blague, une invitation Facebook à « prendre d'assaut » la zone militaire secrète américaine de la Zone 51, réputée pour ses théories du complot extraterrestre, devient virale sur TikTok, Reddit et Instagram, rassemblant plus de deux millions de participants intéressés en quelques semaines. L'événement, jamais réellement organisé sérieusement, reste un cas d'école de la viralité et de l'humour absurde propre à Internet.",
     anecdote: "L'armée américaine a pris la menace suffisamment au sérieux pour publier un avertissement officiel dissuadant quiconque de s'approcher de la base, rappelant que la zone était surveillée et défendue par la force si nécessaire.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Zone 51", "url": "https://fr.wikipedia.org/wiki/Zone_51"}]
   },
   {
@@ -1919,6 +2056,7 @@ const BASE_CARTES = [
     description_longue: "Le 10 septembre 2021, le rover Perseverance de la NASA, posé sur Mars depuis février de la même année, prend un autoportrait au-dessus d'un rocher surnommé « Rochette », où l'on distingue les deux trous laissés par son bras robotique après un prélèvement d'échantillon. Cette image, composée de dizaines de photos assemblées, illustre la mission plus large de Perseverance : rechercher d'anciennes traces de vie microbienne et préparer un futur retour d'échantillons martiens vers la Terre.",
     anecdote: "Le rover ne possède pas d'appareil « selfie » à proprement parler : l'image est en réalité une mosaïque de plusieurs dizaines de photos individuelles prises par une caméra fixée au bout de son bras articulé, puis assemblées sur Terre.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Persévérance (rover)", "url": "https://fr.wikipedia.org/wiki/Pers%C3%A9v%C3%A9rance"}, {"type": "wikipedia", "label": "Wikipédia : Exploration de Mars par Perseverance", "url": "https://fr.wikipedia.org/wiki/Exploration_de_Mars_par_Perseverance"}]
   },
   {
@@ -1933,6 +2071,7 @@ const BASE_CARTES = [
     description_longue: "Le tournage fut marqué par la volonté de Coppola de conserver Marlon Brando malgré les réticences du studio, tandis que la musique de Nino Rota est devenue indissociable de la saga.",
     anecdote: "Pour son audition, Brando avait placé des boules de coton dans ses joues afin de donner à Don Corleone une mâchoire particulière.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Le Parrain", "url": "https://fr.wikipedia.org/wiki/Le_Parrain"}]
   },
   {
@@ -1947,6 +2086,7 @@ const BASE_CARTES = [
     description_longue: "Réalisé par George Lucas, le film impose un univers, des effets spéciaux et une mythologie qui transforment durablement le cinéma populaire.",
     anecdote: "Le célèbre son du sabre laser provient du mélange du ronronnement d’un projecteur et du bourdonnement d’un téléviseur.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Star Wars épisode IV : Un nouvel espoir", "url": "https://fr.wikipedia.org/wiki/Star_Wars_%C3%A9pisode_IV_:_Un_nouvel_espoir"}]
   },
   {
@@ -1961,6 +2101,7 @@ const BASE_CARTES = [
     description_longue: "Présenté à Cannes, il relance la carrière de John Travolta et influence toute une génération de cinéastes indépendants.",
     anecdote: "La mystérieuse mallette n’a jamais reçu de contenu officiel : son éclat doré est produit par une simple ampoule.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Pulp Fiction", "url": "https://fr.wikipedia.org/wiki/Pulp_Fiction"}]
   },
   {
@@ -1975,6 +2116,7 @@ const BASE_CARTES = [
     description_longue: "Peter Jackson transpose l’univers de J. R. R. Tolkien avec un tournage largement réalisé en Nouvelle-Zélande et une forte attention portée aux décors et aux effets numériques.",
     anecdote: "Viggo Mortensen a conservé plusieurs accessoires du tournage, dont l’épée utilisée par Aragorn.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Le Seigneur des anneaux : La Communauté de l’anneau", "url": "https://fr.wikipedia.org/wiki/Le_Seigneur_des_anneaux_:_La_Communaut%C3%A9_de_l%E2%80%99anneau"}]
   },
   {
@@ -1989,6 +2131,7 @@ const BASE_CARTES = [
     description_longue: "David Fincher adapte le roman de Chuck Palahniuk avec une mise en scène nerveuse, une voix off omniprésente et une critique de la consommation.",
     anecdote: "Brad Pitt a demandé à se faire casser les dents pour certaines scènes, mais la production a utilisé des effets spéciaux.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Fight Club", "url": "https://fr.wikipedia.org/wiki/Fight_Club"}]
   },
   {
@@ -2003,6 +2146,7 @@ const BASE_CARTES = [
     description_longue: "Jean-Pierre Jeunet construit un Montmartre recomposé par la couleur, la musique de Yann Tiersen et une galerie de personnages attachants.",
     anecdote: "Le prénom d’Amélie devait d’abord être celui d’une héroïne interprétée par une autre actrice avant que le projet ne soit repensé pour Audrey Tautou.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Le Fabuleux Destin d’Amélie Poulain", "url": "https://fr.wikipedia.org/wiki/Le_Fabuleux_Destin_d%E2%80%99Am%C3%A9lie_Poulain"}]
   },
   {
@@ -2017,6 +2161,7 @@ const BASE_CARTES = [
     description_longue: "James Cameron mêle personnages fictifs et catastrophe historique, avec des décors gigantesques et des effets numériques alors novateurs.",
     anecdote: "La réplique sur le dessin de Rose a été improvisée par Leonardo DiCaprio pendant le tournage.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Titanic", "url": "https://fr.wikipedia.org/wiki/Titanic"}]
   },
   {
@@ -2031,6 +2176,7 @@ const BASE_CARTES = [
     description_longue: "Christopher Nolan articule plusieurs niveaux de récit et privilégie de nombreux effets pratiques pour rendre les mondes oniriques crédibles.",
     anecdote: "Le couloir qui tourne a été construit comme un décor mobile, permettant aux acteurs de jouer réellement sur une surface inclinée.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Inception", "url": "https://fr.wikipedia.org/wiki/Inception"}]
   },
   {
@@ -2045,6 +2191,7 @@ const BASE_CARTES = [
     description_longue: "Produit par Walt Disney Feature Animation, le film s’inspire notamment de Shakespeare et se distingue par ses chansons et sa mise en scène dramatique.",
     anecdote: "Les animateurs ont observé de vrais lions dans des réserves pour restituer leurs mouvements et leurs interactions.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Le Roi Lion", "url": "https://fr.wikipedia.org/wiki/Le_Roi_Lion"}]
   },
   {
@@ -2059,6 +2206,7 @@ const BASE_CARTES = [
     description_longue: "Robert Zemeckis et Bob Gale imaginent les aventures de Marty McFly et du docteur Brown autour d’une voiture transformée en machine temporelle.",
     anecdote: "La machine à voyager dans le temps devait initialement être un réfrigérateur avant que la DeLorean ne soit choisie.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Retour vers le futur", "url": "https://fr.wikipedia.org/wiki/Retour_vers_le_futur"}]
   },
   {
@@ -2073,6 +2221,7 @@ const BASE_CARTES = [
     description_longue: "Robert Zemeckis mêle comédie, mélodrame et images d’archives retravaillées pour intégrer Forrest à des événements historiques.",
     anecdote: "Le banc visible dans le film était un accessoire de tournage : il a été retiré de la place publique après les prises.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Forrest Gump", "url": "https://fr.wikipedia.org/wiki/Forrest_Gump"}]
   },
   {
@@ -2087,6 +2236,7 @@ const BASE_CARTES = [
     description_longue: "Jonathan Demme adapte Thomas Harris et obtient une intensité rare grâce au jeu d’Anthony Hopkins et de Jodie Foster.",
     anecdote: "Anthony Hopkins apparaît à l’écran moins d’un quart d’heure, mais sa performance lui vaut l’Oscar du meilleur acteur.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Le Silence des agneaux", "url": "https://fr.wikipedia.org/wiki/Le_Silence_des_agneaux"}]
   },
   {
@@ -2101,6 +2251,7 @@ const BASE_CARTES = [
     description_longue: "Ridley Scott reconstitue la Rome impériale avec des décors monumentaux, des combats chorégraphiés et une bande originale de Hans Zimmer.",
     anecdote: "Le célèbre tigre de l’arène a été ajouté numériquement dans plusieurs plans pour protéger l’animal utilisé au tournage.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Gladiator", "url": "https://fr.wikipedia.org/wiki/Gladiator"}]
   },
   {
@@ -2115,6 +2266,7 @@ const BASE_CARTES = [
     description_longue: "Christopher Nolan s’appuie sur les travaux du physicien Kip Thorne pour représenter les effets de la relativité et les phénomènes gravitationnels.",
     anecdote: "Le champ de maïs cultivé pour le film a été vendu après le tournage, ce qui a permis de récupérer une partie du budget.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Interstellar", "url": "https://fr.wikipedia.org/wiki/Interstellar"}]
   },
   {
@@ -2129,6 +2281,7 @@ const BASE_CARTES = [
     description_longue: "Todd Phillips propose une relecture autonome de l’ennemi de Batman, portée par la performance de Joaquin Phoenix et une atmosphère inspirée du cinéma urbain des années 1970.",
     anecdote: "Joaquin Phoenix a développé la démarche désarticulée du personnage à partir d’une vidéo de danse visionnée pendant la préparation.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Joker", "url": "https://fr.wikipedia.org/wiki/Joker"}]
   },
   {
@@ -2143,6 +2296,7 @@ const BASE_CARTES = [
     description_longue: "Damien Chazelle combine chorégraphies en plans longs, décors colorés et références au jazz et aux grands musicals classiques.",
     anecdote: "La scène d’ouverture a été tournée sur une véritable bretelle d’autoroute fermée pendant quelques jours.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : La La Land", "url": "https://fr.wikipedia.org/wiki/La_La_Land"}]
   },
   {
@@ -2157,6 +2311,7 @@ const BASE_CARTES = [
     description_longue: "James Cameron crée la planète Pandora et ses habitants grâce à la performance capture et à une recherche poussée sur la lumière et la nature.",
     anecdote: "La langue na’vi a été élaborée par un linguiste professionnel à partir d’un vocabulaire et d’une grammaire complets.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Avatar", "url": "https://fr.wikipedia.org/wiki/Avatar"}]
   },
   {
@@ -2171,6 +2326,7 @@ const BASE_CARTES = [
     description_longue: "Frank Darabont adapte une nouvelle de Stephen King et construit un récit porté par la narration de Morgan Freeman.",
     anecdote: "Stephen King a vendu les droits de la nouvelle pour une somme symbolique, estimant que le projet méritait d’être tenté.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Les Évadés", "url": "https://fr.wikipedia.org/wiki/Les_%C3%89vad%C3%A9s"}]
   },
   {
@@ -2185,6 +2341,7 @@ const BASE_CARTES = [
     description_longue: "Hitchcock adapte Robert Bloch avec un tournage en noir et blanc, une musique stridente de Bernard Herrmann et une mise en scène devenue exemplaire.",
     anecdote: "La scène de la douche utilise des morceaux de melon pour produire le bruit des coups de couteau.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Psychose", "url": "https://fr.wikipedia.org/wiki/Psychose"}]
   },
   {
@@ -2199,6 +2356,7 @@ const BASE_CARTES = [
     description_longue: "Steven Spielberg associe animatroniques et images de synthèse pour donner vie aux créatures imaginées par Michael Crichton.",
     anecdote: "Le rugissement du tyrannosaure mêle notamment des sons d’éléphant, de tigre et de manchot.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jurassic Park", "url": "https://fr.wikipedia.org/wiki/Jurassic_Park"}]
   },
   {
@@ -2213,6 +2371,7 @@ const BASE_CARTES = [
     description_longue: "Les Wachowski combinent arts martiaux, cyberpunk et réflexion sur la réalité, avec des effets comme le bullet time.",
     anecdote: "Le code vert de la Matrice contient en partie des caractères issus de livres de cuisine japonais.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Matrix", "url": "https://fr.wikipedia.org/wiki/Matrix"}]
   },
   {
@@ -2227,6 +2386,7 @@ const BASE_CARTES = [
     description_longue: "Steven Spielberg privilégie le regard enfantin, la musique de John Williams et une mise en scène qui transforme la banlieue en lieu merveilleux.",
     anecdote: "La voix d’E.T. a été réalisée notamment par une spécialiste des effets sonores connue pour ses bruitages de créatures.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : E.T. l’extra-terrestre", "url": "https://fr.wikipedia.org/wiki/E.T._l%E2%80%99extra-terrestre"}]
   },
   {
@@ -2241,6 +2401,7 @@ const BASE_CARTES = [
     description_longue: "Luc Besson s’inspire librement des apnéistes Jacques Mayol et Enzo Maiorca pour créer une œuvre contemplative portée par sa musique.",
     anecdote: "Jean Reno a accepté le rôle d’Enzo après avoir d’abord été envisagé pour un personnage très différent dans le projet.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Le Grand Bleu", "url": "https://fr.wikipedia.org/wiki/Le_Grand_Bleu"}]
   },
   {
@@ -2255,6 +2416,7 @@ const BASE_CARTES = [
     description_longue: "Georges Lautner adapte un roman d’Albert Simonin et s’appuie sur les dialogues de Michel Audiard, devenus largement cités.",
     anecdote: "La scène de dégustation d’alcool dans la cuisine a été tournée dans un décor presque entièrement reconstitué en studio.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Les Tontons flingueurs", "url": "https://fr.wikipedia.org/wiki/Les_Tontons_flingueurs"}]
   },
   {
@@ -2269,6 +2431,7 @@ const BASE_CARTES = [
     description_longue: "Mathieu Kassovitz suit trois amis dans une mise en scène sèche et politique, inspirée d’un fait divers et de son contexte social.",
     anecdote: "Le réalisateur a demandé aux comédiens de rester ensemble pendant la préparation afin de renforcer leur complicité à l’écran.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : La Haine", "url": "https://fr.wikipedia.org/wiki/La_Haine"}]
   },
   {
@@ -2283,6 +2446,7 @@ const BASE_CARTES = [
     description_longue: "Olivier Nakache et Éric Toledano s’inspirent d’une histoire vraie pour construire un récit sur l’amitié, le handicap et le dépassement des préjugés.",
     anecdote: "Omar Sy a reçu son César après avoir été le premier acteur noir à remporter cette récompense.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Intouchables", "url": "https://fr.wikipedia.org/wiki/Intouchables"}]
   },
   {
@@ -2297,6 +2461,7 @@ const BASE_CARTES = [
     description_longue: "Michel Hazanavicius détourne les codes des films d’espionnage et confie à Jean Dujardin un héros volontairement archaïque et sûr de lui.",
     anecdote: "Plusieurs répliques absurdes ont été conservées après des improvisations de Jean Dujardin et de ses partenaires.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : OSS 117 : Le Caire, nid d’espions", "url": "https://fr.wikipedia.org/wiki/OSS_117_:_Le_Caire%2C_nid_d%E2%80%99espions"}]
   },
   {
@@ -2311,6 +2476,7 @@ const BASE_CARTES = [
     description_longue: "Quentin Tarantino compose un hommage aux films de sabre, de kung-fu et d’exploitation autour du personnage de la Mariée.",
     anecdote: "Uma Thurman a porté le costume jaune en référence directe à celui de Bruce Lee dans Le Jeu de la mort.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Kill Bill : Volume 1", "url": "https://fr.wikipedia.org/wiki/Kill_Bill_:_Volume_1"}]
   },
   {
@@ -2325,6 +2491,7 @@ const BASE_CARTES = [
     description_longue: "Hayao Miyazaki imagine une fable sur l’identité, le travail et la mémoire, qui fait connaître le studio Ghibli à un public mondial.",
     anecdote: "Le personnage sans visage est né d’un simple dessin préparatoire réalisé très rapidement par Miyazaki.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Le Voyage de Chihiro", "url": "https://fr.wikipedia.org/wiki/Le_Voyage_de_Chihiro"}]
   },
   {
@@ -2339,6 +2506,7 @@ const BASE_CARTES = [
     description_longue: "Steven Spielberg mêle une reconstitution spectaculaire à une réflexion sur le sacrifice et la valeur d’une vie face à la guerre.",
     anecdote: "Pour préparer les acteurs, la production leur a fait suivre un entraînement militaire éprouvant dirigé par un ancien marine.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Il faut sauver le soldat Ryan", "url": "https://fr.wikipedia.org/wiki/Il_faut_sauver_le_soldat_Ryan"}]
   },
   {
@@ -2353,6 +2521,7 @@ const BASE_CARTES = [
     description_longue: "Adaptée de l’œuvre de George R. R. Martin, la série de David Benioff et D. B. Weiss se distingue par ses intrigues politiques, ses personnages ambigus et ses productions spectaculaires.",
     anecdote: "Le générique change subtilement de détails géographiques selon les lieux visités dans l’épisode.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Game of Thrones", "url": "https://fr.wikipedia.org/wiki/Game_of_Thrones"}]
   },
   {
@@ -2367,6 +2536,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Vince Gilligan, la série suit Walter White et associe humour noir, tension morale et mise en scène très inventive.",
     anecdote: "Le bleu de la méthamphétamine est une invention visuelle : la vraie substance est généralement translucide.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Breaking Bad", "url": "https://fr.wikipedia.org/wiki/Breaking_Bad"}]
   },
   {
@@ -2381,6 +2551,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Marta Kauffman et David Crane, elle suit six amis à New York et popularise des répliques, des décors et des codes narratifs reconnaissables.",
     anecdote: "Le canapé du Central Perk était régulièrement déplacé pour varier les axes de caméra.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Friends", "url": "https://fr.wikipedia.org/wiki/Friends"}]
   },
   {
@@ -2395,6 +2566,7 @@ const BASE_CARTES = [
     description_longue: "Créée par les frères Duffer, la série mélange horreur, science-fiction et références aux films d’aventure de l’enfance.",
     anecdote: "Le nom du Monde à l’envers a été choisi après plusieurs variantes dans les documents de conception.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Stranger Things", "url": "https://fr.wikipedia.org/wiki/Stranger_Things"}]
   },
   {
@@ -2409,6 +2581,7 @@ const BASE_CARTES = [
     description_longue: "Adaptée du format britannique, la version américaine développée notamment par Greg Daniels transforme le quotidien d’une entreprise en observation sociale et burlesque.",
     anecdote: "Les acteurs recevaient parfois des informations différentes afin de préserver la spontanéité des réactions face caméra.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Office (US)", "url": "https://fr.wikipedia.org/wiki/The_Office_(US)"}]
   },
   {
@@ -2423,6 +2596,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Craig Mazin, elle reconstitue la catastrophe nucléaire soviétique en insistant sur les mécanismes du mensonge institutionnel et du courage individuel.",
     anecdote: "Une partie des scènes a été tournée dans une centrale nucléaire désaffectée en Lituanie.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Chernobyl", "url": "https://fr.wikipedia.org/wiki/Chernobyl"}]
   },
   {
@@ -2437,6 +2611,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Steven Knight, la série suit la famille Shelby et mêle histoire sociale, musique contemporaine et esthétique très travaillée.",
     anecdote: "Le nom de la bande vient d’une légende selon laquelle ses membres cousaient des lames dans la visière de leurs casquettes.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Peaky Blinders", "url": "https://fr.wikipedia.org/wiki/Peaky_Blinders"}]
   },
   {
@@ -2451,6 +2626,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Baran bo Odar et Jantje Friese, la série tisse plusieurs générations autour d’une ville, d’un réseau de grottes et de paradoxes familiaux.",
     anecdote: "Les créateurs ont conçu une bible détaillée des familles et des événements avant d’écrire la suite de l’intrigue.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dark", "url": "https://fr.wikipedia.org/wiki/Dark"}]
   },
   {
@@ -2465,6 +2641,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Mark Gatiss et Steven Moffat, la série installe Sherlock Holmes et Watson dans le Londres contemporain avec un rythme vif et une narration numérique.",
     anecdote: "Benedict Cumberbatch et Martin Freeman ont joué ensemble avant la série dans une production de théâtre radiophonique.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Sherlock", "url": "https://fr.wikipedia.org/wiki/Sherlock"}]
   },
   {
@@ -2479,6 +2656,7 @@ const BASE_CARTES = [
     description_longue: "Adaptée de la bande dessinée de Robert Kirkman, la série explore les liens sociaux et les choix moraux autant que la menace des morts-vivants.",
     anecdote: "Le maquillage des figurants zombies était adapté pour rendre les groupes reconnaissables à distance.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Walking Dead", "url": "https://fr.wikipedia.org/wiki/The_Walking_Dead"}]
   },
   {
@@ -2493,6 +2671,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Peter Morgan, la série suit le règne d’Elizabeth II en changeant de distribution au fil des périodes représentées.",
     anecdote: "La production a recréé de nombreux bijoux royaux avec des copies fabriquées spécialement pour le tournage.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Crown", "url": "https://fr.wikipedia.org/wiki/The_Crown"}]
   },
   {
@@ -2507,6 +2686,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Hwang Dong-hyuk, la série oppose des concurrents endettés dans des épreuves inspirées de jeux d’enfants.",
     anecdote: "Les décors colorés ont été conçus pour évoquer un imaginaire enfantin tout en accentuant la violence du contraste.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Squid Game", "url": "https://fr.wikipedia.org/wiki/Squid_Game"}]
   },
   {
@@ -2521,6 +2701,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Vince Gilligan et Peter Gould, la série prolonge l’univers de Breaking Bad en développant la métamorphose de Jimmy McGill.",
     anecdote: "Le nom Saul Goodman vient d’un jeu de mots anglais évoquant l’idée de trouver un avocat « tout de suite ».",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Better Call Saul", "url": "https://fr.wikipedia.org/wiki/Better_Call_Saul"}]
   },
   {
@@ -2535,6 +2716,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Charlie Brooker, la série imagine des futurs proches où les écrans, les algorithmes et les dispositifs sociaux amplifient les travers humains.",
     anecdote: "Le titre fait référence au reflet sombre d’un écran éteint, devenu un objet omniprésent du quotidien.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Black Mirror", "url": "https://fr.wikipedia.org/wiki/Black_Mirror"}]
   },
   {
@@ -2549,6 +2731,7 @@ const BASE_CARTES = [
     description_longue: "Créée par Jon Favreau, la série suit un chasseur de primes mandalorien et popularise le personnage de Grogu auprès d’un très large public.",
     anecdote: "Une grande partie des décors est projetée sur un mur vidéo immersif grâce à la technologie StageCraft.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Mandalorian", "url": "https://fr.wikipedia.org/wiki/The_Mandalorian"}]
   },
   {
@@ -2563,6 +2746,7 @@ const BASE_CARTES = [
     description_longue: "Lancé initialement comme jeu de défense de base, son mode battle royale transforme Fortnite en phénomène mondial, avec un modèle économique fondé sur les cosmétiques.",
     anecdote: "Un concert virtuel dans le jeu a rassemblé plus de 12 millions de joueurs simultanés.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Sortie de Fortnite", "url": "https://fr.wikipedia.org/wiki/Fortnite"}]
   },
   {
@@ -2577,6 +2761,7 @@ const BASE_CARTES = [
     description_longue: "Ce jeu de tir en équipe 5v5 combine précision, stratégie et capacités de personnages pour s’imposer comme référence compétitive mondiale.",
     anecdote: "Sa structure eSport a été planifiée dès la conception avec le soutien direct de l’éditeur.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Création de Valorant", "url": "https://fr.wikipedia.org/wiki/Valorant"}]
   },
   {
@@ -2591,6 +2776,7 @@ const BASE_CARTES = [
     description_longue: "Ce jeu de bataille multijoueur en arène devient la base d’un écosystème compétitif et culturel colossal, avec séries animées et événements mondiaux.",
     anecdote: "Son championnat mondial annuel est devenu l’un des événements eSport les plus suivis au monde.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : League of Legends devient un phénomène culturel", "url": "https://fr.wikipedia.org/wiki/League_of_Legends"}]
   },
   {
@@ -2605,6 +2791,7 @@ const BASE_CARTES = [
     description_longue: "Fondé sur la construction et la survie dans un monde ouvert, Minecraft conquiert tous les âges et devient un outil pédagogique reconnu.",
     anecdote: "Le jeu a servi à reconstituer virtuellement du patrimoine mondial, notamment Notre-Dame avant l’incendie.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Minecraft révolutionne la construction libre", "url": "https://fr.wikipedia.org/wiki/Minecraft"}]
   },
   {
@@ -2619,6 +2806,7 @@ const BASE_CARTES = [
     description_longue: "Grand Theft Auto V brise les records de ventes et génère des revenus continus grâce à GTA Online, redéfinissant le modèle AAA.",
     anecdote: "Le jeu a généré plusieurs milliards de dollars de revenus.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : GTA V sort et dépasse tous les records financiers", "url": "https://fr.wikipedia.org/wiki/Grand_Theft_Auto_V"}]
   },
   {
@@ -2633,6 +2821,7 @@ const BASE_CARTES = [
     description_longue: "Ce jeu d’action-aventure conjugue gameplay tendu, narration cinématographique et personnages nuancés, établissant un nouveau standard narratif.",
     anecdote: "Il a remporté de nombreux prix de jeu de l’année et inspiré une adaptation télévisée mondiale.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Last of Us redéfinit la narration vidéoludique", "url": "https://fr.wikipedia.org/wiki/The_Last_of_Us"}]
   },
   {
@@ -2647,6 +2836,7 @@ const BASE_CARTES = [
     description_longue: "Ce redémarrage change radicalement la formule, avec une action plus tactique, une relation père-fils et une caméra rapprochée continue.",
     anecdote: "Son tournant créatif a inspiré d’autres studios à réimaginer leurs franchises.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : God of War redéfinit la franchise", "url": "https://fr.wikipedia.org/wiki/God_of_War_(jeu_vidéo,_2018)"}]
   },
   {
@@ -2661,6 +2851,7 @@ const BASE_CARTES = [
     description_longue: "Age of Empires établit les mécaniques canoniques du RTS : ressources, bâtiments, unités et combat tactique en multijoueur.",
     anecdote: "Son équilibre et son accessibilité ont favorisé l’apparition de tournois informels dès sa sortie.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Empire du Jeu : Age of Empires 1 fonde le RTS", "url": "https://fr.wikipedia.org/wiki/Age_of_Empires"}]
   },
   {
@@ -2675,6 +2866,7 @@ const BASE_CARTES = [
     description_longue: "Cette version modernisée conserve les fondamentaux tactiques de Counter-Strike tout en améliorant graphismes, moteur et stabilité.",
     anecdote: "La série a conservé une très large base de joueurs compétitifs.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Counter-Strike 2 poursuit la domination", "url": "https://fr.wikipedia.org/wiki/Counter-Strike_2"}]
   },
   {
@@ -2689,6 +2881,7 @@ const BASE_CARTES = [
     description_longue: "Basé sur l’économie de jeu et la précision au tir, CS:GO s’impose comme l’opus phare des compétitions mondiales durant plus d’une décennie.",
     anecdote: "Ses Majors internationaux ont proposé des dotations de plusieurs millions de dollars.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Counter-Strike Global Offensive règne sur l’eSport", "url": "https://fr.wikipedia.org/wiki/Counter-Strike:_Global_Offensive"}]
   },
   {
@@ -2703,6 +2896,7 @@ const BASE_CARTES = [
     description_longue: "Dark Souls combine combat exigeant, exploration dense et level-design labyrinthique, établissant un modèle repris par des centaines de jeux.",
     anecdote: "Sa difficulté a attiré une communauté durable de joueurs en quête de défi.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dark Souls 1 crée le sous-genre Souls-like", "url": "https://fr.wikipedia.org/wiki/Dark_Souls"}]
   },
   {
@@ -2717,6 +2911,7 @@ const BASE_CARTES = [
     description_longue: "Cet action-RPG de FromSoftware et George R. R. Martin combine mécaniques exigeantes et exploration non linéaire grandiose.",
     anecdote: "Sa difficulté et son level-design ont contribué à populariser le terme « Souls-like » et à inspirer de nombreux jeux.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Elden Ring synthétise une vision", "url": "https://fr.wikipedia.org/wiki/Elden_Ring"}]
   },
   {
@@ -2731,6 +2926,7 @@ const BASE_CARTES = [
     description_longue: "Le joueur explore un système solaire miniature condamné à s’effondrer, en résolvant des énigmes avant la fin d’un cycle.",
     anecdote: "Il ne contient aucune violence et repose entièrement sur la curiosité et la découverte.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Outer Wilds explore l’impossible", "url": "https://fr.wikipedia.org/wiki/Outer_Wilds"}]
   },
   {
@@ -2745,6 +2941,7 @@ const BASE_CARTES = [
     description_longue: "Situé dans une parodie de la Californie des années 1990, cet épisode offre liberté, narration riche et bande sonore iconique.",
     anecdote: "Des communautés créent encore des mods et extensions plus de vingt ans après sa sortie.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : GTA San Andreas établit un standard", "url": "https://fr.wikipedia.org/wiki/Grand_Theft_Auto:_San_Andreas"}]
   },
   {
@@ -2759,6 +2956,7 @@ const BASE_CARTES = [
     description_longue: "Grand Theft Auto IV privilégie une narration mature et des personnages nuancés dans une Liberty City inspirée de New York.",
     anecdote: "Des centaines de mods, du cosmétique à la refonte totale, existent encore.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : GTA IV redéfinit le réalisme", "url": "https://fr.wikipedia.org/wiki/Grand_Theft_Auto_IV"}]
   },
   {
@@ -2773,6 +2971,7 @@ const BASE_CARTES = [
     description_longue: "Inspiré de Miami, cet épisode associe ambiance rétro immersive, narration criminelle et bande sonore légendaire.",
     anecdote: "Son esthétique synthwave a durablement marqué la culture populaire.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : GTA Vice City capture une époque", "url": "https://fr.wikipedia.org/wiki/Grand_Theft_Auto:_Vice_City"}]
   },
   {
@@ -2787,6 +2986,7 @@ const BASE_CARTES = [
     description_longue: "Grand Theft Auto III et ses successeurs inspirés de New York établissent le modèle du jeu criminel en monde ouvert.",
     anecdote: "Ces épisodes ont contribué à faire de GTA une licence emblématique du jeu vidéo.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : GTA New York reste une légende urbaine", "url": "https://fr.wikipedia.org/wiki/Grand_Theft_Auto_III"}]
   },
   {
@@ -2801,6 +3001,7 @@ const BASE_CARTES = [
     description_longue: "Dans un asile hostile, le joueur ne dispose ni d’armes ni de défense et doit fuir, se cacher et observer.",
     anecdote: "Le jeu a popularisé les expériences d’horreur fondées sur la vulnérabilité totale.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Outlast propose l’horreur pure", "url": "https://fr.wikipedia.org/wiki/Outlast"}]
   },
   {
@@ -2815,6 +3016,7 @@ const BASE_CARTES = [
     description_longue: "Après un crash sur une planète océan, le joueur construit des bases et des sous-marins pour explorer des profondeurs hostiles.",
     anecdote: "Son océan crée une peur existentielle de l’inconnu sans reposer uniquement sur des monstres.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Subnautica 1 explore l’inconnu aquatique", "url": "https://fr.wikipedia.org/wiki/Subnautica"}]
   },
   {
@@ -2829,6 +3031,7 @@ const BASE_CARTES = [
     description_longue: "Call of Duty redéfinit le FPS militaire avec campagnes cinématographiques et multijoueur addictif.",
     anecdote: "Chaque nouveau titre est devenu un événement social majeur pour des millions de joueurs.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Call of Duty marque l’ère FPS moderne", "url": "https://fr.wikipedia.org/wiki/Call_of_Duty"}]
   },
   {
@@ -2843,6 +3046,7 @@ const BASE_CARTES = [
     description_longue: "Call of Duty 4: Modern Warfare réimagine les conflits modernes avec une campagne cinématographique et un multijoueur structurant.",
     anecdote: "Sa représentation de la violence a suscité une controverse qui a amplifié sa visibilité.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Modern Warfare redéfinit le réalisme tactique", "url": "https://fr.wikipedia.org/wiki/Call_of_Duty_4:_Modern_Warfare"}]
   },
   {
@@ -2857,6 +3061,7 @@ const BASE_CARTES = [
     description_longue: "Cette suite atteint des sommets commerciaux avec une campagne mémorable et un multijoueur très compétitif.",
     anecdote: "Il a dépassé 30 millions de copies vendues selon les estimations couramment citées.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Modern Warfare 2 atteint l’apogée", "url": "https://fr.wikipedia.org/wiki/Call_of_Duty:_Modern_Warfare_2"}]
   },
   {
@@ -2871,6 +3076,7 @@ const BASE_CARTES = [
     description_longue: "Le troisième chapitre poursuit la narration cinématographique et le multijoueur addictif de la série Modern Warfare.",
     anecdote: "Son contenu post-lancement a contribué à populariser le support saisonnier des AAA.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Modern Warfare 3 continue la domination", "url": "https://fr.wikipedia.org/wiki/Call_of_Duty:_Modern_Warfare_3"}]
   },
   {
@@ -2885,6 +3091,7 @@ const BASE_CARTES = [
     description_longue: "Call of Duty: Black Ops se déroule pendant la Guerre froide et propose une campagne non linéaire à rebondissements.",
     anecdote: "Le succès a donné naissance à une sous-série poursuivie pendant plus d’une décennie.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Black Ops 1 explore la Guerre froide", "url": "https://fr.wikipedia.org/wiki/Call_of_Duty:_Black_Ops"}]
   },
   {
@@ -2899,6 +3106,7 @@ const BASE_CARTES = [
     description_longue: "Le jeu alterne Guerre froide et futur proche cyberpunk, avec des embranchements narratifs et des conséquences.",
     anecdote: "Son multijoueur et ses modes personnalisés ont nourri une forte scène communautaire.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Black Ops 2 synthétise une vision", "url": "https://fr.wikipedia.org/wiki/Call_of_Duty:_Black_Ops_II"}]
   },
   {
@@ -2913,6 +3121,7 @@ const BASE_CARTES = [
     description_longue: "Ce monde persistant propose aventure épique, raids coopératifs complexes et économie sociale profonde.",
     anecdote: "Il a créé une culture communautaire qui a redéfini la place sociale du jeu vidéo.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : World of Warcraft révolutionne le MMORPG", "url": "https://fr.wikipedia.org/wiki/World_of_Warcraft"}]
   },
   {
@@ -2927,6 +3136,7 @@ const BASE_CARTES = [
     description_longue: "Dans ce jeu de déduction sociale, les membres d’un équipage accomplissent des tâches tandis que des imposteurs tentent de les éliminer. Les discussions et les votes structurent les parties.",
     anecdote: "Lancé discrètement en 2018, il est devenu viral en 2020 avec des millions de joueurs.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Among Us crée un phénomène social", "url": "https://fr.wikipedia.org/wiki/Among_Us"}]
   },
   {
@@ -2941,6 +3151,7 @@ const BASE_CARTES = [
     description_longue: "Battlefield associe destruction environnementale, véhicules et jeu en escouade, offrant une alternative majeure à Call of Duty.",
     anecdote: "La série a prouvé que deux grandes franchises FPS pouvaient coexister durablement.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Battlefield détermine la compétition", "url": "https://fr.wikipedia.org/wiki/Battlefield_(série)"}]
   },
   {
@@ -2955,6 +3166,7 @@ const BASE_CARTES = [
     description_longue: "Borderlands 2 fusionne tir arcade, dialogues humoristiques, personnages charismatiques et butin abondant.",
     anecdote: "Son humour et son design de niveaux lui ont valu un statut culte.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Borderlands 2 synthétise une vision", "url": "https://fr.wikipedia.org/wiki/Borderlands_2"}]
   },
   {
@@ -2969,6 +3181,7 @@ const BASE_CARTES = [
     description_longue: "Le premier Zelda popularise exploration non linéaire, puzzles environnementaux et récompenses de découverte.",
     anecdote: "Ses formules restent au cœur d’une grande partie du genre aventure-exploration.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Legend of Zelda pose les fondations", "url": "https://fr.wikipedia.org/wiki/The_Legend_of_Zelda_(jeu_vidéo,_1986)"}]
   },
   {
@@ -2983,6 +3196,7 @@ const BASE_CARTES = [
     description_longue: "Ce western offre un monde ouvert détaillé, simulation physique, animations cinématographiques et narration épique.",
     anecdote: "Il a remporté de nombreux prix et placé la barre très haut pour l’immersion.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Red Dead Redemption 2 redéfinit l’immersion", "url": "https://fr.wikipedia.org/wiki/Red_Dead_Redemption_2"}]
   },
   {
@@ -2997,6 +3211,7 @@ const BASE_CARTES = [
     description_longue: "L’empilement de blocs de Tetris est simple à comprendre mais profondément addictif et accessible à tous.",
     anecdote: "Le jeu s’est imposé sur une quantité exceptionnelle de plateformes pendant des décennies.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Tetris pose les fondations du jeu casual", "url": "https://fr.wikipedia.org/wiki/Tetris"}]
   },
   {
@@ -3011,6 +3226,7 @@ const BASE_CARTES = [
     description_longue: "Resident Evil 4 abandonne les commandes tank au profit de mouvements fluides, d’une caméra serrée et d’une action dynamique.",
     anecdote: "Son influence s’étend à de nombreuses franchises d’horreur et d’action.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Resident Evil 4 révolutionne le survival-horror", "url": "https://fr.wikipedia.org/wiki/Resident_Evil_4"}]
   },
   {
@@ -3025,6 +3241,7 @@ const BASE_CARTES = [
     description_longue: "Resident Evil 4 renouvelle le survival-horror par une caméra à l’épaule, une visée plus directe et des combats plus dynamiques. Cette évolution influence ensuite de nombreux jeux d’action et d’horreur.",
     anecdote: "Il a donné naissance à films, remakes, spin-offs et extensions d’univers.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Final Fantasy VII devient un monument", "url": "https://fr.wikipedia.org/wiki/Final_Fantasy_VII"}]
   },
   {
@@ -3039,6 +3256,7 @@ const BASE_CARTES = [
     description_longue: "Super Mario World associe level-design précis, Yoshi et courbe de difficulté progressive.",
     anecdote: "Ses niveaux sont encore cités comme exemples d’école par les concepteurs de platformers.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Super Mario World établit un standard", "url": "https://fr.wikipedia.org/wiki/Super_Mario_World"}]
   },
   {
@@ -3053,6 +3271,7 @@ const BASE_CARTES = [
     description_longue: "Portal 2 fusionne portails, résolution de problèmes et humour noir dans une aventure singulière.",
     anecdote: "Il est régulièrement cité parmi les grands jeux de puzzle et de narration de sa génération.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Portal 2 synthétise une vision", "url": "https://fr.wikipedia.org/wiki/Portal_2"}]
   },
   {
@@ -3067,6 +3286,7 @@ const BASE_CARTES = [
     description_longue: "The Witcher 3 associe quêtes riches, combat dynamique, personnages mémorables et monde dense.",
     anecdote: "Il a remporté de très nombreux prix et influencé les attentes envers les RPG modernes.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Witcher 3 redéfinit le RPG open-world", "url": "https://fr.wikipedia.org/wiki/The_Witcher_3:_Wild_Hunt"}]
   },
   {
@@ -3081,6 +3301,7 @@ const BASE_CARTES = [
     description_longue: "Clair Obscur : Expédition 33 combine exploration, combats au tour par tour et une direction artistique inspirée de la Belle Époque. Le système de combat ajoute des réactions en temps réel aux décisions tactiques, tandis que l’univers met en scène une expédition confrontée à une menace mystérieuse.",
     anecdote: "Son système de combat associe la planification au tour par tour à des actions réalisées au bon moment, donnant aux affrontements une dimension plus interactive.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Claire Obscure : Expedition 33 explore l’horreur atmosphérique", "url": "https://fr.wikipedia.org/wiki/Clair_Obscur:_Expedition_33"}]
   },
   {
@@ -3095,6 +3316,7 @@ const BASE_CARTES = [
     description_longue: "Halo combine campagne de science-fiction, multijoueur compétitif et contrôles précis adaptés à la manette.",
     anecdote: "La série reste intimement liée à l’identité de la console Xbox.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Halo: Combat Evolved lance une franchise", "url": "https://fr.wikipedia.org/wiki/Halo:_Combat_Evolved"}]
   },
   {
@@ -3109,6 +3331,7 @@ const BASE_CARTES = [
     description_longue: "Super Mario Odyssey fait de la possession d’objets une mécanique centrale dans des niveaux non linéaires riches en récompenses.",
     anecdote: "Il prouve que la formule Mario peut encore se renouveler.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Super Mario Odyssey réinvente la plateforme", "url": "https://fr.wikipedia.org/wiki/Super_Mario_Odyssey"}]
   },
   {
@@ -3123,6 +3346,7 @@ const BASE_CARTES = [
     description_longue: "Cet épisode conjugue infiltration tactique, survie en milieu hostile, récit épique et boss mémorables.",
     anecdote: "Il a durablement influencé le genre stealth-action.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Metal Gear Solid 3: Snake Eater pose les fondations", "url": "https://fr.wikipedia.org/wiki/Metal_Gear_Solid_3:_Snake_Eater"}]
   },
   {
@@ -3137,6 +3361,7 @@ const BASE_CARTES = [
     description_longue: "Uncharted 2 associe plateforme spectaculaire, gunfights tactiques et personnages attachants.",
     anecdote: "Il a remporté de nombreux prix et fut souvent considéré comme un sommet de sa génération.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Uncharted 2 synthétise l’action-aventure", "url": "https://fr.wikipedia.org/wiki/Uncharted_2:_Among_Thieves"}]
   },
   {
@@ -3151,6 +3376,7 @@ const BASE_CARTES = [
     description_longue: "Bloodborne mêle horreur cosmique, combat agressif et level-design labyrinthique dans Yharnam.",
     anecdote: "Son atmosphère et sa direction artistique en ont fait une référence de l’action-RPG.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Bloodborne explore l’horreur gothique", "url": "https://fr.wikipedia.org/wiki/Bloodborne"}]
   },
   {
@@ -3165,6 +3391,7 @@ const BASE_CARTES = [
     description_longue: "La franchise mise sur exploration libre, factions, quêtes et immersion dans des mondes ouverts persistants.",
     anecdote: "Ses fans attendent parfois chaque nouvel épisode pendant plus d’une décennie.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Elder Scrolls établit un univers", "url": "https://fr.wikipedia.org/wiki/The_Elder_Scrolls"}]
   },
   {
@@ -3179,6 +3406,7 @@ const BASE_CARTES = [
     description_longue: "Ce RPG au tour par tour offre narration ramifiée, choix conséquents et adaptation du monde aux décisions.",
     anecdote: "Ses choix et leurs conséquences ont contribué à remettre en lumière le potentiel du RPG au tour par tour auprès d’un large public.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Baldur’s Gate 3 synthétise la vision d’une ère", "url": "https://fr.wikipedia.org/wiki/Baldur%27s_Gate_III"}]
   },
   {
@@ -3193,6 +3421,7 @@ const BASE_CARTES = [
     description_longue: "Skyrim propose un vaste monde, quêtes, création de personnage et support durable des mods communautaires.",
     anecdote: "Le jeu continue d’être enrichi par des mods plus de dix ans après sa sortie.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Skyrim redéfinit l’attente pour les RPG", "url": "https://fr.wikipedia.org/wiki/The_Elder_Scrolls_V:_Skyrim"}]
   },
   {
@@ -3207,6 +3436,7 @@ const BASE_CARTES = [
     description_longue: "Melee propose roster varié, combos techniques et profondeur compétitive, créant une scène grassroots durable.",
     anecdote: "Des tournois sont encore organisés plus de vingt ans après sa sortie.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Super Smash Bros. Melee crée l’eSport fighting", "url": "https://fr.wikipedia.org/wiki/Super_Smash_Bros._Melee"}]
   },
   {
@@ -3221,6 +3451,7 @@ const BASE_CARTES = [
     description_longue: "Ce premier Warcraft pose les bases de l’univers fantasy, de ses factions et de ses campagnes narratives.",
     anecdote: "La franchise s’est étendue aux MMO, jeux de cartes, films et autres médias.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Warcraft: Orcs & Humans établit l’univers Warcraft", "url": "https://fr.wikipedia.org/wiki/Warcraft:_Orcs_%26_Humans"}]
   },
   {
@@ -3235,6 +3466,7 @@ const BASE_CARTES = [
     description_longue: "Silent Hill 2 mêle puzzles, exploration, atmosphère oppressante et narration perturbée.",
     anecdote: "Il a influencé le modèle moderne du jeu d’horreur psychologique.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Silent Hill 2 crée l’horreur psychologique vidéoludique", "url": "https://fr.wikipedia.org/wiki/Silent_Hill_2"}]
   },
   {
@@ -3249,6 +3481,7 @@ const BASE_CARTES = [
     description_longue: "Mario Kart introduit kart racing et objets à effets imprévisibles, accessible tout en restant compétitif.",
     anecdote: "La série est devenue un incontournable des réunions sociales.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Mario Kart révolutionne le jeu de course arcade", "url": "https://fr.wikipedia.org/wiki/Super_Mario_Kart"}]
   },
   {
@@ -3263,6 +3496,7 @@ const BASE_CARTES = [
     description_longue: "Le premier Street Fighter pose les bases du combat moderne : commandes réactives, coups spéciaux et affrontements compétitifs.",
     anecdote: "Son succès en arcade a nourri une scène compétitive durable.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Street Fighter redéfinit le jeu de combat en arcade", "url": "https://fr.wikipedia.org/wiki/Street_Fighter_(jeu_vidéo)"}]
   },
   {
@@ -3277,6 +3511,7 @@ const BASE_CARTES = [
     description_longue: "Pokémon associe exploration, capture, entraînement et échanges entre joueurs, créant une boucle de jeu accessible et durable.",
     anecdote: "Les échanges entre consoles ont fait de l’interaction entre joueurs une partie intégrante de l’aventure.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Pokémon Rouge et Bleu popularisent le jeu de collection", "url": "https://fr.wikipedia.org/wiki/Pokémon_Rouge_et_Bleu"}]
   },
   {
@@ -3291,6 +3526,7 @@ const BASE_CARTES = [
     description_longue: "Super Mario Bros. structure le déplacement, les obstacles et la progression par niveaux dans une aventure immédiatement lisible.",
     anecdote: "Son premier niveau est souvent utilisé pour enseigner le game design par le jeu lui-même.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Super Mario Bros. définit le jeu de plateforme", "url": "https://fr.wikipedia.org/wiki/Super_Mario_Bros."}]
   },
   {
@@ -3305,6 +3541,7 @@ const BASE_CARTES = [
     description_longue: "Le jeu encourage l’expérimentation physique, l’exploration libre et la résolution de problèmes par de multiples approches.",
     anecdote: "La plupart des obstacles peuvent être abordés dans un ordre très différent.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Legend of Zelda: Breath of the Wild libère l’exploration", "url": "https://fr.wikipedia.org/wiki/The_Legend_of_Zelda:_Breath_of_the_Wild"}]
   },
   {
@@ -3319,6 +3556,7 @@ const BASE_CARTES = [
     description_longue: "Doom combine action rapide, niveaux labyrinthiques et arsenal spectaculaire dans une expérience devenue fondatrice.",
     anecdote: "Le terme « jeu Doom » a longtemps servi de quasi-synonyme pour les FPS.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Doom popularise le FPS", "url": "https://fr.wikipedia.org/wiki/Doom_(jeu_vidéo,_1993)"}]
   },
   {
@@ -3333,6 +3571,7 @@ const BASE_CARTES = [
     description_longue: "Sonic mise sur la vitesse, les boucles et des niveaux conçus pour conserver l’élan du joueur.",
     anecdote: "Le personnage est devenu la mascotte emblématique de Sega.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Sonic the Hedgehog devient l’emblème de la vitesse", "url": "https://fr.wikipedia.org/wiki/Sonic_the_Hedgehog_(jeu_vidéo,_1991)"}]
   },
   {
@@ -3347,6 +3586,7 @@ const BASE_CARTES = [
     description_longue: "Wii Sports utilise la détection de mouvements pour transformer gestes simples et activités sportives en expériences familiales.",
     anecdote: "Le jeu a accompagné la console Wii dans de nombreux foyers ne se considérant pas comme joueurs.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Wii Sports démocratise le jeu vidéo", "url": "https://fr.wikipedia.org/wiki/Wii_Sports"}]
   },
   {
@@ -3361,6 +3601,7 @@ const BASE_CARTES = [
     description_longue: "Dota 2 approfondit le modèle du MOBA avec héros aux rôles variés, stratégie d’équipe et économie compétitive.",
     anecdote: "The International est connu pour ses cagnottes financées en partie par la communauté.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dota 2 structure l’eSport à grande échelle", "url": "https://fr.wikipedia.org/wiki/Dota_2"}]
   },
   {
@@ -3375,6 +3616,7 @@ const BASE_CARTES = [
     description_longue: "Overwatch combine objectifs d’équipe, personnages aux capacités distinctes et direction artistique accessible.",
     anecdote: "La diversité de ses héros a fortement influencé la conception des shooters en équipe.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Overwatch popularise le hero shooter", "url": "https://fr.wikipedia.org/wiki/Overwatch_(jeu_vidéo)"}]
   },
   {
@@ -3389,6 +3631,7 @@ const BASE_CARTES = [
     description_longue: "Rocket League repose sur des règles simples mais une maîtrise mécanique exigeante, en solo comme en équipe.",
     anecdote: "Ses parties courtes et son plafond de compétence élevé ont favorisé l’eSport.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Rocket League transforme le football en sport automobile", "url": "https://fr.wikipedia.org/wiki/Rocket_League"}]
   },
   {
@@ -3403,6 +3646,7 @@ const BASE_CARTES = [
     description_longue: "Animal Crossing propose décoration, collection, relations avec les habitants et progression sans pression.",
     anecdote: "La série est devenue un rituel social particulièrement visible pendant les périodes de confinement.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Animal Crossing crée une vie virtuelle apaisée", "url": "https://fr.wikipedia.org/wiki/Animal_Crossing"}]
   },
   {
@@ -3417,6 +3661,7 @@ const BASE_CARTES = [
     description_longue: "The Sims transforme la gestion d’un foyer en bac à sable narratif où les joueurs construisent, racontent et expérimentent.",
     anecdote: "Les joueurs produisent depuis des années des histoires et défis partagés en ligne.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : The Sims simule la vie quotidienne", "url": "https://fr.wikipedia.org/wiki/Les_Sims"}]
   },
   {
@@ -3431,6 +3676,7 @@ const BASE_CARTES = [
     description_longue: "Pokémon GO utilise la carte et la réalité augmentée pour encourager l’exploration, la collection et les rencontres entre joueurs.",
     anecdote: "Son lancement a provoqué une vague mondiale de déplacements collectifs dans les espaces publics.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Pokémon GO relie jeu mobile et monde réel", "url": "https://fr.wikipedia.org/wiki/Pokémon_Go"}]
   },
   {
@@ -3445,6 +3691,7 @@ const BASE_CARTES = [
     description_longue: "Wii Fit propose exercices, mini-jeux et suivi de progression à l’aide de la Wii Balance Board.",
     anecdote: "Il a élargi la définition du jeu vidéo à l’activité physique quotidienne.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Wii Fit popularise le jeu d’exercice", "url": "https://fr.wikipedia.org/wiki/Wii_Fit"}]
   },
   {
@@ -3459,6 +3706,7 @@ const BASE_CARTES = [
     description_longue: "En 1955, le virologue américain Jonas Salk annonce le succès de son vaccin inactivé contre la poliomyélite (VPI), mettant fin à des décennies de recherche contre cette maladie dévastatrice. Le vaccin de Salk, présenté lors d'une conférence de presse le 12 avril 1955, utilise le virus de la polio inactivé par la chaleur et le formol. L'annonce déclenche une célébration nationale aux États-Unis, comparable à celle d'une victoire militaire majeure. La campagne de vaccination massive qui suit réduit dramatiquement les cas de poliomyélite, passant de 58 000 cas en 1952 à quelques centaines en 1960. Albert Sabin développe un vaccin oral (VPO) utilisant le virus vivant atténué peu après. La combinaison des deux vaccins éradique pratiquement la poliomyélite en Occident, sauvant des millions de vies et évitant des paralysies chroniques. En 2024, la poliomyélite est au bord de l'éradication mondiale complète.",
     anecdote: "Jonas Salk n'a jamais breveté son vaccin. Interrogé à la télévision sur qui en détenait les droits, il a répondu : « Il n'y a pas de brevet. Peut-on breveter le Soleil ? » — ce qui a permis sa diffusion à bas coût dans le monde entier.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jonas Salk", "url": "https://fr.wikipedia.org/wiki/Jonas_Salk"}, {"type": "wikipedia", "label": "Wikipédia : Vaccin antipoliomyélitique", "url": "https://fr.wikipedia.org/wiki/Vaccin_antipoliomel%C3%A9litique"}, {"type": "publication", "label": "Britannica : Polio Vaccine", "url": "https://www.britannica.com/science/polio-vaccine"}]
   },
   {
@@ -3473,6 +3721,7 @@ const BASE_CARTES = [
     description_longue: "En 1983, l'équipe dirigée par le virologue français Luc Montagnier, en collaboration avec Françoise Barré-Sinoussi, découvre le virus causant le SIDA (syndrome d'immunodéficience acquise) au sein de l'Institut Pasteur à Paris. Le virus, initialement nommé LAV (lymphadenopathy-associated virus), est identifié chez un patient atteint de lymphadénopathie, une condition fréquemment observée chez les patients séropositifs. Quelques mois plus tard, Robert Gallo aux États-Unis identifie indépendamment le même virus, nommé HTLV-III. Les deux équipes finissent par reconnaître qu'elles avaient découvert le même agent pathogène, désormais appelé VIH. Cette découverte révolutionne la compréhension du SIDA et ouvre la voie aux tests de dépistage et aux traitements antirétroviraux. Montagnier et Barré-Sinoussi reçoivent le Prix Nobel en 2008 pour cette découverte cruciale, qui a sauvé des millions de vies grâce au traitement antirétroviral.",
     anecdote: "La découverte a valu à Montagnier et Barré-Sinoussi le prix Nobel de médecine en 2008, mais la paternité de la découverte a longtemps été disputée avec le chercheur américain Robert Gallo, jusqu'à un accord diplomatique conclu en 1987 entre Reagan et Mitterrand sur les droits du test de dépistage.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Luc Montagnier", "url": "https://fr.wikipedia.org/wiki/Luc_Montagnier"}, {"type": "wikipedia", "label": "Wikipédia : VIH/SIDA", "url": "https://fr.wikipedia.org/wiki/VIH/SIDA"}, {"type": "publication", "label": "Nature : Discovery of HIV", "url": "https://www.nature.com/articles/nature.2008.2471"}]
   },
   {
@@ -3487,6 +3736,7 @@ const BASE_CARTES = [
     description_longue: "En 1931, l'ingénieur allemand Ernst Ruska, alors étudiant, construit le premier microscope électronique fonctionnel, révolutionnant la microscopie en utilisant des électrons au lieu de la lumière visible. Le microscope électronique de Ruska offre un grossissement d'environ 400 fois, dépassant les capacités du meilleur microscope optique de l'époque. Ruska perfectionne son invention avec l'aide de Bimbo von Borries et Max Knoll, produisant un microscope capable de grossissements jusqu'à 100 000 fois. Le microscope électronique révolutionne la biologie cellulaire et la virologie en permettant d'observer les structures subcellulaires et les virus précédemment invisibles. Ruska reçoit le Prix Nobel en 1986, à l'âge de 81 ans, reconnaissant l'importance de son invention pour la science moderne. Aujourd'hui, le microscope électronique à transmission (MET) et le microscope électronique à balayage (MEB) restent des outils indispensables en recherche scientifique.",
     anecdote: "Ernst Ruska a reçu le prix Nobel de physique en 1986, soit 55 ans après son invention, à l'âge de 79 ans : l'un des plus longs délais jamais observés entre une découverte scientifique et sa reconnaissance par le Nobel.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Ernst Ruska", "url": "https://fr.wikipedia.org/wiki/Ernst_Ruska"}, {"type": "wikipedia", "label": "Wikipédia : Microscope électronique", "url": "https://fr.wikipedia.org/wiki/Microscope_%C3%A9lectronique"}, {"type": "publication", "label": "Britannica : Electron Microscope", "url": "https://www.britannica.com/technology/electron-microscope"}]
   },
   {
@@ -3501,6 +3751,7 @@ const BASE_CARTES = [
     description_longue: "Le 18 février 1930, l'astronome américain Clyde Tombaugh, âgé de seulement 24 ans, découvre une neuvième planète, initialement nommée Pluton, en analysant des photographies prises à l'observatoire Lowell en Arizona. Tombaugh localise Pluton en comparant systématiquement des photographies du ciel prises à différentes dates, cherchant un objet se déplaçant entre les images. La découverte de Pluton complète l'image du système solaire connu, avec neuf planètes orbitant le Soleil. Cependant, en 2006, l'Union astronomique internationale reclasse Pluton en \"planète naine\" en raison de sa petite taille et de sa composition glacée distincte des planètes rocheuses et gazeuses. Cette reclassification provoque un tollé public, avec de nombreuses personnes attachées à Pluton en tant que neuvième planète depuis 76 ans. Malgré sa reclassification, Pluton reste un objet fascinant étudié intensivement par la sonde New Horizons en 2015.",
     anecdote: "Clyde Tombaugh n'avait que 24 ans et aucun diplôme universitaire lorsqu'il a découvert Pluton, en comparant des plaques photographiques prises à quelques jours d'intervalle à l'aide d'un instrument appelé comparateur à clignotement.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Clyde Tombaugh", "url": "https://fr.wikipedia.org/wiki/Clyde_Tombaugh"}, {"type": "wikipedia", "label": "Wikipédia : Pluton", "url": "https://fr.wikipedia.org/wiki/Pluton_%28plan%C3%A8te_naine%29"}, {"type": "publication", "label": "Smithsonian : Discovery of Pluto", "url": "https://www.si.edu/stories/discovery-pluto"}]
   },
   {
@@ -3515,6 +3766,7 @@ const BASE_CARTES = [
     description_longue: "En 1958, l'ingénieur texan Jack Kilby chez Texas Instruments crée le premier circuit intégré (puce), un dispositif contenant plusieurs transistors et autres composants électroniques miniaturisés sur une seule puce de silicium. Indépendamment, Robert Noyce de Fairchild Semiconductor développe une version améliorée du circuit intégré utilisant le processus de photolithographie en silicium. Les circuits intégrés révolutionnent l'électronique en permettant la densité de composants exponentiellement plus élevée à des coûts réduits. Le premier circuit intégré de Kilby contient seulement trois transistors et quelques autres composants, mais démontre le concept fondamental. Les générations successives de circuits intégrés suivent la loi de Moore, doublant le nombre de transistors tous les deux ans environ. Kilby reçoit le Prix Nobel en 2000 pour l'invention du circuit intégré. Aujourd'hui, les circuits intégrés modernes contiennent des milliards de transistors dans un espace minuscule.",
     anecdote: "Kilby (Texas Instruments) et Noyce (Fairchild) ont mis au point le circuit intégré indépendamment, à quelques mois d'écart, ce qui a déclenché une bataille de brevets de plus de dix ans. Noyce étant décédé en 1990, seul Kilby a pu recevoir le prix Nobel de physique en 2000, les Nobel n'étant jamais attribués à titre posthume.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jack Kilby", "url": "https://fr.wikipedia.org/wiki/Jack_Kilby"}, {"type": "wikipedia", "label": "Wikipédia : Circuit intégré", "url": "https://fr.wikipedia.org/wiki/Circuit_int%C3%A9gr%C3%A9"}, {"type": "publication", "label": "Britannica : Integrated Circuit", "url": "https://www.britannica.com/technology/integrated-circuit"}]
   },
   {
@@ -3529,6 +3781,7 @@ const BASE_CARTES = [
     description_longue: "En 1971, Intel, la jeune compagnie de semi-conducteurs fondée par Gordon Moore et Robert Noyce, crée le Intel 4004, le premier microprocesseur commercial au monde. Le 4004 contient 2 300 transistors et exécute 108 000 opérations par seconde, révolutionnant l'informatique en centralisant la logique de traitement sur une seule puce. Le microprocesseur permet la création d'ordinateurs personnels puissants et abordables, transformant l'informatique d'un domaine des grandes institutions aux foyers individuels. Les générations successives de microprocesseurs Intel (8008, 8080, 8086) et les concurrents (Motorola, AMD) conduisent à la révolution informatique du XXe siècle. Le microprocesseur est sans doute l'invention la plus important de l'histoire de l'informatique, car c'est lui qui rend possible chaque ordinateur moderne, smartphone et appareil informatique. Le Moore's Law, découvert par le cofondateur d'Intel, prédit que le nombre de transistors sur une puce double tous les deux ans.",
     anecdote: "Le premier microprocesseur commercial, l'Intel 4004, avait été conçu à l'origine pour une calculatrice de bureau japonaise et comptait environ 2 300 transistors — une puce de smartphone moderne en compte aujourd'hui plusieurs dizaines de milliards.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Intel 4004", "url": "https://fr.wikipedia.org/wiki/Intel_4004"}, {"type": "wikipedia", "label": "Wikipédia : Microprocesseur", "url": "https://fr.wikipedia.org/wiki/Microprocesseur"}, {"type": "publication", "label": "Britannica : Microprocessor", "url": "https://www.britannica.com/technology/microprocessor"}]
   },
   {
@@ -3543,6 +3796,7 @@ const BASE_CARTES = [
     description_longue: "Le 24 avril 1990, la navette spatiale Discovery déploie le télescope spatial Hubble en orbite terrestre basse, révolutionnant l'astronomie en plaçant un observatoire de classe mondiale au-delà de l'atmosphère terrestre qui distortionne la lumière. Nommé en l'honneur de l'astronome Edwin Hubble, le télescope souffre initialement d'une aberration sphérique qui floute les images. Une mission de réparation en 1993 installe une optique correctrice, transformant Hubble en l'un des instruments scientifiques les plus productifs jamais créés. Hubble capture des images époustouflantes des galaxies lointaines, des nébuleuses et des phénomènes cosmiques, révolutionnant notre compréhension de l'univers. Les observations de Hubble confirment l'existence de trous noirs supermassifs, mesurent l'expansion accélérée de l'univers (suggérant l'existence de l'énergie sombre), et découvrent des milliers d'exoplanètes. Au-delà de ses découvertes scientifiques, Hubble inspire l'imagination publique, démontrant la beauté et la grandeur de l'univers à travers ses photographies emblématiques.",
     anecdote: "Peu après son lancement, les images d'Hubble se sont révélées floues à cause d'un défaut sur son miroir principal, plus fin qu'un cinquantième d'épaisseur de cheveu. Une réparation spectaculaire en sortie spatiale en 1993 a corrigé le problème et fait de lui l'un des instruments scientifiques les plus productifs jamais construits.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Télescope spatial Hubble", "url": "https://fr.wikipedia.org/wiki/Hubble_(t%C3%A9lescope)"}, {"type": "wikipedia", "label": "Wikipédia : Edwin Hubble", "url": "https://fr.wikipedia.org/wiki/Edwin_Hubble"}, {"type": "publication", "label": "NASA : Hubble Telescope", "url": "https://www.nasa.gov/mission_pages/hubble/main/index.html"}]
   },
   {
@@ -3557,6 +3811,7 @@ const BASE_CARTES = [
     description_longue: "En 1991, Sony commercialise la première batterie lithium-ion rechargeable pratique, révolutionnant le stockage d'énergie portable pour les appareils électroniques. Les travaux théoriques sur les batteries lithium-ion remontent aux années 1970, avec des contributions de chercheurs comme M. Stanley Whittingham et John B. Goodenough, mais c'est Sony qui crée la première version commercialisable viable. La batterie lithium-ion offre une densité énergétique supérieure aux batteries alcalines précédentes, permettant les appareils électroniques portables modernes comme les téléphones mobiles et les ordinateurs portables. L'invention de la batterie lithium-ion révolutionne la technologie mobile, car elle offre une autonomie suffisante pour des appareils pratiques et rechargeables. Les batteries lithium-ion dominent le marché de l'énergie portable, avec des applications s'étendant aux véhicules électriques et au stockage d'énergie renouvelable. Goodenough reçoit le Prix Nobel en chimie en 2019, à l'âge de 97 ans, reconnaissant l'importance de la batterie lithium-ion pour la transition énergétique mondiale.",
     anecdote: "Les recherches à l'origine de la batterie lithium-ion (John Goodenough, Stanley Whittingham, Akira Yoshino) ont été récompensées par le prix Nobel de chimie en 2019 : Goodenough avait alors 97 ans, ce qui fait de lui le plus âgé de tous les lauréats Nobel.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Batterie lithium-ion", "url": "https://fr.wikipedia.org/wiki/Batterie_lithium-ion"}, {"type": "wikipedia", "label": "Wikipédia : John B. Goodenough", "url": "https://fr.wikipedia.org/wiki/John_B._Goodenough"}, {"type": "publication", "label": "Britannica : Lithium-Ion Battery", "url": "https://www.britannica.com/technology/lithium-ion-battery"}]
   },
   {
@@ -3571,6 +3826,7 @@ const BASE_CARTES = [
     description_longue: "Le 10 décembre 1948, les Nations unies adoptent la Déclaration universelle des droits de l'homme, reconnaissant le droit fondamental à l'information et à l'accès à la connaissance (article 19). Bien que rédigée avant l'ère numérique moderne, cette déclaration pose les fondations juridiques du droit d'accès à l'information numérique. La Déclaration universelle des droits de l'homme influence les législations nationales et les cadres juridiques internationaux concernant la liberté d'expression, le droit à la vie privée et l'accès à l'information. À l'ère numérique, ces principes sont étendus pour couvrir l'accès à Internet, la neutralité du net et la protection des données personnelles. La Déclaration universelle des droits de l'homme reste le document fondateur des droits humains modernes, affirmant que tous les êtres humains naissent libres et égaux en dignité et en droits.",
     anecdote: "L'article 19 de la Déclaration universelle des droits de l'homme garantit le droit de « chercher, recevoir et répandre des informations » par tout moyen d'expression — une formule invoquée depuis pour défendre l'idée que l'accès à internet est lui-même un droit fondamental.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Déclaration universelle des droits de l'homme", "url": "https://fr.wikipedia.org/wiki/D%C3%A9claration_universelle_des_droits_de_l%27homme"}, {"type": "wikipedia", "label": "Wikipédia : Eleanor Roosevelt", "url": "https://fr.wikipedia.org/wiki/Eleanor_Roosevelt"}, {"type": "publication", "label": "ONU : Universal Declaration of Human Rights", "url": "https://www.un.org/en/about-us/universal-declaration-of-human-rights"}]
   },
   {
@@ -3585,6 +3841,7 @@ const BASE_CARTES = [
     description_longue: "Le 6 octobre 1995, les astronomes suisses Michel Mayor et Didier Queloz annoncent la découverte de la première exoplanète confirmée, une planète orbitan autour d'une étoile autre que notre Soleil. La planète, nommée 51 Pegasi b, est une géante gazeuse comparable à Jupiter orbitant l'étoile 51 Pegasi à seulement 4,3 jours. Cette découverte révolutionne l'astronomie en confirmant que les systèmes planétaires existent au-delà de notre système solaire, soutenant la notion que la vie pourrait exister ailleurs dans l'univers. Mayor et Queloz développent la technique de spectroscopie de vitesse radiale, détectant les changements minuscules dans la lumière des étoiles provoqués par l'attraction gravitationnelle de planètes en orbite. Depuis cette découverte initiale, des milliers d'exoplanètes ont été détectées, révélant une diversité de systèmes planétaires bien au-delà des prédictions initiales. Mayor reçoit le Prix Nobel en physique en 2019, reconnaissant l'importance de la découverte des exoplanètes pour l'astronomie. La découverte de planètes habitables potentielles autour d'étoiles proches relance la question éternelle : sommes-nous seuls dans l'univers ?",
     anecdote: "Michel Mayor et Didier Queloz ont détecté 51 Pegasi b non pas en la photographiant, mais en mesurant l'infime « oscillation » de la lumière de son étoile. Cette méthode leur a valu le prix Nobel de physique en 2019.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Michel Mayor", "url": "https://fr.wikipedia.org/wiki/Michel_Mayor"}, {"type": "wikipedia", "label": "Wikipédia : Exoplanète", "url": "https://fr.wikipedia.org/wiki/Exoplan%C3%A8te"}, {"type": "publication", "label": "NASA : Exoplanet Discovery", "url": "https://exoplanetarchive.ipac.caltech.edu/"}]
   },
   {
@@ -3599,6 +3856,7 @@ const BASE_CARTES = [
     description_longue: "En 1941, après une chasse, l'inventeur suisse George de Mestral remarque que les graines de bardane s'accrochent obsessivement à son pantalon et à son chien. Inspiré par cette observation, il examine les graines au microscope et découvre des petits crochets qui s'attachent aux boucles de tissu. De Mestral développe le concept du velcro (VEL de velours + CRO de crochet) en combinant deux bandes de tissu : une avec des boucles serrées (comme le velours) et une avec de minuscules crochets. Il brevète son invention en 1955 et la présente à l'industrie manufacturière. Le velcro révolutionne la fermeture des vêtements et des équipements, offrant une alternative pratique aux boutons, lacets et fermetures à glissière. Le velcro trouve des applications au-delà des vêtements : dans l'espace (les astronautes utilisent le velcro pour fixer les équipements en microgravité), en médecine (pansements adhésifs), et dans les applications industrielles. Le velcro demeure un exemple classique d'innovation biologique, où une observation de la nature mène à une invention pratique utile à l'humanité.",
     anecdote: "George de Mestral a eu l'idée du velcro en examinant au microscope les bardanes restées accrochées au pelage de son chien après une promenade dans les Alpes : leurs minuscules crochets sont devenus le principe du système auto-agrippant.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : George de Mestral", "url": "https://fr.wikipedia.org/wiki/George_de_Mestral"}, {"type": "wikipedia", "label": "Wikipédia : Velcro", "url": "https://fr.wikipedia.org/wiki/Velcro"}, {"type": "publication", "label": "Britannica : Velcro", "url": "https://www.britannica.com/topic/Velcro"}]
   },
   {
@@ -3613,6 +3871,7 @@ const BASE_CARTES = [
     description_longue: "En 1895, le docteur John Harvey Kellogg (fondateur de la céréale Kellogg's) brevète la première machine à fabriquer le beurre de cacahuète, transformant les cacahuètes rôties en une pâte lisse. Bien que les cacahuètes broyées existent depuis l'Antiquité précolombienne, c'est Kellogg qui crée la première version commercialisable du beurre de cacahuète moderne. Le beurre de cacahuète devient populaire aux États-Unis au début du XXe siècle, offrant une source de protéines bon marché accessible aux masses. Le beurre de cacahuète se diffuse mondialement, devenant un aliment de base en Amérique du Nord. Bien que controversé en raison de sa teneur en matières grasses, la recherche nutritionnelle moderne révèle que les lipides du beurre de cacahuète sont principalement monoinsaturés et insaturés, bénéfiques pour la santé cardiaque. Le beurre de cacahuète génère une industrie de plusieurs milliards de dollars, avec des millions de tonnes produites annuellement dans le monde entier.",
     anecdote: "John Harvey Kellogg — oui, celui des céréales — a breveté le beurre de cacahuète comme substitut de protéines pour les patients édentés de son sanatorium de Battle Creek. Il le considérait comme un aliment de santé, bien avant qu'il ne devienne la pâte à tartiner que l'on connaît.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : John Harvey Kellogg", "url": "https://fr.wikipedia.org/wiki/John_Harvey_Kellogg"}, {"type": "wikipedia", "label": "Wikipédia : Beurre de cacahuète", "url": "https://fr.wikipedia.org/wiki/Beurre_de_cacahu%C3%A8te"}, {"type": "publication", "label": "Britannica : Peanut Butter", "url": "https://www.britannica.com/topic/peanut-butter"}]
   },
   {
@@ -3627,6 +3886,7 @@ const BASE_CARTES = [
     description_longue: "En 2004, les physiciens russes Andre Geim et Konstantin Novoselov, travaillant à l'Université de Manchester, isolent avec succès le graphène, une forme de carbone monocouche possédant des propriétés électroniques extraordinaires. Le graphène est produit en exfoliant le graphite avec du ruban adhésif, une technique étonnamment simple pour extraire une couche monoatomique. Le graphène offre une conductivité électrique et thermique exceptionnelle, une résistance mécanique supérieure, et une flexibilité remarquable. Cette découverte révolutionne la science des matériaux, ouvrant la voie à des applications potentielles en électronique, énergie, et médecine. Geim et Novoselov reçoivent le Prix Nobel en physique en 2010, faisant de Novoselov l'un des plus jeunes lauréats du Prix Nobel. Le graphène s'avère être l'une des formes de carbone les plus prometteuses pour les futures technologies, bien que les applications commerciales se développent plus lentement que prévu initialement. La découverte du graphène ouvre une nouvelle ère de la nanotechnologie et des matériaux bidimensionnels.",
     anecdote: "Geim et Novoselov ont isolé le graphène avec un simple ruban adhésif, en décollant répétitivement de fines couches d'un bloc de graphite (le même matériau que la mine d'un crayon) — une technique qui leur a valu le prix Nobel de physique en 2010.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Graphène", "url": "https://fr.wikipedia.org/wiki/Graph%C3%A8ne"}, {"type": "wikipedia", "label": "Wikipédia : Andre Geim", "url": "https://fr.wikipedia.org/wiki/Andre_Geim"}, {"type": "publication", "label": "Nature : Discovery of Graphene", "url": "https://www.nature.com/articles/nature.2013.12520"}]
   },
   {
@@ -3641,6 +3901,7 @@ const BASE_CARTES = [
     description_longue: "En 1952, l'inventeur américain Norman Joseph Woodland brevète le code-barres, un système automatisé d'identification des produits utilisant des barres verticales parallèles de largeurs variables. Woodland s'inspire des points et des tirets du code Morse, adaptant le concept pour créer un système capable d'être lu par des machines optiques. Bien que brevété en 1952, le code-barres ne trouve d'adoption commerciale massive que dans les années 1970, lorsque les scanners optiques deviennent pratiques et abordables. Le premier code-barres UPC (Universal Product Code) est scanné commercialement le 3 avril 1974 à un supermarché de Troy, Ohio, sur une boîte de gomme Wrigley's. Le code-barres révolutionne le commerce de détail en permettant le suivi automatisé des inventaires, la facturation rapide et la gestion efficace de la chaîne d'approvisionnement. L'adoption du code-barres réduit les erreurs de caisse et accélère les transactions commerciales. Aujourd'hui, les codes QR (Quick Response), une évolution du code-barres, permettent l'encodage de bien plus d'informations dans une surface bidimensionnelle compacte.",
     anecdote: "Norman Joseph Woodland a eu l'idée du motif circulaire du code-barres en traçant des lignes dans le sable d'une plage de Miami, en s'inspirant du code Morse qu'il avait appris étant scout.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Code-barres", "url": "https://fr.wikipedia.org/wiki/Code-barres"}, {"type": "wikipedia", "label": "Wikipédia : Norman Joseph Woodland", "url": "https://fr.wikipedia.org/wiki/Norman_Joseph_Woodland"}, {"type": "publication", "label": "Britannica : Barcode", "url": "https://www.britannica.com/technology/barcode"}]
   },
   {
@@ -3655,6 +3916,7 @@ const BASE_CARTES = [
     description_longue: "Le 25 juillet 1978, Louise Brown naît à Bristol, Angleterre, marquant la première naissance d'un enfant conçu par fécondation in vitro (FIV). Louise est née grâce aux travaux du physiologiste Robert Edwards et du gynécologue Patrick Steptoe, qui ont développé la technique de la FIV permettant la conception en dehors du corps de la femme. La FIV est initialement développée pour traiter l'infertilité due aux trompes de Fallope obstruées ou endommagées chez les femmes. La naissance de Louise Brown provoque un tollé à la fois d'enthousiasme scientifique et de controverse éthique concernant la \"conception en éprouvette\". Aujourd'hui, la FIV et ses technologies connexes (ICSI, FIV génétique préimplantatoire) permettent aux millions de couples infertiles de concevoir des enfants. Plus de 8 millions de personnes sont nées grâce à la FIV depuis 1978. Edwards reçoit le Prix Nobel en 2010, reconnaissant l'importance révolutionnaire de la FIV pour la médecine reproductive. La FIV ouvre également les voies à la génétique reproductive et aux questions éthiques concernant la sélection génétique.",
     anecdote: "Louise Brown, premier « bébé-éprouvette » né par FIV en 1978, a ensuite eu ses propres enfants de manière naturelle. Robert Edwards a reçu le prix Nobel de médecine en 2010, plusieurs décennies après cette avancée.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Robert Edwards", "url": "https://fr.wikipedia.org/wiki/Robert_Edwards"}, {"type": "wikipedia", "label": "Wikipédia : Fécondation in vitro", "url": "https://fr.wikipedia.org/wiki/F%C3%A9condation_in_vitro"}, {"type": "publication", "label": "Britannica : In Vitro Fertilization", "url": "https://www.britannica.com/science/in-vitro-fertilization"}]
   },
   {
@@ -3669,6 +3931,7 @@ const BASE_CARTES = [
     description_longue: "En 1994, Denso Wave, filiale de Toyota, crée le code QR (Quick Response code), une version bidimensionnelle améliorée du code-barres capable d'encoder bien plus de données dans un format visuel compact. Le code QR utilise un motif de points et de carrés noirs et blancs organisés en grille carrée, readable par les téléphones portables munis de caméras. La conception open-source du code QR encourage l'adoption rapide par les industries et les gouvernements du monde entier. Le code QR révolutionne le partage d'informations en reliant le monde physique (affiches, emballages, cartes de visite) au monde numérique (pages web, vidéos, applications). Pendant la pandémie COVID-19, les codes QR facilitent le partage d'informations sans contact et le suivi des contacts numériques. Aujourd'hui, les codes QR sont omniprésents, utilisés dans le commerce, le transport, la santé et les paiements mobiles. L'adoption massive des codes QR pendant la pandémie accélère la transition vers les transactions sans contact et les interactions numériques sans intermédiaire.",
     anecdote: "Denso Wave, filiale de Toyota, a créé le code QR pour suivre les pièces automobiles sur ses lignes de production, puis a volontairement renoncé à faire valoir son brevet, rendant la technologie libre de droits — ce qui a grandement facilité son adoption mondiale.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Code QR", "url": "https://fr.wikipedia.org/wiki/Code_QR"}, {"type": "wikipedia", "label": "Wikipédia : Denso Wave", "url": "https://fr.wikipedia.org/wiki/Denso_Wave"}, {"type": "publication", "label": "Britannica : QR Code", "url": "https://www.britannica.com/technology/QR-code"}]
   },
   {
@@ -3683,6 +3946,7 @@ const BASE_CARTES = [
     description_longue: "Le 25 décembre 1969, Seiko, la compagnie japonaise de montres, commercialise la Seiko Astron, la première montre à quartz commerciale au monde. La montre à quartz utilise un cristal de quartz oscillant à une fréquence extrêmement stable pour maintenir le temps, offrant une précision supérieure aux montres mécaniques traditionnelles. L'oscillateur à quartz, découvert en 1880 par les frères Curie, est mis en application pour les montres seulement dans les années 1960. La montre à quartz révolutionne l'industrie horlogère, rendant les montres plus précises, abordables et durables. Bien que les maisons horlogères suisses possédaient la technologie, c'est les japonais (Seiko, Citizen, Casio) qui commercialisent agressivement les montres à quartz, remplaçant rapidement les montres mécaniques sur le marché. La révolution du quartz provoque la \"crise de l'horlogerie suisse\" dans les années 1970, où de nombreuses manufacture horlogères traditionnelles ferment ou sont consolidées. Paradoxalement, les montres mécaniques survivent en tant que luxe de prestige, tandis que les montres à quartz dominent le marché de masse.",
     anecdote: "La montre Seiko Astron, lancée le jour de Noël 1969, était si précise (quelques secondes d'écart par mois contre plusieurs minutes pour une montre mécanique) qu'elle a déclenché la « crise du quartz », qui a failli anéantir l'horlogerie suisse traditionnelle dans les années 1970-1980.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Montre à quartz", "url": "https://fr.wikipedia.org/wiki/Montre_%C3%A0_quartz"}, {"type": "wikipedia", "label": "Wikipédia : Seiko", "url": "https://fr.wikipedia.org/wiki/Seiko"}, {"type": "publication", "label": "Britannica : Quartz Watch", "url": "https://www.britannica.com/technology/quartz-watch"}]
   },
   {
@@ -3697,6 +3961,7 @@ const BASE_CARTES = [
     description_longue: "En 1964, Xerox, la compagnie américaine de technologie des documents, commercialise le Xerox Long Distance Xerography (LDX), le premier système de fax pratique et commercialement viable au monde. Le fax utilise la transmission téléphonique pour envoyer des images et des documents à travers les distances. Bien que les concepts de transmission de documents par téléphone remontent à la fin du XIXe siècle, c'est Xerox qui crée le premier système de fax fiable et abordable. Le fax révolutionne la communication commerciale, permettant le partage de documents importants à travers les distances sans délai postal. Le fax devient ubiquitaire dans les bureaux aux années 1980 et 1990, essentiellement remplaçant le courrier express pour les documents importants. Cependant, la révolution Internet et le courrier électronique (email) remplacent largement le fax à partir des années 2000. Malgré le déclin du fax, certains secteurs (gouvernement, justice, médecine) continuent à utiliser le fax pour les raisons légales et de conformité.",
     anecdote: "Le principe du fax est en réalité antérieur au téléphone : l'inventeur écossais Alexander Bain avait déjà breveté un appareil de transmission d'images en 1843, plus de trente ans avant l'invention du téléphone par Alexander Graham Bell.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Télécopieur", "url": "https://fr.wikipedia.org/wiki/T%C3%A9lcopieur"}, {"type": "wikipedia", "label": "Wikipédia : Xerox", "url": "https://fr.wikipedia.org/wiki/Xerox"}, {"type": "publication", "label": "Britannica : Fax Machine", "url": "https://www.britannica.com/technology/fax-machine"}]
   },
   {
@@ -3711,6 +3976,7 @@ const BASE_CARTES = [
     description_longue: "En 1938, l'inventeur américain Chester Carlson développe le procédé de xérographie (du grec \"écriture sèche\"), créant la photocopie moderne basée sur l'électrostatique plutôt que sur les processus chimiques humides. Carlson, électricien sans formation formelle en chimie, expérimente dans son petit atelier pour créer un processus de reproduction d'images secs et rapides. Son premier prototype fonctionne le 22 octobre 1938, créant la première xérocopy. Cependant, Carlson passe des années à chercher des investisseurs avant que Xerox Corporation (alors Haloid Company) ne brevète et commercialise sa technologie en 1959. La photocopieuse Xerox 914, lancée en 1959, révolutionne les bureaux en rendant la duplication de documents instantanée, bon marché et de haute qualité. Les photocopieuses deviennent indispensables aux bureaux modernes, facilitant la distribution d'information et la documentation administrative. Bien que les photocopieuses soient partiellement remplacées par l'impression numérique et le stockage électronique, elles restent présentes dans les bureaux modernes et les institutions gouvernementales.",
     anecdote: "Chester Carlson a mis au point la xérographie dans la cuisine de son appartement et a été refusé par plus de vingt entreprises (dont IBM et Kodak) avant que la société Haloid, rebaptisée plus tard Xerox, n'accepte de la commercialiser en 1944.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Chester Carlson", "url": "https://fr.wikipedia.org/wiki/Chester_Carlson"}, {"type": "wikipedia", "label": "Wikipédia : Xérographie", "url": "https://fr.wikipedia.org/wiki/X%C3%A9rographie"}, {"type": "publication", "label": "Britannica : Photocopier", "url": "https://www.britannica.com/technology/photocopier"}]
   },
   {
@@ -3725,6 +3991,7 @@ const BASE_CARTES = [
     description_longue: "Le 30 avril 1956, Ampex, la compagnie américaine d'électronique, présente le VRX-1000, le premier magnétoscope professionnel utilisable pour enregistrer et rejouer des images de télévision. L'invention du magnétoscope révolutionne la télévision en permettant l'enregistrement de programmes pour une rediffusion ultérieure, au lieu de la diffusion en direct uniquement. Les magnétoscopes utilisant la technologie de la bande magnétique dominent la télévision professionnelle et domestique pendant 50 ans. L'invention du magnétoscope permet la création d'archives télévisées, la production d'émissions plus complexes, et la distribution de contenu à travers les fuseaux horaires. À la fin des années 1970, les magnétoscopes domestiques (Betamax, VHS) révolutionnent le divertissement domestique, permettant aux gens de regarder des films à domicile. La guerre de format entre Betamax et VHS résout en faveur du VHS, qui domine le marché domestique pendant 25 ans. Bien que les magnétoscopes soient remplacés par l'enregistrement numérique et le streaming, ils restent des appareils culturellement importants représentant l'ère pré-Internet du divertissement.",
     anecdote: "Le premier magnétoscope professionnel d'Ampex, le VRX-1000, coûtait environ 50 000 dollars en 1956 (bien plus de 500 000 dollars actuels) et n'était accessible qu'aux chaînes de télévision — il faudra attendre encore deux décennies pour un appareil abordable par le grand public.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Magnétoscope", "url": "https://fr.wikipedia.org/wiki/Magn%C3%A9toscope"}, {"type": "wikipedia", "label": "Wikipédia : Ampex", "url": "https://fr.wikipedia.org/wiki/Ampex"}, {"type": "publication", "label": "Britannica : Videotape Recorder", "url": "https://www.britannica.com/technology/videotape-recorder"}]
   },
   {
@@ -3739,6 +4006,7 @@ const BASE_CARTES = [
     description_longue: "En 1961, Bell Punch Company au Royaume-Uni crée la Sumlock Comptometer, le premier appareil de calcul entièrement électronique disposant d'une interface de touches de saisie. Cependant, c'est le Friden EC-130R de 1963 qui est généralement considéré comme la première calculatrice électronique vraiment commerciale pratique aux États-Unis. La calculatrice électronique révolutionne la comptabilité et l'ingénierie en remplaçant les logarithmes manuels et les règles à calcul par des calculs numériques rapides et précis. La miniaturisation des calculatrices s'accélère dans les années 1970, avec la création des premières calculatrices de poche portables par Texas Instruments et Hewlett-Packard. La calculatrice de poche révolutionne l'éducation, le commerce et la science en rendant les calculs complexes instantanément accessibles. Bien que les calculatrices modernes soient intégrées aux téléphones portables et aux ordinateurs, les calculatrices de poche spécialisées persistent pour les applications techniques et éducatives.",
     anecdote: "La calculatrice britannique ANITA (1961) ne comportait aucune pièce mécanique pour ses calculs, une première mondiale, mais pesait environ 13 kilos et utilisait des tubes d'affichage à cathode froide, les écrans à transistors n'existant pas encore.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Calculatrice électronique", "url": "https://fr.wikipedia.org/wiki/Calculatrice_%C3%A9lectronique"}, {"type": "wikipedia", "label": "Wikipédia : Friden EC-130R", "url": "https://fr.wikipedia.org/wiki/Friden"}, {"type": "publication", "label": "Smithsonian : History of Electronic Calculator", "url": "https://www.si.edu/"}]
   },
   {
@@ -3753,6 +4021,7 @@ const BASE_CARTES = [
     description_longue: "En 1948, Philips, la compagnie électronique néerlandaise, développe et commercialise le disque longue durée (LP, 33 tours), une révolution dans la technologie d'enregistrement sonore. Le LP utilise un sillon microscopique plus étroit que sur les disques 78 tours précédents, permettant jusqu'à 23 minutes de musique par face. Quelques mois plus tard, Columbia Records introduit son propre format LP à 33⅓ tours, devenant le standard dominant. Indépendamment, RCA Victor développe le 45 tours (disque microsillon) pour les singles. Le LP révolutionne la musique en permettant l'enregistrement d'albums complets, favorisant la création de concept albums artistiquement cohérents. Le LP domine le marché de la musique pendant 40 ans, jusqu'à être remplacé par le CD à partir des années 1980. Paradoxalement, le vinyle revient en vogue au XXIe siècle auprès des audiophiles et des collectionneurs qui apprécient la qualité sonore supérieure et l'expérience tactile du vinyle. Aujourd'hui, les ventes de vinyle augmentent après des décennies de déclin, se redéfinissant comme un produit de luxe premium.",
     anecdote: "La vitesse de 33 tours et un tiers par minute a été choisie car c'était la plus lente permettant encore une reproduction sonore fiable avec les pointes de lecture de l'époque, offrant environ 22 minutes de musique par face contre 3 à 4 minutes pour un disque 78 tours.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Disque longue durée", "url": "https://fr.wikipedia.org/wiki/Disque_longue_dur%C3%A9e"}, {"type": "wikipedia", "label": "Wikipédia : Peter Carl Goldmark", "url": "https://fr.wikipedia.org/wiki/Peter_Goldmark"}, {"type": "publication", "label": "Britannica : Vinyl Record", "url": "https://www.britannica.com/technology/vinyl-record"}]
   },
   {
@@ -3767,6 +4036,7 @@ const BASE_CARTES = [
     description_longue: "En 1982, Philips et Sony, les géants de l'électronique, annoncent le Compact Disc (CD), une révolution dans le stockage et la lecture du son numérique. Le CD utilise un laser pour lire les données numériques gravées microscopiquement sur une surface réfléchissante, offrant une qualité sonore supérieure sans dégradation due à l'usure mécanique. Le premier CD commercialisé est \"Philips' Laserdisc\" de Philips en 1978 pour la vidéo, mais c'est le CD audio qui révolutionne la musique. Le CD se diffuse rapidement sur le marché grand public à partir de 1983, remplaçant progressivement le vinyle et les cassettes magnétiques. Le CD offre la durée, la durabilité, la qualité sonore et la commodité, établissant un nouveau standard pour la musique enregistrée. L'adoption du CD crée un marché de musique de plusieurs milliards de dollars, bien que ce marché soit ultérieurement menacé par la compression numériques des fichiers MP3 et le streaming. Bien que les CDs soient remplacés par le streaming numérique, ils restent populaires auprès de certains mélomanes appréciant la propriété physique du médium.",
     anecdote: "La durée de 74 minutes et le diamètre de 12 cm du CD auraient été fixés pour qu'un seul disque puisse contenir l'intégralité de la Neuvième Symphonie de Beethoven, à la demande du vice-président de Sony Norio Ohga, lui-même musicien de formation lyrique.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Disque compact", "url": "https://fr.wikipedia.org/wiki/Disque_compact"}, {"type": "wikipedia", "label": "Wikipédia : Philips", "url": "https://fr.wikipedia.org/wiki/Philips"}, {"type": "publication", "label": "Britannica : Compact Disc", "url": "https://www.britannica.com/technology/compact-disc"}]
   },
   {
@@ -3781,6 +4051,7 @@ const BASE_CARTES = [
     description_longue: "Entre 1989 et 1993, une équipe d'ingénieurs allemands de la Fraunhofer Society, dirigée par le Dr. Karlheinz Brandenburg, développe le codec MP3 (MPEG-1 Audio Layer III), compressant les fichiers audio numériques de 90% tout en préservant une qualité sonore acceptable à l'oreille humaine. Le MP3 révolutionne la musique numérique en rendant possible le téléchargement et le partage de chansons sur Internet à des vitesses pratiques. Bien que le MP3 ne soit pas le premier format audio compressé, c'est lui qui atteint l'adoption de masse grâce à son équilibre entre compression et qualité. L'adoption du MP3 démocratise l'accès à la musique, permettant à chacun de créer des bibliothèques musicales numériques portables. Cependant, le MP3 facilite également le piratage de la musique, catalysant la crise de l'industrie discographique qui n'a pas su s'adapter au numérique. Ironiquement, c'est Steve Jobs et l'iTunes Store (2003) qui sauvent l'industrie musicale en proposant une alternative légale au piratage. Bien que le MP3 soit remplacé par des codecs plus efficaces (AAC, OPUS), son impact sur la révolution numérique de la musique reste incontournable.",
     anecdote: "Le format MP3 a failli disparaître dès 1991, un vote de l'industrie ayant presque retenu un format concurrent. L'équipe de Fraunhofer a affiné son algorithme de compression à l'oreille en utilisant en boucle un seul morceau enregistré à la maison : « Tom's Diner » de Suzanne Vega, choisi pour sa clarté quasi a cappella.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : MP3", "url": "https://fr.wikipedia.org/wiki/MPEG-1/2_Audio_Layer_III"}, {"type": "wikipedia", "label": "Wikipédia : Fraunhofer Society", "url": "https://fr.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fraunhofer"}, {"type": "publication", "label": "Britannica : MP3", "url": "https://www.britannica.com/technology/MP3"}]
   },
   {
@@ -3795,6 +4066,7 @@ const BASE_CARTES = [
     description_longue: "Le 16 avril 1997, Reed Hastings et Marc Randolph lancent Netflix, un service de location de films en DVD par courrier postal via Internet. Netflix révolutionne la location de films en éliminant les pénalités de retard (amende pour retard) qui caractérisaient Blockbuster et autres loueurs physiques de films. Les clients Netflix reçoivent les DVD dans leur boîte aux lettres, les regardent à leur rythme, et les retournent gratuitement via le courrier. Netflix fonctionne sur un modèle d'abonnement à forfait plutôt que par location unitaire, prédisant correctement que les consommateurs préfèrent la certitude d'un coût mensuel fixe. Netflix se divise en deux entités en 2011 : Netflix Streaming pour le contenu vidéo en ligne et Qwikster pour la location de DVD par courrier (Qwikster ferme en 2013). Netflix Streaming révolutionne le divertissement vidéo à partir de 2007, lorsque la société commence à offrir le streaming de contenu en direct. Netflix Streaming s'étend internationalement dans les années 2010, devenant un leader mondial du streaming vidéo. En 2024, Netflix compte plus de 260 millions d'abonnés et a redéfini le divertissement vidéo.",
     anecdote: "Reed Hastings a raconté avoir eu l'idée de Netflix après s'être vu facturer 40 dollars d'amende de retard par Blockbuster pour une cassette d'Apollo 13 — une anecdote qu'il a lui-même reconnu avoir sans doute simplifiée pour la presse.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Netflix", "url": "https://fr.wikipedia.org/wiki/Netflix"}, {"type": "wikipedia", "label": "Wikipédia : Reed Hastings", "url": "https://fr.wikipedia.org/wiki/Reed_Hastings"}, {"type": "publication", "label": "Britannica : Netflix", "url": "https://www.britannica.com/topic/Netflix"}]
   },
   {
@@ -3809,6 +4081,7 @@ const BASE_CARTES = [
     description_longue: "En 1955, Eveready Battery Company commercialise la première batterie alcaline grand public, surpassant les batteries zinc-carbone en performance et en durée de vie. La batterie alcaline utilise un électrolyte alcalin (hydroxyde de potassium) au lieu d'un électrolyte acide, permettant une réaction chimique plus efficace. L'invention de la batterie alcaline révolutionne l'alimentation des appareils portables, permettant une autonomie 3 à 4 fois supérieure aux batteries zinc-carbone. Les piles alcalines deviennent rapidement le standard pour les appareils électroniques portables tels que les torches, les transistors-radio et les jouets. Les batteries alcalines dominent le marché des piles non-rechargeables pendant 60 ans, jusqu'à être partiellement remplacées par les batteries rechargeables lithium-ion. Aujourd'hui, les piles alcalines restent populaires pour les appareils occasionnels où la recharge est impratique. Les batteries alcalines jetables soulèvent également des enjeux environnementaux liés aux déchets électroniques et à la pollution des métaux lourds.",
     anecdote: "C'est l'ingénieur canadien Lewis Urry qui a mis au point la pile alcaline moderne chez Eveready dans les années 1950 ; elle stocke bien plus d'énergie que les anciennes piles zinc-carbone et reste aujourd'hui le format de pile domestique le plus répandu.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Batterie alcaline", "url": "https://fr.wikipedia.org/wiki/Batterie_alcaline"}, {"type": "wikipedia", "label": "Wikipédia : Eveready Battery Company", "url": "https://fr.wikipedia.org/wiki/Energizer_Holdings"}, {"type": "publication", "label": "Britannica : Alkaline Battery", "url": "https://www.britannica.com/technology/alkaline-battery"}]
   },
   {
@@ -3823,6 +4096,7 @@ const BASE_CARTES = [
     description_longue: "En 1962, Nick Holonyak Jr. chez General Electric crée la première diode électroluminescente (LED) visible à l'œil nu, une lumière rouge, révolutionnant le potentiel des semi-conducteurs pour produire de la lumière. Les LEDs émettent de la lumière par transition des électrons dans une jonction semi-conductrice, un processus beaucoup plus efficace que l'émission thermique des lampes incandescentes. Les premières LEDs rouges sont utilisées dans les indicateurs et les affichages numériques dans les années 1970, remplaçant les ampoules moins efficaces. L'invention de LEDs de différentes couleurs (orange, jaune, vert, bleu) s'étend au cours des décennies suivantes, culminant avec la création de la LED blanche en 1996 par Shuji Nakamura. Les LEDs blanches révolutionnent l'éclairage, offrant une efficacité énergétique jusqu'à 10 fois supérieure aux lampes incandescentes. L'adoption des LEDs pour l'éclairage général commence à la fin des années 2000, progressivement remplaçant les lampes incandescentes et fluorescentes. Nakamura reçoit le Prix Nobel en physique en 2014, reconnaissant l'importance de la LED bleue pour l'éclairage efficace. Aujourd'hui, les LEDs dominent le marché de l'éclairage et sont omniprésentes dans les appareils électroniques modernes.",
     anecdote: "La première LED rouge de Nick Holonyak était si faible qu'elle ne servait au départ que de voyant lumineux. Il avait pourtant prédit à l'époque qu'elle finirait par remplacer l'ampoule à incandescence — une prédiction qui a mis environ cinquante ans à se réaliser pleinement.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Diode électroluminescente", "url": "https://fr.wikipedia.org/wiki/Diode_%C3%A9lectroluminescente"}, {"type": "wikipedia", "label": "Wikipédia : Nick Holonyak", "url": "https://fr.wikipedia.org/wiki/Nick_Holonyak"}, {"type": "publication", "label": "Britannica : LED", "url": "https://www.britannica.com/technology/light-emitting-diode"}]
   },
   {
@@ -3837,6 +4111,7 @@ const BASE_CARTES = [
     description_longue: "En 2050, selon les projections de l'étude majeure publiée dans \"Science\" (2018) par Jambeck et al., la masse totale de plastique accumulée dans les océans dépassera la biomasse totale des poissons. Cette projection repose sur les données montrant que 8 à 12 millions de tonnes de plastique entrent chaque année dans les océans. Le plastique se fragmente en microplastiques, pénétrant les chaînes alimentaires marines et terrestres, affectant les écosystèmes à tous les niveaux. Les poissons ingèrent les microplastiques, réduisant leur capacité à se nourrir et à se reproduire. Cette crise plastique menace la viabilité des pêcheries mondiales, source de protéines pour 3 milliards de personnes. Les projections supposent une continuation des tendances actuelles sans intervention majeure de réduction des plastiques. Cette date critique symbolise l'urgence de la transition vers une économie circulaire et sans plastique jetable.",
     anecdote: "La comparaison provient d'un rapport de 2016 de la Fondation Ellen MacArthur et du Forum économique mondial, dont la formule-choc originale — plus de plastique que de poissons dans l'océan d'ici 2050 — a depuis été reprise dans d'innombrables discours et médias.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "Science : Plastic pollution in the ocean - Jambeck et al. (2018)", "url": "https://www.science.org/doi/10.1126/sciadv.1700782"}, {"type": "publication", "label": "Ellen MacArthur Foundation : The New Plastics Economy", "url": "https://www.ellenmacarthurfoundation.org/publications/the-new-plastics-economy-rethinking-the-future-of-plastics"}, {"type": "publication", "label": "UNEP : Single-use plastics : A roadmap for sustainability", "url": "https://www.unep.org/publications/single-use-plastics-roadmap-sustainability"}]
   },
   {
@@ -3851,6 +4126,7 @@ const BASE_CARTES = [
     description_longue: "Le rapport du Groupe d'Experts Intergouvernemental sur l'Évolution du Climat (GIEC) de 2021 projette une fonte quasi-totale de la calotte glaciaire du Groenland d'ici 2070 selon les scénarios d'émissions élevées (RCP 8.5/SSP5-8.5). Cette calotte contient environ 2,85 millions de kilomètres cubes de glace, représentant 7% du niveau des mers mondial. La fonte du Groenland s'accélère exponentiellement : elle a contribué à seulement 0,03 mm/an d'élévation du niveau des mers dans les années 1990, mais à 0,7 mm/an en 2010-2020. Les observations satellitaires montrent que la perte de masse annuelle a augmenté de 280% entre 2003 et 2019. Cette fonte aurait des conséquences catastrophiques : perturbation de la circulation thermohaline atlantique, élévation du niveau des mers menaçant les villes côtières, modification majeure des régimes climatiques mondiaux. Les écosystèmes arctiques, dépendants de la glace, disparaîtront, menaçant l'ours polaire, le phoque et d'autres espèces. Cette projection revient dans tous les rapports climatiques majeurs depuis 2013.",
     anecdote: "La calotte glaciaire du Groenland fait environ trois fois la superficie de la France et contient assez d'eau pour élever le niveau des mers de plus de 7 mètres si elle fondait intégralement — les projections à 2070-2100 n'envisagent qu'une fonte partielle.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "GIEC : Climate Change 2021 - The Physical Science Basis", "url": "https://www.ipcc.ch/report/ar6/wg1/"}, {"type": "publication", "label": "Nature : Greenland ice sheet mass loss rates", "url": "https://www.nature.com/articles/s41561-020-0615-z"}, {"type": "publication", "label": "ESA : Greenland Ice Sheet Mass Balance", "url": "https://climate.esa.int/en/explore/largest-ice-masses-on-earth/greenland-ice-sheet/"}]
   },
   {
@@ -3865,6 +4141,7 @@ const BASE_CARTES = [
     description_longue: "Selon les projections démographiques des Nations Unies (2019, mise à jour 2022), la population mondiale atteindrait son pic vers 2070-2090, mais certaines projections plus pessimistes de l'Institut pour la Métrique de la Santé (IHME) de l'Université de Washington suggèrent un pic dès 2040 sous certains scénarios. Le pic démographique résulte de la convergence de plusieurs facteurs : baisse du taux de fertilité global (passé de 5,1 enfants/femme en 1960 à 2,3 en 2020), augmentation de l'éducation des femmes, accès à la contraception, urbanisation, et coûts économiques croissants d'élever les enfants. Après 2040, selon l'IHME, la population mondiale pourrait décliner de façon permanente, passant de 9,7 milliards à 8,8 milliards d'ici 2100. Cette décroissance sera inégale : l'Afrique subsaharienne continuera à croître, tandis que l'Europe, l'Asie de l'Est et l'Amérique Latine verront des déclins majeurs. Cette transition démographique aura des implications majeures pour l'économie, les systèmes de retraite, l'emploi, et l'utilisation des ressources.",
     anecdote: "Il s'agirait de l'un des retournements démographiques les plus rapides jamais projetés : il a fallu plus de 300 000 ans à l'humanité pour atteindre 1 milliard d'habitants (vers 1800), mais la population pourrait commencer à décliner en l'espace d'une seule vie humaine après son pic.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "The Lancet : Fertility, mortality, migration, and population scenarios for 195 countries and territories from 2017 to 2100", "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)30677-2/fulltext"}, {"type": "publication", "label": "Nature Medicine : IHME Global Burden of Disease", "url": "https://www.healthdata.org/news-release/2020-global-burden-disease-study-highlights-need-renewed-commitment-global-health"}, {"type": "publication", "label": "UN DESA : World Population Prospects 2022", "url": "https://population.un.org/wpp/"}]
   },
   {
@@ -3879,6 +4156,7 @@ const BASE_CARTES = [
     description_longue: "Les projections du Rapport Planète Vivante 2022 du Fonds mondial pour la nature (WWF) et les données du Centre de recherche sur la biodiversité (Zoological Society of London) indiquent un déclin de 50% à 75% des populations d'animaux vertébrés d'ici 2075 selon les scénarios pessimistes. Ce déclin résulte de la combinaison de la perte d'habitat (70% des forêts tropicales perdues), du changement climatique, de la pollution, de la surexploitation des ressources, et des maladies. Depuis 1970, les populations d'animaux sauvages ont chuté de 68% en moyenne. Le taux actuel d'extinction est 100 à 1000 fois plus élevé que le taux naturel d'extinction préalable. Les forêts tropicales, qui abritent 80% des espèces terrestres, disparaissent au taux de 10 millions d'hectares par an. Les écosystèmes aquatiques subissent un déclin encore plus rapide : 84% des populations de poissons d'eau douce ont disparu. Si ces tendances continuent, nous entrerions dans la sixième extinction de masse de l'histoire de la Terre, la première causée par une seule espèce : l'humanité.",
     anecdote: "L'indice Planète Vivante du WWF, source de cette projection, ne mesure pas le nombre d'espèces disparues mais le déclin moyen de la taille des populations animales suivies — une espèce peut donc toujours exister tout en étant beaucoup moins nombreuse qu'il y a 50 ans.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "WWF : Living Planet Report 2022", "url": "https://www.worldwildlife.org/pages/living-planet-report-2022"}, {"type": "publication", "label": "Science : Accelerated modern human-induced species losses entering the sixth mass extinction", "url": "https://www.science.org/doi/10.1126/sciadv.1400253"}, {"type": "publication", "label": "PNAS : The impact of future land-use change on species richness", "url": "https://www.pnas.org/doi/10.1073/pnas.1211331110"}]
   },
   {
@@ -3893,6 +4171,7 @@ const BASE_CARTES = [
     description_longue: "Le 6ème Rapport d'Évaluation du GIEC (2021) projette une élévation du niveau des mers global de 0,43 à 0,84 mètre d'ici 2100 selon le scénario modéré (SSP2-4.5), et jusqu'à 0,84 à 1,30 mètre selon le scénario pessimiste (SSP5-8.5). Cette élévation résulte de deux mécanismes principaux : la dilatation thermique de l'eau (contribution de 40%) et la fonte des glaciers terrestres et des calottes polaires (contribution de 60%). L'élévation du niveau des mers menace directement les populations côtières : 600 millions de personnes vivent dans des zones côtières moins de 10 mètres au-dessus du niveau de la mer. Les villes majeures comme Venise, la Nouvelle-Orléans, Bangkok, Le Caire, et Shanghai subissent déjà des inondations récurrentes d'eau de mer. Une élévation d'1 mètre inonderait 40% du delta du Nil, 17% du Bangladesh, et détruirait les atolls du Pacifique. Les impacts économiques sont estimés à des milliers de milliards de dollars en dégâts aux infrastructures, pertes agricoles, et déplacements de populations. C'est l'une des conséquences du changement climatique avec le plus haut degré de certitude scientifique.",
     anecdote: "Une élévation d'un mètre ne se contenterait pas d'inonder les côtes directement : elle repousserait aussi l'eau salée plus loin dans les fleuves et les nappes phréatiques, contaminant l'eau douce de villes comme La Nouvelle-Orléans bien avant que la mer ne les atteigne physiquement.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "GIEC : Climate Change 2021 - The Physical Science Basis, Chapter 9", "url": "https://www.ipcc.ch/report/ar6/wg1/chapter-9/"}, {"type": "publication", "label": "Nature : Understanding sea level rise", "url": "https://www.nature.com/articles/d41586-021-02659-4"}, {"type": "publication", "label": "NOAA : Sea Level Change Portal", "url": "https://sealevel.nasa.gov/"}]
   },
   {
@@ -3907,6 +4186,7 @@ const BASE_CARTES = [
     description_longue: "Des études publiées dans \"Nature Climate Change\" (2010, Sherwood et al., mise à jour 2020) et confirmées par le GIEC projettent que certaines régions tropicales humides pourraient atteindre des conditions où la thermorégulation humaine devient impossible d'ici 2100. Le thermomètre de boule humide (qui mesure la température perçue en tenant compte de l'humidité) dépasserait 35°C, la limite physiologique au-delà de laquelle le corps humain ne peut plus se refroidir par évaporation de la sueur. Cette projection concerne particulièrement les deltas fluviaux majeurs : le delta du Mékong (Cambodge, Vietnam), le delta du Gange-Brahmapoutre (Bangladesh, Inde), le Golfe Persique (Iran, Émirats arabes), et le nord de l'Inde. Ces régions regroupent plus d'1 milliard de personnes. L'inhabitabilité progressive forcerait des migrations massives sans précédent historique. Les activités de plein air deviendraient impossibles pendant plusieurs mois de l'année. L'agriculture tropicale, source de nourriture pour des milliards, serait gravement compromise. Cette limite est mathématiquement définie et s'appuie sur la thermodynamique biologique, pas sur des projections climatiques incertaines.",
     anecdote: "Une « température au thermomètre mouillé » de 35°C ne semble pas extrême sur un thermomètre classique, mais elle signifie que l'air est si chaud et humide que la sueur ne peut plus s'évaporer : une personne en bonne santé pourrait alors mourir d'un coup de chaleur en quelques heures, même à l'ombre et avec de l'eau à volonté.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature Climate Change : Quantifying the likelihood of regional climate change - Sherwood et al. (2010)", "url": "https://www.nature.com/articles/nclimate1044"}, {"type": "publication", "label": "PNAS : An adaptability limit to climate change due to heat stress - Pal & Eltahir (2016)", "url": "https://www.pnas.org/doi/10.1073/pnas.1510847113"}, {"type": "publication", "label": "The Conversation : Wet bulb temperature explained", "url": "https://theconversation.com/wet-bulb-temperature-explained-why-some-parts-of-the-world-will-become-too-hot-for-humans-to-survive-outside-156268"}]
   },
   {
@@ -3921,6 +4201,7 @@ const BASE_CARTES = [
     description_longue: "Le rapport du GIEC et les études océanographiques du SCRIPPS Institution et de l'Institut océanographique de Monaco projettent une augmentation de 200% de l'acidité océanique (diminution du pH) d'ici 2200 par rapport aux niveaux pré-industriels. Cette acidification résulte de l'absorption de 25% à 30% des émissions de CO2 anthropogénique par les océans, transformant le CO2 en acide carbonique. Le pH océanique a déjà diminué de 0,1 unité depuis 1750, représentant une augmentation de 30% de l'acidité. Une augmentation de 200% supplémentaire (pH passant de 8,2 à ~7,7) détruirait les écosystèmes marins calcifiés : les mollusques, les crustacés, les coraux, et les ptéropodes (escargots marins de 500 micromètres) ne pourraient plus former leurs coquilles. Les larves de poisson perdraient leur capacité à localiser les récifs de reproduction. La chaîne alimentaire marine s'effondrerait. Les pêcheries commerciales, source de 1,5 milliard de dollars annuels, disparaîtraient. Les récifs coralliens, qui fournissent 25% des protéines marines à 500 millions de personnes, seraient complètement détruits. Cette acidification est équivalente au changement chimique survenu lors de la Grande Extinction du Permien (-252 millions d'années).",
     anecdote: "L'acidification des océans est parfois surnommée « l'autre problème du CO2 » : même si l'humanité arrêtait toute émission dès aujourd'hui, le pH des océans continuerait de baisser pendant des siècles, le temps que le carbone déjà absorbé soit neutralisé par les minéraux des fonds marins.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Ocean acidification in the Anthropocene", "url": "https://www.nature.com/articles/nature04095"}, {"type": "publication", "label": "Science : The impacts of ocean acidification on marine organisms", "url": "https://www.science.org/doi/10.1126/science.1183752"}, {"type": "publication", "label": "SCRIPPS Institution of Oceanography : Ocean Acidification", "url": "https://scripps.ucsd.edu/research/ocean-acidification"}]
   },
   {
@@ -3935,6 +4216,7 @@ const BASE_CARTES = [
     description_longue: "Selon les données de la NASA et du Centre des Objets Géocroiseurs (Planetary Defense Center), un impact d'astéroïde potentiellement catastrophique (>1 km de diamètre) frappe statistiquement la Terre environ une fois tous les 500 000 à 1 million d'années. À l'échelle de 100 000 ans, la probabilité qu'un tel événement se produise est d'environ 10 à 20%. Les géocroiseurs de plus de 140 mètres, capables de détruire une région entière, frappent environ une fois tous les 10 000 ans. L'extinction des dinosaures (il y a 66 millions d'années) fut causée par un astéroïde de 10 kilomètres frappant le Yucatan. L'événement de Tunguska (1908) en Sibérie, causé par un astéroïde de 40 mètres, rasa 80 millions d'arbres. Actuellement, 90% des astéroïdes de plus de 1 km de diamètre proches de la Terre ont été catalogués, mais des milliers de plus petits astéroïdes restent indétectés. La NASA a lancé les missions DART (2022) et Hera pour développer des capacités de défense planétaire, testant la possibilité de dévier un astéroïde par impact cinétique. Le risque zéro n'existe pas : l'univers reste un environnement dangereux.",
     anecdote: "La mission DART de la NASA a testé avec succès la défense planétaire en 2022 en percutant délibérément l'astéroïde Dimorphos, raccourcissant son orbite de 32 minutes — la preuve qu'il serait possible de dévier un astéroïde menaçant, à condition d'avoir suffisamment de temps pour agir.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "NASA : Planetary Defense Coordination Office", "url": "https://www.nasa.gov/planetary-defense/"}, {"type": "publication", "label": "Science : The probability of asteroid collision with Earth", "url": "https://www.science.org/doi/10.1126/science.1186868"}, {"type": "publication", "label": "ESA : Near-Earth Objects Coordination Centre", "url": "https://www.esa.int/Space_Safety/Near-Earth_Objects_Coordination_Centre"}]
   },
   {
@@ -3949,6 +4231,7 @@ const BASE_CARTES = [
     description_longue: "Le paléovolcanologue Christopher Harpel et l'United States Geological Survey (USGS) documentent que le supervolcan Yellowstone suit un cycle d'éruptions majeures (supereruptions) tous les 640 000 à 800 000 ans en moyenne. La dernière supereruption de Yellowstone remonte à 640 000 ans. Une nouvelle supereruption est donc statistiquement due. Une éruption de magnitude 8 (Volcanic Explosivity Index) injecterait 1000 kilomètres cubes de matériau dans l'atmosphère, créant une colonne de cendre s'élevant à 50 km d'altitude. Les conséquences seraient globales : la cendre recouvrirait les États-Unis d'une couche de 10 centimètres en quelques jours, rendant l'agriculture impossible. Les gaz volcaniques refroidiraient le climat de 10 à 20 degrés Celsius pendant 3 à 10 ans (hiver volcanique). Les récoltes échoueraient pendant 5 ans minimum. La famine et les guerres décimeraient les populations humaines. Cette éruption ferait pâlir la catastrophe du Toba (74 000 ans) qui a réduit la population humaine à quelques milliers d'individus. Les données sismiques montrent que Yellowstone se recharge lentement mais régulièrement.",
     anecdote: "La chambre magmatique de Yellowstone est surveillée par des centaines de sismomètres et de stations GPS ; les géologues rappellent que son activité actuelle (petits séismes, éruptions de geysers comme Old Faithful) est un comportement de fond parfaitement normal, et non le signe d'une supereruption imminente.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "USGS : Yellowstone Supervolcano", "url": "https://www.usgs.gov/faqs/what-probability-new-eruption-yellowstone"}, {"type": "publication", "label": "Nature : Caldera-wide magma replenishment - the 1st century AD rhyolite of Yellowstone", "url": "https://www.nature.com/articles/nature10204"}, {"type": "publication", "label": "Geology : The Yellowstone hotspot - A hotspot on a track", "url": "https://pubs.geoscienceworld.org/gsa/geology/article-abstract/45/7/579/547831"}]
   },
   {
@@ -3963,6 +4246,7 @@ const BASE_CARTES = [
     description_longue: "Sur le timescale d'un million d'années, la tectonique des plaques continue sa lente danse continentale. Selon les modèles de géodynamique de l'Institut de Physique du Globe (IPGP) et de l'Université de Cambridge, 1 million d'années correspond à environ 20 à 40 centimètres de mouvement des plaques continentales (selon les plaques). La Californie dérive vers le nord-ouest à 5 cm/an, ce qui représenterait 50 kilomètres de déplacement sur 1 million d'années. L'Afrique continue à se séparer de l'Eurasie, élargissant la mer Méditerranée. La côte Est de l'Amérique du Nord s'éloigne de l'Afrique de 2,5 cm/an. L'Australie dérive vers le nord. Bien que ces changements semblent imperceptibles à l'échelle humaine, ils reconfigurent complètement la géographie de la Terre à l'échelle géologique. De nouvelles chaînes de montagnes apparaissent par l'orogenèse. De vieux océans ferment. De nouveaux océans s'ouvrent. Les connexions biologiques entre continents changent, provoquant des isolations et des spéciations. C'est un processus continu depuis 2,5 milliards d'années qui explique la distribution actuelle des continents et des formes de vie.",
     anecdote: "Au rythme actuel de dérive des continents, Los Angeles et San Francisco, situées de part et d'autre de la faille de San Andreas, se rapprochent lentement l'une de l'autre et pourraient devenir des villes voisines dans environ 15 millions d'années.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Science : The rate of true polar wander", "url": "https://www.science.org/doi/10.1126/science.1114267"}, {"type": "publication", "label": "Nature : Plate tectonics and mantle dynamics", "url": "https://www.nature.com/articles/nature01950"}, {"type": "publication", "label": "IPGP : Tectonique des plaques et dérive continentale", "url": "https://www.ipgp.fr/"}]
   },
   {
@@ -3977,6 +4261,7 @@ const BASE_CARTES = [
     description_longue: "Selon les modèles d'évolution stellaire confirmés par le physicien Carl Sagan et actualisés par l'astrophysique stellaire moderne, le Soleil augmente lentement sa luminosité tout au long de sa vie de séquence principale. Cette luminosité augmente en moyenne de 10% tous les 2 milliards d'années. Dans 2 milliards d'années, le Soleil sera 10% plus lumineux qu'aujourd'hui. Cela semble modeste, mais c'est catastrophique pour la Terre. Un Soleil 10% plus lumineux signifie que l'énergie reçue augmente de 21% (car l'énergie augmente avec le carré de la luminosité relative). Cette augmentation drastique du rayonnement solaire provoquera un emballement de l'effet de serre : l'eau s'évaporera des océans plus rapidement, créant plus de vapeur d'eau (un gaz à effet de serre puissant), ce qui augmentera la température, ce qui augmentera l'évaporation, dans une boucle de rétroaction positive. Les océans bouilliront en quelques millions d'années. L'atmosphère ressemblera à celle de Vénus : ultra-chaude, ultra-dense, écrasante. Toute vie complexe aura disparu bien avant (probablement dans 1-1,5 milliards d'années). C'est la limite thermique définitive de la vie terrestre.",
     anecdote: "Ce lent réchauffement du Soleil est le miroir inversé du « paradoxe du jeune Soleil faible » : au tout début de son histoire, il était environ 30 % moins lumineux qu'aujourd'hui, et pourtant la Terre est restée assez chaude pour conserver de l'eau liquide — un puzzle que les scientifiques affinent encore.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Science : The faint young Sun paradox", "url": "https://www.science.org/doi/10.1126/science.206.4425.1129"}, {"type": "publication", "label": "The Astrophysical Journal : The evolution of the solar luminosity", "url": "https://iopscience.iop.org/article/10.1086/368541"}, {"type": "publication", "label": "Nature : The habitability of the early Earth", "url": "https://www.nature.com/articles/nature05169"}]
   },
   {
@@ -3991,6 +4276,7 @@ const BASE_CARTES = [
     description_longue: "Dans environ 5 à 7 milliards d'années, le Soleil épuisera son carburant d'hydrogène dans son noyau et se transformera en géante rouge. C'est le destin inévitable de toutes les étoiles de la masse du Soleil, selon les modèles d'évolution stellaire de Hertzsprung-Russell (1911, actualisés). En phase de géante rouge, le Soleil augmentera son rayon de 250 fois, s'étendant potentiellement jusqu'à l'orbite actuelle de Vénus ou même de la Terre. Le Soleil engloutira définitivement Mercure et Vénus. La Terre sera soit engloutie, soit carbonisée et réduite à une roche stérile. Les océans s'évaporeront. L'atmosphère sera balayée. C'est la fin inévitable de la Terre. Pendant cette phase de géante rouge, le Soleil sera 1000 fois plus lumineux. Après quelques millions d'années en tant que géante rouge, le Soleil rejettera sa couche externe (nébuleuse planétaire) et s'effondrera en une naine blanche : une étoile morte de la taille de la Terre, d'une densité extrême (une cuillère à café pèserait des tonnes). La Terre, ou ce qu'il en restera, orbitera ce cadavre stellaire dans un univers en expansion infini. C'est le destin thermodynamique de tout système : vers l'entropie maximale.",
     anecdote: "En devenant une géante rouge, le Soleil perdra une telle quantité de masse par vent stellaire que l'orbite de la Terre devrait s'élargir : certains modèles suggèrent qu'elle pourrait de justesse échapper à l'engloutissement, pour ne devenir qu'un caillou calciné et sans atmosphère.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "The Astrophysical Journal : The future of the Sun and the Earth - Schröder & Smith (2008)", "url": "https://iopscience.iop.org/article/10.1088/0004-6256/135/1/09"}, {"type": "publication", "label": "Nature : The birth and death of stars", "url": "https://www.nature.com/articles/d41586-021-02755-5"}, {"type": "publication", "label": "Science : Stellar Evolution", "url": "https://www.science.org/doi/10.1126/science.1096822"}]
   },
   {
@@ -4005,6 +4291,7 @@ const BASE_CARTES = [
     description_longue: "Selon les calculs d'astrophysiciens du Space Telescope Science Institute et de l'Université de Cambridge utilisant les données du satellite Gaia, la galaxie d'Andromède (distante de 2,5 millions d'années-lumière) se rapproche de la Voie lactée à une vitesse de 110 kilomètres par seconde. Dans environ 4,5 milliards d'années, Andromède et la Voie lactée collideront, fusionnant progressivement en une seule mégagalaxie (que certains ont surnommée \"Milkomède\" ou \"Lactamedromeda\"). Ce processus ne serait pas catastrophique aux échelles humaines locales : les distances interstellaires sont si vastes que les collisions réelles entre étoiles lors d'une fusion galactique sont statistiquement rares. Cependant, à l'échelle de 200 000 ans, Andromède aura sensiblement augmenté en taille apparente dans le ciel nocturne. Les perturbations gravitationnelles de la proximité d'Andromède pourraient déstabiliser les orbites de certains objets dans le nuage d'Oort, augmentant les risques d'impacts de comètes sur la Terre. La luminosité du ciel nocturne à l'approche de la fusion sera dramatiquement modifiée. Astronomiquement parlant, c'est une date clé où l'univers local change de structure.",
     anecdote: "Malgré leurs quelque mille milliards d'étoiles combinées, la collision entre la Voie lactée et Andromède devrait être presque sans conséquence pour chaque système stellaire pris individuellement : les distances entre étoiles sont si immenses que les collisions directes resteront extrêmement rares.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature Astronomy : Andromeda's Giant Southern Stream Confirms Cosmic Collision - van der Marel et al. (2020)", "url": "https://www.nature.com/articles/s41550-020-1066-7"}, {"type": "publication", "label": "Astrophysical Journal : A 3D model for the Andromeda galaxy", "url": "https://iopscience.iop.org/article/10.1088/0004-637X/753/2/130"}, {"type": "publication", "label": "ESA : Gaia mission tracking Andromeda", "url": "https://www.esa.int/gaia"}]
   },
   {
@@ -4019,6 +4306,7 @@ const BASE_CARTES = [
     description_longue: "Sur une période d'1 million d'années, tous les cycles biologiques majeurs se manifestent. La durée moyenne de vie d'une espèce de mammifère est d'environ 1 à 2 millions d'années selon les données du Muséum américain d'histoire naturelle. L'Homo sapiens n'existe que depuis environ 300 000 ans. Statistiquement, l'humanité a peut-être 700 000 à 1 700 000 ans avant son extinction naturelle (par spéciation, divergence évolutive, ou remplacement par une espèce dérivée). L'évolution favorisera de nouvelles adaptations. Si le climat change, les humains évolueront ou divergeront en espèces distinctes. Les isolations géographiques créeront de nouveaux hominidés. Ou simplement, une compétition ou maladie émergente réduira l'humanité à l'extinction. Le taux d'extinction des espèces sur cette période historique n'est pas connaissable avec précision, mais peu d'espèces durent plus de 10 millions d'années sans transformation majeure. L'Homo sapiens, malgré sa technologie, reste sujet aux lois biologiques fondamentales. Toutefois, notre technologie future pourrait modifier ces règles : si l'humanité maîtrise l'édition génétique, elle pourrait prolonger (ou transformer) son existence. C'est une limite purement biologique, non une certitude.",
     anecdote: "Une espèce de mammifère survit en moyenne environ 1 million d'années avant de s'éteindre ou d'évoluer en autre chose — à cette aune, Homo sapiens, âgé d'environ 300 000 ans, est encore une espèce relativement jeune.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "PNAS : Species Longevity in North American Fossil Mammals - Van Valkenburgh & Janis (1993)", "url": "https://www.pnas.org/doi/10.1073/pnas.90.19.8969"}, {"type": "publication", "label": "Science : The future of human evolution", "url": "https://www.science.org/doi/10.1126/science.1090918"}, {"type": "publication", "label": "Paleobiology : Extinction rates in the fossil record", "url": "https://www.cambridge.org/core/journals/paleobiology"}]
   },
   {
@@ -4033,6 +4321,7 @@ const BASE_CARTES = [
     description_longue: "Les mammifères règnent depuis environ 225 millions d'années (depuis le Trias moyen), mais sur une période de 100 millions d'années supplémentaires, il est statistiquement probable qu'une nouvelle extinction de masse ou une transformation évolutive majeure éliminerait l'ordre des mammifères tel que nous le connaissons. L'histoire de la Terre montre 5 extinctions de masse majeures, chacune séparée de dizaines de millions d'années. Les conditions planétaires auront radicalement changé : le CO2, la température, les régimes de pluie, la topographie continentale seront méconnaissables. Les écosystèmes mondiaux se réorganiseront. Certaines niches écologiques seront occupées par de nouveaux groupes d'animaux issus de la radiation adaptative des survivants. Les arthropodes, extrêmement adaptatifs, pourraient dominer davantage. Ou une nouvelle classe de vertébrés (les descendants des oiseaux ou des reptiles marins) pourrait s'adapter aux niches actuellement occupées par les mammifères. L'extinction des dinosaures il y a 66 millions d'années a permis l'essor des mammifères. Le même processus peut se répéter. C'est le flux et reflux éternel de la vie terrestre, gouverné par la sélection naturelle et les catastrophes géologiques.",
     anecdote: "Les mammifères ne sont devenus les grands animaux dominants de la planète qu'après l'impact d'astéroïde qui a rayé les dinosaures non aviens de la carte il y a 66 millions d'années — avant cela, pendant plus de 150 millions d'années, ils sont restés de petites créatures nocturnes vivant dans l'ombre des reptiles.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Science : The rise and fall of life on Earth", "url": "https://www.science.org/doi/10.1126/science.173.3992.201"}, {"type": "publication", "label": "Nature : Mass extinctions in the Phanerozoic", "url": "https://www.nature.com/articles/nature09159"}, {"type": "publication", "label": "Paleobiology : What do patterns of species survival teach us about extinction", "url": "https://www.cambridge.org/core/journals/paleobiology"}]
   },
   {
@@ -4047,6 +4336,7 @@ const BASE_CARTES = [
     description_longue: "Dans 3 milliards d'années, le Soleil sera environ 20 à 30% plus lumineux qu'aujourd'hui (suivant l'évolution linéaire d'augmentation de 10% tous les 2 milliards d'années). À ce stade, l'énergie reçue par la Terre aura augmenté d'environ 44 à 73%. Cette augmentation massive de l'énergie solaire causera un emballement de l'effet de serre. Mais bien avant l'ébullition complète des océans, la photosynthèse elle-même devient thermodynamiquement impossible. La photosynthèse est une réaction chimique basée sur l'absorption de photons de lumière visible (400-700 nm) par des molécules de chlorophylle. L'efficacité énergétique diminue si le spectre solaire change ou si la température de base augmente trop. À partir d'une augmentation de 15 à 20% du rayonnement solaire, les plantes expérimentent un stress thermique excessif : les enzymes de la photosynthèse se dénaturent, l'eau s'évapore des stomates avant d'être utilisée, et la productivité primaire s'effondre. Sans photosynthèse, l'oxygène atmosphérique (actuellement 21%) s'échappe lentement vers l'espace, et le CO2 s'accumule. Toute vie complexe dépendant de l'oxygène meurt. Seules les bactéries chimiotrophes survivent dans les profondeurs géothermales. C'est la fin du règne de la vie visible sur Terre.",
     anecdote: "La photosynthèse est déjà, aujourd'hui, la source d'énergie ultime de presque toutes les chaînes alimentaires de la planète, y compris des combustibles fossiles — sa disparition ne priverait donc pas seulement les plantes d'énergie, mais quasiment toute forme de vie à la fois.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Science : Photosynthetic efficiency and climate change", "url": "https://www.science.org/doi/10.1126/science.1090918"}, {"type": "publication", "label": "Nature : The faint young Sun paradox and the habitable zone", "url": "https://www.nature.com/articles/nature05169"}, {"type": "publication", "label": "Astrobiology Magazine : When photosynthesis becomes impossible", "url": "https://www.astrobiology.nasa.gov/articles/the-future-of-photosynthesis/"}]
   },
   {
@@ -4061,6 +4351,7 @@ const BASE_CARTES = [
     description_longue: "Selon la théorie du rayonnement Hawking proposée par le physicien Stephen Hawking en 1974 et confirmée par la physique quantique moderne, tous les trous noirs s'évaporent lentement via l'émission de rayonnement Hawking. Plus un trou noir est petit, plus vite il s'évapore. Un trou noir de la masse du Soleil mettrait environ 10^67 années pour s'évaporer complètement (bien au-delà de l'âge actuel de l'univers de 13,8 milliards d'années). Cependant, les trous noirs stellaires de masse intermédiaire (100 à 10 000 masses solaires) s'évaporent plus rapidement : en environ 10^10 à 10^20 années. À l'échelle de 10^12 années, de nombreux petits trous noirs et trous noirs primordiaux auraient déjà disparu via l'évaporation Hawking. Les trous noirs supermassifs (millions de masses solaires) au cœur des galaxies persisteraient bien au-delà, mais les trous noirs stellaires intermédiaires auraient probablement évaporé. Cette évaporation libère l'énergie accumulée sous forme de rayonnement énergétique, se terminant progressivement en une explosion de rayons gamma. Les trous noirs, bien que parmi les objets les plus stables du cosmos, ne sont pas éternels. C'est une des rares preuves que l'univers tend vers l'équilibre (entropie maximale).",
     anecdote: "Stephen Hawking a proposé le rayonnement des trous noirs en 1974 précisément parce qu'il semblait violer une règle fondamentale de la physique (l'information ne peut pas être détruite) — le « paradoxe de l'information » qui en découle reste l'un des plus grands problèmes non résolus de la physique théorique.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Physical Review D : Black hole evaporation - Hawking radiation", "url": "https://journals.aps.org/prd/abstract/10.1103/PhysRev.D.14.2460"}, {"type": "publication", "label": "Nature : The life and death of black holes", "url": "https://www.nature.com/articles/d41586-021-02755-5"}, {"type": "publication", "label": "The Astrophysical Journal : Primordial black hole evaporation", "url": "https://iopscience.iop.org/article/10.1086/160532"}]
   },
   {
@@ -4075,6 +4366,7 @@ const BASE_CARTES = [
     description_longue: "À cette phase extrêmement lointaine, le cosmos aura radicalement changé. Toutes les étoiles auront brûlé leur carburant et explosé (dans les premières 10^14 années). Tous les trous noirs stellaires et trous noirs de masse intermédiaire auront évaporé via le rayonnement Hawking. Les trous noirs supermassifs au cœur des galaxies (de millions à milliards de masses solaires) seraient les derniers objets massifs de l'univers. À 10^30 années, seuls ces trous noirs géants subsisteraient, s'évaporant très lentement via le rayonnement Hawking (un trou noir d'1 milliard de masses solaires met environ 10^100 années à s'évaporer complètement). L'univers serait dominé par une soupe de photons primaires, neutrinos, et les radiations d'évaporation des trous noirs résiduels. La densité d'énergie serait incroyablement faible. Les températures seraient proches du zéro absolu. L'expansion de l'univers aurait dilué toute matière ordinaire à des distances incompréhensiblement grandes. C'est l'ère des trous noirs : l'avant-dernier acte de l'univers avant sa mort thermique complète.",
     anecdote: "À ce stade, un unique trou noir supermassif comme celui au centre de notre galaxie mettrait à lui seul environ 10^100 années à s'évaporer complètement — les trous noirs, même les plus « rapides », domineront donc l'univers pendant une durée presque incompréhensiblement plus longue que toute son histoire actuelle.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Reviews of Modern Physics : Black hole thermodynamics", "url": "https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.75.715"}, {"type": "publication", "label": "The Astrophysical Journal : The fate of massive primordial black holes", "url": "https://iopscience.iop.org/article/10.1088/0004-637X/819/2/168"}, {"type": "publication", "label": "Nature Physics : The far future of the universe", "url": "https://www.nature.com/articles/nphys3823"}]
   },
   {
@@ -4089,6 +4381,7 @@ const BASE_CARTES = [
     description_longue: "À cette échelle de temps incompréhensiblement lointaine (10^100 années, un nombre avec 100 zéros), le destin final de l'univers se réalise selon la deuxième loi de la thermodynamique : l'entropie augmente inexorablement vers un maximum. C'est la mort thermique ou \"Big Freeze\" de l'univers. À ce stade, tous les trous noirs auront évaporé. Toute énergie libre aura été convertie en rayonnement diffus. L'univers atteindrait un état d'équilibre thermique parfait : une température uniforme infinitésimale (proche du zéro absolu, ~10^-30 Kelvin). Aucun gradient d'énergie n'existerait. Aucun travail ne pourrait être fait. Aucune structure n'existerait. Pas de vie, pas de conscience, pas même de chimie. Juste des particules élémentaires infinitésimalement diluées, incapables d'interaction. Le temps lui-même deviendrait thermodynamiquement sans sens : sans processus, il n'existe pas de flèche du temps. C'est la fin absolue et définitive. Cet état est le dernier possible selon nos compréhensions actuelles de la physique. L'univers, issu du Big Bang il y a 13,8 milliards d'années, aura duré environ 10^120 fois plus longtemps qu'il n'a existé jusqu'à présent. C'est le destin entropique inévitable de toute réalité physique.",
     anecdote: "Le nombre 10^100 porte un nom : le « gogol », inventé en 1920 par Milton Sirotta, neveu âgé de 9 ans du mathématicien Edward Kasner, à qui ce dernier avait demandé de nommer un très grand nombre. Le mot a plus tard inspiré le nom de l'entreprise Google.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Reviews of Modern Physics : Thermodynamics and the fate of the universe", "url": "https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.72.165"}, {"type": "publication", "label": "Nature Physics : Cosmological perturbations and entropic time", "url": "https://www.nature.com/articles/nphys3823"}, {"type": "publication", "label": "Science : The arrow of time and entropy", "url": "https://www.science.org/doi/10.1126/science.219.4588.1022"}]
   },
   {
@@ -4103,6 +4396,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 3,8 milliards d'années, dans les océans primitifs de la Terre jeune, les premières formes de vie apparaissent : des bactéries simples, unicellulaires, sans noyau (procaryotes). Ces organismes sont tellement microscopiques qu'on ne peut les voir qu'au microscope. Elles vivent dans l'eau chaude des océans, se nourrissant de minéraux et d'énergie chimique provenant des cheminées hydrothermales sous-marines. Ces bactéries primitives créent progressivement des structures rocheuses en couches appelées \"stromatolites\" : ce sont les fossiles les plus anciens découverts sur Terre. Les stromatolites sont formés par l'accumulation de bactéries mortes et de sédiments, créant des dômes rocheux caractéristiques. Ces premières créatures n'ont pas besoin d'oxygène pour vivre (elles sont anaérobies). Elles se reproduisent en se divisant simplement en deux, transmettant leur matériel génétique (ADN) à leurs descendants. Cette apparition marque le début de la vie sur Terre et le début de l'évolution biologique : pendant les 3,8 milliards d'années suivantes, toutes les formes de vie complexes descendront de ces bactéries microscopiques. Sans cette étape, aucun animal, aucune plante, aucun humain n'existerait.",
     anecdote: "Des stromatolites vivants existent encore aujourd'hui dans quelques rares lieux extrêmement salés, notamment la baie Shark en Australie — il est donc possible d'observer en temps réel des structures bâties par des organismes proches des toutes premières formes de vie terrestres.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Earliest life on Earth - Abigail Allwood et al. (2015)", "url": "https://www.nature.com/articles/nature14871"}, {"type": "publication", "label": "Science : Evidence for early life on Earth - Mojzsis et al. (1996)", "url": "https://www.science.org/doi/10.1126/science.273.5278.1910"}, {"type": "publication", "label": "The Astrophysical Journal : Stromatolites and early life - Grotzinger & Knoll (1999)", "url": "https://iopscience.iop.org/article/10.1086/313160"}]
   },
   {
@@ -4117,6 +4411,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 2,7 milliards d'années, un événement gigantesque transforme la Terre : la \"Grande Oxydation\". Pendant 1,1 milliard d'années avant cela, les bactéries photosynthétiques (cyanobactéries) produisent lentement de l'oxygène en convertissant la lumière solaire en énergie chimique. Cet oxygène était d'abord consommé par des minéraux de fer dissous dans l'océan, créant les \"formations de fer rubanées\" (bandes alternées de fer et de roche). Mais à partir de 2,7 milliards d'années, l'oxygène s'accumule plus vite qu'il n'est consommé. Il s'échappe dans l'atmosphère, passant de presque 0% à environ 1% de l'atmosphère. Pour les bactéries anaérobies dominantes à cette époque, c'est une catastrophe : l'oxygène est un poison qui tue leurs cellules. Cet événement provoque la plus grande extinction de masse de l'histoire de la vie : 99% de la vie anaérobie disparaît. Seules survivent les bactéries capables d'utiliser l'oxygène pour respirer et produire plus d'énergie. Mais cette catastrophe crée aussi une opportunité : avec l'oxygène, les cellules peuvent respirer plus efficacement et accumuler plus d'énergie. Cela permettra l'apparition d'organismes plus grands et plus complexes. Sans la Grande Oxydation, les animaux et plantes complexes n'auraient jamais pu émerger.",
     anecdote: "Comme l'oxygène était toxique pour presque toute forme de vie de l'époque, certains scientifiques surnomment cet événement la « catastrophe de l'oxygène » : il pourrait s'agir, en proportion d'espèces disparues, de la plus grande extinction de masse de l'histoire de la Terre, bien qu'elle soit largement absente des récits populaires sur les extinctions.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Science : The rise of atmospheric oxygen - Holland (2002)", "url": "https://www.science.org/doi/10.1126/science.1069141"}, {"type": "publication", "label": "Nature : Great Oxidation Event - Bekker et al. (2004)", "url": "https://www.nature.com/articles/nature02711"}, {"type": "publication", "label": "PLoS Biology : The rise of aerobic life - Catling & Claire (2005)", "url": "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.0030176"}]
   },
   {
@@ -4131,6 +4426,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 1,2 milliard d'années, une révolution silencieuse transforme la vie microscopique : l'apparition des cellules eucaryotes. Jusqu'à ce moment, toute la vie consiste en bactéries procaryotes : une simple goutte de cytoplasme avec de l'ADN flottant librement au centre. Soudain, certaines bactéries développent une membrane interne entourant leur ADN, créant une structure appelée \"noyau\". C'est comme si la cellule construisait une chambre de coffre-fort pour protéger ses gènes. Comment ? Les scientifiques pensent qu'une bactérie a avalé une autre bactérie, mais au lieu de la digérer, elles ont fusionné. C'est l'endosymbiose : une fusion bactérienne. Ces nouvelles cellules eucaryotes sont beaucoup plus grandes et plus complexes. Elles développent aussi des organelles : mitochondries (centrales électriques cellulaires), chloroplastes (panneaux solaires biologiques), réticulum endoplasmique (système de transport interne). Avec cette organisation interne, les cellules peuvent accumuler beaucoup plus d'énergie. Elles peuvent aussi se combiner pour former des organismes multicellulaires : les premiers protistes apparaissent (algues microscopiques). Ces cellules eucaryotes sont nos ancêtres directs. Sans cette évolution cellulaire, les plantes, les animaux, les champignons et les humains n'existeraient jamais.",
     anecdote: "Les mitochondries, les « centrales énergétiques » de nos cellules, possèdent encore aujourd'hui leur propre petit ADN séparé — une empreinte génétique héritée des bactéries libres dont elles seraient issues, avant d'être absorbées par une cellule plus grande.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Endosymbiotic theory evidence - Margulis (1970)", "url": "https://www.nature.com/articles/nature15726"}, {"type": "publication", "label": "Trends in Ecology & Evolution : The origin of eukaryotes - Koonin (2010)", "url": "https://doi.org/10.1016/j.tree.2010.07.002"}, {"type": "publication", "label": "PNAS : Early eukaryotic fossils - Knoll et al. (2006)", "url": "https://www.pnas.org/doi/10.1073/pnas.0604866103"}]
   },
   {
@@ -4145,6 +4441,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 600 millions d'années, quelque chose d'extraordinaire se produit dans les océans : l'Explosion cambrienne. Pendant plus de 3 milliards d'années, la vie était dominée par des organismes microscopiques et quelques créatures molles et sans couleur. Puis, en quelques millions d'années seulement (un clin d'œil géologique), des centaines de nouvelles formes de vie complexes et bizarres émergent soudainement. Les fossiles montrent des trilobites (créatures blindées avec des yeux), des échinodermes (ancêtres des étoiles de mer), des mollusques (ancêtres des poulpes), des arthropodes (ancêtres des insectes et araignées). Pourquoi soudainement ? Les scientifiques pensent que plusieurs facteurs convergent : l'oxygène atmosphérique atteint finalement des niveaux suffisants pour supporter des animaux complexes. Les océans refroidissent légèrement après une ère glaciaire. Une mutation génétique majeure (gènes Hox) permet une plus grande variabilité corporelle. La compétition apparaît : les prédateurs apparaissent et forcent les proies à évoluer rapidement pour survivre. C'est une \"course aux armements\" biologique. Ces animaux cambriens sont nos ancêtres : leur diversité de corps et de stratégies de survie crée les plans de base de tous les animaux futurs. Les humains et tous les animaux terrestres descendent des survivants de cette explosion créative.",
     anecdote: "L'un des plus célèbres gisements fossiles de cette période, le Schiste de Burgess au Canada, conserve des détails de tissus mous si exceptionnels que certains animaux y étaient si étranges que les paléontologues les ont d'abord reconstitués à l'envers ou en marche arrière.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "Nature : The Cambrian Explosion - Marshall (2006)", "url": "https://www.nature.com/articles/nature05070"}, {"type": "publication", "label": "Science : Evolution of complex body structures - Briggs et al. (2005)", "url": "https://www.science.org/doi/10.1126/science.1122776"}, {"type": "publication", "label": "Trends in Ecology & Evolution : Hox genes and body plans - Carroll (2005)", "url": "https://doi.org/10.1016/j.tree.2005.07.001"}]
   },
   {
@@ -4159,6 +4456,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 500 millions d'années, dans les océans du Silurien, les premiers poissons apparaissent : les Ostracodermes. Ces créatures ressemblent à des petits têtards blindés, longues de quelques centimètres. Contrairement aux autres animaux marins, ils possèdent une innovation révolutionnaire : un squelette primitif fait de cartilage (comme celui des requins modernes) au lieu d'exosquelette externe. Mieux encore, ce squelette contient une moelle épinière et un cerveau primitif. C'est la naissance des vertébrés : le groupe auquel nous appartenons. Les Ostracodermes n'ont pas de mâchoires mobiles (ils aspirent leur nourriture), pas de nageoires paires, juste une bouche fixe. Mais ils sont efficaces : petit à petit, d'autres innovations apparaissent. Certains Ostracodermes développent des mâchoires flexibles, permettant une meilleure capture de nourriture. Certains développent des nageoires paires pour mieux contrôler leur mouvement dans l'eau. Sur des millions d'années, ces améliorations créent les poissons modernes : les placodermes (poissons à plaques osseuses), les chondrichthyens (requins et raies), puis les ostéichthyens (poissons osseux). Les humains sont des descendants très éloignés de ces premiers poissons : nos bras, nos jambes, notre crâne, notre colonne vertébrale viennent de cette lignée aquatique ancienne.",
     anecdote: "Ces poissons sans mâchoire n'avaient aucun moyen de mordre : ils se nourrissaient probablement en filtrant ou en aspirant leur nourriture sur le fond marin. Les mâchoires n'apparaîtront chez les vertébrés que des dizaines de millions d'années plus tard, formées à partir des mêmes os qui soutenaient autrefois les branchies.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Early fish evolution - Janvier (2007)", "url": "https://www.nature.com/articles/nature05983"}, {"type": "publication", "label": "PLoS Biology : Fossil evidence of Ostracoderms - Sansom et al. (2012)", "url": "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1001470"}, {"type": "publication", "label": "Zoological Journal of the Linnean Society : Vertebrate origins - Gess et al. (2006)", "url": "https://doi.org/10.1111/j.1096-3642.2006.00232.x"}]
   },
   {
@@ -4173,6 +4471,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 475 millions d'années, les continents sont totalement déserts : des roches nues sous un ciel sans couleur. Les plantes vivent uniquement dans l'océan. Puis, les premières plantes aquatiques découvrent comment survivre sur la terre sèche : les bryophytes primitives (ancêtres des mousses et hépatiques modernes). Comment ? Ces plantes développent plusieurs adaptations géniales. D'abord, un système de racines primitif qui s'enfonce dans le sol pour absorber l'eau et les nutriments minéraux. Ensuite, une cuticule cireuse sur la surface qui réduit l'évaporation : sans cette protection, la plante se dessécherait instantanément au contact de l'air. Troisièmement, un système de transport interne (vaisseaux) qui propage l'eau des racines aux feuilles. Enfin, des spores plutôt que des œufs pour se reproduire : les spores sont minuscules, légères, et peuvent voyager dans le vent sur de longues distances. Ces premières plantes sont minuscules, juste quelques centimètres, sans feuilles véritables, ressemblant à des mousses. Mais elles sont révolutionnaires. Elles transforment les roches nues en sol : leurs racines fracturent la roche, créant du terreau. Elles produisent de l'oxygène, modifiant l'atmosphère. Elles créent des habitats. Sur les millions d'années suivants, les plantes évoluent : des fougères plus grandes apparaissent (avec de vraies racines profondes), puis des plantes à graines, puis des fleurs. Sans cette colonisation terrestre, les animaux terrestres et les humains ne pourraient jamais exister.",
     anecdote: "Avant la colonisation végétale des terres, les continents ressemblaient sans doute davantage à Mars qu'à la Terre actuelle : de la roche et des sédiments nus, sans le moindre sol, celui-ci étant en grande partie le produit des racines des plantes qui fragmentent la pierre au fil des millions d'années.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Trends in Plant Science : Early land plant evolution - Kenrick & Crane (1997)", "url": "https://doi.org/10.1016/S1360-1385(97)01010-0"}, {"type": "publication", "label": "Nature : Oldest land plants - Wellman et al. (2003)", "url": "https://www.nature.com/articles/nature02041"}, {"type": "publication", "label": "Science : Plant terrestrialization - Morris et al. (2018)", "url": "https://www.science.org/doi/10.1126/science.aar5429"}]
   },
   {
@@ -4187,6 +4486,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 360 millions d'années, quelque chose d'extraordinaire se produit dans les marécages et rivières du Carbonifère : les poissons développent des pattes et quittent l'eau. Ce sont les premiers amphibiens, comme le Tiktaalik et l'Ichthyostega. Comment des poissons deviennent-ils des créatures terrestres ? La clé est la nageoire : les nageoires paires des poissons (pectorales et pelviennes) évoluent progressivement en membres articulés (bras et jambes) avec os, articulations et muscles. Ces amphibiens primitifs gardent encore des caractéristiques de poisson : une queue aplatie pour nager, des branchies pour respirer sous l'eau. Mais ils développent aussi des poumons pour respirer l'air. Leurs nageoires deviennent de vraies pattes assez fortes pour supporter leur poids et les propulser sur la terre. Pourquoi quitter l'eau ? L'eau stagnante des marécages manque d'oxygène. Les amphibiens capables de ramper sur la terre et respirer l'air à la surface ont un avantage de survie énorme. Sur terre, ils découvrent un monde vierge rempli de nourriture (plantes, insectes) et sans prédateurs. Mais les premiers amphibiens restent dépendants de l'eau : ils doivent y retourner pour se reproduire, comme les grenouilles modernes. Sur les 100 millions d'années suivantes, certains amphibiens évoluent pour s'adapter à la vie terrestre complète. Ils développent une peau imperméable, des œufs avec coquille (pas besoin de l'eau pour la reproduction). Ce sont les reptiles. Et les humains, comme tous les mammifères terrestres, descendons de ces amphibiens intrépides qui ont osé explorer la terre.",
     anecdote: "Le célèbre fossile de transition Tiktaalik, découvert dans l'Arctique canadien en 2004, a été surnommé le « poisson-pattes » (fishapod) car il combine écailles et branchies de poisson avec un cou flexible et des ébauches de poignets utiles pour se déplacer sur la terre ferme.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Tiktaalik - a fish with tetrapod characteristics - Shubin et al. (2004)", "url": "https://www.nature.com/articles/nature02426"}, {"type": "publication", "label": "PLoS Biology : Ichthyostega fossil evidence - Clément et al. (2015)", "url": "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002445"}, {"type": "publication", "label": "Science : Fin-to-limb transition - Coates et al. (2002)", "url": "https://www.science.org/doi/10.1126/science.1069052"}]
   },
   {
@@ -4201,6 +4501,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 320 millions d'années, un événement biologique majeur transforme l'évolution terrestre : l'apparition des premiers vrais reptiles. Leur innovation clé ? L'œuf amniotique : un œuf avec une coquille imperméable contenant une poche d'eau (l'amnios) qui protège l'embryon. Pourquoi est-ce révolutionnaire ? Les amphibiens doivent retourner à l'eau pour pondre car leurs œufs sont mous et se déssèchent rapidement au soleil. Les reptiles, avec leur coquille dure, peuvent pondre loin de l'eau, sur la terre ferme. Cela signifie : indépendance totale de l'eau pour la reproduction. Plus besoin de revenir à l'eau chaque saison de reproduction. Les premiers reptiles amniotes ressemblent à des lézards, longs de quelques décimètres. Ils développent aussi une peau écailleuse imperméable qui retient l'eau, contrairement à la peau humide des amphibiens. Leurs pattes deviennent plus fortes, supportant leur corps de manière plus verticale. Ces adaptations les rendent extrêmement efficaces sur terre. Sur les 50 millions d'années suivantes, les reptiles se diversifient explosivement : certains deviennent énormes (les dinosaures), d'autres développent des ailes (les ptérosaures et oiseaux), d'autres une apparence mammalienne (les synapsides). Les reptiles dominent tous les écosystèmes terrestres pendant 250 millions d'années. Les humains descendons d'une lignée de petits reptiles synapsidés qui survivent à plusieurs extinctions de masse et finissent par devenir les mammifères.",
     anecdote: "L'œuf amniotique est parfois décrit comme l'une des grandes « inventions de survie » de l'évolution : ses membranes gèrent si bien les échanges gazeux, les déchets et l'humidité que ce même principe, à peine modifié, équipe encore tous les reptiles et tous les oiseaux actuels.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Early amniote evolution - Modesto & Anderson (2004)", "url": "https://www.nature.com/articles/nature03048"}, {"type": "publication", "label": "PLoS One : Amniotic egg evolution - Packard & Seymour (1997)", "url": "https://doi.org/10.1152/physrev.1997.77.4.701"}, {"type": "publication", "label": "Journal of Morphology : Reptile characteristics - Rieppel (1993)", "url": "https://onlinelibrary.wiley.com/doi/10.1002/jmor.1052160307"}]
   },
   {
@@ -4215,6 +4516,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 300 millions d'années, dans les marécages du Carbonifère, apparaissent les synapsides : une lignée de reptiles qui semble ordinaire au premier abord. Les synapsides ressemblent à des reptiles normaux, ressemblant à des petits lézards ou à des pelycosaures (reptiles à voile de cheveux sur le dos). Mais ils possèdent une caractéristique unique : une fenêtre osseuse sur chaque côté du crâne (la fenêtre temporale), d'où s'attachent des muscles mâchoires puissants. Pourquoi est-ce important ? Ces muscles mâchoires permettent une morsure plus puissante et une meilleure mastication. Au cours des 100 millions d'années suivantes, les synapsides évoluent lentement mais sûrement vers quelque chose de plus étrange. Certains développent une posture de pattes plus verticale (sous le corps) plutôt qu'écartées sur les côtés comme les reptiles. Certains développent des dents différenciées : des incisives pour trancher, des canines pointues pour percer, des molaires pour broyer. C'est très différent des reptiles qui ont des dents uniformes. Certains développent une seule fenêtre osseuse supérieure au crâne plutôt que deux. Ces changements graduels transforment lentement les synapsides en quelque chose de nouveau : les cynodontes. Et les cynodontes, après 50 millions d'années d'évolution supplémentaire, deviendront les premiers mammifères vrais. Chaque humain vivant descend directement de ces synapsides apparemment ordinaires du Carbonifère.",
     anecdote: "La caractéristique qui définit les synapsides — un unique orifice derrière chaque orbite oculaire pour les muscles de la mâchoire — est précisément celle que les paléontologues utilisent pour retracer une lignée ininterrompue depuis ces animaux du Carbonifère jusqu'à l'humain actuel.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Synapsid evolution - Benton (1999)", "url": "https://www.nature.com/articles/17856"}, {"type": "publication", "label": "Biological Reviews : Synapsid-to-mammal transition - Kemp (2005)", "url": "https://onlinelibrary.wiley.com/doi/10.1017/S1464793105006457"}, {"type": "publication", "label": "PLoS Biology : Cynodonts and early mammals - Luo (2007)", "url": "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.0050114"}]
   },
   {
@@ -4229,6 +4531,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 250 millions d'années, c'est l'apocalypse biologique : l'Extinction du Permien, aussi appelée \"la Grande Mort\" (The Great Dying). C'est la pire extinction de masse dans toute l'histoire de la vie. Les chiffres sont terrifiants : 95% de toutes les espèces marines disparaissent. 70% de toutes les espèces de vertébrés terrestres disparaissent. Seules quelques espèces survivent et repeuplent le monde ensuite. Qu'est-ce qui cause ce cataclysme ? Les scientifiques déterminent plusieurs causes qui convergeaient à la même époque. D'abord, le \"trappage sibérien\" : dans la région de la Sibérie, d'énormes éruptions volcaniques massives se produisent pendant des milliers d'années. Ces volcans libèrent des millions de tonnes de cendres volcaniques, d'acide sulfurique, et surtout du dioxyde de carbone. Le CO2 crée un effet de serre massif : les températures mondiales augmentent de 5 à 10 degrés Celsius. Les océans se réchauffent dangereusement. Les zones côtières produisent moins d'oxygène. Les niveaux marins baissent. Les écosystèmes marins s'effondrent. De plus, les cendres volcaniques bloquent le soleil, tuant les plantes et créant une famine. Les animaux qui survivent sont ceux qui peuvent jeûner longtemps, tolérer les températures extrêmes, et s'adapter rapidement aux nouvelles conditions. Les synapsides survivent à cette extinction mieux que les autres reptiles. Après cet événement catastrophique, le monde est vide. Les synapsides survivants se diversifient rapidement pour remplir tous les rôles écologiques laissés vacants. Cet \"reset\" écologique crée les opportunités pour que les cynodontes (descendants synapsides) évoluent ensuite en mammifères. Sans cette extinction terrifiante, les dinosaures, pas les synapsides, auraient dominé le monde, et les mammifères n'auraient jamais existé.",
     anecdote: "L'extinction du Permien a été si sévère qu'elle est la seule des « cinq grandes » extinctions de masse à avoir sérieusement touché les insectes, un groupe pourtant réputé pour sa remarquable résistance à l'extinction tout au long de l'histoire de la Terre.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Science : The Great Dying - Benton (2008)", "url": "https://www.science.org/doi/10.1126/science.1154887"}, {"type": "publication", "label": "Nature : Permian-Triassic extinction - Burgess & Bowring (2015)", "url": "https://www.nature.com/articles/nature14879"}, {"type": "publication", "label": "Geology : Siberian volcanism and extinction - Burgess et al. (2014)", "url": "https://doi.org/10.1130/G35774.1"}]
   },
   {
@@ -4243,6 +4546,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 220 millions d'années, au moment où les dinosaures commencent à dominer la Terre, un groupe de petits reptiles abandonne la compétition directe et se cache : les premiers mammifères. Ces créatures, comme le Morganucodon et l'Hadrocodium, sont minuscules : longues de seulement 10 à 30 centimètres, pesant quelques grammes, ressemblant à de petites musaraignes. Elles sont timides, nocturnes, se cachant sous terre et dans les arbres pendant le jour, sortant la nuit chercher nourriture. Pourquoi sont-elles \"mammifères\" ? Elles possèdent des caractéristiques que seuls les mammifères ont. D'abord, un crâne spécialisé avec une fenêtre osseuse pour les muscles mâchoires (héritage des synapsides). Deuxièmement, des dents différenciées : incisives, canines, molaires, permettant une mastication efficace. Troisièmement, trois os d'oreille interne (marteau, enclume, étrier) plutôt que les os de mâchoire de reptiles. Quatrièmement, un palais dur qui sépare la bouche de la respiration, permettant une respiration continue pendant la mastication. Ces adaptations rendent les premiers mammifères extrêmement efficaces pour chasser de petites proies (insectes, petits lézards) la nuit. Pendant 140 millions d'années, les mammifères restent petits et rares, toujours éclipsés par les dinosaures dominants. Mais quand les dinosaures s'éteignent soudainement (extinction K-T, il y a 66 millions d'années), les mammifères survivants évoluent rapidement pour remplir tous les rôles écologiques laissés vacants. Sans cette période d'évolution cachée, les mammifères ne seraient jamais devenus les créatures dominantes du monde actuel, et les humains n'existeraient pas.",
     anecdote: "Pendant environ 140 millions d'années — toute la durée du règne des dinosaures — les mammifères sont restés presque exclusivement petits et nocturnes, guère plus gros qu'une musaraigne actuelle, probablement pour éviter la concurrence et la prédation des reptiles qui dominaient le jour.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Early mammal evolution - Luo (2007)", "url": "https://www.nature.com/articles/nature06325"}, {"type": "publication", "label": "Science : Hadrocodium - the earliest mammal - Luo et al. (2001)", "url": "https://www.science.org/doi/10.1126/science.1065507"}, {"type": "publication", "label": "Zoological Journal of the Linnean Society : Morganucodon paleobiology - Kermack & Mussett (1983)", "url": "https://doi.org/10.1111/j.1096-3642.1983.tb00710.x"}]
   },
   {
@@ -4257,6 +4561,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 1,5 million d'années, dans les vallées d'Afrique de l'Est (Éthiopie, Kenya), le Homo erectus franchit un cap extraordinaire : maîtriser le feu. Ce n'est pas qu'il découvre soudainement le feu. Les hominidés antérieurs (Homo habilis) ont probablement utilisé le feu naturel (provenant des éruptions volcaniques ou éclairs) occasionnellement. Mais Homo erectus fait quelque chose de révolutionnaire : il apprend à créer le feu intentionnellement et à le maintenir allumé. Comment ? En frappant des roches de silex contre du granit pour produire des étincelles, ou en frottant du bois pour créer de la chaleur. Pourquoi c'est révolutionnaire ? Le feu change absolument tout. D'abord, nutrition : la cuisson tue les bactéries dangereuses et les parasites dans la viande et les plantes. Elle rend aussi la nourriture plus facile à digérer, ce qui signifie que le corps absorbe plus de nutriments avec moins d'effort. Cela libère de l'énergie pour d'autres fonctions, notamment le cerveau. Deuxièmement, survie : le feu tient chaud, crucial pour les humains qui perdent rapidement la chaleur corporelle. Il repousse les prédateurs la nuit. Troisièmement, socialité : le feu rassemble les gens. Assis autour du feu, les humains commencent à socialiser, parler, raconter des histoires, enseigner aux enfants. C'est probablement quand le langage devient plus complexe. Quatrièmement, technologie : le feu peut être utilisé pour travailler le bois, la pierre, l'os. Il rend possible des outils plus sophistiqués. Avec le feu, Homo erectus peut migrer vers des régions froides (Europe du Nord, Asie). Pendant environ 1 million d'années, Homo erectus utilise le feu, se propageant à travers le monde. Ses descendants (Homo neanderthalensis, Homo sapiens) héritent de cette technologie révolutionnaire et la raffinent encore plus. Sans la maîtrise du feu, le cerveau humain ne se serait jamais aussi développé, et la civilisation n'existerait pas.",
     anecdote: "Selon « l'hypothèse de la cuisson » du primatologue Richard Wrangham, la digestion facilitée par les aliments cuits aurait libéré tellement d'énergie métabolique qu'elle aurait directement permis la croissance spectaculaire du cerveau humain — le feu pourrait donc être, en partie, la raison pour laquelle nous pensons comme nous le faisons.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Evidence of controlled fire use by early humans - Wrangham & Conklin-Brittain (2003)", "url": "https://www.nature.com/articles/nature01754"}, {"type": "publication", "label": "Journal of Human Evolution : Fire use in Homo erectus - Berna et al. (2012)", "url": "https://doi.org/10.1016/j.jhevol.2012.05.002"}, {"type": "publication", "label": "PNAS : Cooking and human brain evolution - Aiello & Wheeler (1995)", "url": "https://www.pnas.org/doi/10.1073/pnas.92.25.11803"}]
   },
   {
@@ -4271,6 +4576,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 500 000 ans, une créature appelée Homo heidelbergensis vit en Afrique, en Europe et en Asie. C'est un individu fascinant qui représente une étape critique de l'évolution humaine. Homo heidelbergensis est plus grand et plus robuste que Homo erectus (taille humaine, poids 70-90 kg). Son crâne est plus grand avec un volume cérébral de 1200-1400 centimètres cubes (comparable aux humains modernes). Ses os sont plus épais, ses muscles plus puissants. Qu'est-ce qui le rend spécial ? Les données génétiques et fossiles suggèrent qu'Homo heidelbergensis est probablement l'ancêtre commun de deux espèces humaines différentes qui évoluent ensuite séparément. En Europe, où le climat devient très froid, Homo heidelbergensis évolue en Homo neanderthalensis (les Néandertaliens), avec des corps plus courts et trapus, adaptés au froid. En Afrique, où le climat reste chaud, Homo heidelbergensis évolue en Homo sapiens (nous), avec des corps plus longs et gracieux. Homo heidelbergensis lui-même est un chasseur efficace. Les preuves archéologiques montrent qu'il fabrique des bifaces (outils de pierre bifaciales) sophistiqués appelés \"coups de poing\" (hand axes). Il chasse probablement des animaux de grande taille en groupes coordonnés, nécessitant une communication complexe et une planification. Son cerveau suffisamment grand suggère qu'il possède un langage et une capacité à enseigner. C'est probablement la première espèce humaine avec une véritable culture transmissible. Homo heidelbergensis disparaît il y a environ 300 000 ans, remplacé par ses descendants plus spécialisés (Néandertal et Sapiens). Mais sans Homo heidelbergensis, ces deux branches distinctes d'humanité n'auraient jamais émergé.",
     anecdote: "Homo heidelbergensis doit son nom à une mâchoire découverte près de Heidelberg, en Allemagne, en 1907, par un ouvrier de carrière — un fossile toujours considéré comme l'une des pièces clés de l'arbre généalogique humain.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Homo heidelbergensis genetics - Meyer et al. (2013)", "url": "https://www.nature.com/articles/nature12886"}, {"type": "publication", "label": "Journal of Human Evolution : Homo heidelbergensis phylogeny - Rightmire (2008)", "url": "https://doi.org/10.1016/j.jhevol.2008.07.011"}, {"type": "publication", "label": "PNAS : Interbreeding of Homo heidelbergensis descendants - Schlebusch et al. (2017)", "url": "https://www.pnas.org/doi/10.1073/pnas.1704702114"}]
   },
   {
@@ -4285,6 +4591,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 430 000 ans, dans les grottes et vallées de l'Europe, une nouvelle espèce humaine émerge : Homo neanderthalensis, que nous appelons les Néandertaliens. Ils évoluent à partir d'Homo heidelbergensis pendant une période de glaciation intense. Le climat européen devient beaucoup plus froid et inhospitalier. Homo neanderthalensis développe une morphologie extrêmement bien adaptée au froid : corps trapus et robustes (plus courts mais plus lourds que Homo sapiens), crâne plus grand avec un cerveau légèrement plus gros que le nôtre (1450-1600 cm³ contre 1400 pour Sapiens). Leur corps trapu minimise la perte de chaleur (surface/volume réduit). Leurs extrémités (doigts, orteils, nez) sont plus courtes pour réduire la gelure. Leurs muscles sont massifs, leur densité osseuse très élevée, les rendant extrêmement forts (environ 20% plus forts qu'un humain moderne). Ils développent des outils de pierre raffinés appelés \"industries moustériennes\" : des racloirs, des lames, des pointes de lance pour chasser les mégafaunes (mammouths, bisons, rennes). Les preuves archéologiques suggèrent qu'ils vivent en petits groupes, chassent en coordonnés (nécessitant communication complexe), et ont peut-être un langage sophistiqué. Certaines preuves indiquent qu'ils prennent soin de leurs malades et blessés, et qu'ils enterrent leurs morts avec des rituels, suggérant une conscience de la mort et possiblement une spiritualité. Les Néandertaliens prospèrent en Europe et en Asie occidentale pendant environ 200 000 ans. Mais quand Homo sapiens arrive d'Afrique il y a 40 000 ans, mieux adapté aux changements climatiques rapides, les Néandertaliens entrent en déclin et disparaissent il y a environ 30 000 ans. Ironiquement, ils ne disparaissent pas complètement : environ 1-4% du génome de tous les humains non-africains contient de l'ADN néandertalien.",
     anecdote: "Les Néandertaliens avaient en moyenne un cerveau légèrement plus volumineux que celui des humains modernes, bien que de forme différente — plus allongé d'avant en arrière plutôt qu'arrondi — une différence dont la signification cognitive fait encore débat parmi les chercheurs.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Neanderthal genome - Green et al. (2010)", "url": "https://www.nature.com/articles/nature08976"}, {"type": "publication", "label": "American Journal of Physical Anthropology : Neanderthal morphology - Trinkaus (2005)", "url": "https://onlinelibrary.wiley.com/doi/10.1002/ajpa.20239"}, {"type": "publication", "label": "PNAS : Neanderthal symbolic behavior - D'Errico et al. (2003)", "url": "https://www.pnas.org/doi/10.1073/pnas.0935975100"}]
   },
   {
@@ -4299,6 +4606,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 300 000 ans, quelque part en Afrique subsaharienne (probablement en Afrique du Sud et de l'Est), une nouvelle espèce humaine émerge : Homo sapiens archaïque. C'est nous, ou plutôt, ce sont nos ancêtres les plus directs. Les fossiles montrent une transition progressive depuis Homo heidelbergensis. Les changements majeurs : d'abord, le crâne s'aplatit. Chez Homo erectus et Homo heidelbergensis, le front fuit vers l'arrière et il y a un bourrelet proéminent au-dessus des yeux. Chez Homo sapiens, le front devient vertical, donnant du style à un menton (unique aux humains modernes). Deuxièmement, la face devient plus petite et gracile plutôt que robuste. Troisièmement, le cerveau se réorganise : la partie frontale s'agrandit (pensée abstraite, langage, planification), tandis que l'occipital s'arrondit. Homo sapiens archaïque (300 000 à 100 000 ans) n'est pas encore complètement \"moderne\" mais s'en rapproche. Ils fabriquent des outils de pierre sophistiqués, chassent efficacement et cuisent leur nourriture avec le feu depuis longtemps. Vers 200 000 ans, certains fossiles montrent les caractéristiques entièrement \"modernes\" : crâne arrondi, petite face, menton proéminent. C'est Homo sapiens moderne. Entre 100 000 et 70 000 ans, des groupes de Homo sapiens modernes commencent à quitter l'Afrique pour explorer le Moyen-Orient, puis l'Europe, l'Asie, l'Océanie : c'est la \"Grande Migration\" qui peuplera tous les continents. Sans cette émergence en Afrique, la branche Sapiens de l'humanité n'existerait pas.",
     anecdote: "Les plus anciens fossiles connus d'Homo sapiens, découverts à Jebel Irhoud au Maroc et datés d'environ 300 000 ans, ont repoussé de 100 000 ans l'origine admise de notre espèce par rapport à ce que l'on pensait encore une décennie plus tôt — un rappel que cette chronologie continue d'être révisée à chaque nouvelle découverte.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Early Homo sapiens fossils - Hublin et al. (2017)", "url": "https://www.nature.com/articles/nature22336"}, {"type": "publication", "label": "Science : Origin of modern humans - Green et al. (2019)", "url": "https://www.science.org/doi/10.1126/science.aav4534"}, {"type": "publication", "label": "PLoS Biology : Modern human brain evolution - Neubauer et al. (2018)", "url": "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.2006931"}]
   },
   {
@@ -4313,6 +4621,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 280 000 ans, les Néandertaliens atteignent leur apogée en termes de population, de distribution géographique, et de sophistication technologique. À ce moment, environ 100 000 à 500 000 Néandertaliens vivent en Europe, Asie mineure, et Asie occidentale (du Portugal à la Sibérie). Ils maîtrisent une vaste gamme de technologies de chasse. L'industrie moustérienne (la technologie principale) produit des dizaines de types d'outils : des racloirs pour enlever la peau des animaux, des lames pointues pour découper la viande, des pointes de lance pour la chasse. La technique dite \"Levallois\" permet de préparer une pierre pour produire des lames pré-définies : un savoir-faire nécessitant apprentissage long et communication sophistiquée, probablement un véritable langage parlé. Les preuves archéologiques montrent qu'ils vivent en groupes d'environ 20-30 individus, chassant des mégafaunes (mammouths, rhinos laineux, bisons, chevaux) souvent en groupe coordonné. Les fossiles montrent des traumatismes similaires à ceux de cavaliers de rodéo, indiquant une chasse au corps à corps dangereuse mais productive. Certaines preuves fossiles suggèrent qu'ils s'occupent de membres blessés : un fossile montre un Néandertal ayant survécu des années avec un bras amputé, impossible sans l'aide du groupe, indiquant empathie et cohésion sociale. Des sites archéologiques montrent des restes de fleurs autour de squelettes, suggérant des sépultures rituelles. À cet apogée, les Néandertaliens semblent être une espèce entièrement intelligente et culturellement sophistiquée. Mais cette apogée est aussi le début du déclin : vers 50 000 ans, le climat change et Homo sapiens arrive d'Afrique, plus flexible et adaptatif. Les Néandertaliens déclinent lentement et le dernier disparaît il y a environ 30 000 ans.",
     anecdote: "Un squelette de Néandertalien découvert dans la grotte de Shanidar, en Irak, montre qu'il a survécu des années après avoir perdu un bras et être devenu sourd et en partie aveugle — des blessures qui auraient été fatales sans les soins prolongés de son groupe, l'un des plus anciens témoignages connus de compassion dans la lignée humaine.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Journal of Human Evolution : Neanderthal social structure - Wobst (1974)", "url": "https://doi.org/10.1016/0047-2484(74)90003-6"}, {"type": "publication", "label": "Nature : Neanderthal symbolic behavior - D'Errico et al. (2003)", "url": "https://www.nature.com/articles/425410a"}, {"type": "publication", "label": "PNAS : Neanderthal diet - Bocherens et al. (2005)", "url": "https://www.pnas.org/doi/10.1073/pnas.0506130102"}]
   },
   {
@@ -4327,6 +4636,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 70 000 ans, un groupe d'Homo sapiens quitte l'Afrique pour la première fois et se lance dans une aventure qui durera des millénaires : le peuplement du monde entier. Avant cette date, tous les humains modernes vivaient en Afrique, principalement en Afrique de l'Est et du Sud. Mais à cette époque, certains groupes décident de partir vers le nord, franchissant le Sinaï et se dirigeant vers le Moyen-Orient et l'Asie. Cette migration n'est pas une décision planifiée : c'est plutôt une lente expansion des territoires de chasse. Au fil des générations, les groupes s'éloignent progressivement de l'Afrique. Les raisons exactes de cette migration restent débattues : certains scientifiques pensent que des changements climatiques (assèchement du Sahara) les ont poussés à partir. D'autres pensent que c'est simplement le résultat naturel de la croissance démographique. Les premiers migrants franchissent le détroit de la mer Rouge, probablement par bateau ou radeau primitif, montrant une capacité à naviguer et à traverser l'eau. Ces premiers voyageurs sont extrêmement courageux : ils entrent dans des territoires inconnus, avec des climats différents, des animaux différents, une végétation différente. Beaucoup de groupes n'iront pas loin. Certains reviennent. Mais d'autres persévèrent et continuent vers l'est. Cette première vague de migration est cruciale : c'est le début du peuplement de l'Eurasie. Sans cette migration audacieuse, les humains seraient restés confinés à l'Afrique.",
     anecdote: "Les études génétiques suggèrent que tous les non-Africains actuels descendent d'une population fondatrice étonnamment restreinte — entre quelques centaines et quelques milliers d'individus seulement auraient quitté l'Afrique lors de cette vague migratoire.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Early dispersal of modern humans from Africa - Templeton (2002)", "url": "https://www.nature.com/articles/415546a"}, {"type": "publication", "label": "PNAS : Genomic evidence for early human dispersal - Armitage et al. (2011)", "url": "https://www.pnas.org/doi/10.1073/pnas.1100166108"}, {"type": "publication", "label": "Science : Human genetic diversity and migration patterns - Li et al. (2008)", "url": "https://www.science.org/doi/10.1126/science.1153717"}]
   },
   {
@@ -4341,6 +4651,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 65 000 ans, des groupes d'Homo sapiens atteignent l'Asie du Sud-Est, une région qui comprend aujourd'hui la Thaïlande, la Malaisie, l'Indonésie et les Philippines. Ce voyage depuis l'Afrique a duré au moins 5 000 ans, les groupes se déplaçant lentement, génération après génération, à travers le Moyen-Orient, puis vers le sud et l'est. Les preuves archéologiques viennent de sites comme Ksar Akil (Liban), Qafzeh (Iran) et des grottes en Thaïlande datant de cette époque. Ces premiers Sapiens en Asie du Sud-Est rencontrent un environnement tropical dense, chaud et humide, très différent de l'Afrique. Ils doivent adapter leur technologie de chasse et leurs techniques de survie. Des fossiles et des artefacts montrent qu'ils fabriquent des outils en pierre sophistiqués, chassent des animaux variés, et collectent des plantes. Des coquillages avec des trous percés, trouvés dans les grottes thaïlandaises, suggèrent qu'ils fabriquent déjà des parures : des colliers ou des bracelets. Cela indique un sens esthétique, peut-être même un sens de l'identité personnelle ou de groupe. Ces humains vivent en petits groupes de 20-50 personnes, chassent et cueillent pour survivre. Ils développent progressivement une connaissance intime de leur environnement : quelles plantes sont comestibles, où trouver l'eau, quand et où migrer. Cette adaptation à l'environnement tropical est cruciale : elle prépare le terrain pour la future colonisation de l'Australie, qui aura lieu 15 000 ans plus tard. Sans cette arrivée en Asie du Sud-Est, les humains n'auraient jamais pu atteindre l'Australie.",
     anecdote: "Des coquillages percés retrouvés dans des grottes thaïlandaises de cette période comptent parmi les plus anciens bijoux personnels jamais découverts, suggérant que ces premiers migrants avaient déjà un sens de l'identité individuelle ou collective exprimé par l'apparence.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "PNAS : Early human dispersal to Southeast Asia - Demeter et al. (2012)", "url": "https://www.pnas.org/doi/10.1073/pnas.1108887109"}, {"type": "publication", "label": "Journal of Human Evolution : Archaeological evidence of early Southeast Asian settlement - Higham & Thosarat (2004)", "url": "https://doi.org/10.1016/j.jhevol.2003.12.003"}, {"type": "publication", "label": "Quaternary Science Reviews : Human migration to Southeast Asia - Ono et al. (2018)", "url": "https://doi.org/10.1016/j.quascirev.2018.09.035"}]
   },
   {
@@ -4355,6 +4666,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 50 000 ans, un événement extraordinaire se produit : des groupes d'Homo sapiens franchissent l'océan et arrivent en Australie. C'est la première fois que des humains quittent les continents connus (Afrique, Asie, Europe) pour coloniser une terre complètement isolée. Cette migration représente un exploit technologique et culturel majeur. Pour atteindre l'Australie, les humains doivent traverser des détroits maritimes. À cette époque, le niveau des mers est plus bas (la glace recouvre les pôles), mais le détroit de Timor, entre l'Asie du Sud-Est et l'Australie, reste impassable à pied. Les humains doivent donc utiliser des bateaux ou des radeaux. Les preuves archéologiques montrent que les premiers Australiens arrivent à Lake Mungo, dans le sud-est de l'Australie, et rapidement ils colonisent tout le continent. Des fossiles de 50 000 à 45 000 ans montrent que les humains s'implantent dans tous les environnements australiens : déserts, côtes, montagnes. Cette diversification rapide montre une grande adaptabilité. Les archéologues trouvent des sites de foyers (feux) montrant que ces premiers Australiens maîtrisent le feu. Ils fabriquent des outils en pierre, des harpons, des filets. Des squelettes montrent que la vie est dure : fractures, infections, malnutrition. Mais les groupes prospèrent. Une découverte fascinante : une peinture rupestre datée de plus de 51 000 ans montre un stencil de main (empreinte de main). C'est l'une des plus anciennes formes d'art connu, presque certainement créée par ces premiers Australiens. L'empreinte de main est un geste universel d'affirmation de présence : \"J'étais là\". Ces premiers Australiens développent une culture riche avec des peintures, des sculptures en bois (les boomerangs apparaissent vers 30 000 ans), et des traditions orales. Les Aborigènes australiens contemporains sont les descendants directs de ces premiers migrants, ce qui en fait l'une des cultures humaines les plus anciennes et les plus continues du monde.",
     anecdote: "Atteindre l'Australie nécessitait de traverser volontairement une étendue d'eau qui n'a jamais été totalement fermée, même au plus bas niveau des mers de l'ère glaciaire — il s'agit peut-être de la plus ancienne preuve d'utilisation d'embarcations connue dans le monde.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Dating of Australian rock art and early human dispersal - Clarkson et al. (2017)", "url": "https://www.nature.com/articles/s41586-017-0008-8"}, {"type": "publication", "label": "PNAS : Earliest known art in Australia - Aubert et al. (2014)", "url": "https://www.pnas.org/doi/10.1073/pnas.1408356111"}, {"type": "publication", "label": "Journal of Human Evolution : Settlement patterns in early Australia - O'Connell & Allen (2012)", "url": "https://doi.org/10.1016/j.jhevol.2012.05.010"}]
   },
   {
@@ -4369,6 +4681,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 45 000 ans, un événement décisif se produit en Europe : les premiers Homo sapiens arrivent du Moyen-Orient et rencontrent les Néandertaliens qui vivent en Europe depuis 250 000 ans. C'est la première rencontre entre deux espèces humaines intelligentes. Cette arrivée est datée précisément grâce aux fossiles de Mladeč (Tchéquie) et des sites de culture Aurignacienne, qui montrent clairement des caractéristiques de Sapiens modernes. Pendant les 10 000 années suivantes, Sapiens et Néandertal coexistent en Europe, probablement dans des régions différentes, mais parfois en contact direct. Les preuves archéologiques et génétiques montrent que ces deux espèces interagissent. Des analyses ADN révèlent que tous les Sapiens non-africains modernes portent 1 à 4% d'ADN Néandertal, ce qui signifie qu'il y a eu métissage. Cela implique des rencontres pacifiques, au moins occasionnellement. Mais la coexistence n'est pas simplement pacifique : il y a probablement aussi compétition pour les ressources de chasse. Les deux espèces chassent les mêmes animaux (mammouths, rennes, bisons). Sapiens, avec sa technologie plus avancée (premiers outils en os, premiers vêtements cousus, premiers harpons), a un avantage. Progressivement, Néandertal décline. Les derniers Néandertaliens disparaissent vers 35 000-30 000 ans. Néanmoins, les preuves d'intermariage restent plus probantes que celles de conflits massifs. L'arrivée de Sapiens en Europe marque le début de la domination humaine moderne sur le continent et la fin de l'ère des Néandertaliens.",
     anecdote: "Presque toutes les personnes d'origine non africaine aujourd'hui portent une petite part d'ADN néandertalien (typiquement 1 à 4 %), héritée de rencontres comme celle-ci — les Néandertaliens n'ont donc jamais totalement disparu, ils ont en partie été absorbés dans le patrimoine génétique de Sapiens.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Fossil evidence of Sapiens arrival in Europe - Higham et al. (2014)", "url": "https://www.nature.com/articles/nature13621"}, {"type": "publication", "label": "Science : Ancient DNA of Neanderthals and Sapiens - Green et al. (2010)", "url": "https://www.science.org/doi/10.1126/science.1188021"}, {"type": "publication", "label": "PNAS : Neandertal-Sapiens introgression - Castellano et al. (2014)", "url": "https://www.pnas.org/doi/10.1073/pnas.1320099111"}]
   },
   {
@@ -4383,6 +4696,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 40 000 ans, quelque chose de remarquable se produit chez les humains : une \"explosion créative\". Cette période marque le début d'une transformation culturelle majeure. Soudainement, les preuves archéologiques montrent des peintures rupestres, des sculptures, des bijoux, des outils élaborés. C'est comme si un interrupteur était actionné. Avant 40 000 ans, les preuves d'art symbolique sont rares et douteuses. Après 40 000 ans, l'art devient courant et sophistiqué. Les grottes d'Europe se remplissent de peintures magnifiques : mains stencilisées, animaux (chevaux, bisons, rhinocéros), signes abstraits. Ces peintures ne sont pas des gribouillages naïfs : elles montrent une compréhension de la perspective, de la proportion, du mouvement. Parallèlement, les sculptures apparaissent. La Vénus de Hohle Fels, en Allemagne, datée de 40 000 ans, est une petite figurine de femme nue, sculptée en ivoire, mesurant 6 centimètres. Les bijoux apparaissent aussi : colliers de dents d'animaux percées, bracelets de coquillages. Certains squelettes de 40 000 ans sont enterrés avec des parures, suggérant que la beauté personnelle et l'identité visuelle deviennent importantes. Pourquoi cette explosion créative survient-elle maintenant ? Les scientifiques débattent. Une théorie : le langage parlé devient plus sophistiqué, permettant une meilleure communication et une meilleure transmission des idées. Une autre : le cerveau humain atteint sa maturité cognitive complète, permettant l'abstraction et l'imaginaire. Une troisième : la population augmente, créant plus d'interaction entre les groupes et d'échange d'idées. Quelle qu'en soit la raison, cette explosion créative marque un tournant : les humains commencent à créer une culture, pas simplement à survivre.",
     anecdote: "La Vénus de Hohle Fels, sculptée dans de l'ivoire de mammouth à cette époque, compte parmi les plus anciennes représentations non ambiguës d'un être humain connues dans le monde.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Aurignacian symbolic behavior in Europe - Mellars (2005)", "url": "https://www.nature.com/articles/nature03674"}, {"type": "publication", "label": "PNAS : Early artistic expression in Africa and Europe - Conard et al. (2009)", "url": "https://www.pnas.org/doi/10.1073/pnas.0900157106"}, {"type": "publication", "label": "Journal of Human Evolution : The evolution of symbolic behavior - Mithen (2007)", "url": "https://doi.org/10.1016/j.jhevol.2006.07.001"}]
   },
   {
@@ -4397,6 +4711,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 35 000 ans, le dernier Néandertal disparaît. C'est la fin d'une espèce qui a prospéré en Europe pendant 250 000 ans. Les derniers Néandertaliens vivent dans les régions isolées du sud de la Péninsule Ibérique (Espagne et Portugal), où le climat plus doux permet à quelques populations de survivre plus longtemps. Après 35 000 ans, aucune trace fossile de Néandertal n'existe. Homo sapiens est désormais seul. La disparition du Néandertal n'est pas instantanée : elle s'étale sur plusieurs milliers d'années, probablement de 45 000 à 35 000 ans. Pendant cette période, les deux espèces coexistent, mais Sapiens augmente progressivement ses populations tandis que Néandertal décline. Pourquoi Néandertal disparaît-il ? Les scientifiques proposent plusieurs théories : Sapiens le tue ou l'expulse de ses territoires ; Sapiens, plus adaptatif et plus créatif, a un avantage compétitif ; un changement climatique défavorable aux Néandertaliens pousse les populations vers l'extinction ; des maladies, probablement apportées par Sapiens, déciment les populations Néandertal. Probablement, c'est une combinaison de tous ces facteurs. Les preuves génétiques montrent que les deux espèces se sont métissées, laissant 1 à 4% d'ADN Néandertal chez tous les Sapiens non-africains. Ironiquement, Néandertal n'a pas entièrement disparu : son génome vit à travers nous. Certains gènes Néandertal spécifiquement liés à l'immunité ont probablement aidé Sapiens à s'adapter aux maladies eurasiatiques. La disparition de Néandertal est un moment charnière : pour la première fois en 5-6 millions d'années d'évolution humaine, il n'y a plus de compétition d'autres hominidés.",
     anecdote: "On sait aujourd'hui que Néandertaliens et Sapiens ont coexisté et se sont métissés pendant environ les 10 000 dernières années de l'existence des premiers en Europe — leur « disparition » ressemble donc moins à un effacement soudain qu'à une lente fusion démographique suivie d'un déclin.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "PNAS : Timing of Neanderthal extinction - Higham et al. (2014)", "url": "https://www.pnas.org/doi/10.1073/pnas.1405035111"}, {"type": "publication", "label": "Nature : Neanderthal extinction and climate - Finlayson et al. (2006)", "url": "https://www.nature.com/articles/nature04585"}, {"type": "publication", "label": "Journal of Human Evolution : Reasons for Neanderthal extinction - Shea (2006)", "url": "https://doi.org/10.1016/j.jhevol.2006.04.001"}]
   },
   {
@@ -4411,6 +4726,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 30 000 ans, les humains créent des sculptures de plus en plus sophistiquées. L'une des plus célèbres est la Vénus de Willendorf, découverte en Autriche, datée de 29 000 à 25 000 ans. C'est une petite figurine en calcaire de 11 centimètres de haut, qui représente une femme nue, avec des seins proéminents, un ventre rond, et les jambes atrophiées. Le visage n'a pas de traits distincts, mais la tête a un motif qui ressemble à des nattes ou des cheveux tressés. Pourquoi cette figurine ? Les archéologues ont proposé de nombreuses interprétations : une déesse de la fertilité (le corps gras et enceinte symbolise la fécondité), un autoportrait d'une femme enceinte, une poupée destinée à l'amusement des enfants, ou un objet magique supposé apporter la fertilité au groupe. Ce qui est clair : les humains, à cette époque, créent des objets sophistiqués avec intention symbolique, pas pratique. L'existence de la Vénus de Willendorf et d'autres figurines similaires (trouvées en Russie, en Europe centrale, en France) montre que la sculpture est une pratique courante. Les outils aussi deviennent plus sophistiqués : des aiguilles en os pour coudre les vêtements, des harpons barbelés pour la pêche, des bâtons de commandement. Les squelettes montrent que les humains vivent en meilleure santé : moins de fractures, moins d'infections. Les grottes contiennent des restes de foyers, de nourriture stockée, de matériaux bruts pour la fabrication d'outils, suggérant des habitats plus permanents et une meilleure organisation sociale. À 30 000 ans, les humains ne sont pas juste des survivants : ce sont des artistes, des artisans, des penseurs symboliques.",
     anecdote: "La Vénus de Willendorf a été sculptée dans un type de calcaire introuvable à proximité du site autrichien où elle a été découverte, ce qui laisse penser que la pierre — ou son sculpteur — a parcouru une distance non négligeable.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Journal of Archaeological Research : Paleolithic figurines and their meaning - Conard (2009)", "url": "https://doi.org/10.1007/s10814-009-9030-1"}, {"type": "publication", "label": "PNAS : Venus figurines - Conard & Malina (2008)", "url": "https://www.pnas.org/doi/10.1073/pnas.0710975105"}, {"type": "publication", "label": "Current Biology : Dating of Venus figurines - Higham et al. (2012)", "url": "https://doi.org/10.1016/j.cub.2012.07.021"}]
   },
   {
@@ -4425,6 +4741,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 25 000 ans, les grottes d'Europe contiennent des quantités massives de peintures et de gravures. Bien que la grotte Chauvet (en France) soit datée de 36 000 ans et la grotte Lascaux de 17 000 ans, la période de 25 000 ans représente l'apogée de l'art rupestre gravetien et pré-magdalénien. Ces grottes ne sont pas des habitats : ce sont des sanctuaires sacrés, des galeries d'art, des lieux de culte ou de rituel, souvent dans les parties les plus profondes et inaccessibles, dans l'obscurité totale. La grotte Chauvet, avec ses 400 peintures, contient des images magnifiques : chevaux, bisons, lions des cavernes, rhinocéros, disposées en suivant les contours naturels de la roche. Les pigments utilisés sont de l'ocre rouge et du charbon noir, appliqués avec les mains, des bâtons, peut-être des brosses primitives. Dans la grotte Chauvet, il y a environ 150 empreintes de mains, chacune unique, datées de 37 500 à 33 900 ans : parmi les plus anciennes preuves que les humains reconnaissent l'individualité et laissent une trace de leur passage. Pourquoi l'art ? Les théories incluent la magie de chasse, le chamanisme, la religion, le marquage identitaire de territoire, ou simplement l'esthétique. Probablement une combinaison de tout cela. En 1994, la grotte Chauvet est découverte par hasard par des spéléologues, les peintures pratiquement intactes, préservées par le calcaire et l'atmosphère stable de la grotte. Voir ces peintures est une connexion directe avec les humains d'il y a 36 000 ans, rappelant que le besoin de créer et d'exprimer la beauté est aussi vieux que l'humanité moderne.",
     anecdote: "Après l'ouverture au public de la grotte de Lascaux, découverte en 1940, la chaleur et le souffle des visiteurs ont provoqué l'apparition de moisissures et d'algues sur les peintures. La grotte a été fermée au public dès 1963, et une réplique complète, Lascaux II, a été construite à proximité pour permettre au public de continuer à admirer cet art sans l'abîmer.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "Nature : Dating and study of Chauvet Cave - Clottes et al. (1995)", "url": "https://www.nature.com/articles/375231a0"}, {"type": "publication", "label": "PNAS : Chauvet Cave radiocarbon dating - Quiles et al. (2016)", "url": "https://www.pnas.org/doi/10.1073/pnas.1502651112"}, {"type": "publication", "label": "Journal of Human Evolution : Interpretation of Paleolithic art - Lewis-Williams (2002)", "url": "https://doi.org/10.1016/S0047-2484(02)00024-4"}]
   },
   {
@@ -4439,6 +4756,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 20 000 ans, les preuves archéologiques montrent l'émergence d'une nouvelle technologie : l'arc et la flèche. Les plus anciennes preuves proviennent de sites en Afrique du Sud (Sibudu Cave) et en Europe (Stellmoor, Allemagne), datées entre 20 000 et 17 000 ans. Avant cela, les humains utilisent principalement des javelots lancés à la main ou des atlatls (bâtons de propulsion). Mais l'arc et la flèche offrent des avantages majeurs : plus de précision, plus de puissance, une portée plus grande (jusqu'à 50-100 mètres), et moins d'effort physique. Un chasseur peut rester à distance sécuritaire de sa proie, et les flèches sont beaucoup plus légères que les javelots, donc un chasseur peut en porter beaucoup plus. Les premières flèches sont faites de bois, de pierre (pointes) et de plumes (empennage), avec des pointes petites, finement taillées, triangulaires ou barbelées. Les squelettes de 20 000 ans montrent souvent des blessures compatibles avec des blessures de flèche. La maîtrise de l'arc et la flèche demande de la pratique, de la coordination, de la précision, renforçant la transmission culturelle entre générations. L'arc et la flèche ne sont pas juste une technologie de chasse : ils deviennent aussi une arme de guerre, augmentant l'efficacité mortelle des conflits mais aussi la capacité de défense d'un territoire par un petit groupe bien entraîné. Des millénaires plus tard, Gengis Khan utilisera des archers à cheval pour conquérir le monde.",
     anecdote: "Certaines des plus anciennes preuves supposées de l'usage de l'arc proviennent de minuscules pointes en pierre retrouvées dans la grotte de Sibudu, en Afrique du Sud — si petites qu'elles n'auraient pu fonctionner que comme pointes de flèches, ce qui repousserait l'origine de cette technologie de plusieurs dizaines de milliers d'années.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Journal of Archaeological Science : Early bow and arrow technology - Shea & Sisk (2010)", "url": "https://doi.org/10.1016/j.jas.2009.11.013"}, {"type": "publication", "label": "PNAS : Origin of projectile weaponry - Lombard & Phillipson (2010)", "url": "https://www.pnas.org/doi/10.1073/pnas.1001885107"}, {"type": "publication", "label": "American Antiquity : African origins of archery - Lombard (2005)", "url": "https://doi.org/10.2307/40035648"}]
   },
   {
@@ -4453,6 +4771,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 18 000 ans, la Terre connaît le point culminant de la dernière période glaciaire : le \"Last Glacial Maximum\" (LGM). Les calottes glaciaires sont au maximum de leur extension : les glaciers d'Amérique du Nord couvrent tout le Canada et descendent jusqu'au Kentucky, l'Europe du Nord est couverte de glaciers épais, la Sibérie est un désert de glace. Le niveau des mers est 120-130 mètres plus bas qu'aujourd'hui. Des \"terres de passage\" apparaissent : le détroit de Béring devient la \"Béringie\", une vaste plaine terrestre que des humains traversent pour migrer de Sibérie vers l'Amérique du Nord. Le climat est extrêmement froid, les hivers catastrophiques, et la vie incroyablement difficile. Les humains fabriquent des vêtements épais en peau d'animal, construisent des abris semi-enterrés renforcés avec des os et des défenses de mammouths, et maîtrisent complètement le feu. Ils chassent les mégafaunes (mammouths, rhinocéros laineux, ours des cavernes) qui requièrent coordination de groupe, stratégie et courage. Le LGM dure environ 2 000-3 000 ans (de 23 000 à 19 000 ans, avec le maximum à 18 000 ans). La population humaine globale diminue, certains groupes se réfugiant dans des zones climatiques plus clémentes (Méditerranée, Afrique du Sud, Asie du Sud). Le LGM est considéré comme le \"goulot d'étranglement démographique\" de l'humanité : la population mondiale aurait été réduite à peut-être seulement 10 000-30 000 individus. Si l'espèce humaine avait échoué à survivre au LGM, l'humanité entière aurait disparu.",
     anecdote: "Une telle quantité de l'eau de la planète était alors enfermée dans les calottes glaciaires que le niveau des mers était environ 120 mètres plus bas qu'aujourd'hui : des terres aujourd'hui recouvertes par la Manche ou le détroit de Béring formaient alors un sol sec que l'on pouvait traverser à pied.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Science : Last Glacial Maximum reconstruction - Mix et al. (2001)", "url": "https://www.science.org/doi/10.1126/science.1059133"}, {"type": "publication", "label": "Quaternary Research : Human adaptation to LGM - Gamble (1999)", "url": "https://doi.org/10.1006/qres.1999.2080"}, {"type": "publication", "label": "PNAS : Population genetics of Last Glacial Maximum - Excoffier et al. (2005)", "url": "https://www.pnas.org/doi/10.1073/pnas.0500448102"}]
   },
   {
@@ -4467,6 +4786,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 15 000 ans, un processus qui changera profondément la civilisation humaine commence : la domestication du chien, probablement le premier animal jamais domestiqué. Les preuves archéologiques proviennent de sites en Allemagne (Bonn-Oberkassel), en Israël (Eynan), et en Russie (Razboinichya Cave), où des restes de chiens datent de 15 000 à 14 000 ans. La théorie la plus acceptée : les loups, attirés par les déchets près des campements humains, commencent à scavenger. Les loups les moins agressifs s'approchent des humains, qui les tolèrent car ils aident à se débarrasser des déchets. Au fil des générations, une sélection naturelle et humaine se produit : les loups les plus calmes survivent mieux près des humains et se reproduisent. Graduellement, leur tempérament et leur apparence changent (oreilles qui tombent, queue qui s'enroule, pelage varié) : ce ne sont plus des loups, ce sont des chiens. Un fossile célèbre, le \"Bonn-Oberkassel dog\", est un chiot datant de 14 200 ans qui avait un problème dentaire congénital ; le fait qu'il ait survécu jusqu'à 6-7 mois suggère qu'il a été soigné et chéri par les humains, l'une des plus anciennes preuves d'une relation affective homme-animal. La domestication du chien a des impacts majeurs sur la chasse : les chiens aident à débusquer et rabattre le gibier, tracent les animaux blessés, et protègent les campements. Elle inspire aussi la domestication d'autres animaux : 10 000 ans plus tard, les humains domestiquent chèvres, moutons et vaches. Mais le chien arrive le premier, et la relation humain-chien dure jusqu'à aujourd'hui.",
     anecdote: "Le « chien de Bonn-Oberkassel », un chiot enterré aux côtés de deux humains il y a environ 14 200 ans, souffrait d'une grave maladie et n'aurait pu survivre plusieurs semaines après l'infection que grâce à des soins et une alimentation intensifs — l'un des plus anciens signes connus d'attachement d'humains envers un animal malade.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "PNAS : Ancient dog genomics - Parker et al. (2004)", "url": "https://www.pnas.org/doi/10.1073/pnas.0401913101"}, {"type": "publication", "label": "Nature Ecology & Evolution : Early dog domestication - Larson et al. (2012)", "url": "https://www.nature.com/articles/nature11159"}, {"type": "publication", "label": "Current Biology : Dog domestication genetics - Freedman et al. (2014)", "url": "https://doi.org/10.1016/j.cub.2014.03.024"}]
   },
   {
@@ -4481,6 +4801,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 14 000 ans, le climat de la Terre commence une transformation majeure : la fin de la dernière période glaciaire. Après une période de refroidissement temporaire (le Dryas Inférieur, environ 12 800 ans, qui dure 1 200 ans), le Holocène débute à 11 700 ans, marquant vraiment le début d'une période interglaciaire chaude et stable. À 14 000 ans, les glaciers qui couvraient l'Amérique du Nord, l'Europe du Nord et la Sibérie commencent à fondre rapidement. Le niveau des mers remonte, la Béringie est submergée, les écosystèmes changent radicalement, et les mammouths et autres mégafaunes, adaptés au froid, déclinent et finissent par disparaître. Ce réchauffement climatique a des implications énormes pour la civilisation humaine. Dans le Croissant Fertile (région entre le Tigre et l'Euphrate en Mésopotamie), les conditions deviennent idéales pour certaines plantes sauvages, particulièrement les céréales comme le blé et l'orge. Les humains de cette région remarquent qu'une certaine plante produit des graines comestibles et commencent à les cueillir. Progressivement, sur les 2 000-3 000 ans suivants, ils passent de la cueillette simple à la \"proto-agriculture\", puis à l'agriculture complète, d'où émergera la révolution néolithique. Sans ce réchauffement climatique, l'agriculture n'aurait probablement jamais émergé, et sans agriculture, pas de civilisation : les empires, les villes, l'écriture, la complexité sociale découlent finalement de ce réchauffement climatique. Avec le temps plus doux et plus stable, les humains peuvent rester au même endroit (sédentarité), ce qui permet l'accumulation de biens, l'émergence de hiérarchie, et finalement la civilisation.",
     anecdote: "Ce réchauffement ne s'est pas fait sans à-coups : il a été interrompu par un coup de froid d'environ 1 200 ans appelé « Dryas récent », pendant lequel une partie de l'hémisphère nord est retombée dans des conditions quasi glaciaires avant que la tendance au réchauffement ne reprenne durablement.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "Nature : Holocene climate change and human settlement - Mayewski et al. (2004)", "url": "https://www.nature.com/articles/nature02805"}, {"type": "publication", "label": "PNAS : Younger Dryas climate event - Firestone et al. (2007)", "url": "https://www.pnas.org/doi/10.1073/pnas.0707213104"}, {"type": "publication", "label": "Quaternary Science Reviews : Climate transitions and cultural change - Roberts & Brayshaw (2002)", "url": "https://doi.org/10.1016/S0277-3791(01)00083-3"}]
   },
   {
@@ -4495,6 +4816,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 12 000 ans, un changement révolutionnaire se produit : les humains commencent à cultiver délibérément des plantes. C'est le début de la révolution néolithique, qui débute dans le Croissant Fertile, une région qui s'étend du Nil en Égypte jusqu'au Tigre-Euphrate en Mésopotamie moderne. Les preuves archéologiques viennent de sites comme Jéricho, Çatalhöyük, Abu Hureyra, et Tell Aswad. Avant 12 000 ans, les humains sont tous des chasseurs-cueilleurs, se déplaçant saisonnièrement à la recherche de nourriture. Les scientifiques débattent des raisons du changement : réchauffement climatique rendant l'agriculture viable, pression démographique, ou abondance naturelle croissante de plantes sauvages nutritives. Les humains remarquent que planter les graines du blé récolté l'année précédente fait pousser de nouvelles plantes, et expérimentent la culture intentionnelle. Progressivement, au cours des siècles, ils sélectionnent les plantes avec les plus grosses graines et les meilleurs rendements : une sélection artificielle qui rend les plantes cultivées génétiquement distinctes des plantes sauvages. Parallèlement, la chasse devient plus difficile à mesure que les mégafaunes disparaissent, rendant l'agriculture plus attractive. À 10 000-9 000 ans, la transition est complète : les villages du Croissant Fertile cultivent blé, orge, pois et lentilles, et domestiquent chèvres, moutons et vaches. Ce passage a des impacts colossaux : rendement alimentaire plus élevé, sédentarité, accumulation de biens et de richesse, surplus permettant l'émergence de prêtres, guerriers et administrateurs, donc de hiérarchie sociale et finalement de l'État. Mais aussi des inconvénients : travail plus intensif, régime moins diversifié, vulnérabilité aux mauvaises récoltes, et augmentation des maladies infectieuses liées à la proximité du bétail et à la densité de population. La révolution agricole crée ainsi les conditions nécessaires à la civilisation.",
     anecdote: "Jéricho, l'un des sites clés de cette transition, est considérée par de nombreux archéologues comme la plus ancienne ville habitée sans interruption au monde : sa célèbre tour et ses murs de pierre datent d'environ 11 000 ans, bien avant l'invention de l'écriture, du métal ou de la roue.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "publication", "label": "PNAS : Origins of agriculture in the Fertile Crescent - Zeder (2011)", "url": "https://www.pnas.org/doi/10.1073/pnas.1100999108"}, {"type": "publication", "label": "Journal of Archaeological Research : Neolithic transition - Bellwood (2005)", "url": "https://doi.org/10.1007/s10814-005-6142-0"}, {"type": "publication", "label": "Nature : Early crop development - Purugganan & Fuller (2009)", "url": "https://www.nature.com/articles/nature08808"}]
   },
   {
@@ -4509,6 +4831,7 @@ const BASE_CARTES = [
     description_longue: "Il y a 11 000 ans, la domestication du blé et de l'orge est bien établie dans le Croissant Fertile. Des sites archéologiques montrent que le blé \"emmer\" (Triticum turgidum dicoccoides) et l'orge (Hordeum vulgare) sont activement cultivés. Pourquoi ces deux plantes ? Elles offrent un rendement élevé en calories, une facilité de stockage (les grains secs se conservent longtemps), une facilité de culture, et contiennent protéines et vitamines. Les archéobotaniques distinguent le blé et l'orge sauvages des versions domestiquées par des caractéristiques morphologiques : le blé sauvage a un axe fragile qui se casse facilement et disperse les graines, tandis que le blé domestiqué a un axe dur qui ne se casse pas, permettant aux humains de récolter les épis entiers. Ce changement génétique, apparu progressivement sur plusieurs générations, rend la plante entièrement dépendante de l'homme pour sa reproduction. À 11 000 ans, le blé et l'orge domestiqués sont génétiquement distincts de leurs ancêtres sauvages, et les rendements s'améliorent chaque année : un agriculteur peut produire assez de céréales pour nourrir environ 2-3 fois plus de personnes qu'un chasseur-cueilleur sur la même surface. Cela permet à la population d'augmenter rapidement, et les villages qui cultivent le blé et l'orge grossissent, atteignant plusieurs centaines d'habitants dès 10 000 ans. Le stockage du blé dans des greniers crée une incitation à construire des bâtiments fortifiés et à organiser une défense collective. Plus tard, le surplus permet à certaines personnes de devenir guerriers à temps plein, et le blé et l'orge deviennent même des unités de monnaie avant l'apparition des pièces. Cette domestication crée une symbiose humains-plantes qui dure depuis plus de 10 000 ans.",
     anecdote: "L'épi de blé sauvage se brise naturellement pour disperser ses graines, mais une mutation génétique rare produit un épi qui reste attaché à la tige : sans le savoir, les premiers agriculteurs ont sélectionné ce trait mutant à chaque récolte et replantation, modifiant durablement la génétique de la plante en quelques centaines de générations seulement.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "publication", "label": "PNAS : Wheat domestication - Tanno & Willcox (2006)", "url": "https://www.pnas.org/doi/10.1073/pnas.0510618103"}, {"type": "publication", "label": "Journal of Archaeological Science : Barley domestication in the Near East - Badr et al. (2000)", "url": "https://doi.org/10.1006/jasc.2000.0520"}, {"type": "publication", "label": "Current Biology : Early wheat and barley cultivation - Fuller et al. (2011)", "url": "https://doi.org/10.1016/j.cub.2011.06.045"}]
   },
   {
@@ -4523,6 +4846,7 @@ const BASE_CARTES = [
     description_longue: "Vers 3200 avant notre ère, dans les cités-États de Sumer (actuel Irak), des scribes développent un système de signes tracés au roseau taillé sur des tablettes d'argile fraîche : l'écriture cunéiforme (du latin cuneus, « coin », en référence à la forme des marques). Elle naît d'un besoin très concret : tenir la comptabilité des récoltes, des taxes et des troupeaux d'une administration de plus en plus complexe. Les premiers textes ne sont donc pas de la littérature mais des listes de marchandises. Le système évolue ensuite vers des signes représentant des sons plutôt que des objets, permettant d'exprimer des idées abstraites, des lois, des mythes et de la poésie. Le cunéiforme sera utilisé pendant plus de trois millénaires par de nombreuses civilisations mésopotamiennes (Sumériens, Akkadiens, Babyloniens, Assyriens) avant de disparaître progressivement au profit d'alphabets plus simples. Son invention marque, par convention, la fin de la préhistoire et le début de l'histoire écrite de l'humanité.",
     anecdote: "Le déchiffrement du cunéiforme au XIXe siècle doit beaucoup à l'inscription de Behistun, en Iran : un texte trilingue gravé sur une falaise par Darius Ier, que l'officier britannique Henry Rawlinson a copié en s'y suspendant au péril de sa vie — un peu l'équivalent mésopotamien de la pierre de Rosette.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Cunéiforme", "url": "https://fr.wikipedia.org/wiki/Cun%C3%A9iforme"}, {"type": "wikipedia", "label": "Wikipédia : Sumer", "url": "https://fr.wikipedia.org/wiki/Sumer"}, {"type": "autre", "label": "British Museum : Cuneiform", "url": "https://www.britishmuseum.org/collection/term/x21763"}]
   },
   {
@@ -4537,6 +4861,7 @@ const BASE_CARTES = [
     description_longue: "Vers 2560 avant notre ère, sous le règne du pharaon Khéops (Khoufou), les Égyptiens achèvent la Grande Pyramide de Gizeh, destinée à abriter sa dépouille et à assurer son passage vers l'au-delà. Avec ses quelque 2,3 millions de blocs de pierre pesant en moyenne 2,5 tonnes chacun, pour une hauteur d'origine d'environ 146 mètres, elle reste la plus grande pyramide jamais bâtie et a été, pendant près de 3 800 ans, la plus haute construction humaine au monde — un record qui ne sera dépassé qu'au XIVe siècle par la cathédrale de Lincoln. Les méthodes exactes de construction (rampes, leviers, main-d'œuvre) font encore débat parmi les égyptologues, mais les fouilles menées près du site ont révélé un véritable village d'ouvriers qualifiés et rémunérés, loin de l'image d'esclaves enchaînés longtemps véhiculée par la culture populaire. La Grande Pyramide est la dernière survivante des sept merveilles du monde antique.",
     anecdote: "La précision de l'alignement de la Grande Pyramide sur les points cardinaux est stupéfiante pour l'époque : l'écart par rapport au nord géographique réel est inférieur à un vingtième de degré, une exactitude que les architectes modernes ont mis des siècles à égaler sans instruments électroniques.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Grande pyramide de Gizeh", "url": "https://fr.wikipedia.org/wiki/Grande_pyramide_de_Gizeh"}, {"type": "wikipedia", "label": "Wikipédia : Khéops", "url": "https://fr.wikipedia.org/wiki/Kh%C3%A9ops"}, {"type": "autre", "label": "UNESCO : Mémphis et sa nécropole - Gizeh", "url": "https://whc.unesco.org/fr/list/86/"}]
   },
   {
@@ -4551,6 +4876,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1754 avant notre ère, le roi babylonien Hammurabi fait graver sur une stèle de basalte de plus de deux mètres de haut un ensemble de 282 lois régissant la vie quotidienne de son royaume : commerce, propriété, mariage, travail, et justice pénale. Le code repose largement sur le principe de la loi du talion (« œil pour œil, dent pour dent »), mais il introduit aussi des notions plus modernes, comme la présomption d'innocence ou l'idée que la peine doit varier selon le statut social des personnes impliquées. Bien qu'il ne soit pas le tout premier code de lois de l'histoire (des textes sumériens plus anciens et plus fragmentaires existent), il est le plus complet et le mieux conservé de son époque, et il offre un aperçu unique de la société babylonienne. La stèle, redécouverte en 1901 lors de fouilles en Iran, est aujourd'hui exposée au musée du Louvre, à Paris.",
     anecdote: "Le sommet de la stèle représente Hammurabi recevant les lois directement des mains de Shamash, le dieu-soleil de la justice — une mise en scène destinée à légitimer son autorité en présentant le code non comme une invention humaine, mais comme un don divin.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Code de Hammurabi", "url": "https://fr.wikipedia.org/wiki/Code_de_Hammurabi"}, {"type": "autre", "label": "Musée du Louvre : Code de Hammurabi", "url": "https://www.louvre.fr/en/explore/the-palace/law-code-of-hammurabi-king-of-babylon"}, {"type": "wikipedia", "label": "Wikipédia : Hammurabi", "url": "https://fr.wikipedia.org/wiki/Hammurabi"}]
   },
   {
@@ -4565,6 +4891,7 @@ const BASE_CARTES = [
     description_longue: "La tradition romaine, formalisée notamment par l'historien Tite-Live, fixe au 21 avril 753 avant notre ère la fondation de Rome par Romulus, sur la colline du Palatin, au bord du Tibre. La légende raconte que Romulus et son frère jumeau Remus, abandonnés bébés puis recueillis et allaités par une louve, se disputent l'emplacement de la future cité ; Romulus tue Remus et donne son propre nom à la ville. Si cette histoire relève du mythe fondateur plutôt que du fait historique vérifiable, les fouilles archéologiques menées sur le Palatin ont bien révélé des traces d'habitat remontant au VIIIe siècle avant notre ère, ce qui confère une base plausible à la tradition. Cette date est restée si importante dans la culture romaine que les Romains l'utilisaient comme point de départ de leur propre calendrier (« ab urbe condita », depuis la fondation de la ville), au même titre que l'année de naissance du Christ le sera plus tard pour le monde chrétien.",
     anecdote: "La louve allaitant les jumeaux Romulus et Remus est devenue l'un des symboles les plus reconnaissables de Rome : une statue de bronze étrusque de cette scène, la Louve du Capitole, est exposée à Rome depuis l'Antiquité et reste aujourd'hui encore un emblème officieux de la ville.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Fondation de Rome", "url": "https://fr.wikipedia.org/wiki/Fondation_de_Rome"}, {"type": "wikipedia", "label": "Wikipédia : Romulus et Remus", "url": "https://fr.wikipedia.org/wiki/Romulus_et_R%C3%A9mus"}, {"type": "autre", "label": "Encyclopaedia Britannica : Romulus and Remus", "url": "https://www.britannica.com/topic/Romulus-and-Remus"}]
   },
   {
@@ -4579,6 +4906,7 @@ const BASE_CARTES = [
     description_longue: "En 776 avant notre ère, selon la tradition, se déroulent à Olympie, dans le Péloponnèse, les premiers Jeux olympiques dont la date est historiquement attestée, en l'honneur du dieu Zeus. À l'origine, une seule épreuve existe : une course à pied d'environ 192 mètres (un stade). D'autres disciplines s'y ajoutent progressivement (lutte, pugilat, course de chars, pentathlon). Les Jeux se tiennent tous les quatre ans et rassemblent des athlètes venus de toute la Grèce antique ; une trêve sacrée est même proclamée pendant leur durée pour permettre aux concurrents et spectateurs de voyager en sécurité, malgré les guerres en cours entre cités grecques. Seuls les hommes libres de citoyenneté grecque peuvent y participer, et les épreuves se déroulent nus. Les Jeux antiques dureront près de 12 siècles avant d'être interdits en 393 de notre ère par l'empereur romain chrétien Théodose Ier, qui les juge incompatibles avec sa foi. Il faudra attendre 1896 pour que Pierre de Coubertin fasse renaître les Jeux olympiques modernes, précisément à Athènes.",
     anecdote: "Le vainqueur d'une épreuve olympique antique ne recevait ni médaille ni prix en argent : simplement une couronne tressée de branches d'olivier sauvage, coupées avec un couteau d'or dans un olivier sacré poussant près du temple de Zeus — l'honneur importait bien plus que la récompense matérielle.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jeux olympiques antiques", "url": "https://fr.wikipedia.org/wiki/Jeux_olympiques_antiques"}, {"type": "wikipedia", "label": "Wikipédia : Olympie", "url": "https://fr.wikipedia.org/wiki/Olympie_(Gr%C3%A8ce)"}, {"type": "autre", "label": "Comité International Olympique : Les Jeux Olympiques de l'Antiquité", "url": "https://olympics.com/fr/olympic-games/ancient-olympic-games"}]
   },
   {
@@ -4593,6 +4921,7 @@ const BASE_CARTES = [
     description_longue: "En 508-507 avant notre ère, l'homme politique athénien Clisthène met en place une série de réformes qui posent les bases de la première démocratie connue de l'histoire. Il réorganise la cité en nouvelles circonscriptions territoriales (les « dèmes »), qui remplacent les anciennes divisions fondées sur l'appartenance familiale et l'aristocratie, réduisant ainsi le pouvoir des grandes familles nobles. Il crée également le Conseil des Cinq-Cents, tiré au sort chaque année parmi les citoyens, chargé de préparer les lois soumises à l'Assemblée du peuple (l'Ecclésia), où tout citoyen athénien peut voter directement. Le mot « démocratie » (du grec dêmos, le peuple, et kratos, le pouvoir) n'apparaît que quelques décennies plus tard, mais le système de Clisthène en constitue le socle. Cette démocratie reste toutefois très restreinte selon les critères modernes : seuls les hommes libres nés de parents athéniens peuvent participer, ce qui exclut les femmes, les esclaves et les étrangers résidents, soit la grande majorité de la population de la cité.",
     anecdote: "Le système du tirage au sort pour de nombreuses fonctions publiques athéniennes, plutôt que l'élection, reposait sur l'idée que confier le pouvoir à un tirage aléatoire parmi les citoyens était plus égalitaire qu'une élection, jugée trop favorable aux orateurs riches et charismatiques — un principe redécouvert aujourd'hui par certains défenseurs du « tirage au sort citoyen ».",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Clisthène", "url": "https://fr.wikipedia.org/wiki/Clisth%C3%A8ne"}, {"type": "wikipedia", "label": "Wikipédia : Démocratie athénienne", "url": "https://fr.wikipedia.org/wiki/D%C3%A9mocratie_ath%C3%A9nienne"}, {"type": "autre", "label": "Encyclopaedia Britannica : Cleisthenes", "url": "https://www.britannica.com/biography/Cleisthenes-Athenian-statesman"}]
   },
   {
@@ -4607,6 +4936,7 @@ const BASE_CARTES = [
     description_longue: "Vers 528 avant notre ère (la datation exacte reste débattue selon les traditions), le prince indien Siddhartha Gautama, après plusieurs années d'ascétisme et de méditation, atteint l'Éveil (bodhi) alors qu'il médite sous un figuier, à Bodh Gaya, dans l'actuel État indien du Bihar. Il devient ainsi « le Bouddha », terme signifiant « l'Éveillé ». Il élabore les Quatre Nobles Vérités (l'existence de la souffrance, sa cause, sa cessation possible, et le chemin pour y parvenir) ainsi que le Noble Sentier Octuple, un ensemble de principes éthiques et méditatifs destinés à mettre fin au cycle des renaissances (samsara). Il passe ensuite plusieurs décennies à enseigner à travers le nord de l'Inde, avant sa mort (parinirvana) vers 483 avant notre ère. Le bouddhisme se diffusera largement en Asie dans les siècles suivants, en Asie du Sud-Est, en Chine, au Tibet puis au Japon, donnant naissance à de multiples courants (theravada, mahayana, vajrayana), et compte aujourd'hui plusieurs centaines de millions de pratiquants dans le monde.",
     anecdote: "L'arbre sous lequel le Bouddha aurait atteint l'Éveil, appelé l'arbre de la Bodhi, est toujours vénéré aujourd'hui à Bodh Gaya : l'arbre actuel serait une repousse directe, par boutures successives, de l'arbre original, dont un rejeton avait été envoyé au Sri Lanka dès le IIIe siècle avant notre ère et y pousse encore.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Bouddha", "url": "https://fr.wikipedia.org/wiki/Bouddha"}, {"type": "wikipedia", "label": "Wikipédia : Bodh Gaya", "url": "https://fr.wikipedia.org/wiki/Bodh_Gaya"}, {"type": "autre", "label": "UNESCO : Temple de la Mahabodhi à Bodh Gaya", "url": "https://whc.unesco.org/fr/list/1056/"}]
   },
   {
@@ -4621,6 +4951,7 @@ const BASE_CARTES = [
     description_longue: "Vers 500 avant notre ère, le philosophe et homme politique chinois Confucius (Kong Qiu) enseigne à ses disciples, dans un royaume de Chine alors divisé et instable (période des Printemps et Automnes), un ensemble de principes moraux fondés sur la vertu, le respect de l'ordre social, la piété filiale et le bon gouvernement. Il ne laisse lui-même aucun écrit ; sa pensée nous est parvenue à travers les Entretiens (Lunyu), un recueil de ses paroles et dialogues compilé par ses disciples après sa mort. Le confucianisme, qui se développe à partir de son enseignement, devient au fil des siècles une véritable philosophie d'État en Chine, influençant durablement l'éducation, l'administration et les rapports sociaux de l'ensemble de l'Asie de l'Est (Chine, Corée, Japon, Vietnam). Contrairement au bouddhisme ou aux grandes religions monothéistes, le confucianisme s'intéresse peu aux questions métaphysiques ou à l'au-delà, et se concentre avant tout sur l'harmonie de la vie en société ici-bas.",
     anecdote: "Le système des examens impériaux chinois, fondé sur la maîtrise des textes confucéens et utilisé pour recruter les fonctionnaires de l'État pendant plus de 1 300 ans (jusqu'en 1905), est considéré comme l'un des premiers systèmes de méritocratie administrative de l'histoire, où la naissance comptait en théorie moins que la réussite à un concours.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Confucius", "url": "https://fr.wikipedia.org/wiki/Confucius"}, {"type": "wikipedia", "label": "Wikipédia : Confucianisme", "url": "https://fr.wikipedia.org/wiki/Confucianisme"}, {"type": "autre", "label": "Encyclopaedia Britannica : Confucius", "url": "https://www.britannica.com/biography/Confucius"}]
   },
   {
@@ -4635,6 +4966,7 @@ const BASE_CARTES = [
     description_longue: "En 331 avant notre ère, à la bataille de Gaugamèles (dans l'actuel Irak), le jeune roi de Macédoine Alexandre le Grand, alors âgé d'à peine 25 ans, remporte une victoire décisive contre l'armée du roi perse Darius III, pourtant largement supérieure en nombre. Cette bataille scelle la chute de l'Empire perse achéménide, l'une des plus vastes puissances de l'Antiquité, et ouvre à Alexandre les portes de Babylone, Suse et Persépolis. En l'espace d'à peine plus d'une décennie de campagnes militaires, il constitue un empire s'étendant de la Grèce jusqu'au nord-ouest de l'Inde, l'un des plus vastes de l'histoire antique. Sa mort prématurée à Babylone en 323 avant notre ère, à 32 ans, provoque l'éclatement de cet empire entre ses généraux (les diadoques), mais laisse un héritage culturel durable : la diffusion de la langue, de l'art et des idées grecques dans tout le Proche-Orient et jusqu'en Asie centrale, une période que les historiens appellent l'époque hellénistique.",
     anecdote: "Alexandre aurait, selon la légende, tranché d'un coup d'épée le nœud gordien, un enchevêtrement de cordes si complexe qu'un oracle promettait la domination de l'Asie à quiconque parviendrait à le défaire — une solution radicale qui a donné naissance à l'expression « trancher le nœud gordien », pour désigner une résolution brutale et directe d'un problème complexe.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Alexandre le Grand", "url": "https://fr.wikipedia.org/wiki/Alexandre_le_Grand"}, {"type": "wikipedia", "label": "Wikipédia : Bataille de Gaugamèles", "url": "https://fr.wikipedia.org/wiki/Bataille_de_Gaugam%C3%A8les"}, {"type": "autre", "label": "Encyclopaedia Britannica : Alexander the Great", "url": "https://www.britannica.com/biography/Alexander-the-Great"}]
   },
   {
@@ -4649,6 +4981,7 @@ const BASE_CARTES = [
     description_longue: "En 218 avant notre ère, au début de la deuxième guerre punique opposant Carthage à Rome, le général carthaginois Hannibal Barca entreprend l'un des exploits militaires les plus audacieux de l'Antiquité : traverser les Alpes avec une armée de plusieurs dizaines de milliers d'hommes, des chevaux et une trentaine d'éléphants de guerre, pour envahir l'Italie par le nord et prendre Rome à revers. La traversée, menée en pleine saison froide à travers des cols escarpés, coûte très cher à son armée, décimée par le froid, les avalanches et les attaques de tribus montagnardes hostiles. Hannibal parvient néanmoins à surprendre les Romains et remporte plusieurs victoires écrasantes en Italie, notamment à Cannes en 216 avant notre ère, l'une des pires défaites militaires de toute l'histoire romaine. Malgré ces succès, il ne parvient jamais à prendre Rome elle-même, et la guerre se solde finalement, quinze ans plus tard, par la défaite de Carthage.",
     anecdote: "Sur la trentaine d'éléphants de guerre qu'Hannibal a emmenés dans la traversée des Alpes, la plupart n'ont pas survécu à l'hiver et aux terrains escarpés ; le nombre exact d'éléphants encore vivants une fois l'armée arrivée en Italie fait toujours débat parmi les historiens, certaines sources antiques n'en comptant plus qu'un seul.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Hannibal Barca", "url": "https://fr.wikipedia.org/wiki/Hannibal_Barca"}, {"type": "wikipedia", "label": "Wikipédia : Deuxième guerre punique", "url": "https://fr.wikipedia.org/wiki/Deuxi%C3%A8me_guerre_punique"}, {"type": "autre", "label": "Encyclopaedia Britannica : Hannibal", "url": "https://www.britannica.com/biography/Hannibal-Carthaginian-general-247-183BC"}]
   },
   {
@@ -4663,6 +4996,7 @@ const BASE_CARTES = [
     description_longue: "En l'an 105 de notre ère, le fonctionnaire chinois Cai Lun présente à la cour impériale de la dynastie Han un procédé perfectionné de fabrication du papier, à partir de fibres végétales (écorce de mûrier, chanvre, chiffons, filets de pêche usagés) réduites en pulpe, étalées puis séchées. Bien que des formes rudimentaires de papier existaient déjà en Chine avant lui, c'est le procédé de Cai Lun, moins coûteux et plus facile à produire en grande quantité, qui se répand largement et remplace peu à peu les supports d'écriture traditionnels comme les lamelles de bambou ou la soie, bien plus onéreuse. La technique met plusieurs siècles à se diffuser hors de Chine : elle atteint le monde musulman vers le VIIIe siècle, notamment après la bataille de Talas en 751, puis l'Europe seulement au XIIe siècle via l'Espagne musulmane. Le papier jouera un rôle essentiel dans la diffusion du savoir, en Chine comme, bien plus tard, en Europe avec l'essor de l'imprimerie.",
     anecdote: "Selon la légende, Cai Lun se serait inspiré en observant des guêpes construire leur nid en mâchant des fibres de bois pour en faire une pâte, un procédé étonnamment proche, à l'échelle industrielle, de la fabrication moderne de la pâte à papier.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Cai Lun", "url": "https://fr.wikipedia.org/wiki/Cai_Lun"}, {"type": "wikipedia", "label": "Wikipédia : Histoire du papier", "url": "https://fr.wikipedia.org/wiki/Histoire_du_papier"}, {"type": "autre", "label": "Encyclopaedia Britannica : Papermaking", "url": "https://www.britannica.com/technology/papermaking"}]
   },
   {
@@ -4677,6 +5011,7 @@ const BASE_CARTES = [
     description_longue: "En 313 de notre ère, les empereurs romains Constantin et Licinius s'accordent, à Milan, sur un ensemble de mesures garantissant la liberté de culte à travers tout l'Empire romain, mettant fin à des décennies de persécutions sporadiques mais parfois très violentes contre les chrétiens (notamment sous Dioclétien quelques années plus tôt). L'édit ne fait pas du christianisme la religion officielle de l'Empire — cette étape n'interviendra qu'en 380, sous Théodose Ier — mais il en fait une religion tolérée au même titre que les autres cultes, et permet la restitution des biens confisqués aux communautés chrétiennes. Constantin lui-même se convertira progressivement au christianisme, bien qu'il ne soit baptisé que sur son lit de mort en 337. Cette décision marque un tournant majeur : d'une religion minoritaire et persécutée, le christianisme devient en l'espace de quelques décennies la religion dominante du monde romain, puis de l'ensemble de l'Europe médiévale.",
     anecdote: "Selon la tradition rapportée par l'historien chrétien Eusèbe de Césarée, Constantin aurait vu, la veille d'une bataille décisive en 312, une croix lumineuse dans le ciel accompagnée des mots « in hoc signo vinces » (« par ce signe tu vaincras ») — une vision qui aurait précipité sa faveur envers le christianisme, bien que l'authenticité de cet épisode fasse débat chez les historiens modernes.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Édit de Milan", "url": "https://fr.wikipedia.org/wiki/%C3%89dit_de_Milan"}, {"type": "wikipedia", "label": "Wikipédia : Constantin Ier (empereur romain)", "url": "https://fr.wikipedia.org/wiki/Constantin_Ier_(empereur_romain)"}, {"type": "autre", "label": "Encyclopaedia Britannica : Edict of Milan", "url": "https://www.britannica.com/event/Edict-of-Milan"}]
   },
   {
@@ -4691,6 +5026,7 @@ const BASE_CARTES = [
     description_longue: "En 330 de notre ère, l'empereur romain Constantin inaugure officiellement Constantinople, une nouvelle capitale impériale bâtie sur le site de l'ancienne cité grecque de Byzance, à un emplacement stratégique contrôlant le détroit du Bosphore entre Europe et Asie. Il y fait construire à marche forcée des palais, des églises, un hippodrome et de vastes fortifications, en partie avec des matériaux et des œuvres d'art rapportés d'autres villes de l'Empire. Ce transfert du centre de gravité politique vers l'est, motivé notamment par la proximité des frontières orientales menacées et par la richesse économique de la région, préfigure la scission ultérieure de l'Empire romain en deux parties, occidentale et orientale. Alors que Rome tombera aux mains des peuples germaniques en 476, Constantinople restera la capitale de l'Empire romain d'Orient — que les historiens appelleront plus tard l'Empire byzantin — pendant encore plus de mille ans, jusqu'à sa chute face aux Ottomans en 1453.",
     anecdote: "Constantin aurait personnellement tracé à pied, une lance à la main, le tracé des futures murailles de sa ville ; interrogé par ses proches sur la raison d'un périmètre aussi vaste, il aurait simplement répondu qu'il continuerait de marcher « jusqu'à ce que Celui qui marche devant moi s'arrête » — une allusion à une guidance divine.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Constantinople", "url": "https://fr.wikipedia.org/wiki/Constantinople"}, {"type": "wikipedia", "label": "Wikipédia : Empire byzantin", "url": "https://fr.wikipedia.org/wiki/Empire_byzantin"}, {"type": "autre", "label": "UNESCO : Zones historiques d'Istanbul", "url": "https://whc.unesco.org/fr/list/356/"}]
   },
   {
@@ -4705,6 +5041,7 @@ const BASE_CARTES = [
     description_longue: "En 476 de notre ère, le chef militaire germanique Odoacre dépose Romulus Augustule, le dernier empereur romain d'Occident, un adolescent qui n'exerçait déjà plus qu'un pouvoir symbolique. Odoacre renvoie les insignes impériaux à Constantinople plutôt que de se proclamer lui-même empereur, préférant gouverner l'Italie en tant que roi sous une autorité byzantine nominale. Cet événement, longtemps présenté comme une rupture brutale, est aujourd'hui davantage compris par les historiens comme l'aboutissement d'un long processus de déclin : pressions démographiques et militaires des peuples dits « barbares » aux frontières, crises économiques et politiques internes récurrentes, et fragmentation progressive du pouvoir romain en Occident depuis plusieurs décennies. Par convention historiographique, cette date de 476 marque la fin de l'Antiquité et le début du Moyen Âge en Europe occidentale — même si l'Empire romain d'Orient, lui, se maintient à Constantinople pendant près d'un millénaire supplémentaire.",
     anecdote: "Le nom du dernier empereur, Romulus Augustule, est d'une ironie que les historiens n'ont pas manqué de relever : il porte le prénom du légendaire fondateur de Rome, Romulus, et le diminutif moqueur « Augustule » (« petit Auguste »), rappelant le premier grand empereur Auguste — la boucle de l'histoire romaine se referme ainsi presque littéralement sur son propre nom.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Chute de l'Empire romain d'Occident", "url": "https://fr.wikipedia.org/wiki/Chute_de_l%27Empire_romain_d%27Occident"}, {"type": "wikipedia", "label": "Wikipédia : Romulus Augustule", "url": "https://fr.wikipedia.org/wiki/Romulus_Augustule"}, {"type": "autre", "label": "Encyclopaedia Britannica : Fall of Rome", "url": "https://www.britannica.com/topic/ancient-Rome/The-fall-of-the-Western-Roman-Empire"}]
   },
   {
@@ -4719,6 +5056,7 @@ const BASE_CARTES = [
     description_longue: "En 622 de notre ère, le prophète Mahomet et ses premiers compagnons quittent La Mecque, où sa prédication se heurte à une hostilité croissante, pour rejoindre la ville de Yathrib, qui prendra ensuite le nom de Médine (« la ville du Prophète »). Cet exode, appelé l'Hégire (hijra, littéralement « émigration » en arabe), marque un tournant décisif : à Médine, Mahomet devient à la fois guide religieux et chef politique d'une communauté (la Oumma) organisée autour de principes religieux et sociaux nouveaux, jetant les bases du premier État musulman. L'importance de cet événement est telle que le deuxième calife, Omar, décide quelques années après la mort de Mahomet d'en faire le point de départ du calendrier musulman, qui reste utilisé aujourd'hui dans de nombreux pays et pour les dates religieuses de l'islam à travers le monde. Depuis Médine, l'islam se diffusera très rapidement dans les décennies suivantes à travers la péninsule arabique, puis le Proche-Orient, l'Afrique du Nord et au-delà.",
     anecdote: "Le calendrier musulman étant purement lunaire (contrairement au calendrier chrétien qui intègre des ajustements solaires), il compte environ 354 jours par an : ses dates reculent donc chaque année d'environ 11 jours par rapport au calendrier grégorien, ce qui explique que des célébrations comme le ramadan se déplacent progressivement à travers toutes les saisons au fil des décennies.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Hégire", "url": "https://fr.wikipedia.org/wiki/H%C3%A9gire"}, {"type": "wikipedia", "label": "Wikipédia : Mahomet", "url": "https://fr.wikipedia.org/wiki/Mahomet"}, {"type": "autre", "label": "Encyclopaedia Britannica : Hijrah", "url": "https://www.britannica.com/event/Hijrah-Islam"}]
   },
   {
@@ -4733,6 +5071,7 @@ const BASE_CARTES = [
     description_longue: "Le 25 décembre de l'an 800, le pape Léon III couronne Charlemagne, roi des Francs, empereur, lors d'une cérémonie tenue à la basilique Saint-Pierre de Rome. Ce couronnement ressuscite, en Occident, le titre impérial disparu depuis la chute de l'Empire romain d'Occident en 476, plus de trois siècles auparavant. L'empire de Charlemagne s'étend, à son apogée, sur une grande partie de l'Europe occidentale : la France actuelle, une large part de l'Allemagne, le nord de l'Italie et des territoires annexes. Son règne est marqué par une importante renaissance culturelle et intellectuelle, connue sous le nom de « renaissance carolingienne » : il favorise l'éducation, la copie des manuscrits antiques dans les monastères, et impose une nouvelle écriture standardisée, la minuscule caroline, plus lisible, qui influencera durablement les alphabets européens. Bien que son empire se fragmente rapidement après sa mort en 814 entre ses héritiers, Charlemagne reste une figure fondatrice, revendiquée aussi bien par la tradition française qu'allemande.",
     anecdote: "Selon le récit de son biographe Éginhard, Charlemagne, pourtant l'un des souverains les plus puissants de son temps, ne serait jamais parvenu à apprendre correctement à écrire à l'âge adulte, malgré des efforts assidus : il gardait, dit-on, des tablettes sous son oreiller pour s'entraîner à tracer des lettres pendant ses moments de repos.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Charlemagne", "url": "https://fr.wikipedia.org/wiki/Charlemagne"}, {"type": "wikipedia", "label": "Wikipédia : Renaissance carolingienne", "url": "https://fr.wikipedia.org/wiki/Renaissance_carolingienne"}, {"type": "autre", "label": "Encyclopaedia Britannica : Charlemagne", "url": "https://www.britannica.com/biography/Charlemagne"}]
   },
   {
@@ -4747,6 +5086,7 @@ const BASE_CARTES = [
     description_longue: "Vers 830, le calife abbasside Al-Ma'mun institutionnalise à Bagdad la Maison de la Sagesse (Bayt al-Hikma), un centre de recherche et de traduction qui devient l'un des foyers intellectuels les plus importants du monde médiéval. Des savants de toutes origines et confessions (musulmans, chrétiens, juifs) y traduisent en arabe les grands textes scientifiques et philosophiques grecs, perses et indiens — Aristote, Ptolémée, Euclide — tout en produisant des travaux originaux en mathématiques, astronomie, médecine et chimie. C'est notamment là qu'exerce le mathématicien Al-Khwarizmi, dont le nom donnera le mot « algorithme » et dont l'un de ses traités donnera le mot « algèbre » (issu de l'arabe al-jabr). Cette période, connue comme l'âge d'or islamique, voit Bagdad devenir l'une des plus grandes villes et l'un des centres scientifiques les plus dynamiques du monde, à une époque où une grande partie de l'Europe occidentale connaît un ralentissement de son activité intellectuelle. Une bonne partie du savoir antique grec ne nous est d'ailleurs parvenue jusqu'à aujourd'hui que grâce à ces traductions arabes, les originaux grecs ayant souvent été perdus.",
     anecdote: "Le système de numération que nous utilisons encore aujourd'hui, dit « chiffres arabes » (en réalité d'origine indienne, transmis et diffusés par les savants du monde arabo-musulman, notamment Al-Khwarizmi), a mis plusieurs siècles à s'imposer en Europe face aux chiffres romains, jugés par certains marchands plus difficiles à falsifier malgré leur complexité pour les calculs.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Maison de la sagesse", "url": "https://fr.wikipedia.org/wiki/Maison_de_la_sagesse"}, {"type": "wikipedia", "label": "Wikipédia : Al-Khwarizmi", "url": "https://fr.wikipedia.org/wiki/Al-Khw%C3%A2rizm%C3%AE"}, {"type": "autre", "label": "Encyclopaedia Britannica : House of Wisdom", "url": "https://www.britannica.com/topic/House-of-Wisdom"}]
   },
   {
@@ -4761,6 +5101,7 @@ const BASE_CARTES = [
     description_longue: "En 962, le pape Jean XII couronne à Rome Otton Ier, roi de Germanie, empereur, donnant naissance à ce qui sera appelé plus tard le Saint-Empire romain germanique. Cette entité politique, qui se veut l'héritière directe de l'Empire de Charlemagne et, à travers lui, de l'Empire romain lui-même, regroupe pendant des siècles un vaste ensemble de royaumes, duchés, principautés et villes libres, principalement centrés sur l'Allemagne et une partie de l'Italie du Nord. Contrairement à des monarchies centralisées comme la France, le pouvoir impérial y reste toujours partiellement contesté par les princes territoriaux et, très souvent, par la papauté elle-même, dans une lutte d'influence récurrente entre pouvoir spirituel et pouvoir temporel. Le Saint-Empire subsistera, sous des formes très variables de cohésion politique, jusqu'en 1806, lorsque l'empereur François II l'abolira sous la pression des guerres napoléoniennes. Le philosophe français Voltaire résumera plus tard sa nature complexe par une formule restée célèbre : il n'était, selon lui, « ni saint, ni romain, ni empire ».",
     anecdote: "Le titre d'empereur du Saint-Empire n'était pas héréditaire mais électif : il était choisi par un collège de sept, puis neuf, « princes-électeurs », un système unique en Europe qui donnait lieu à d'intenses tractations politiques et parfois à des pots-de-vin considérables à chaque succession impériale.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Saint-Empire romain germanique", "url": "https://fr.wikipedia.org/wiki/Saint-Empire_romain_germanique"}, {"type": "wikipedia", "label": "Wikipédia : Otton Ier du Saint-Empire", "url": "https://fr.wikipedia.org/wiki/Otton_Ier_du_Saint-Empire"}, {"type": "autre", "label": "Encyclopaedia Britannica : Holy Roman Empire", "url": "https://www.britannica.com/place/Holy-Roman-Empire"}]
   },
   {
@@ -4775,6 +5116,7 @@ const BASE_CARTES = [
     description_longue: "En 1054, un différend théologique, liturgique et politique qui couvait depuis des siècles entre l'Église de Rome et l'Église de Constantinople aboutit à une rupture officielle : le pape Léon IX et le patriarche de Constantinople Michel Cérulaire s'excommunient mutuellement. Cet événement, connu sous le nom de Grand Schisme d'Orient (ou schisme de 1054), consacre la séparation durable entre ce qui deviendra le catholicisme romain, à l'ouest, et l'orthodoxie, à l'est. Les points de désaccord portaient notamment sur l'autorité suprême du pape, sur une formulation théologique concernant la nature de l'Esprit Saint (la clause dite « du Filioque »), et sur des différences de pratiques liturgiques, comme l'usage du pain sans levain pour l'eucharistie en Occident. Bien que des tentatives de réconciliation aient eu lieu par la suite, notamment lors des conciles de Lyon et de Florence, le schisme n'a jamais été formellement résolu : il reste, encore aujourd'hui, la principale division au sein du christianisme historique, avec plus de 200 millions de fidèles orthodoxes dans le monde.",
     anecdote: "Le geste d'excommunication de 1054 a été symboliquement partiellement effacé neuf siècles plus tard : en 1965, le pape Paul VI et le patriarche de Constantinople Athénagoras Ier ont conjointement annulé les excommunications mutuelles prononcées par leurs prédécesseurs — sans pour autant mettre fin au schisme lui-même, qui perdure sur le plan doctrinal et institutionnel.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Schisme de 1054", "url": "https://fr.wikipedia.org/wiki/Schisme_de_1054"}, {"type": "wikipedia", "label": "Wikipédia : Église orthodoxe", "url": "https://fr.wikipedia.org/wiki/%C3%89glise_orthodoxe"}, {"type": "autre", "label": "Encyclopaedia Britannica : Schism of 1054", "url": "https://www.britannica.com/event/Schism-of-1054"}]
   },
   {
@@ -4789,6 +5131,7 @@ const BASE_CARTES = [
     description_longue: "Le 14 octobre 1066, Guillaume, duc de Normandie, débarque en Angleterre et affronte à Hastings, sur la côte sud du pays, l'armée du roi anglo-saxon Harold II. La bataille, longtemps indécise, bascule lorsque le roi Harold est tué — selon la tradition, touché à l'œil par une flèche, un épisode immortalisé par la célèbre tapisserie de Bayeux. Cette victoire ouvre à Guillaume la voie du trône d'Angleterre : il est couronné roi le jour de Noël 1066 sous le nom de Guillaume Ier, dit « le Conquérant ». Cette conquête normande transforme profondément la société, la langue et les institutions anglaises : une nouvelle aristocratie francophone remplace largement l'ancienne noblesse anglo-saxonne, et des milliers de mots d'origine française (dans les domaines du droit, de la cuisine, de l'administration) s'introduisent durablement dans la langue anglaise, qui reste aujourd'hui composée d'environ un tiers de vocabulaire d'origine française ou latine transmis par cette voie.",
     anecdote: "La tapisserie de Bayeux, longue de près de 70 mètres et brodée quelques années seulement après la bataille, est l'une des sources visuelles les plus détaillées jamais conservées sur un événement médiéval : elle est si précise sur l'équipement militaire de l'époque qu'elle reste aujourd'hui une référence de premier plan pour les historiens spécialistes de l'armement du XIe siècle.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Bataille de Hastings", "url": "https://fr.wikipedia.org/wiki/Bataille_de_Hastings"}, {"type": "wikipedia", "label": "Wikipédia : Guillaume le Conquérant", "url": "https://fr.wikipedia.org/wiki/Guillaume_le_Conqu%C3%A9rant"}, {"type": "autre", "label": "Tapisserie de Bayeux (musée officiel)", "url": "https://www.bayeuxmuseum.com/la-tapisserie-de-bayeux/"}]
   },
   {
@@ -4803,6 +5146,7 @@ const BASE_CARTES = [
     description_longue: "En 1206, lors d'un grand rassemblement des chefs de tribus (le kurultaï), Temüjin est proclamé Gengis Khan, « souverain universel » des Mongols, après avoir unifié par la force et la diplomatie les nombreuses tribus nomades rivales des steppes d'Asie centrale. À partir de cette base, il lance des campagnes de conquête fulgurantes, s'appuyant sur une cavalerie extrêmement mobile, disciplinée et redoutablement organisée, ainsi que sur des tactiques militaires innovantes et un usage précoce du renseignement. En l'espace de quelques décennies, ses successeurs étendent l'Empire mongol jusqu'à en faire le plus vaste empire d'un seul tenant de l'histoire, s'étirant de la Chine à l'Europe de l'Est. Si les conquêtes mongoles ont été extrêmement destructrices pour de nombreuses populations conquises, l'empire a aussi permis, une fois stabilisé, une intense circulation des marchandises, des techniques et des idées le long de la route de la soie, sous une relative sécurité connue sous le nom de « paix mongole » (Pax Mongolica).",
     anecdote: "Certaines études génétiques suggèrent qu'environ 8 % des hommes vivant aujourd'hui dans les régions autrefois couvertes par l'Empire mongol porteraient un chromosome Y quasiment identique, ce qui pourrait indiquer une descendance directe de Gengis Khan lui-même — une conséquence, selon les chercheurs, de son immense pouvoir et de sa nombreuse descendance.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Gengis Khan", "url": "https://fr.wikipedia.org/wiki/Gengis_Khan"}, {"type": "wikipedia", "label": "Wikipédia : Empire mongol", "url": "https://fr.wikipedia.org/wiki/Empire_mongol"}, {"type": "autre", "label": "Encyclopaedia Britannica : Genghis Khan", "url": "https://www.britannica.com/biography/Genghis-Khan"}]
   },
   {
@@ -4817,6 +5161,7 @@ const BASE_CARTES = [
     description_longue: "Le 15 juin 1215, à Runnymede, en Angleterre, le roi Jean sans Terre, affaibli par des défaites militaires coûteuses et une fiscalité jugée excessive, est contraint par un groupe de barons rebelles d'apposer son sceau sur la Magna Carta (« Grande Charte »). Ce document impose plusieurs limites au pouvoir royal, jusque-là considéré comme quasiment absolu : il garantit notamment qu'aucun homme libre ne peut être emprisonné, dépossédé de ses biens ou exilé sans un jugement légal rendu par ses pairs, et qu'aucun nouvel impôt ne peut être levé sans le consentement d'un conseil de grands seigneurs. Bien que rédigée à l'origine pour protéger avant tout les privilèges de la noblesse plutôt que ceux du peuple, et bien que le roi Jean ait tenté de la faire annuler par le pape quelques semaines seulement après l'avoir signée, la Magna Carta est devenue au fil des siècles un symbole fondateur du constitutionnalisme et de l'État de droit, invoqué dans le développement du droit anglais puis, bien plus tard, dans la rédaction de textes comme la Constitution des États-Unis.",
     anecdote: "Sur les quatre exemplaires originaux de la Magna Carta de 1215 encore conservés aujourd'hui, deux se trouvent à la British Library de Londres, un à la cathédrale de Lincoln et un à la cathédrale de Salisbury — chacun rédigé à la main sur parchemin par des scribes différents, ce qui explique de légères variations de texte entre les copies.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Magna Carta", "url": "https://fr.wikipedia.org/wiki/Magna_Carta"}, {"type": "wikipedia", "label": "Wikipédia : Jean sans Terre", "url": "https://fr.wikipedia.org/wiki/Jean_sans_Terre"}, {"type": "autre", "label": "British Library : Magna Carta", "url": "https://www.bl.uk/magna-carta"}]
   },
   {
@@ -4831,6 +5176,7 @@ const BASE_CARTES = [
     description_longue: "En 1271, le jeune marchand vénitien Marco Polo, âgé de 17 ans, quitte l'Europe avec son père et son oncle pour un long voyage vers l'Extrême-Orient, en suivant en grande partie les routes de la soie à travers l'Asie centrale. Après plusieurs années de traversée, il atteint la cour de Kubilai Khan, petit-fils de Gengis Khan et empereur mongol régnant alors sur la Chine, où il séjournera près de dix-sept ans, occupant selon son récit diverses fonctions au service du souverain. À son retour à Venise, fait prisonnier lors d'un conflit avec Gênes, Marco Polo dicte le récit de ses voyages à un codétenu, l'écrivain Rustichello de Pise ; l'ouvrage qui en résulte, Le Livre des merveilles du monde, décrit aux lecteurs européens des richesses, des villes et des techniques (comme le papier-monnaie ou le charbon utilisé comme combustible) qui leur semblent presque incroyables. Bien que l'exactitude de certains détails de son récit ait souvent été mise en doute, l'ouvrage a durablement marqué l'imaginaire européen sur l'Asie et aurait notamment influencé, deux siècles plus tard, les projets d'exploration de Christophe Colomb.",
     anecdote: "À l'article de la mort, on aurait demandé à Marco Polo de rétracter les récits jugés les plus invraisemblables de son livre ; il aurait répondu qu'il n'avait « pas raconté la moitié de ce qu'il avait vu », de peur de ne pas être cru — une phrase devenue, vraie ou non, emblématique de son personnage.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Marco Polo", "url": "https://fr.wikipedia.org/wiki/Marco_Polo"}, {"type": "wikipedia", "label": "Wikipédia : Le Livre des merveilles du monde", "url": "https://fr.wikipedia.org/wiki/Livre_des_merveilles_du_monde"}, {"type": "autre", "label": "Encyclopaedia Britannica : Marco Polo", "url": "https://www.britannica.com/biography/Marco-Polo"}]
   },
   {
@@ -4845,6 +5191,7 @@ const BASE_CARTES = [
     description_longue: "En mai 1429, en pleine guerre de Cent Ans, une jeune paysanne lorraine de 17 ans, Jeanne d'Arc, parvient à convaincre le dauphin Charles (futur Charles VII), affirmant avoir reçu des voix célestes lui ordonnant de sauver la France, de lui confier une petite armée. Elle mène cette troupe jusqu'à Orléans, ville assiégée depuis plusieurs mois par les Anglais et considérée comme stratégiquement vitale, et parvient à lever le siège en seulement neuf jours, un revirement militaire spectaculaire qui redonne espoir au camp français, alors au bord de l'effondrement. Cette victoire, suivie d'autres succès militaires, permet le sacre de Charles VII à Reims quelques mois plus tard, renforçant considérablement sa légitimité royale. Capturée par les Bourguignons l'année suivante puis livrée aux Anglais, Jeanne d'Arc est jugée pour hérésie par un tribunal ecclésiastique favorable à l'occupant anglais et brûlée vive à Rouen en 1431, à l'âge de 19 ans. Elle sera réhabilitée par un second procès en 1456, puis canonisée par l'Église catholique en 1920.",
     anecdote: "Le procès en réhabilitation de Jeanne d'Arc, mené en 1455-1456 sur ordre du pape Calixte III, a permis de recueillir les témoignages de plus de 115 personnes l'ayant côtoyée, offrant aux historiens l'une des sources les plus riches et les mieux documentées sur la vie d'une personnalité du Moyen Âge, bien au-delà de ce qui existe pour la plupart des rois de l'époque.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jeanne d'Arc", "url": "https://fr.wikipedia.org/wiki/Jeanne_d%27Arc"}, {"type": "wikipedia", "label": "Wikipédia : Siège d'Orléans", "url": "https://fr.wikipedia.org/wiki/Si%C3%A8ge_d%27Orl%C3%A9ans"}, {"type": "autre", "label": "Centre Jeanne d'Arc (Orléans)", "url": "https://www.jeannedarc.fr/"}]
   },
   {
@@ -4859,6 +5206,7 @@ const BASE_CARTES = [
     description_longue: "Le 29 mai 1453, après un siège de près de deux mois, les troupes ottomanes du sultan Mehmed II, dit « le Conquérant », s'emparent de Constantinople, capitale de l'Empire byzantin depuis plus de mille ans. La ville, protégée par de puissantes murailles réputées quasiment infranchissables, finit par céder face à l'usage massif de l'artillerie, notamment d'énormes canons de bronze conçus spécialement pour le siège. Le dernier empereur byzantin, Constantin XI, meurt au combat lors de l'assaut final. Cette chute marque, pour de nombreux historiens, la fin conventionnelle du Moyen Âge en Europe et signe la disparition définitive de l'Empire romain, dont Constantinople se voulait l'ultime héritière directe depuis la chute de Rome en 476. Rebaptisée Istanbul, la ville devient la nouvelle capitale de l'Empire ottoman. Cet événement pousse aussi de nombreux savants byzantins à fuir vers l'Italie, emportant avec eux des manuscrits grecs anciens, ce qui contribuera, selon certains historiens, à l'essor de la Renaissance en Europe occidentale dans les décennies suivantes.",
     anecdote: "Le sultan Mehmed II aurait fait transporter une partie de sa flotte par voie terrestre, sur des rondins de bois graissés, pour contourner une chaîne géante tendue en travers de la Corne d'Or par les défenseurs byzantins afin de bloquer l'accès au port — une manœuvre audacieuse qui a permis d'attaquer la ville par un flanc jugé jusque-là inatteignable.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Chute de Constantinople", "url": "https://fr.wikipedia.org/wiki/Chute_de_Constantinople"}, {"type": "wikipedia", "label": "Wikipédia : Mehmed II", "url": "https://fr.wikipedia.org/wiki/Mehmed_II"}, {"type": "autre", "label": "Encyclopaedia Britannica : Fall of Constantinople", "url": "https://www.britannica.com/event/Fall-of-Constantinople-1453"}]
   },
   {
@@ -4873,6 +5221,7 @@ const BASE_CARTES = [
     description_longue: "À partir des premières années du XVIe siècle, la couronne espagnole, bientôt suivie par les autres puissances coloniales européennes (Portugal, France, Angleterre, Pays-Bas), organise la déportation forcée de populations africaines vers les colonies nouvellement établies en Amérique, pour y remplacer une main-d'œuvre amérindienne décimée par les épidémies et les violences de la conquête. Ce système, connu sous le nom de traite négrière transatlantique ou commerce triangulaire, se poursuivra pendant plus de trois siècles : des navires européens partent chargés de marchandises vers les côtes d'Afrique de l'Ouest, y échangent ces biens contre des personnes capturées ou vendues (souvent via des réseaux impliquant des intermédiaires africains), les transportent dans des conditions effroyables à travers l'océan Atlantique (la « traversée du milieu »), puis rapportent en Europe les produits (sucre, coton, tabac) cultivés par cette main-d'œuvre asservie dans les colonies. Selon les estimations historiques les plus établies, environ 12,5 millions de personnes ont été déportées d'Afrique dans ce système, dont près de 2 millions sont mortes durant la seule traversée maritime. La traite ne sera progressivement abolie qu'à partir du début du XIXe siècle, suivie par l'abolition de l'esclavage lui-même dans les décennies suivantes.",
     anecdote: "Les registres de bord détaillés que les compagnies négrières tenaient, à des fins purement commerciales et d'assurance, constituent aujourd'hui, de façon glaçante, l'une des principales sources statistiques utilisées par les historiens pour reconstituer précisément l'ampleur et les routes de la traite transatlantique, via des bases de données comme le Trans-Atlantic Slave Trade Database.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Traite atlantique", "url": "https://fr.wikipedia.org/wiki/Traite_atlantique"}, {"type": "autre", "label": "Trans-Atlantic Slave Trade Database", "url": "https://www.slavevoyages.org/"}, {"type": "autre", "label": "UNESCO : Route de l'esclave", "url": "https://fr.unesco.org/silkroad/fr/content/route-de-lesclave"}]
   },
   {
@@ -4887,6 +5236,7 @@ const BASE_CARTES = [
     description_longue: "Le 31 octobre 1517, le moine et théologien allemand Martin Luther rend publiques 95 thèses contestant plusieurs pratiques de l'Église catholique, en particulier la vente des indulgences (des documents censés réduire le temps de purgatoire des fidèles en échange d'un paiement). Selon une tradition longtemps enseignée, il les aurait affichées sur la porte de l'église du château de Wittenberg, en Allemagne, bien que cet épisode précis fasse aujourd'hui débat parmi les historiens. La diffusion rapide de ses idées, largement facilitée par l'imprimerie récemment inventée par Gutenberg quelques décennies plus tôt, déclenche une contestation religieuse et politique de grande ampleur à travers l'Europe : c'est le début de la Réforme protestante. Luther y développe des idées théologiques nouvelles, comme le salut par la foi seule ou l'importance de la lecture directe des Écritures par chaque croyant (ce qui le pousse à traduire la Bible en allemand courant). Excommunié par le pape en 1521, il fonde de fait une nouvelle branche du christianisme, le protestantisme, qui se scindera lui-même en de multiples courants (luthéranisme, calvinisme, anglicanisme...) et provoquera, dans les décennies suivantes, de longs et sanglants conflits religieux à travers l'Europe.",
     anecdote: "La traduction de la Bible en allemand par Luther n'a pas seulement bouleversé la religion : en popularisant une forme particulière d'allemand courant à une échelle inédite grâce à l'imprimerie, elle a contribué de façon décisive à unifier et standardiser la langue allemande écrite, jouant un rôle comparable à celui de la Bible du roi Jacques pour l'anglais.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Quatre-vingt-quinze thèses", "url": "https://fr.wikipedia.org/wiki/Quatre-vingt-quinze_th%C3%A8ses"}, {"type": "wikipedia", "label": "Wikipédia : Martin Luther", "url": "https://fr.wikipedia.org/wiki/Martin_Luther"}, {"type": "autre", "label": "Encyclopaedia Britannica : Reformation", "url": "https://www.britannica.com/event/Reformation"}]
   },
   {
@@ -4901,6 +5251,7 @@ const BASE_CARTES = [
     description_longue: "En 1543, l'année même de sa mort, l'astronome polonais Nicolas Copernic publie De revolutionibus orbium coelestium (« Des révolutions des sphères célestes »), un ouvrage dans lequel il expose un modèle héliocentrique de l'univers : c'est la Terre, avec les autres planètes connues, qui tourne autour du Soleil, et non l'inverse comme le prétendait le modèle géocentrique d'Aristote et de Ptolémée, admis en Europe depuis près de quatorze siècles et globalement compatible avec l'enseignement de l'Église. Conscient du caractère explosif de sa théorie, Copernic en avait longtemps retardé la publication, qui ne paraît qu'alors qu'il est mourant. Bien que son modèle contienne encore des imperfections (il conserve notamment l'idée d'orbites parfaitement circulaires, corrigée plus tard par Kepler avec les ellipses), il marque un tournant scientifique majeur, prolongé et confirmé quelques décennies plus tard par les observations de Galilée et les lois de Kepler. Ce bouleversement de la place de la Terre dans l'univers, retirée de son statut de centre du cosmos, est aujourd'hui connu sous le nom de « révolution copernicienne », une expression devenue une métaphore désignant tout changement radical de perspective.",
     anecdote: "Il faudra attendre 1616 pour que l'Église catholique inscrive formellement l'ouvrage de Copernic sur sa liste des livres interdits, en pleine controverse autour de Galilée, soit plus de soixante-dix ans après sa première publication — preuve que l'impact véritablement disruptif de sa théorie a mis du temps à être pleinement perçu par les autorités religieuses.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Nicolas Copernic", "url": "https://fr.wikipedia.org/wiki/Nicolas_Copernic"}, {"type": "wikipedia", "label": "Wikipédia : De revolutionibus orbium coelestium", "url": "https://fr.wikipedia.org/wiki/De_revolutionibus_orbium_coelestium"}, {"type": "autre", "label": "Encyclopaedia Britannica : Nicolaus Copernicus", "url": "https://www.britannica.com/biography/Nicolaus-Copernicus"}]
   },
   {
@@ -4915,6 +5266,7 @@ const BASE_CARTES = [
     description_longue: "En 1588, le roi Philippe II d'Espagne envoie une flotte immense, l'« Invincible Armada », forte de plus de 130 navires, pour envahir l'Angleterre protestante d'Élisabeth Ire et mettre fin à son soutien aux rebelles protestants des Pays-Bas espagnols. La marine anglaise, plus légère et manœuvrable, harcèle la flotte espagnole en Manche sans jamais livrer de bataille rangée décisive, puis envoie des brûlots contre les navires espagnols ancrés à Calais, semant la panique dans leurs rangs. Contrainte de fuir vers le nord, l'Armada doit contourner l'Écosse et l'Irlande pour rentrer en Espagne, où de violentes tempêtes détruisent une grande partie de la flotte restante. Sur les quelque 130 navires partis, seule la moitié environ regagne l'Espagne. Cette défaite, largement due aux éléments autant qu'aux combats, marque un coup d'arrêt à la suprématie navale espagnole et ouvre la voie à l'essor de la puissance maritime anglaise dans les décennies suivantes.",
     anecdote: "Élisabeth Ire aurait prononcé, avant la bataille, un discours resté célèbre devant ses troupes rassemblées à Tilbury, déclarant avoir « le corps d'une femme faible et frêle, mais le cœur et l'estomac d'un roi » — l'un des discours de guerre les plus cités de l'histoire anglaise, bien que sa transcription exacte fasse débat chez les historiens.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Invincible Armada", "url": "https://fr.wikipedia.org/wiki/Invincible_Armada"}, {"type": "wikipedia", "label": "Wikipédia : Élisabeth Ire d'Angleterre", "url": "https://fr.wikipedia.org/wiki/%C3%89lisabeth_Ire_d%27Angleterre"}, {"type": "autre", "label": "Royal Museums Greenwich : The Spanish Armada", "url": "https://www.rmg.co.uk/stories/topics/spanish-armada"}]
   },
   {
@@ -4929,6 +5281,7 @@ const BASE_CARTES = [
     description_longue: "Le 31 décembre 1600, la reine Élisabeth Ire d'Angleterre accorde une charte royale à un groupe de marchands londoniens, leur octroyant le monopole du commerce anglais avec l'Asie : c'est la naissance de la Compagnie anglaise des Indes orientales. Conçue à l'origine comme une simple entreprise commerciale spécialisée dans les épices, le textile et le thé, la Compagnie se transforme progressivement en une puissance quasi étatique : elle lève ses propres armées privées, rend la justice, frappe sa propre monnaie et administre finalement, à son apogée, l'essentiel du sous-continent indien, avant que la couronne britannique ne reprenne directement le contrôle de l'Inde en 1858. Son modèle, celui d'une entreprise privée dotée de pouvoirs quasi souverains sur des territoires entiers, sera imité par d'autres puissances européennes (la Compagnie néerlandaise des Indes orientales, fondée deux ans plus tard, ou la Compagnie française des Indes) et marque l'un des débuts les plus emblématiques de la colonisation européenne en Asie par la voie commerciale.",
     anecdote: "À son apogée au XVIIIe siècle, l'armée privée de la Compagnie des Indes orientales comptait environ 260 000 soldats, soit près du double de l'armée régulière britannique de l'époque — une entreprise commerciale disposant alors d'une force militaire plus importante que celle de nombreux États souverains.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Compagnie anglaise des Indes orientales", "url": "https://fr.wikipedia.org/wiki/Compagnie_anglaise_des_Indes_orientales"}, {"type": "autre", "label": "Encyclopaedia Britannica : East India Company", "url": "https://www.britannica.com/topic/East-India-Company"}, {"type": "autre", "label": "British Library : East India Company", "url": "https://www.bl.uk/history/east-india-company"}]
   },
   {
@@ -4943,6 +5296,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1700, le facteur de clavecins italien Bartolomeo Cristofori, employé à la cour des Médicis à Florence, met au point un nouvel instrument à clavier qu'il baptise « gravicembalo col piano e forte » (littéralement « clavecin avec doux et fort »), abrégé plus tard en « piano-forte » puis simplement « piano ». Sa grande innovation technique réside dans son mécanisme à marteaux : contrairement au clavecin, qui pince toujours les cordes avec la même intensité quelle que soit la force exercée sur la touche, le piano de Cristofori permet au musicien de faire varier le volume sonore selon la force avec laquelle il appuie sur les touches, ouvrant des possibilités d'expression musicale inédites. Bien que l'invention mette plusieurs décennies à se diffuser largement en Europe, le piano devient progressivement l'instrument central de la musique occidentale, indispensable aux compositeurs des siècles suivants comme Mozart, Beethoven ou Chopin, et reste aujourd'hui l'un des instruments les plus joués au monde.",
     anecdote: "Sur la vingtaine de pianos que l'on sait attribués avec certitude à Cristofori lui-même, seuls trois exemplaires ont survécu jusqu'à aujourd'hui, conservés dans des musées à New York, Rome et Leipzig — de véritables reliques de la naissance de l'un des instruments les plus joués au monde.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Bartolomeo Cristofori", "url": "https://fr.wikipedia.org/wiki/Bartolomeo_Cristofori"}, {"type": "wikipedia", "label": "Wikipédia : Piano", "url": "https://fr.wikipedia.org/wiki/Piano"}, {"type": "autre", "label": "The Metropolitan Museum of Art : Cristofori Piano", "url": "https://www.metmuseum.org/art/collection/search/501displayName%3DCristofori"}]
   },
   {
@@ -4957,6 +5311,7 @@ const BASE_CARTES = [
     description_longue: "En 1694, dans un contexte de guerre coûteuse contre la France de Louis XIV, un groupe de marchands londoniens propose à la couronne anglaise un prêt substantiel en échange de la création d'une nouvelle institution : la Banque d'Angleterre. Elle obtient rapidement le privilège d'émettre des billets de banque garantis par l'État, une innovation qui facilite considérablement le financement des dépenses publiques et le développement du crédit dans l'économie britannique. Ce modèle, celui d'une institution semi-publique chargée de gérer la dette de l'État et la stabilité monétaire, deviendra la référence pour la création de nombreuses autres banques centrales à travers le monde dans les siècles suivants, de la Banque de France (1800) à la Réserve fédérale américaine (1913). La Banque d'Angleterre elle-même ne sera véritablement nationalisée qu'en 1946, restant jusque-là une institution privée exerçant néanmoins des fonctions quasi publiques.",
     anecdote: "Le surnom populaire de la Banque d'Angleterre, « la Vieille Dame de Threadneedle Street » (du nom de la rue londonienne où elle est installée), viendrait d'une caricature satirique de 1797 la représentant en vieille dame vêtue de billets de banque, protestant contre une décision gouvernementale jugée abusive envers ses réserves d'or.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Banque d'Angleterre", "url": "https://fr.wikipedia.org/wiki/Banque_d%27Angleterre"}, {"type": "autre", "label": "Bank of England : Our History", "url": "https://www.bankofengland.co.uk/about/history"}, {"type": "autre", "label": "Encyclopaedia Britannica : Bank of England", "url": "https://www.britannica.com/topic/Bank-of-England"}]
   },
   {
@@ -4971,6 +5326,7 @@ const BASE_CARTES = [
     description_longue: "En 1682, après plus de vingt ans de travaux d'agrandissement menés sur ordre du roi Louis XIV à partir d'un ancien pavillon de chasse de son père, la cour de France s'installe officiellement au château de Versailles, à une vingtaine de kilomètres de Paris. Ce transfert n'est pas seulement esthétique : en obligeant la haute noblesse française à résider auprès de lui et à suivre une étiquette de cour extrêmement codifiée, Louis XIV, surnommé le « Roi-Soleil », neutralise habilement les velléités d'indépendance des grands seigneurs, échaudé par les révoltes de la Fronde survenues durant sa jeunesse. Versailles devient ainsi le symbole architectural de la monarchie absolue française et le modèle envié de nombreuses cours royales européennes, qui feront bâtir leurs propres palais inspirés de son faste (notamment la galerie des Glaces). Le château restera résidence royale jusqu'à la Révolution française de 1789, avant de devenir aujourd'hui l'un des monuments les plus visités de France.",
     anecdote: "Au plus fort de son activité sous Louis XIV, Versailles pouvait accueillir jusqu'à 10 000 personnes (courtisans, domestiques, gardes) vivant en permanence sur le domaine, dans des conditions d'hygiène très rudimentaires pour l'époque, les toilettes intérieures faisant largement défaut malgré le faste des lieux.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Château de Versailles", "url": "https://fr.wikipedia.org/wiki/Ch%C3%A2teau_de_Versailles"}, {"type": "wikipedia", "label": "Wikipédia : Louis XIV", "url": "https://fr.wikipedia.org/wiki/Louis_XIV"}, {"type": "autre", "label": "Château de Versailles (site officiel)", "url": "https://www.chateauversailles.fr/decouvrir/histoire"}]
   },
   {
@@ -4985,6 +5341,7 @@ const BASE_CARTES = [
     description_longue: "En 1688-1689, une coalition de parlementaires anglais, inquiets des tendances absolutistes et catholiques du roi Jacques II, invite le prince protestant néerlandais Guillaume d'Orange à envahir l'Angleterre. Jacques II s'enfuit sans grande résistance militaire, ce qui vaut à cet épisode le nom de « Glorieuse Révolution », en référence à son caractère relativement peu sanglant comparé à d'autres bouleversements politiques de l'époque. Guillaume et son épouse Marie (fille de Jacques II) accèdent au trône à la condition d'accepter la Déclaration des droits (Bill of Rights) de 1689, qui limite durablement le pouvoir royal au profit du Parlement : celui-ci obtient notamment le contrôle exclusif de la levée des impôts et de l'armée permanente. Cet événement pose les bases du système de monarchie constitutionnelle britannique moderne, où le souverain règne mais ne gouverne plus seul, et influencera profondément la pensée politique des Lumières, notamment John Locke, ainsi que la rédaction ultérieure de la Constitution américaine.",
     anecdote: "Le Bill of Rights de 1689 reste aujourd'hui encore en vigueur au Royaume-Uni et fait partie des rares textes constitutionnels fondamentaux du pays, qui ne dispose pas de Constitution écrite unique rassemblée en un seul document, contrairement à la plupart des autres démocraties modernes.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Glorieuse Révolution", "url": "https://fr.wikipedia.org/wiki/Glorieuse_R%C3%A9volution"}, {"type": "wikipedia", "label": "Wikipédia : Bill of Rights (1689)", "url": "https://fr.wikipedia.org/wiki/Bill_of_Rights_(1689)"}, {"type": "autre", "label": "UK Parliament : The Glorious Revolution", "url": "https://www.parliament.uk/about/living-heritage/evolutionofparliament/parliamentaryauthority/revolution/"}]
   },
   {
@@ -4999,6 +5356,7 @@ const BASE_CARTES = [
     description_longue: "En 1687, le savant anglais Isaac Newton publie son ouvrage majeur, les Philosophiae Naturalis Principia Mathematica (« Principes mathématiques de la philosophie naturelle »), dans lequel il expose sa loi de la gravitation universelle : deux corps s'attirent avec une force proportionnelle au produit de leurs masses et inversement proportionnelle au carré de la distance qui les sépare. Cette même loi unique explique aussi bien la chute d'un objet sur Terre que le mouvement des planètes autour du Soleil, unifiant pour la première fois la physique céleste et la physique terrestre, jusque-là considérées comme relevant de règles distinctes depuis l'Antiquité. Newton y formule également ses trois lois du mouvement, qui resteront le socle de la mécanique classique jusqu'à leur affinement par la théorie de la relativité d'Einstein, plus de deux siècles plus tard. L'ouvrage, rédigé en latin et d'une grande difficulté mathématique, est aujourd'hui considéré comme l'un des textes scientifiques les plus influents jamais écrits, ayant façonné toute la physique moderne.",
     anecdote: "L'anecdote de la pomme tombant sur la tête de Newton, censée lui avoir inspiré la loi de la gravitation, est presque certainement embellie : Newton lui-même racontait plus tard avoir simplement observé une pomme tomber d'un arbre dans le jardin de sa mère et s'être demandé pourquoi elle tombait toujours à la verticale plutôt que de côté — un récit bien moins spectaculaire que la légende du fruit rebondissant sur son crâne.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Isaac Newton", "url": "https://fr.wikipedia.org/wiki/Isaac_Newton"}, {"type": "wikipedia", "label": "Wikipédia : Philosophiae Naturalis Principia Mathematica", "url": "https://fr.wikipedia.org/wiki/Philosophiae_Naturalis_Principia_Mathematica"}, {"type": "autre", "label": "The Royal Society : Newton's Principia", "url": "https://royalsociety.org/collections/newton-principia/"}]
   },
   {
@@ -5013,6 +5371,7 @@ const BASE_CARTES = [
     description_longue: "En 1703, le tsar de Russie Pierre Ier, dit « Pierre le Grand », fonde une nouvelle ville sur les rives marécageuses de la Neva, aux confins nord-ouest de son empire, sur un territoire tout juste repris à la Suède. Il y voit une fenêtre stratégique sur la mer Baltique et sur l'Europe occidentale, dont il admire les techniques et les institutions après un long voyage d'étude effectué incognito dans plusieurs pays européens. Baptisée Saint-Pétersbourg, la ville est construite à marche forcée, dans des conditions très difficiles qui coûtent la vie à des dizaines de milliers d'ouvriers, avant de devenir en 1712 la nouvelle capitale de l'Empire russe, à la place de Moscou. Conçue dès l'origine selon un plan européen moderne, avec de larges avenues et une architecture inspirée de l'Europe occidentale, Saint-Pétersbourg incarne la volonté de Pierre le Grand de moderniser et d'occidentaliser la Russie. Elle restera la capitale impériale jusqu'à la Révolution russe de 1917, avant que Moscou ne retrouve son statut de capitale.",
     anecdote: "Pour peupler rapidement sa nouvelle ville, Pierre le Grand a ordonné par décret que toute noblesse russe souhaitant construire une résidence en pierre ailleurs dans le pays devait d'abord obtenir une autorisation spéciale, la pierre de construction étant en priorité réquisitionnée pour l'édification de Saint-Pétersbourg.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Saint-Pétersbourg", "url": "https://fr.wikipedia.org/wiki/Saint-P%C3%A9tersbourg"}, {"type": "wikipedia", "label": "Wikipédia : Pierre le Grand", "url": "https://fr.wikipedia.org/wiki/Pierre_le_Grand"}, {"type": "autre", "label": "UNESCO : Centre historique de Saint-Pétersbourg", "url": "https://whc.unesco.org/fr/list/540/"}]
   },
   {
@@ -5027,6 +5386,7 @@ const BASE_CARTES = [
     description_longue: "En 1712, l'ingénieur anglais Thomas Newcomen met au point la première machine à vapeur véritablement utilisée à grande échelle dans l'industrie : un dispositif destiné à pomper l'eau qui envahissait continuellement les mines de charbon anglaises, rendant leur exploitation en profondeur de plus en plus difficile. Bien que peu efficace selon les standards ultérieurs — elle consomme d'énormes quantités de charbon pour un rendement énergétique très faible — la machine de Newcomen représente une avancée décisive : c'est la première fois que la puissance de la vapeur est exploitée de façon fiable et répétée pour un usage industriel concret, plutôt que comme simple curiosité scientifique. Des centaines d'exemplaires seront installés dans les mines britanniques et européennes au cours du XVIIIe siècle. Il faudra attendre les décennies suivantes et les améliorations décisives apportées par James Watt, vers 1765-1776, pour que la machine à vapeur devienne suffisamment efficace pour alimenter la révolution industrielle naissante, bien au-delà du seul pompage minier.",
     anecdote: "La machine de Newcomen était si peu efficace énergétiquement qu'elle n'était rentable que directement installée sur le carreau des mines de charbon elles-mêmes, où le combustible était disponible presque gratuitement sur place — son utilisation ailleurs, loin des mines, restait économiquement absurde avant les progrès ultérieurs de James Watt.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Thomas Newcomen", "url": "https://fr.wikipedia.org/wiki/Thomas_Newcomen"}, {"type": "wikipedia", "label": "Wikipédia : Machine à vapeur", "url": "https://fr.wikipedia.org/wiki/Machine_%C3%A0_vapeur"}, {"type": "autre", "label": "Science Museum Group : Newcomen Engine", "url": "https://www.sciencemuseumgroup.org.uk/objects/newcomen-atmospheric-engine"}]
   },
   {
@@ -5041,6 +5401,7 @@ const BASE_CARTES = [
     description_longue: "En juin 1752, le savant et futur homme d'État américain Benjamin Franklin réalise, selon le récit qu'il en fait lui-même, une expérience destinée à prouver que la foudre est un phénomène de nature électrique, une hypothèse qu'il avait déjà formulée par écrit mais jamais démontrée concrètement. Il fait voler un cerf-volant équipé d'une pointe métallique lors d'un orage, une clé métallique attachée à l'extrémité inférieure du fil, humide sous la pluie et donc conducteur. En approchant sa main de la clé, il observe une étincelle, confirmant la présence de charge électrique transmise depuis les nuages orageux. Cette expérience, extrêmement dangereuse et dont Franklin a probablement pris soin d'éviter tout contact direct avec un coup de foudre réel (contrairement à d'autres expérimentateurs de l'époque qui y perdront la vie en tentant de la reproduire), aboutit à une application pratique majeure : l'invention du paratonnerre, qui permet dès lors de protéger bâtiments et navires des incendies causés par la foudre, sauvant d'innombrables vies dans les décennies suivantes.",
     anecdote: "Au moins un scientifique de l'époque, le physicien russo-allemand Georg Wilhelm Richmann, est mort électrocuté en 1753 en tentant de reproduire une expérience similaire à celle de Franklin, ce qui a fait de lui l'une des toutes premières victimes documentées d'un accident de recherche scientifique en électricité.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Benjamin Franklin", "url": "https://fr.wikipedia.org/wiki/Benjamin_Franklin"}, {"type": "wikipedia", "label": "Wikipédia : Paratonnerre", "url": "https://fr.wikipedia.org/wiki/Paratonnerre"}, {"type": "autre", "label": "Franklin Institute : Franklin's Kite Experiment", "url": "https://www.fi.edu/en/benjamin-franklin/kite-key-and-lightning"}]
   },
   {
@@ -5055,6 +5416,7 @@ const BASE_CARTES = [
     description_longue: "En 1633, l'astronome et physicien italien Galilée est convoqué à Rome devant le tribunal de l'Inquisition, accusé d'avoir défendu ouvertement, dans son ouvrage Dialogue sur les deux grands systèmes du monde, le modèle héliocentrique de Copernic, jugé contraire aux Écritures par l'Église catholique. Sous la menace de la torture, Galilée est contraint d'abjurer publiquement ses positions et de déclarer que la Terre ne se meut pas, avant d'être condamné à l'assignation à résidence pour le reste de sa vie, qu'il passera dans sa villa près de Florence. Ironie de l'histoire, ses observations télescopiques (montagnes lunaires, satellites de Jupiter, phases de Vénus) avaient pourtant apporté des preuves observationnelles décisives en faveur du modèle héliocentrique, que Galilée ne pouvait plus ignorer scientifiquement. Ce procès reste, encore aujourd'hui, l'un des symboles les plus cités du conflit entre autorité religieuse et démarche scientifique. Il faudra attendre 1992 pour que l'Église catholique, sous le pape Jean-Paul II, reconnaisse officiellement les erreurs commises par le tribunal dans le jugement de Galilée.",
     anecdote: "Selon une légende tenace mais très probablement apocryphe, Galilée aurait murmuré, juste après son abjuration forcée, la phrase « Et pourtant, elle tourne » (E pur si muove) en évoquant la Terre — une phrase qui n'apparaît dans aucune source contemporaine du procès et semble avoir été inventée plus d'un siècle après les faits.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Procès de Galilée", "url": "https://fr.wikipedia.org/wiki/Proc%C3%A8s_de_Galil%C3%A9e"}, {"type": "wikipedia", "label": "Wikipédia : Galilée (savant)", "url": "https://fr.wikipedia.org/wiki/Galil%C3%A9e_(savant)"}, {"type": "autre", "label": "Encyclopaedia Britannica : Galileo affair", "url": "https://www.britannica.com/event/Galileo-affair"}]
   },
   {
@@ -5069,6 +5431,7 @@ const BASE_CARTES = [
     description_longue: "En 1796, le médecin de campagne anglais Edward Jenner teste une hypothèse qu'il a observée empiriquement chez les fermières de sa région : celles qui avaient contracté la vaccine, une maladie bénigne transmise par les vaches, semblaient ensuite immunisées contre la variole humaine, une maladie autrement redoutable et souvent mortelle. Il prélève du pus sur une pustule de vaccine présente sur la main d'une fermière, Sarah Nelmes, et l'inocule à un jeune garçon de huit ans, James Phipps. Quelques semaines plus tard, il expose délibérément l'enfant à la variole elle-même : celui-ci ne développe pas la maladie, confirmant l'hypothèse de Jenner. Le mot « vaccination » lui-même dérive du latin vacca (« vache »), en hommage direct à cette origine. Cette découverte fonde les bases de l'immunologie moderne et ouvre la voie, près de deux siècles plus tard, à l'éradication complète de la variole à l'échelle mondiale, officiellement déclarée par l'Organisation mondiale de la santé en 1980 — la seule maladie infectieuse humaine à avoir été totalement éliminée à ce jour.",
     anecdote: "L'expérience de Jenner sur le jeune James Phipps, aujourd'hui unanimement reconnue comme fondatrice de l'immunologie moderne, ne respecterait absolument aucune norme éthique de la recherche médicale actuelle : exposer délibérément un enfant à une maladie potentiellement mortelle sans consentement éclairé serait aujourd'hui strictement interdit et poursuivi.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Edward Jenner", "url": "https://fr.wikipedia.org/wiki/Edward_Jenner"}, {"type": "wikipedia", "label": "Wikipédia : Variole", "url": "https://fr.wikipedia.org/wiki/Variole"}, {"type": "autre", "label": "OMS : Éradication de la variole", "url": "https://www.who.int/fr/news-room/spotlight/history-of-vaccination/history-of-smallpox-vaccination"}]
   },
   {
@@ -5083,6 +5446,7 @@ const BASE_CARTES = [
     description_longue: "Le 10 décembre 1901, cinq ans jour pour jour après la mort du chimiste et industriel suédois Alfred Nobel, inventeur de la dynamite, les tout premiers prix Nobel sont décernés à Stockholm et à Oslo, dans les catégories physique, chimie, physiologie ou médecine, littérature et paix (un prix d'économie s'y ajoutera seulement en 1969). Dans son testament, rédigé en 1895, Nobel avait légué l'essentiel de sa fortune considérable à la création d'une fondation chargée de récompenser chaque année les personnes ayant apporté « le plus grand bénéfice à l'humanité » dans ces domaines. Ce geste surprend son entourage, une partie de sa fortune ayant justement été bâtie sur des inventions à usage militaire. Plus d'un siècle plus tard, le prix Nobel reste la distinction la plus prestigieuse dans la plupart des disciplines qu'il récompense, consacrant des figures aussi diverses que Marie Curie, Albert Einstein, Martin Luther King ou Nelson Mandela.",
     anecdote: "Alfred Nobel aurait décidé de consacrer sa fortune à des œuvres bénéfiques après avoir lu, effaré, sa propre nécrologie publiée par erreur par un journal français (qui avait confondu son décès avec celui de son frère) et l'ayant surnommé « le marchand de mort » en raison de son invention de la dynamite — un choc qui l'aurait poussé à vouloir laisser un héritage différent à la postérité.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Prix Nobel", "url": "https://fr.wikipedia.org/wiki/Prix_Nobel"}, {"type": "wikipedia", "label": "Wikipédia : Alfred Nobel", "url": "https://fr.wikipedia.org/wiki/Alfred_Nobel"}, {"type": "autre", "label": "NobelPrize.org : History of the Nobel Prize", "url": "https://www.nobelprize.org/about/history/"}]
   },
   {
@@ -5097,6 +5461,7 @@ const BASE_CARTES = [
     description_longue: "En 1905, souvent qualifiée d'« année miraculeuse » (annus mirabilis) de sa carrière, le physicien allemand Albert Einstein, alors employé comme simple expert technique dans un office des brevets suisse, publie coup sur coup plusieurs articles scientifiques majeurs, dont celui exposant sa théorie de la relativité restreinte. Il y établit que les lois de la physique sont identiques pour tous les observateurs en mouvement uniforme les uns par rapport aux autres, et que la vitesse de la lumière dans le vide est une constante universelle, indépendante du mouvement de sa source ou de l'observateur — une idée qui bouleverse les notions intuitives d'espace et de temps absolus héritées de Newton. Cette même année, il formule aussi sa célèbre équation E=mc², établissant l'équivalence entre masse et énergie. Ces travaux, complétés dix ans plus tard par la théorie de la relativité générale portant sur la gravitation, feront d'Einstein l'un des plus grands physiciens de l'histoire et transformeront profondément notre compréhension de l'univers, avec des applications concrètes allant du GPS moderne à l'énergie nucléaire.",
     anecdote: "Einstein n'a jamais reçu le prix Nobel pour sa théorie de la relativité, jugée à l'époque trop théorique et controversée par le comité Nobel : c'est finalement pour sa découverte de l'effet photoélectrique, une contribution plus facilement vérifiable expérimentalement, qu'il obtient le prix Nobel de physique en 1921.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Relativité restreinte", "url": "https://fr.wikipedia.org/wiki/Relativit%C3%A9_restreinte"}, {"type": "wikipedia", "label": "Wikipédia : Albert Einstein", "url": "https://fr.wikipedia.org/wiki/Albert_Einstein"}, {"type": "autre", "label": "NobelPrize.org : Albert Einstein", "url": "https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/"}]
   },
   {
@@ -5111,6 +5476,7 @@ const BASE_CARTES = [
     description_longue: "En 1908, l'industriel américain Henry Ford lance la production de la Ford T, une automobile robuste, simple à entretenir et surtout bien plus abordable que les voitures de son époque, jusque-là réservées à une clientèle fortunée. L'innovation décisive n'intervient toutefois qu'en 1913, lorsque Ford introduit dans son usine de Highland Park la chaîne de montage mobile : plutôt que des ouvriers se déplaçant autour d'un véhicule fixe, ce sont désormais les véhicules eux-mêmes qui défilent devant des postes de travail spécialisés, chaque ouvrier répétant une tâche unique et précise. Cette méthode, connue depuis sous le nom de « fordisme », réduit drastiquement le temps de fabrication d'une voiture (de plus de 12 heures à environ 90 minutes) et permet de baisser considérablement les prix, tout en imposant des salaires plus élevés pour ses ouvriers, capables ainsi de s'offrir eux-mêmes le véhicule qu'ils fabriquent. Plus de 15 millions de Ford T seront vendues avant l'arrêt de sa production en 1927, faisant de l'automobile un bien de consommation de masse et transformant durablement l'urbanisme et les modes de vie occidentaux.",
     anecdote: "Henry Ford aurait résumé sa politique commerciale de standardisation par une formule restée célèbre, affirmant que le client pouvait choisir la couleur de sa Ford T, « à condition qu'elle soit noire » — la peinture noire séchant alors plus rapidement que les autres couleurs disponibles, ce qui permettait d'accélérer la cadence de production.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Ford T", "url": "https://fr.wikipedia.org/wiki/Ford_T"}, {"type": "wikipedia", "label": "Wikipédia : Henry Ford", "url": "https://fr.wikipedia.org/wiki/Henry_Ford"}, {"type": "autre", "label": "The Henry Ford Museum : Model T", "url": "https://www.thehenryford.org/collections-and-research/digital-collections/model-t/"}]
   },
   {
@@ -5125,6 +5491,7 @@ const BASE_CARTES = [
     description_longue: "Le 18 avril 1906, un séisme d'une magnitude estimée à environ 7,9 frappe la région de San Francisco, en Californie, causé par une rupture soudaine le long de la faille de San Andreas. Si les secousses elles-mêmes causent déjà d'importants dégâts, ce sont surtout les incendies qui se déclarent ensuite dans toute la ville, alimentés par des canalisations de gaz brisées et privés d'eau pour être combattus (les conduites d'eau ayant elles aussi été détruites par le séisme), qui ravagent l'essentiel du centre-ville pendant plusieurs jours. Le bilan humain, longtemps sous-évalué par les autorités locales soucieuses de préserver l'image économique de la ville, est aujourd'hui estimé à plus de 3 000 morts, faisant de cet événement l'une des pires catastrophes naturelles de l'histoire des États-Unis. Environ 80 % de la ville est détruite et près de 300 000 habitants se retrouvent sans abri. La reconstruction rapide de San Francisco dans les années qui suivent en fait aussi un cas d'étude majeur pour l'urbanisme et l'ingénierie parasismique modernes.",
     anecdote: "Le tremblement de terre de 1906 a directement contribué au développement de la sismologie moderne : c'est en étudiant le déplacement du sol observé le long de la faille lors de cet événement que le géologue américain Harry Fielding Reid a formulé, en 1910, la théorie du « rebond élastique », qui explique encore aujourd'hui le mécanisme fondamental à l'origine des séismes.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Tremblement de terre de 1906 à San Francisco", "url": "https://fr.wikipedia.org/wiki/Tremblement_de_terre_de_1906_%C3%A0_San_Francisco"}, {"type": "autre", "label": "USGS : The 1906 San Francisco Earthquake", "url": "https://www.usgs.gov/programs/earthquake-hazards/science/1906-san-francisco-earthquake"}, {"type": "autre", "label": "Encyclopaedia Britannica : San Francisco earthquake of 1906", "url": "https://www.britannica.com/event/San-Francisco-earthquake-of-1906"}]
   },
   {
@@ -5139,6 +5506,7 @@ const BASE_CARTES = [
     description_longue: "En 1917, la Russie connaît deux révolutions successives. En février, une insurrection populaire, aggravée par les pertes et les pénuries de la Première Guerre mondiale, contraint le tsar Nicolas II à abdiquer, mettant fin à plus de trois siècles de règne de la dynastie des Romanov. Un gouvernement provisoire lui succède, mais peine à stabiliser le pays et poursuit une guerre de plus en plus impopulaire. En octobre, les bolcheviks, un parti révolutionnaire marxiste dirigé par Vladimir Lénine, renversent à leur tour ce gouvernement provisoire lors d'un coup de force à Petrograd (l'ancienne Saint-Pétersbourg), s'emparant des points stratégiques de la ville avec une résistance limitée. Cette prise de pouvoir débouche sur une guerre civile de plusieurs années entre les forces bolcheviques (les « rouges ») et leurs opposants (les « blancs »), puis sur la fondation, en 1922, de l'Union des républiques socialistes soviétiques (URSS), premier État au monde à se revendiquer officiellement communiste. Cet événement façonnera profondément la géopolitique mondiale du XXe siècle, jusqu'à la dissolution de l'URSS en 1991.",
     anecdote: "Le tsar Nicolas II et toute sa famille, assignés à résidence après son abdication, ont été exécutés en secret par les bolcheviks en juillet 1918 dans une cave d'Ekaterinbourg ; les restes de certains membres de la famille impériale n'ont été formellement identifiés par analyse ADN et inhumés officiellement qu'en 1998 et 2007, soit près de quatre-vingt-dix ans plus tard.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Révolution russe", "url": "https://fr.wikipedia.org/wiki/R%C3%A9volution_russe"}, {"type": "wikipedia", "label": "Wikipédia : Vladimir Lénine", "url": "https://fr.wikipedia.org/wiki/Vladimir_L%C3%A9nine"}, {"type": "autre", "label": "Encyclopaedia Britannica : Russian Revolution of 1917", "url": "https://www.britannica.com/event/Russian-Revolution-of-1917"}]
   },
   {
@@ -5153,6 +5521,7 @@ const BASE_CARTES = [
     description_longue: "À partir du printemps 1918, alors que la Première Guerre mondiale touche à sa fin, une pandémie de grippe d'une virulence exceptionnelle se propage à travers le monde entier en plusieurs vagues successives, la plus meurtrière survenant à l'automne. Surnommée « grippe espagnole », non pas parce qu'elle serait née en Espagne (son origine géographique exacte reste débattue), mais parce que l'Espagne, pays neutre durant la guerre et donc non soumise à la censure de presse en vigueur dans les pays belligérants, est l'un des premiers pays à en rendre compte librement dans ses journaux. Elle infecte environ un tiers de la population mondiale de l'époque et cause, selon les estimations les plus courantes, entre 20 et 50 millions de morts, un bilan qui dépasse largement celui de la guerre elle-même. Fait inhabituel pour une grippe, elle frappe particulièrement durement les jeunes adultes en bonne santé, et pas seulement les populations les plus fragiles, un phénomène encore partiellement expliqué par les chercheurs aujourd'hui. Le déplacement massif de troupes militaires à travers le monde durant la guerre a très probablement contribué à sa propagation rapide et mondiale.",
     anecdote: "Le virus responsable de la grippe espagnole, un virus de type H1N1, a pu être entièrement reséquencé génétiquement en 2005 par des chercheurs américains, à partir de tissus prélevés sur des victimes exhumées, notamment le corps d'une femme inuite retrouvée congelée dans le permafrost de l'Alaska depuis 1918 — une prouesse scientifique qui a permis de mieux comprendre pourquoi ce virus était si exceptionnellement meurtrier.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Grippe espagnole", "url": "https://fr.wikipedia.org/wiki/Grippe_espagnole"}, {"type": "autre", "label": "CDC : 1918 Pandemic Influenza Historic Timeline", "url": "https://www.cdc.gov/flu/pandemic-resources/1918-commemoration/pandemic-timeline-1918.htm"}, {"type": "autre", "label": "OMS : L'histoire de la grippe pandémique", "url": "https://www.who.int/fr/news-room/spotlight/history-of-vaccination/history-of-influenza-vaccination"}]
   },
   {
@@ -5167,6 +5536,7 @@ const BASE_CARTES = [
     description_longue: "Le 15 août 1914, le canal de Panama ouvre officiellement à la navigation commerciale, reliant directement l'océan Atlantique à l'océan Pacifique à travers l'isthme de Panama, en Amérique centrale. Le projet, tenté sans succès plusieurs décennies plus tôt par le Français Ferdinand de Lesseps (déjà à l'origine du canal de Suez), avait été abandonné après avoir coûté la vie à des dizaines de milliers d'ouvriers, principalement victimes de la fièvre jaune et du paludisme, deux maladies dont la transmission par les moustiques n'était pas encore comprise à l'époque. Repris par les États-Unis au début du XXe siècle, avec l'appui de progrès décisifs en médecine tropicale permettant de mieux lutter contre ces épidémies, le chantier est mené à son terme. Le canal réduit considérablement la distance maritime entre les côtes est et ouest des Amériques, évitant aux navires le dangereux et très long contournement du cap Horn, à l'extrémité sud du continent, et devient l'une des voies de navigation commerciale les plus stratégiques et les plus fréquentées au monde.",
     anecdote: "Les États-Unis ont conservé le contrôle direct du canal de Panama et de la zone qui l'entoure jusqu'en 1999, date à laquelle sa souveraineté a été intégralement rétrocédée au Panama, conformément à un traité signé en 1977 par le président américain Jimmy Carter, mettant fin à plus de huit décennies de contrôle américain sur cette infrastructure stratégique.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Canal de Panama", "url": "https://fr.wikipedia.org/wiki/Canal_de_Panama"}, {"type": "autre", "label": "Panama Canal Authority : History", "url": "https://pancanal.com/en/history/"}, {"type": "autre", "label": "Encyclopaedia Britannica : Panama Canal", "url": "https://www.britannica.com/topic/Panama-Canal"}]
   },
   {
@@ -5181,6 +5551,7 @@ const BASE_CARTES = [
     description_longue: "En 1925, l'ingénieur écossais John Logie Baird réalise à Londres la première démonstration publique d'un système de télévision fonctionnel, capable de transmettre des images animées simples en utilisant un disque rotatif perforé, une technologie dite « mécanique » (par opposition aux systèmes électroniques qui la remplaceront quelques années plus tard). L'image obtenue, très rudimentaire et en noir et blanc, permet néanmoins de distinguer les contours d'un visage humain, un exploit considéré comme révolutionnaire pour l'époque. Baird continuera à perfectionner son invention dans les années suivantes, réalisant notamment la première transmission télévisée transatlantique en 1928. Son système mécanique sera toutefois rapidement supplanté, dans les années 1930, par les systèmes de télévision entièrement électroniques développés en parallèle par d'autres inventeurs comme l'Américain Philo Farnsworth, plus performants et mieux adaptés à une diffusion de masse. La télévision deviendra, dans les décennies suivantes, l'un des médias les plus influents du XXe siècle, transformant profondément l'information, la culture et le divertissement à l'échelle mondiale.",
     anecdote: "Le tout premier visage humain jamais transmis par la télévision de Baird appartenait à un jeune employé de bureau travaillant dans l'immeuble voisin, William Taynton, recruté à la hâte car Baird avait besoin d'un visage humain à filmer et qu'aucun de ses propres collaborateurs n'était disponible sur le moment.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : John Logie Baird", "url": "https://fr.wikipedia.org/wiki/John_Logie_Baird"}, {"type": "wikipedia", "label": "Wikipédia : Histoire de la télévision", "url": "https://fr.wikipedia.org/wiki/Histoire_de_la_t%C3%A9l%C3%A9vision"}, {"type": "autre", "label": "Science Museum Group : John Logie Baird", "url": "https://www.sciencemuseumgroup.org.uk/objects/co8084088/baird-television-model-c-1930"}]
   },
   {
@@ -5195,6 +5566,7 @@ const BASE_CARTES = [
     description_longue: "Le 18 août 1920, la ratification du 19e amendement de la Constitution des États-Unis accorde officiellement le droit de vote aux femmes américaines, après plusieurs décennies de mobilisation du mouvement suffragiste, marqué par des campagnes de sensibilisation, des manifestations et parfois des actions plus radicales comme des grèves de la faim en prison. Ce combat pour le droit de vote des femmes s'inscrit dans un mouvement international plus large : la Nouvelle-Zélande avait été pionnière dès 1893, suivie par plusieurs pays européens (Finlande en 1906, Norvège en 1913) et, la même année que les États-Unis, par le Canada et une partie du Royaume-Uni. La France, elle, n'accordera ce droit aux femmes qu'en 1944, à la Libération, soit près d'un quart de siècle plus tard, et la Suisse attendra même 1971 au niveau fédéral. Ce droit de vote reste toutefois, dans de nombreux pays y compris aux États-Unis, longtemps limité dans la pratique pour certaines femmes, notamment les femmes noires américaines, qui continueront à se heurter à des obstacles discriminatoires jusqu'au Voting Rights Act de 1965.",
     anecdote: "La suffragette américaine Susan B. Anthony, l'une des figures historiques majeures du mouvement, est morte en 1906, quatorze ans avant l'adoption du 19e amendement qu'elle avait passé toute sa vie à défendre — elle n'aura donc jamais eu, elle-même, l'occasion de voter légalement lors d'une élection américaine.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dix-neuvième amendement de la Constitution des États-Unis", "url": "https://fr.wikipedia.org/wiki/Dix-neuvi%C3%A8me_amendement_de_la_Constitution_des_%C3%89tats-Unis"}, {"type": "wikipedia", "label": "Wikipédia : Suffrage féminin", "url": "https://fr.wikipedia.org/wiki/Suffrage_f%C3%A9minin"}, {"type": "autre", "label": "National Archives : 19th Amendment", "url": "https://www.archives.gov/milestone-documents/19th-amendment"}]
   },
   {
@@ -5209,6 +5581,7 @@ const BASE_CARTES = [
     description_longue: "En 1921-1922, à l'université de Toronto, le chirurgien canadien Frederick Banting et l'étudiant en médecine Charles Best parviennent, avec l'aide du physiologiste John Macleod et du biochimiste James Collip, à isoler l'insuline, une hormone produite par le pancréas dont l'absence ou l'insuffisance provoque le diabète. Avant cette découverte, le diabète de type 1 était une maladie presque systématiquement mortelle, les patients (souvent des enfants) dépérissant en quelques mois malgré des régimes alimentaires extrêmement restrictifs qui ne faisaient au mieux que retarder l'issue fatale. Le premier patient traité avec succès par des injections d'insuline, un adolescent canadien de 14 ans nommé Leonard Thompson, alors mourant, connaît une amélioration spectaculaire de son état dès les premières injections en 1922. La nouvelle se répand à une vitesse remarquable et l'insuline devient rapidement disponible à grande échelle, sauvant la vie de millions de diabétiques à travers le monde depuis lors, jusqu'à aujourd'hui.",
     anecdote: "Banting, Best, Macleod et Collip ont cédé le brevet de l'insuline à l'université de Toronto pour la somme symbolique d'un dollar chacun, afin de garantir que ce traitement vital reste accessible au plus grand nombre plutôt que de générer un profit personnel considérable — un geste resté célèbre dans l'histoire de l'éthique médicale.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Insuline", "url": "https://fr.wikipedia.org/wiki/Insuline"}, {"type": "wikipedia", "label": "Wikipédia : Frederick Banting", "url": "https://fr.wikipedia.org/wiki/Frederick_Banting"}, {"type": "autre", "label": "NobelPrize.org : The Discovery of Insulin", "url": "https://www.nobelprize.org/prizes/medicine/1923/banting/facts/"}]
   },
   {
@@ -5223,6 +5596,7 @@ const BASE_CARTES = [
     description_longue: "Fin 1938, les chimistes allemands Otto Hahn et Fritz Strassmann observent, lors d'une expérience de bombardement d'atomes d'uranium par des neutrons, la présence inattendue de baryum, un élément bien plus léger, dans les produits de réaction. Ne parvenant pas eux-mêmes à expliquer théoriquement ce résultat surprenant, ils en informent leur ancienne collègue Lise Meitner, physicienne autrichienne d'origine juive récemment contrainte de fuir l'Allemagne nazie vers la Suède. Avec son neveu Otto Frisch, elle comprend et formule, début 1939, l'explication correcte : le noyau d'uranium s'est littéralement scindé en deux noyaux plus légers, libérant une énergie considérable selon les calculs qu'ils effectuent en s'appuyant sur l'équation d'Einstein E=mc². C'est la découverte de la fission nucléaire. Cette découverte ouvre la voie, dans les années suivantes, aussi bien à la production d'énergie nucléaire civile qu'au développement de l'arme atomique, utilisée pour la première fois militairement en 1945. Otto Hahn recevra seul le prix Nobel de chimie en 1944 pour cette découverte, une omission de Lise Meitner encore aujourd'hui largement considérée par les historiens des sciences comme l'une des injustices majeures de l'histoire du prix Nobel.",
     anecdote: "L'élément chimique numéro 109 du tableau périodique, découvert bien plus tard en 1982, a été baptisé « meitnérium » en l'honneur de Lise Meitner, l'une des rares femmes scientifiques à avoir eu un élément chimique nommé en son honneur de son vivant — une reconnaissance tardive après l'omission du prix Nobel.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Fission nucléaire", "url": "https://fr.wikipedia.org/wiki/Fission_nucl%C3%A9aire"}, {"type": "wikipedia", "label": "Wikipédia : Lise Meitner", "url": "https://fr.wikipedia.org/wiki/Lise_Meitner"}, {"type": "autre", "label": "Encyclopaedia Britannica : Nuclear fission", "url": "https://www.britannica.com/science/nuclear-fission"}]
   },
   {
@@ -5237,6 +5611,7 @@ const BASE_CARTES = [
     description_longue: "Aux Jeux olympiques de Berlin de 1936, organisés par l'Allemagne nazie qui espère en faire une démonstration de la supériorité prétendue de la « race aryenne », l'athlète afro-américain Jesse Owens remporte quatre médailles d'or олимpiques (100 mètres, 200 mètres, saut en longueur et relais 4x100 mètres), un exploit qui contredit spectaculairement, sous les yeux du régime hôte et de la presse internationale, l'idéologie raciste défendue par Adolf Hitler. Owens devient instantanément une figure internationale, salué par le public allemand présent dans le stade malgré la propagande officielle. Ironie de l'histoire, à son retour aux États-Unis, Owens continue pourtant à subir de plein fouet les lois de ségrégation raciale en vigueur dans son propre pays : il n'est notamment pas invité à la Maison-Blanche par le président Franklin D. Roosevelt pour féliciter ses performances, contrairement à d'autres athlètes olympiques blancs de la même délégation. Ce paradoxe reste aujourd'hui un symbole fort des contradictions de l'époque sur les deux rives de l'Atlantique.",
     anecdote: "Le sauteur en longueur allemand Luz Long, rival direct de Jesse Owens en finale et présenté par la propagande nazie comme un modèle de l'athlète aryen, l'aurait publiquement félicité et conseillé techniquement pendant l'épreuve elle-même ; les deux hommes sont devenus amis, une amitié entretenue par correspondance jusqu'à la mort de Long, tué au combat en 1943 durant la Seconde Guerre mondiale.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Jesse Owens", "url": "https://fr.wikipedia.org/wiki/Jesse_Owens"}, {"type": "wikipedia", "label": "Wikipédia : Jeux olympiques d'été de 1936", "url": "https://fr.wikipedia.org/wiki/Jeux_olympiques_d%27%C3%A9t%C3%A9_de_1936"}, {"type": "autre", "label": "Comité International Olympique : Jesse Owens", "url": "https://olympics.com/fr/athletes/jesse-owens"}]
   },
   {
@@ -5251,6 +5626,7 @@ const BASE_CARTES = [
     description_longue: "Le 27 mai 1937, le Golden Gate Bridge, un pont suspendu franchissant le détroit reliant la baie de San Francisco à l'océan Pacifique, ouvre à la circulation piétonne (les automobiles y accèdent le lendemain). Conçu par l'ingénieur Joseph Strauss avec l'apport décisif de l'architecte Irving Morrow (à qui l'on doit notamment le choix de sa couleur orange distinctive, baptisée « orange international ») et de l'ingénieur Charles Ellis, l'ouvrage constitue, lors de son inauguration, le plus long pont suspendu du monde, avec une travée principale de 1 280 mètres, un record qu'il conservera pendant près de trois décennies. Le chantier, mené en pleine Grande Dépression économique, est réalisé dans des conditions particulièrement dangereuses (vents violents, brouillards fréquents, hauteur vertigineuse), mais l'utilisation novatrice, pour l'époque, de filets de sécurité tendus sous le tablier permet de sauver la vie d'une vingtaine d'ouvriers qui y auraient autrement trouvé la mort. Devenu l'un des monuments les plus photographiés et les plus reconnaissables au monde, le Golden Gate Bridge reste aujourd'hui encore un symbole emblématique de la ville de San Francisco et des États-Unis.",
     anecdote: "Les ouvriers sauvés par les filets de sécurité tendus sous le pont durant la construction ont formé, une fois le chantier achevé, un club informel surnommé le « Halfway to Hell Club » (le club « à mi-chemin de l'enfer »), rassemblant ceux qui étaient littéralement tombés du chantier avant d'être rattrapés par le filet.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Golden Gate Bridge", "url": "https://fr.wikipedia.org/wiki/Golden_Gate_Bridge"}, {"type": "autre", "label": "Golden Gate Bridge : History", "url": "https://www.goldengate.org/bridge/history-research/"}, {"type": "autre", "label": "Encyclopaedia Britannica : Golden Gate Bridge", "url": "https://www.britannica.com/topic/Golden-Gate-Bridge"}]
   },
   {
@@ -5265,6 +5641,7 @@ const BASE_CARTES = [
     description_longue: "En 1935, le chimiste américain Wallace Carothers, travaillant pour l'entreprise DuPont, met au point le nylon, la toute première fibre entièrement synthétique fabriquée à partir de composés dérivés du pétrole plutôt que de matières naturelles comme le coton, la laine ou la soie. Présenté au grand public en 1938 puis commercialisé à partir de 1939 sous forme de bas pour femmes, le nylon rencontre un succès commercial immédiat et spectaculaire : lors de sa mise en vente officielle en mai 1940, plusieurs millions de paires de bas en nylon sont vendues dès le premier jour à travers les États-Unis, provoquant un véritable engouement populaire. La Seconde Guerre mondiale interrompt rapidement sa production civile, le nylon étant alors réquisitionné pour la fabrication de parachutes, de cordages et d'équipements militaires. Le succès du nylon ouvre la voie à toute une industrie des textiles et plastiques synthétiques qui transformera durablement l'industrie de la mode, l'équipement sportif et de très nombreux objets du quotidien dans les décennies suivantes. Wallace Carothers, souffrant de dépression, se suicide en 1937, un an avant la présentation publique de son invention la plus célèbre.",
     anecdote: "La pénurie de nylon provoquée par son réquisitionnement militaire durant la Seconde Guerre mondiale a été si mal vécue par certaines Américaines qu'elle a provoqué, en 1945-1946, de véritables « émeutes du nylon » dans plusieurs grandes villes américaines, des milliers de femmes se ruant et parfois se bousculant violemment devant les magasins dès qu'un nouveau stock de bas en nylon était annoncé.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Nylon", "url": "https://fr.wikipedia.org/wiki/Nylon"}, {"type": "wikipedia", "label": "Wikipédia : Wallace Carothers", "url": "https://fr.wikipedia.org/wiki/Wallace_Carothers"}, {"type": "autre", "label": "Science History Institute : Wallace Carothers", "url": "https://www.sciencehistory.org/education/scientific-biographies/wallace-hume-carothers/"}]
   },
   {
@@ -5279,6 +5656,7 @@ const BASE_CARTES = [
     description_longue: "En octobre 1973, en réaction au soutien apporté par les pays occidentaux à Israël durant la guerre du Kippour, les pays arabes membres de l'Organisation des pays exportateurs de pétrole (OPEP) décrètent un embargo pétrolier visant notamment les États-Unis et les Pays-Bas, tout en réduisant volontairement leur production. Conjugué à une forte hausse décidée unilatéralement des prix du baril, cet épisode provoque un quadruplement quasi immédiat du prix du pétrole sur les marchés mondiaux. Les économies occidentales, alors très largement dépendantes du pétrole importé pour leur croissance industrielle d'après-guerre, entrent en récession, marquée par une inflation élevée combinée à un chômage croissant (un phénomène inédit à l'époque, baptisé « stagflation »). Ce choc met brutalement fin aux « Trente Glorieuses », la période de forte croissance économique qu'avaient connue de nombreux pays occidentaux depuis la fin de la Seconde Guerre mondiale, et pousse plusieurs gouvernements à lancer des politiques de sobriété énergétique et à investir massivement dans des sources d'énergie alternatives, notamment le nucléaire civil.",
     anecdote: "En France, ce choc pétrolier est directement à l'origine de la formule « on n'a pas de pétrole, mais on a des idées », lancée dans une campagne officielle d'incitation aux économies d'énergie en 1974, et de mesures parfois surprenantes comme la suppression temporaire de l'éclairage publicitaire nocturne ou l'instauration de journées sans voiture.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Premier choc pétrolier", "url": "https://fr.wikipedia.org/wiki/Premier_choc_p%C3%A9trolier"}, {"type": "wikipedia", "label": "Wikipédia : Organisation des pays exportateurs de pétrole", "url": "https://fr.wikipedia.org/wiki/Organisation_des_pays_exportateurs_de_p%C3%A9trole"}, {"type": "autre", "label": "Encyclopaedia Britannica : Oil crisis of 1973–74", "url": "https://www.britannica.com/money/oil-crisis-1973-74"}]
   },
   {
@@ -5293,6 +5671,7 @@ const BASE_CARTES = [
     description_longue: "En juin 1972, cinq hommes sont arrêtés en train de cambrioler le siège du Parti démocrate américain, situé dans l'immeuble du Watergate à Washington, dans le but d'y poser des micros espions en vue de l'élection présidentielle à venir. L'enquête journalistique menée notamment par deux reporters du Washington Post, Bob Woodward et Carl Bernstein, révèle progressivement l'implication directe de proches collaborateurs du président républicain Richard Nixon, puis du président lui-même dans la tentative d'étouffer l'affaire. Des enregistrements audio secrets, effectués par Nixon dans le Bureau ovale et dont la révélation sera imposée par la Cour suprême malgré la résistance présidentielle, apportent des preuves accablantes de sa participation directe à cette dissimulation. Face à une procédure de destitution (impeachment) devenue quasiment inévitable au Congrès, Nixon choisit de démissionner de la présidence le 9 août 1974, une première absolue dans l'histoire des États-Unis. Cette affaire a durablement marqué la confiance du public américain envers ses institutions politiques et a renforcé le rôle du journalisme d'investigation comme contre-pouvoir démocratique.",
     anecdote: "La source anonyme clé des journalistes du Washington Post durant l'enquête, surnommée « Deep Throat » (Gorge profonde) pendant plus de trente ans, n'a été révélée publiquement qu'en 2005 : il s'agissait de Mark Felt, un haut responsable du FBI à l'époque des faits, qui n'a accepté de dévoiler son identité que peu avant sa mort.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Scandale du Watergate", "url": "https://fr.wikipedia.org/wiki/Scandale_du_Watergate"}, {"type": "wikipedia", "label": "Wikipédia : Richard Nixon", "url": "https://fr.wikipedia.org/wiki/Richard_Nixon"}, {"type": "autre", "label": "The Washington Post : Watergate Archive", "url": "https://www.washingtonpost.com/graphics/politics/watergate/"}]
   },
   {
@@ -5307,6 +5686,7 @@ const BASE_CARTES = [
     description_longue: "Le 1er avril 1976, Steve Jobs et Steve Wozniak, deux jeunes passionnés d'informatique de la région de San Francisco, fondent l'entreprise Apple Computer dans le garage familial des parents de Jobs, à Los Altos, en Californie. Leur premier produit, l'Apple I, conçu et assemblé essentiellement à la main par Wozniak, est un ordinateur personnel vendu sous forme de carte électronique nue, sans boîtier, clavier ni écran intégrés — un simple circuit imprimé que l'acheteur doit compléter lui-même. Malgré sa rusticité, l'Apple I marque une étape importante dans la démocratisation naissante de l'informatique personnelle, jusque-là dominée par de coûteux ordinateurs centraux réservés aux entreprises et aux universités. Le succès véritable viendra l'année suivante avec l'Apple II, un ordinateur complet, prêt à l'emploi et destiné au grand public, qui deviendra l'un des tout premiers succès commerciaux majeurs de l'histoire de la micro-informatique. Apple deviendra, des décennies plus tard, l'une des entreprises les plus valorisées de l'histoire, notamment grâce à des produits ultérieurs comme l'iPod, l'iPhone et l'iPad.",
     anecdote: "Pour financer les tout premiers composants de l'Apple I, Steve Jobs a vendu son minibus Volkswagen tandis que Steve Wozniak a vendu sa calculatrice scientifique programmable HP-65, l'un des objets qu'il chérissait le plus à l'époque — un point de départ financier extrêmement modeste pour ce qui deviendra l'une des plus grandes entreprises du monde.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Apple", "url": "https://fr.wikipedia.org/wiki/Apple"}, {"type": "wikipedia", "label": "Wikipédia : Apple I", "url": "https://fr.wikipedia.org/wiki/Apple_I"}, {"type": "autre", "label": "Computer History Museum : Apple I", "url": "https://www.computerhistory.org/revolution/personal-computers/17/302"}]
   },
   {
@@ -5321,6 +5701,7 @@ const BASE_CARTES = [
     description_longue: "Le 30 avril 1975, les forces nord-vietnamiennes et le Viêt-cong s'emparent de Saïgon, capitale du Sud-Vietnam soutenu jusque-là par les États-Unis, mettant fin à près de deux décennies de conflit et à plus de trente ans de guerres quasi ininterrompues en Indochine. Les images de l'évacuation chaotique du personnel américain et de leurs alliés vietnamiens par hélicoptère, depuis le toit de l'ambassade des États-Unis, deviennent l'un des symboles les plus marquants de cette défaite américaine. La guerre du Vietnam, qui a impliqué directement les troupes américaines à partir du milieu des années 1960, s'achève ainsi par la réunification du pays sous un régime communiste, Saïgon étant rebaptisée Hô-Chi-Minh-Ville en l'honneur du dirigeant indépendantiste vietnamien décédé en 1969. Ce conflit, extrêmement coûteux en vies humaines (plusieurs millions de morts vietnamiens et environ 58 000 soldats américains tués), a profondément marqué la société américaine, alimentant un mouvement pacifiste de grande ampleur et une défiance durable envers les interventions militaires à l'étranger, souvent résumée sous le terme de « syndrome du Vietnam ».",
     anecdote: "La chanson diffusée par la radio des forces armées américaines à Saïgon, « White Christmas » de Bing Crosby, servait de signal codé secret annonçant le déclenchement imminent de l'évacuation finale par hélicoptère de la ville, un signal que de nombreux Vietnamiens ayant collaboré avec les Américains connaissaient également, provoquant une ruée immédiate vers les points d'extraction.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre du Vietnam", "url": "https://fr.wikipedia.org/wiki/Guerre_du_Vietnam"}, {"type": "wikipedia", "label": "Wikipédia : Chute de Saïgon", "url": "https://fr.wikipedia.org/wiki/Chute_de_Sa%C3%AFgon"}, {"type": "autre", "label": "Encyclopaedia Britannica : Vietnam War", "url": "https://www.britannica.com/event/Vietnam-War"}]
   },
   {
@@ -5335,6 +5716,7 @@ const BASE_CARTES = [
     description_longue: "Vers 2100 avant notre ère, les premières versions sumériennes de ce qui deviendra l'Épopée de Gilgamesh commencent à circuler en Mésopotamie, avant d'être compilées dans une version akkadienne plus complète quelques siècles plus tard. Le récit suit les aventures de Gilgamesh, roi légendaire de la cité d'Uruk, et de son ami Enkidu, un homme sauvage créé par les dieux pour le tempérer. Après la mort d'Enkidu, Gilgamesh part en quête de l'immortalité, affrontant monstres et épreuves, avant de finalement accepter sa condition mortelle. Le texte contient un épisode de déluge universel frappant de ressemblance avec celui de l'Arche de Noé biblique, rédigé bien plus tard, ce qui a alimenté d'intenses débats sur les influences réciproques entre les traditions littéraires du Proche-Orient ancien. Considérée comme la plus ancienne grande œuvre littéraire connue de l'humanité, l'Épopée de Gilgamesh n'a été redécouverte par les archéologues et déchiffrée qu'au XIXe siècle, à partir de tablettes d'argile cunéiformes retrouvées dans les ruines de la bibliothèque du roi assyrien Assurbanipal.",
     anecdote: "La redécouverte en 1872, par l'assyriologue amateur George Smith, de l'épisode du déluge dans les tablettes de Gilgamesh aurait suscité une telle émotion qu'il se serait, selon la légende, mis à se déshabiller en pleine salle de lecture du British Museum tant l'excitation de sa découverte était grande.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Épopée de Gilgamesh", "url": "https://fr.wikipedia.org/wiki/%C3%89pop%C3%A9e_de_Gilgamesh"}, {"type": "autre", "label": "British Museum : The Gilgamesh Tablet", "url": "https://www.britishmuseum.org/collection/object/W_K-3375"}, {"type": "autre", "label": "Encyclopaedia Britannica : Epic of Gilgamesh", "url": "https://www.britannica.com/topic/Epic-of-Gilgamesh"}]
   },
   {
@@ -5349,6 +5731,7 @@ const BASE_CARTES = [
     description_longue: "Vers 700 avant notre ère, le poète grec Hésiode consigne par écrit, dans son œuvre Les Travaux et les Jours, le mythe de Pandore, la première femme selon la mythologie grecque, façonnée par les dieux et envoyée sur Terre avec une jarre (traduite plus tard à tort en « boîte ») qu'elle a pour consigne de ne jamais ouvrir. Poussée par la curiosité, Pandore l'ouvre malgré tout, libérant dans le monde tous les maux qu'elle contenait : la maladie, la vieillesse, la folie, la guerre. Seule l'Espérance reste emprisonnée au fond du récipient lorsque Pandore parvient à le refermer à temps. Ce mythe, destiné à l'origine à expliquer l'existence de la souffrance et du mal dans le monde des hommes, a durablement marqué la culture occidentale : l'expression « ouvrir la boîte de Pandore » reste aujourd'hui couramment utilisée pour désigner une action anodine en apparence qui déclenche des conséquences catastrophiques et irréversibles.",
     anecdote: "L'erreur de traduction qui a transformé la jarre (pithos en grec ancien) originale d'Hésiode en « boîte » remonte au XVIe siècle, lorsque l'humaniste néerlandais Érasme a traduit le terme grec par le latin pyxis, désignant une petite boîte — une confusion qui s'est répandue et est restée fixée dans la culture populaire depuis lors.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Pandore", "url": "https://fr.wikipedia.org/wiki/Pandore"}, {"type": "wikipedia", "label": "Wikipédia : Hésiode", "url": "https://fr.wikipedia.org/wiki/H%C3%A9siode"}, {"type": "autre", "label": "Encyclopaedia Britannica : Pandora", "url": "https://www.britannica.com/topic/Pandora-Greek-mythology"}]
   },
   {
@@ -5363,6 +5746,7 @@ const BASE_CARTES = [
     description_longue: "Autour de 2400 avant notre ère, l'un des mythes les plus centraux de la civilisation égyptienne antique prend sa forme classique : celui d'Osiris, dieu de la végétation et souverain légendaire d'Égypte, assassiné et démembré par son frère jaloux Seth. Son épouse et sœur Isis parvient à rassembler les morceaux de son corps et à le ramener temporairement à la vie grâce à sa magie, suffisamment longtemps pour concevoir leur fils Horus, qui vengera plus tard son père en affrontant Seth. Osiris devient alors le souverain du royaume des morts, jugeant les âmes des défunts. Ce mythe, associé au cycle des crues du Nil et à la renaissance annuelle de la végétation, occupe une place centrale dans la religion égyptienne pendant plus de trois mille ans et structure profondément les rites funéraires égyptiens, notamment la pratique de la momification, censée imiter la reconstitution du corps d'Osiris pour permettre au défunt d'accéder lui aussi à une vie après la mort.",
     anecdote: "Chaque pharaon d'Égypte était traditionnellement identifié à Horus de son vivant, puis à Osiris lui-même après sa mort — une continuité mythologique qui légitimait la transmission du pouvoir royal égyptien de génération en génération, un peu comme une monarchie perpétuellement réincarnée dans le mythe.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Osiris", "url": "https://fr.wikipedia.org/wiki/Osiris"}, {"type": "wikipedia", "label": "Wikipédia : Isis", "url": "https://fr.wikipedia.org/wiki/Isis"}, {"type": "autre", "label": "Encyclopaedia Britannica : Osiris", "url": "https://www.britannica.com/topic/Osiris-Egyptian-god"}]
   },
   {
@@ -5377,6 +5761,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1220, l'écrivain et homme politique islandais Snorri Sturluson rédige l'Edda en prose, une compilation systématique des mythes nordiques transmis jusque-là essentiellement par tradition orale, incluant le récit du Ragnarök : la bataille finale et apocalyptique qui doit voir s'affronter les dieux (menés par Odin et Thor) contre les forces du chaos (le loup géant Fenrir, le serpent de Midgard, les géants de glace et de feu), aboutissant à la destruction du monde englouti par les flammes et les eaux, avant qu'un nouveau monde purifié n'émerge des cendres. Bien que rédigée plusieurs siècles après la christianisation de la Scandinavie, l'Edda de Snorri reste la source la plus complète et la mieux organisée dont nous disposons pour comprendre la mythologie nordique préchrétienne, incluant les récits sur Odin, Thor, Loki et les neuf mondes reliés par l'arbre cosmique Yggdrasil. Cette mythologie a connu un regain de popularité considérable à l'époque contemporaine, largement diffusée par la culture populaire (bandes dessinées, cinéma, jeux vidéo).",
     anecdote: "Snorri Sturluson, l'auteur qui a préservé pour la postérité l'essentiel de ce que l'on sait aujourd'hui de la mythologie nordique, est mort assassiné en 1241 dans sa propre cave, sur ordre du roi de Norvège dont il avait perdu la faveur politique — une fin presque aussi brutale que celle des dieux qu'il décrivait dans ses écrits.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Ragnarök", "url": "https://fr.wikipedia.org/wiki/Ragnar%C3%B6k"}, {"type": "wikipedia", "label": "Wikipédia : Snorri Sturluson", "url": "https://fr.wikipedia.org/wiki/Snorri_Sturluson"}, {"type": "autre", "label": "Encyclopaedia Britannica : Ragnarök", "url": "https://www.britannica.com/topic/Ragnarök"}]
   },
   {
@@ -5391,6 +5776,7 @@ const BASE_CARTES = [
     description_longue: "En 1136, le clerc gallois Geoffroy de Monmouth publie son Historia Regum Britanniae (« Histoire des rois de Bretagne »), un ouvrage qui popularise et structure durablement la légende du roi Arthur, un souverain breton légendaire censé avoir résisté aux invasions saxonnes après le départ des Romains. C'est dans les récits ultérieurs, développés au fil des siècles suivants par de nombreux auteurs français et anglais, que se fixent les éléments les plus connus du mythe : l'épée Excalibur retirée d'un rocher ou remise par la Dame du Lac, la Table Ronde rassemblant ses chevaliers dans une égalité symbolique, la quête du Graal, et l'amour tragique entre la reine Guenièvre et le chevalier Lancelot. Bien que l'existence historique d'un roi Arthur réel reste très débattue et non prouvée par l'archéologie, la légende arthurienne est devenue l'un des cycles narratifs les plus influents et les plus adaptés de toute la littérature occidentale, inspirant d'innombrables œuvres jusqu'à aujourd'hui, du cinéma aux jeux vidéo.",
     anecdote: "Certains historiens ont proposé qu'Arthur pourrait être inspiré d'un chef militaire romano-breton bien réel ayant résisté aux envahisseurs saxons au VIe siècle, mentionné brièvement dans des chroniques galloises très postérieures aux faits, mais aucune preuve archéologique définitive n'a jamais permis de confirmer l'existence historique du personnage tel que la légende le décrit.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Roi Arthur", "url": "https://fr.wikipedia.org/wiki/Roi_Arthur"}, {"type": "wikipedia", "label": "Wikipédia : Excalibur", "url": "https://fr.wikipedia.org/wiki/Excalibur"}, {"type": "autre", "label": "Encyclopaedia Britannica : King Arthur", "url": "https://www.britannica.com/topic/King-Arthur"}]
   },
   {
@@ -5405,6 +5791,7 @@ const BASE_CARTES = [
     description_longue: "Au début du XVIe siècle, au moment du contact avec les conquistadors espagnols, le culte de Quetzalcoatl, le « serpent à plumes », est déjà l'un des piliers les plus anciens et les plus importants de la mythologie mésoaméricaine, vénéré sous des formes voisines par les Aztèques, les Toltèques et les Mayas bien avant eux. Dieu créateur associé au vent, à la connaissance et à l'étoile du matin, Quetzalcoatl est censé, selon certains récits, avoir quitté le Mexique par la mer en promettant de revenir un jour. Une légende historiographique tenace, aujourd'hui largement remise en question par les chercheurs, veut que l'empereur aztèque Moctezuma II ait pris l'arrivée en 1519 du conquistador espagnol Hernán Cortés pour le retour prophétisé de Quetzalcoatl, facilitant ainsi la conquête espagnole du Mexique. De nombreux historiens contemporains estiment aujourd'hui que ce récit a probablement été largement exagéré ou inventé après coup par les Espagnols eux-mêmes, pour justifier et légitimer leur conquête.",
     anecdote: "Le nom scientifique donné en 1975 à un genre de ptérosaure fossile aux dimensions gigantesques, découvert au Texas, est Quetzalcoatlus, en hommage direct à la divinité mésoaméricaine — cet animal volant préhistorique, avec une envergure d'environ 10 à 11 mètres, reste l'un des plus grands animaux volants jamais identifiés.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Quetzalcóatl", "url": "https://fr.wikipedia.org/wiki/Quetzalc%C3%B3atl"}, {"type": "wikipedia", "label": "Wikipédia : Mythologie aztèque", "url": "https://fr.wikipedia.org/wiki/Mythologie_azt%C3%A8que"}, {"type": "autre", "label": "Encyclopaedia Britannica : Quetzalcóatl", "url": "https://www.britannica.com/topic/Quetzalcoatl"}]
   },
   {
@@ -5419,6 +5806,7 @@ const BASE_CARTES = [
     description_longue: "Vers l'an 200 de notre ère, l'écrivain chinois Xu Zheng consigne par écrit, dans un texte aujourd'hui perdu mais cité par des sources ultérieures, l'un des mythes de création les plus répandus de la culture chinoise : celui de Pangu. Selon ce récit, l'univers tout entier était à l'origine contenu dans un œuf cosmique flottant dans le chaos. Pangu, un géant, en émerge en brisant sa coquille, séparant alors le ciel (la partie claire et légère de l'œuf, le Yang) de la terre (la partie lourde et trouble, le Yin). Pendant 18 000 ans, Pangu grandit chaque jour pour maintenir l'écart entre ciel et terre, jusqu'à sa mort : son corps se transforme alors en éléments du monde naturel, son souffle devenant le vent, sa voix le tonnerre, ses yeux le soleil et la lune, et son sang les rivières. Ce mythe cosmogonique, qui met en scène un être primordial dont le corps se sacrifie et se transforme littéralement pour donner naissance au monde, trouve des échos structurels dans d'autres mythologies de création à travers le monde, sans qu'un lien direct entre elles ne soit établi.",
     anecdote: "Certaines versions tardives du mythe racontent que les parasites vivant sur le corps de Pangu, portés par le vent lors de sa transformation, seraient devenus les premiers êtres humains — une origine nettement moins flatteuse que celle des mythes de création d'autres cultures, où l'humanité naît souvent directement de la volonté ou de l'image d'un dieu créateur.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Pangu", "url": "https://fr.wikipedia.org/wiki/Pangu"}, {"type": "wikipedia", "label": "Wikipédia : Mythologie chinoise", "url": "https://fr.wikipedia.org/wiki/Mythologie_chinoise"}, {"type": "autre", "label": "Encyclopaedia Britannica : Pangu", "url": "https://www.britannica.com/topic/Pangu"}]
   },
   {
@@ -5433,6 +5821,7 @@ const BASE_CARTES = [
     description_longue: "Vers 400 avant notre ère, après des siècles de transmission orale, la vaste épopée indienne du Mahabharata commence à être fixée par écrit en sanskrit, sous sa forme la plus complète que nous connaissons aujourd'hui. Avec plus de 100 000 strophes, c'est l'un des plus longs poèmes épiques jamais composés dans l'histoire humaine, plusieurs fois plus long que l'Iliade et l'Odyssée réunies. Le récit central relate le conflit dynastique entre deux branches rivales d'une même famille royale, les Pandava et les Kaurava, aboutissant à une guerre fratricide dévastatrice. L'un de ses passages les plus célèbres et les plus étudiés, la Bhagavad-Gita (« le Chant du Bienheureux »), met en scène un dialogue philosophique entre le prince guerrier Arjuna, hésitant à combattre ses propres proches, et le dieu Krishna, qui l'exhorte à accomplir son devoir (dharma). Ce texte est devenu, bien au-delà de sa dimension narrative, l'un des fondements majeurs de la philosophie et de la spiritualité hindoues, encore largement lu, commenté et vénéré aujourd'hui par des centaines de millions de personnes en Inde et dans le monde.",
     anecdote: "Le physicien américain Robert Oppenheimer, l'un des principaux artisans de la bombe atomique, a déclaré s'être remémoré un vers de la Bhagavad-Gita (« Je suis devenu la Mort, le destructeur de mondes ») en assistant au tout premier essai nucléaire de l'histoire, en 1945, illustrant l'influence durable et parfois inattendue de ce texte vieux de plus de deux mille ans jusque dans la science du XXe siècle.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Mahabharata", "url": "https://fr.wikipedia.org/wiki/Mahabharata"}, {"type": "wikipedia", "label": "Wikipédia : Bhagavad-Gita", "url": "https://fr.wikipedia.org/wiki/Bhagavad-G%C4%ABt%C4%81"}, {"type": "autre", "label": "Encyclopaedia Britannica : Mahabharata", "url": "https://www.britannica.com/topic/Mahabharata"}]
   },
   {
@@ -5447,6 +5836,7 @@ const BASE_CARTES = [
     description_longue: "Vers 360 avant notre ère, le philosophe grec Platon décrit, dans deux de ses dialogues (Timée et Critias), une civilisation insulaire avancée et puissante, l'Atlantide, qui aurait existé environ 9 000 ans avant son époque, avant d'être engloutie par les océans « en un seul jour et une seule nuit funeste » à la suite de la colère des dieux. Bien que présenté par Platon lui-même comme un récit véridique transmis par des prêtres égyptiens, la grande majorité des historiens et archéologues modernes s'accordent aujourd'hui à considérer l'Atlantide comme une pure invention littéraire et philosophique, destinée avant tout à illustrer une réflexion morale sur l'orgueil et la décadence d'une société trop puissante, plutôt qu'à décrire un lieu réel. Cela n'a pourtant pas empêché le mythe de susciter, depuis des siècles et encore aujourd'hui, d'innombrables tentatives de localisation « réelle » de l'Atlantide, allant de la Méditerranée aux Caraïbes en passant par l'Antarctique, aucune n'ayant jamais apporté la moindre preuve archéologique tangible.",
     anecdote: "L'éruption volcanique réelle de l'île de Santorin, survenue vers 1600 avant notre ère et qui a dévasté la civilisation minoenne de Crète, est parfois avancée comme une source d'inspiration historique possible pour le récit platonicien de l'Atlantide — une hypothèse séduisante mais qui reste, elle aussi, impossible à prouver formellement.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Atlantide", "url": "https://fr.wikipedia.org/wiki/Atlantide"}, {"type": "wikipedia", "label": "Wikipédia : Platon", "url": "https://fr.wikipedia.org/wiki/Platon"}, {"type": "autre", "label": "Encyclopaedia Britannica : Atlantis", "url": "https://www.britannica.com/place/Atlantis-legendary-island"}]
   },
   {
@@ -5461,6 +5851,7 @@ const BASE_CARTES = [
     description_longue: "Vers 430 avant notre ère, le dramaturge athénien Eschyle donne sa forme théâtrale la plus célèbre au mythe de Prométhée, dans sa tragédie Prométhée enchaîné. Selon ce récit, le titan Prométhée, ami de l'humanité naissante encore dépourvue de tout moyen de subsistance et de protection, dérobe le feu sacré aux dieux de l'Olympe pour l'offrir aux hommes, leur permettant de se chauffer, de cuisiner et de développer des techniques et des arts. Furieux de cette transgression, Zeus condamne Prométhée à être enchaîné à un rocher du Caucase, où un aigle vient chaque jour lui dévorer le foie, qui repousse chaque nuit, le condamnant à un supplice éternel. Ce mythe, l'un des plus riches et des plus réinterprétés de toute la mythologie grecque, symbolise depuis l'Antiquité la connaissance et le progrès technique arrachés de haute lutte aux forces supérieures, souvent au prix d'une souffrance ou d'un risque considérable — une thématique reprise dans d'innombrables œuvres ultérieures, de Mary Shelley (qui sous-titre son roman Frankenstein « le Prométhée moderne ») aux récits contemporains sur les dangers de la science.",
     anecdote: "L'élément chimique numéro 61 du tableau périodique, le prométhium, découvert en 1945, a été nommé en référence directe au titan Prométhée, en partie à cause de la difficulté et du danger associés à son obtention en laboratoire (il s'agit d'un élément radioactif), un clin d'œil scientifique volontaire au mythe du feu dérobé et de la souffrance qui l'accompagne.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Prométhée", "url": "https://fr.wikipedia.org/wiki/Prom%C3%A9th%C3%A9e"}, {"type": "wikipedia", "label": "Wikipédia : Eschyle", "url": "https://fr.wikipedia.org/wiki/Eschyle"}, {"type": "autre", "label": "Encyclopaedia Britannica : Prometheus", "url": "https://www.britannica.com/topic/Prometheus-Greek-mythology"}]
   },
   {
@@ -5475,6 +5866,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1235, selon la tradition orale ouest-africaine transmise depuis des siècles par les griots (conteurs et gardiens de la mémoire historique), Sundiata Keïta, prince mandingue affligé d'un handicap moteur durant son enfance et longtemps méprisé par sa propre cour, surmonte son infirmité, rassemble une coalition de royaumes et bat en duel le sorcier-roi tyran Soumaoro Kanté à la bataille de Kirina, fondant ainsi le puissant empire du Mali. Son surnom, « le Prince Lion » (Sundiata signifiant littéralement « lion affamé » en langue mandingue), reste associé à cette épopée fondatrice. Bien que le récit comporte d'importants éléments légendaires et surnaturels typiques de la tradition orale, les historiens s'accordent aujourd'hui à considérer qu'il repose sur un noyau historique réel : l'empire du Mali a effectivement existé et connu son apogée aux XIIIe-XIVe siècles, devenant l'un des royaumes les plus riches et les plus vastes d'Afrique de l'Ouest, en grande partie grâce au contrôle du commerce transsaharien de l'or et du sel.",
     anecdote: "L'un des descendants les plus célèbres de la lignée fondée par Sundiata, l'empereur Mansa Moussa, est resté dans l'histoire pour avoir, lors d'un pèlerinage à La Mecque en 1324, distribué une telle quantité d'or en chemin que sa générosité aurait provoqué, selon certains récits historiques, une inflation durable dans les économies traversées, notamment en Égypte — il est aujourd'hui souvent cité comme l'une des personnes les plus riches ayant jamais vécu.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Soundiata Keïta", "url": "https://fr.wikipedia.org/wiki/Soundiata_Ke%C3%AFta"}, {"type": "wikipedia", "label": "Wikipédia : Empire du Mali", "url": "https://fr.wikipedia.org/wiki/Empire_du_Mali"}, {"type": "autre", "label": "Encyclopaedia Britannica : Sundiata Keita", "url": "https://www.britannica.com/biography/Sundiata-Keita"}]
   },
   {
@@ -5489,6 +5881,7 @@ const BASE_CARTES = [
     description_longue: "En l'an 712, le Kojiki (« Chroniques des faits anciens »), le plus ancien recueil écrit de mythes japonais qui nous soit parvenu, consigne notamment le récit d'Amaterasu, déesse du soleil et figure centrale du shintoïsme. Selon ce mythe, Amaterasu, outrée par le comportement violent et destructeur de son frère Susanoo, se retire dans une grotte céleste, plongeant le monde entier dans une obscurité totale. Pour la faire sortir, les autres divinités organisent une grande fête devant l'entrée de la grotte, et la déesse Ame-no-Uzume exécute une danse comique et suggestive qui provoque l'hilarité générale des dieux rassemblés. Intriguée par ce bruit et curieuse de savoir ce qui pouvait bien se passer sans elle, Amaterasu entrouvre la grotte, y aperçoit son propre reflet éblouissant dans un miroir placé là stratégiquement, et finit par en ressortir complètement, restaurant la lumière dans le monde. Selon la tradition shintoïste, la lignée impériale japonaise descendrait directement d'Amaterasu, un lien mythologique invoqué pendant des siècles pour légitimer l'autorité des empereurs du Japon.",
     anecdote: "Le miroir sacré utilisé pour attirer Amaterasu hors de sa grotte, appelé Yata no Kagami, fait partie des trois Trésors sacrés impériaux du Japon (avec une épée et un joyau), transmis symboliquement lors de chaque intronisation d'un nouvel empereur ; il serait aujourd'hui conservé au sanctuaire d'Ise, mais n'a jamais été montré publiquement, pas même à l'empereur lui-même.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Amaterasu", "url": "https://fr.wikipedia.org/wiki/Amaterasu"}, {"type": "wikipedia", "label": "Wikipédia : Kojiki", "url": "https://fr.wikipedia.org/wiki/Kojiki"}, {"type": "autre", "label": "Encyclopaedia Britannica : Amaterasu", "url": "https://www.britannica.com/topic/Amaterasu"}]
   },
   {
@@ -5503,6 +5896,7 @@ const BASE_CARTES = [
     description_longue: "En 1855, l'administrateur colonial et ethnographe britannique George Grey publie Polynesian Mythology, l'une des premières compilations écrites systématiques des mythes oraux polynésiens, jusque-là transmis exclusivement de génération en génération sans support écrit à travers les vastes archipels du Pacifique (Nouvelle-Zélande, Hawaï, îles Cook, Tahiti). Parmi les récits les plus répandus figure celui de Maui, un demi-dieu rusé et facétieux doté d'une force surnaturelle, crédité, selon les traditions locales, d'avoir accompli des exploits fondateurs : pêcher de vastes îles hors des profondeurs de l'océan à l'aide d'un hameçon magique (dont l'île Nord de la Nouvelle-Zélande, le « poisson de Maui »), avoir ralenti la course du soleil dans le ciel pour allonger la durée des journées, ou encore avoir tenté, sans succès, de voler le secret de l'immortalité aux dieux. Bien que les récits varient sensiblement d'un archipel à l'autre, la figure de Maui reste aujourd'hui l'une des plus universellement reconnues et appréciées de toute la mythologie du Pacifique, popularisée à l'échelle mondiale par la culture populaire contemporaine.",
     anecdote: "Selon la tradition maorie de Nouvelle-Zélande, l'île du Sud du pays serait la pirogue (waka) de Maui, l'île Stewart plus au sud son ancre, et l'île du Nord le poisson géant qu'il aurait pêché — une géographie mythologique entière du pays organisée autour des exploits d'un seul et même personnage légendaire.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Māui (mythologie)", "url": "https://fr.wikipedia.org/wiki/M%C4%81ui_(mythologie)"}, {"type": "autre", "label": "Encyclopaedia Britannica : Maui", "url": "https://www.britannica.com/topic/Maui-Polynesian-deity"}, {"type": "autre", "label": "Te Ara - Encyclopedia of New Zealand : Māui", "url": "https://teara.govt.nz/en/te-ao-marama-the-natural-world/page-4"}]
   },
   {
@@ -5517,6 +5911,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1100, dans un manuscrit médiéval irlandais aujourd'hui connu sous le nom de Livre de la Vache Brune (Lebor na hUidre), des moines copistes consignent l'une des plus anciennes versions écrites du Táin Bó Cúailnge (« la Razzia des vaches de Cooley »), le récit épique central du cycle mythologique irlandais dit d'Ulster. Il met en scène Cúchulainn, jeune guerrier semi-divin doté d'une force surhumaine, capable d'entrer dans une rage de combat transformant physiquement son apparence (le « riastrad »), qui défend seul sa province d'Ulster contre l'invasion de la reine Medb de Connacht, venue s'emparer d'un taureau brun légendaire. Bien que rédigé au Moyen Âge chrétien, le texte préserve vraisemblablement des éléments beaucoup plus anciens issus des traditions orales celtiques préchrétiennes, offrant aux historiens l'un des rares aperçus substantiels de la mythologie et de la société celtique insulaire d'avant la christianisation. Cúchulainn reste aujourd'hui une figure culturelle majeure en Irlande, invoquée aussi bien dans la littérature que dans l'iconographie politique nationale.",
     anecdote: "Une statue en bronze représentant Cúchulainn mourant, encore debout et attaché à une pierre pour continuer à affronter ses ennemis même après avoir été mortellement blessé, trône aujourd'hui dans le hall principal de la poste centrale de Dublin (le GPO), en mémorial des insurgés irlandais tombés lors du soulèvement de Pâques 1916 contre la domination britannique.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Cúchulainn", "url": "https://fr.wikipedia.org/wiki/C%C3%BAchulainn"}, {"type": "wikipedia", "label": "Wikipédia : Táin Bó Cúailnge", "url": "https://fr.wikipedia.org/wiki/T%C3%A1in_B%C3%B3_C%C3%BAailnge"}, {"type": "autre", "label": "Encyclopaedia Britannica : Cú Chulainn", "url": "https://www.britannica.com/topic/Cu-Chulainn"}]
   },
   {
@@ -5531,6 +5926,7 @@ const BASE_CARTES = [
     description_longue: "En 431 avant notre ère éclate la guerre du Péloponnèse, un conflit de près de trente ans opposant Athènes, puissance maritime et démocratique à son apogée, à Sparte, puissance terrestre oligarchique dominant une coalition rivale de cités grecques. Cette guerre, dont l'historien athénien Thucydide livre un récit contemporain d'une rigueur analytique saluée encore aujourd'hui, marque un tournant décisif dans l'histoire de la Grèce antique : elle épuise durablement les deux camps, provoque des épisodes tragiques (comme le massacre des habitants de l'île de Mélos par Athènes, ou la peste qui ravage la ville assiégée, emportant notamment le stratège Périclès) et se solde finalement, en 404 avant notre ère, par la défaite d'Athènes et la fin de son âge d'or démocratique et culturel. Affaiblies par ce conflit fratricide prolongé, les cités grecques peineront ensuite à résister à la montée en puissance du royaume de Macédoine, qui les unifiera de force sous Philippe II puis son fils Alexandre le Grand quelques décennies plus tard.",
     anecdote: "L'historien Thucydide, contemporain direct du conflit qu'il relate, a lui-même été exilé d'Athènes après un échec militaire dont il porte la responsabilité, ce qui lui a paradoxalement permis d'observer et de documenter la guerre depuis les deux camps, contribuant à faire de son récit l'une des œuvres fondatrices de l'historiographie occidentale, encore étudiée aujourd'hui dans les écoles militaires du monde entier pour son analyse de la psychologie du pouvoir.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre du Péloponnèse", "url": "https://fr.wikipedia.org/wiki/Guerre_du_P%C3%A9loponn%C3%A8se"}, {"type": "wikipedia", "label": "Wikipédia : Thucydide", "url": "https://fr.wikipedia.org/wiki/Thucydide"}, {"type": "autre", "label": "Encyclopaedia Britannica : Peloponnesian War", "url": "https://www.britannica.com/event/Peloponnesian-War"}]
   },
   {
@@ -5545,6 +5941,7 @@ const BASE_CARTES = [
     description_longue: "En 1337, le roi d'Angleterre Édouard III, revendiquant la couronne de France par sa mère, entre en conflit ouvert avec le roi de France Philippe VI, marquant le début d'une longue série de guerres opposant les royaumes de France et d'Angleterre, connue rétrospectivement sous le nom de guerre de Cent Ans (bien que le conflit se soit en réalité étalé, avec plusieurs trêves, sur plus de 116 ans, jusqu'en 1453). Ce conflit voit se succéder des batailles restées célèbres (Crécy, Poitiers, Azincourt, souvent marquées par des défaites françaises face à la supériorité tactique des archers anglais), ainsi que des figures marquantes comme Jeanne d'Arc, dont l'intervention à partir de 1429 contribue à retourner durablement le cours de la guerre en faveur de la France. La guerre de Cent Ans transforme profondément les deux royaumes : elle accélère l'émergence d'un sentiment national naissant, favorise le développement d'armées permanentes professionnelles plutôt que féodales, et marque le déclin définitif de la chevalerie médiévale traditionnelle face aux nouvelles tactiques militaires.",
     anecdote: "Malgré son nom, la guerre de Cent Ans n'a jamais été un conflit ininterrompu : elle a été entrecoupée de longues périodes de trêve et de paix relative, parfois de plusieurs décennies, si bien que la plupart des personnes ayant vécu durant cette période n'ont probablement jamais connu de combats actifs sur l'ensemble de leur existence.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre de Cent Ans", "url": "https://fr.wikipedia.org/wiki/Guerre_de_Cent_Ans"}, {"type": "wikipedia", "label": "Wikipédia : Bataille d'Azincourt", "url": "https://fr.wikipedia.org/wiki/Bataille_d%27Azincourt"}, {"type": "autre", "label": "Encyclopaedia Britannica : Hundred Years' War", "url": "https://www.britannica.com/event/Hundred-Years-War"}]
   },
   {
@@ -5559,6 +5956,7 @@ const BASE_CARTES = [
     description_longue: "En 1618, un incident survenu à Prague — la « défenestration de Prague », au cours de laquelle des nobles protestants tchèques jettent par une fenêtre plusieurs représentants impériaux catholiques (qui survivent à leur chute) — déclenche un conflit qui s'étendra sur trente années et embrasera l'ensemble de l'Europe centrale. Ce qui commence comme une querelle religieuse entre catholiques et protestants au sein du Saint-Empire romain germanique se transforme rapidement en un conflit géopolitique majeur impliquant la quasi-totalité des grandes puissances européennes de l'époque (Autriche, Espagne, Suède, France, Danemark), chacune cherchant à défendre ses propres intérêts stratégiques sous couvert de motifs religieux. La guerre de Trente Ans reste, en proportion de la population de l'époque, l'un des conflits les plus meurtriers de toute l'histoire européenne : certaines régions d'Allemagne perdent jusqu'à un tiers, voire la moitié, de leur population, entre les combats directs, les famines et les épidémies qui accompagnent les armées. Le conflit se conclut en 1648 par les traités de Westphalie, qui posent les bases du système moderne des États-nations souverains encore largement en vigueur aujourd'hui dans les relations internationales.",
     anecdote: "Le principe de souveraineté des États, encore central aujourd'hui dans le droit international et couramment désigné sous le nom de « système westphalien », tire directement son nom des traités de paix de 1648 qui ont mis fin à la guerre de Trente Ans — un héritage juridique et diplomatique de près de quatre siècles issu de l'un des conflits les plus destructeurs de l'histoire européenne.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre de Trente Ans", "url": "https://fr.wikipedia.org/wiki/Guerre_de_Trente_Ans"}, {"type": "wikipedia", "label": "Wikipédia : Paix de Westphalie", "url": "https://fr.wikipedia.org/wiki/Paix_de_Westphalie"}, {"type": "autre", "label": "Encyclopaedia Britannica : Thirty Years' War", "url": "https://www.britannica.com/event/Thirty-Years-War"}]
   },
   {
@@ -5573,6 +5971,7 @@ const BASE_CARTES = [
     description_longue: "Le 18 juin 1815, dans la campagne belge près du village de Waterloo, l'armée française de Napoléon Bonaparte, tout juste revenu d'exil sur l'île d'Elbe pour reprendre le pouvoir en France, affronte les forces coalisées britanniques et prussiennes, commandées respectivement par le duc de Wellington et le maréchal prussien Blücher. Après une journée de combats acharnés, l'arrivée décisive des renforts prussiens en fin de journée fait définitivement basculer la bataille en défaveur des Français, provoquant la débâcle de l'armée napoléonienne. Cette défaite met un terme définitif à l'épopée politique et militaire de Napoléon : contraint d'abdiquer une seconde fois quelques jours plus tard, il est exilé par les Britanniques sur l'île isolée de Sainte-Hélène, dans l'Atlantique Sud, où il mourra six ans plus tard, en 1821. Waterloo marque ainsi la fin définitive de plus de vingt années de guerres napoléoniennes qui avaient ravagé l'Europe, et ouvre la voie au congrès de Vienne, qui redessine durablement les frontières et l'équilibre des puissances européennes pour les décennies suivantes.",
     anecdote: "L'expression « rencontrer son Waterloo », aujourd'hui utilisée dans de nombreuses langues (dont l'anglais et le français) pour désigner une défaite décisive et définitive, tire directement son origine de cette bataille — une postérité linguistique et culturelle rare pour un simple nom de village belge de quelques milliers d'habitants à l'époque.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Bataille de Waterloo", "url": "https://fr.wikipedia.org/wiki/Bataille_de_Waterloo"}, {"type": "wikipedia", "label": "Wikipédia : Napoléon Ier", "url": "https://fr.wikipedia.org/wiki/Napol%C3%A9on_Ier"}, {"type": "autre", "label": "Encyclopaedia Britannica : Battle of Waterloo", "url": "https://www.britannica.com/event/Battle-of-Waterloo"}]
   },
   {
@@ -5587,6 +5986,7 @@ const BASE_CARTES = [
     description_longue: "Le 12 avril 1861, des troupes sudistes ouvrent le feu sur le fort Sumter, en Caroline du Sud, marquant le début officiel de la guerre de Sécession américaine. Ce conflit oppose les États du Nord (l'Union), industrialisés et majoritairement opposés à l'extension de l'esclavage, aux onze États du Sud (les États confédérés), dont l'économie agricole repose largement sur le travail forcé de personnes réduites en esclavage, et qui ont fait sécession à la suite de l'élection à la présidence d'Abraham Lincoln, jugé hostile à leurs intérêts. La guerre, la plus meurtrière de l'histoire des États-Unis avec environ 620 000 morts (plus que dans tous les autres conflits impliquant les États-Unis réunis jusqu'à la Première Guerre mondiale), se conclut en 1865 par la victoire de l'Union et l'abolition définitive de l'esclavage à l'échelle nationale, actée par le 13e amendement de la Constitution américaine. Le conflit laisse cependant des divisions et des tensions raciales profondes qui continueront de marquer durablement la société américaine bien au-delà de sa fin officielle.",
     anecdote: "Le président Abraham Lincoln a été assassiné seulement cinq jours après la reddition officielle de l'armée confédérée, abattu au théâtre par l'acteur sudiste sympathisant John Wilkes Booth — il n'aura donc jamais eu l'occasion de voir se dérouler la période de reconstruction nationale qu'il avait lui-même commencé à planifier pour réunifier le pays.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre de Sécession", "url": "https://fr.wikipedia.org/wiki/Guerre_de_S%C3%A9cession"}, {"type": "wikipedia", "label": "Wikipédia : Abraham Lincoln", "url": "https://fr.wikipedia.org/wiki/Abraham_Lincoln"}, {"type": "autre", "label": "National Park Service : American Civil War", "url": "https://www.nps.gov/subjects/civilwar/index.htm"}]
   },
   {
@@ -5601,6 +6001,7 @@ const BASE_CARTES = [
     description_longue: "Le 25 juin 1950, les forces nord-coréennes, soutenues par l'Union soviétique et bientôt par la Chine communiste, franchissent le 38e parallèle et envahissent la Corée du Sud, cherchant à réunifier de force la péninsule sous un régime communiste. Les Nations unies, dans l'une de leurs toutes premières interventions militaires majeures, envoient une force multinationale menée par les États-Unis pour repousser l'invasion et soutenir la Corée du Sud. Le conflit, qui voit les lignes de front osciller violemment sur toute la péninsule au fil des offensives et contre-offensives successives, s'enlise finalement dans une guerre de position sanglante autour du 38e parallèle initial. Un armistice est signé en 1953, mais aucun traité de paix formel n'a jamais été conclu depuis lors entre les deux Corées, qui restent techniquement toujours en état de guerre à ce jour. Le conflit, souvent qualifié de « guerre oubliée » en Occident car éclipsé dans les mémoires par la Seconde Guerre mondiale qui le précède et la guerre du Vietnam qui le suit, a néanmoins fait plusieurs millions de morts, majoritairement civils.",
     anecdote: "La zone démilitarisée établie en 1953 pour séparer les deux Corées, large d'environ 4 kilomètres et longue de 250 kilomètres, est aujourd'hui devenue, faute de présence humaine depuis plus de soixante-dix ans, l'une des zones les mieux préservées d'Asie sur le plan de la biodiversité, abritant des espèces animales et végétales rares ou menacées ailleurs sur le continent.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre de Corée", "url": "https://fr.wikipedia.org/wiki/Guerre_de_Cor%C3%A9e"}, {"type": "autre", "label": "Encyclopaedia Britannica : Korean War", "url": "https://www.britannica.com/event/Korean-War"}, {"type": "autre", "label": "United Nations : Korean War", "url": "https://www.un.org/en/about-us/history-of-the-un/korean-war"}]
   },
   {
@@ -5615,6 +6016,7 @@ const BASE_CARTES = [
     description_longue: "Du 5 au 10 juin 1967, dans un contexte de tensions croissantes et de mobilisations militaires au Moyen-Orient, Israël lance une série de frappes préventives contre l'Égypte, puis affronte simultanément la Jordanie et la Syrie, dans un conflit qui ne durera que six jours mais transformera durablement la carte géopolitique de la région. À l'issue de ce conflit éclair, Israël occupe la péninsule du Sinaï et la bande de Gaza (pris à l'Égypte), la Cisjordanie et Jérusalem-Est (pris à la Jordanie), ainsi que le plateau du Golan (pris à la Syrie), multipliant par plus de trois la superficie du territoire sous son contrôle en l'espace d'à peine une semaine. Cette victoire rapide et décisive a des conséquences géopolitiques considérables et toujours actuelles : l'occupation israélienne de la Cisjordanie et de Gaza, en particulier, reste au cœur du conflit israélo-palestinien plus d'un demi-siècle plus tard, tandis que le statut du plateau du Golan demeure lui aussi une source de tension persistante entre Israël et la Syrie.",
     anecdote: "La rapidité de la victoire israélienne s'explique en grande partie par la destruction quasi totale de l'aviation égyptienne dès les toutes premières heures du conflit, l'armée israélienne ayant lancé une attaque surprise contre les bases aériennes égyptiennes au sol avant même que la majorité des appareils n'aient pu décoller, neutralisant l'essentiel de la supériorité aérienne adverse en quelques heures seulement.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre des Six Jours", "url": "https://fr.wikipedia.org/wiki/Guerre_des_Six_Jours"}, {"type": "autre", "label": "Encyclopaedia Britannica : Six-Day War", "url": "https://www.britannica.com/event/Six-Day-War"}, {"type": "autre", "label": "United Nations : The Question of Palestine", "url": "https://www.un.org/unispal/history/"}]
   },
   {
@@ -5629,6 +6031,7 @@ const BASE_CARTES = [
     description_longue: "En juillet 1936, une partie de l'armée espagnole, menée par le général Francisco Franco, se soulève contre le gouvernement républicain légalement élu, déclenchant une guerre civile qui durera près de trois ans et fera plusieurs centaines de milliers de morts. Le conflit prend rapidement une dimension internationale : l'Allemagne nazie et l'Italie fasciste apportent un soutien militaire actif aux nationalistes de Franco, testant notamment de nouvelles tactiques de bombardement aérien de populations civiles (comme lors du bombardement de la ville de Guernica en 1937, immortalisé par le tableau de Pablo Picasso), tandis que l'Union soviétique soutient plus modestement le camp républicain, aux côtés de milliers de volontaires étrangers venus du monde entier rejoindre les Brigades internationales par conviction antifasciste. La guerre se termine en 1939 par la victoire des nationalistes, installant Francisco Franco à la tête d'une dictature qui durera près de quarante ans, jusqu'à sa mort en 1975. De nombreux historiens considèrent aujourd'hui ce conflit comme un véritable prélude et un banc d'essai militaire et idéologique à la Seconde Guerre mondiale qui éclatera quelques mois seulement après sa conclusion.",
     anecdote: "Parmi les volontaires étrangers ayant combattu dans les Brigades internationales du côté républicain figurait l'écrivain britannique George Orwell, qui a tiré de cette expérience directe du combat, ainsi que de ses désillusions face aux luttes internes entre factions de gauche, son livre autobiographique Hommage à la Catalogne, considéré aujourd'hui comme l'un des témoignages littéraires majeurs sur ce conflit.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre d'Espagne", "url": "https://fr.wikipedia.org/wiki/Guerre_d%27Espagne"}, {"type": "wikipedia", "label": "Wikipédia : Bombardement de Guernica", "url": "https://fr.wikipedia.org/wiki/Bombardement_de_Guernica"}, {"type": "autre", "label": "Encyclopaedia Britannica : Spanish Civil War", "url": "https://www.britannica.com/event/Spanish-Civil-War"}]
   },
   {
@@ -5643,6 +6046,7 @@ const BASE_CARTES = [
     description_longue: "En janvier 1991, une coalition internationale de 35 pays, menée par les États-Unis et autorisée par l'Organisation des Nations unies, lance l'opération Tempête du désert pour libérer le Koweït, envahi et annexé quelques mois plus tôt, en août 1990, par l'Irak de Saddam Hussein. Après plusieurs semaines de bombardements aériens intensifs, une offensive terrestre extrêmement rapide, ne durant qu'environ cent heures, permet de repousser les forces irakiennes hors du Koweït et de mettre fin au conflit dans un délai record. Cette guerre est aussi la première à être suivie en temps quasi réel par les téléspectateurs du monde entier, notamment grâce aux retransmissions en direct de la chaîne américaine CNN, marquant un tournant dans la manière dont les conflits armés sont médiatisés et perçus par l'opinion publique internationale. Bien que militairement décisive, la guerre du Golfe laisse Saddam Hussein au pouvoir en Irak, une situation qui perdurera jusqu'à une seconde intervention américaine, plus controversée, en 2003.",
     anecdote: "La guerre du Golfe a été surnommée par certains observateurs la première « guerre vidéo » de l'histoire, en raison de la diffusion massive d'images filmées directement depuis des caméras embarquées sur des missiles guidés de précision, montrant leur trajectoire jusqu'à l'impact final — des images qui ont profondément marqué et parfois choqué l'opinion publique mondiale par leur caractère inédit et presque abstrait.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Guerre du Golfe", "url": "https://fr.wikipedia.org/wiki/Guerre_du_Golfe"}, {"type": "autre", "label": "Encyclopaedia Britannica : Persian Gulf War", "url": "https://www.britannica.com/event/Persian-Gulf-War"}, {"type": "autre", "label": "United Nations : Security Council and the Gulf War", "url": "https://www.un.org/securitycouncil/content/repertoire/gulf-war"}]
   },
   {
@@ -5657,6 +6061,7 @@ const BASE_CARTES = [
     description_longue: "En mai 1498, le navigateur portugais Vasco de Gama accoste à Calicut, sur la côte sud-ouest de l'Inde, après un voyage de près de dix mois ayant contourné le cap de Bonne-Espérance, à la pointe sud de l'Afrique. Il devient ainsi le premier Européen connu à établir une liaison maritime directe entre l'Europe et l'Inde, une route qui évite les intermédiaires terrestres coûteux du Proche-Orient et de la Méditerranée orientale jusque-là indispensables au commerce des épices. Cette expédition, financée par la couronne portugaise dans l'espoir de court-circuiter le monopole commercial arabo-vénitien sur les épices asiatiques (poivre, cannelle, clous de girofle), transforme radicalement les équilibres économiques et géopolitiques mondiaux : elle inaugure l'ère de la domination maritime et coloniale européenne en Asie, qui durera plusieurs siècles, et fait du Portugal, pendant plusieurs décennies, la première grande puissance commerciale mondiale, avant d'être supplantée par les Provinces-Unies puis l'Angleterre.",
     anecdote: "Sur les quatre navires et environ 170 hommes ayant quitté le Portugal avec Vasco de Gama en 1497, seuls deux navires et une soixantaine d'hommes environ regagnent finalement le Portugal deux ans plus tard, la majeure partie de l'équipage ayant péri en chemin, principalement du scorbut, une maladie liée à la carence en vitamine C dont la cause ne sera comprise que des siècles plus tard.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Vasco de Gama", "url": "https://fr.wikipedia.org/wiki/Vasco_de_Gama"}, {"type": "autre", "label": "Encyclopaedia Britannica : Vasco da Gama", "url": "https://www.britannica.com/biography/Vasco-da-Gama"}, {"type": "autre", "label": "National Geographic : Vasco da Gama", "url": "https://www.nationalgeographic.org/thisday/may20/vasco-da-gama-reaches-india/"}]
   },
   {
@@ -5671,6 +6076,7 @@ const BASE_CARTES = [
     description_longue: "En mai 1804, les explorateurs américains Meriwether Lewis et William Clark quittent Saint-Louis, dans le Missouri, à la tête d'une expédition mandatée par le président Thomas Jefferson pour explorer et cartographier les vastes territoires récemment acquis par les États-Unis lors de l'achat de la Louisiane à la France, ainsi que pour trouver une éventuelle route fluviale continue jusqu'à l'océan Pacifique. Accompagnés d'une trentaine d'hommes ainsi que de Sacagawea, une jeune guide et interprète amérindienne shoshone dont l'aide diplomatique et pratique se révèle décisive pour la réussite du voyage, ils atteignent finalement l'embouchure du fleuve Columbia, sur la côte Pacifique, en novembre 1805, avant de rentrer à Saint-Louis en 1806. Cette expédition de plus de deux ans et 12 000 kilomètres rapporte une masse considérable d'informations scientifiques nouvelles (relevés géographiques, espèces animales et végétales jusque-là inconnues des naturalistes occidentaux, contacts établis avec de nombreux peuples amérindiens) et ouvre symboliquement la voie à l'expansion territoriale américaine vers l'ouest tout au long du XIXe siècle.",
     anecdote: "Sacagawea a effectué l'intégralité de cette expédition de plusieurs milliers de kilomètres à travers un territoire sauvage et hostile en portant sur son dos son propre bébé, né seulement quelques mois avant le départ — sa présence avec un nourrisson a d'ailleurs contribué à rassurer plusieurs tribus amérindiennes rencontrées en chemin, qui y voyaient la preuve que le groupe n'avait pas d'intentions guerrières.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Expédition Lewis et Clark", "url": "https://fr.wikipedia.org/wiki/Exp%C3%A9dition_Lewis_et_Clark"}, {"type": "wikipedia", "label": "Wikipédia : Sacagawea", "url": "https://fr.wikipedia.org/wiki/Sacagawea"}, {"type": "autre", "label": "National Park Service : Lewis and Clark", "url": "https://www.nps.gov/lecl/index.htm"}]
   },
   {
@@ -5685,6 +6091,7 @@ const BASE_CARTES = [
     description_longue: "Le 14 décembre 1911, l'explorateur polaire norvégien Roald Amundsen et son équipe deviennent les premiers êtres humains connus à atteindre le pôle Sud géographique, plantant le drapeau norvégien sur la calotte glaciaire antarctique. Cet exploit s'inscrit dans une course intense et âprement disputée avec l'expédition britannique rivale du capitaine Robert Falcon Scott, qui atteint le pôle un mois plus tard, en janvier 1912, pour découvrir avec amertume qu'Amundsen l'a devancé. Le succès d'Amundsen doit beaucoup à une préparation méticuleuse et à des choix techniques judicieux : utilisation de traîneaux tirés par des chiens plutôt que par des poneys (mal adaptés au climat antarctique, comme le choisira Scott), vêtements inspirés des techniques traditionnelles inuites, et une planification rigoureuse des dépôts de ravitaillement le long du trajet. Alors qu'Amundsen et toute son équipe rentrent sains et saufs de leur expédition, Scott et ses quatre compagnons périssent tous du froid et de l'épuisement sur le chemin du retour, à seulement quelques kilomètres d'un dépôt de vivres salvateur, transformant leur échec en une tragédie devenue légendaire dans l'histoire de l'exploration polaire britannique.",
     anecdote: "Amundsen avait initialement prévu de tenter d'atteindre le pôle Nord plutôt que le pôle Sud, mais a changé secrètement de destination en apprenant que d'autres explorateurs, Frederick Cook et Robert Peary, revendiquaient déjà avoir atteint le pôle Nord en 1908 et 1909 — il n'a informé son équipage du changement de cap vers l'Antarctique qu'une fois le navire déjà en pleine mer, loin de tout retour possible.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Roald Amundsen", "url": "https://fr.wikipedia.org/wiki/Roald_Amundsen"}, {"type": "wikipedia", "label": "Wikipédia : Expédition Terra Nova", "url": "https://fr.wikipedia.org/wiki/Expédition_Terra_Nova"}, {"type": "autre", "label": "Encyclopaedia Britannica : Roald Amundsen", "url": "https://www.britannica.com/biography/Roald-Amundsen"}]
   },
   {
@@ -5699,6 +6106,7 @@ const BASE_CARTES = [
     description_longue: "Le 6 avril 1909, l'explorateur américain Robert Peary affirme avoir atteint, avec son compagnon afro-américain Matthew Henson et quatre guides inuits, le pôle Nord géographique, devenant ainsi, selon ses propres déclarations, le premier être humain à y parvenir. Cette revendication est toutefois immédiatement contestée par un autre explorateur américain, Frederick Cook, qui affirme de son côté avoir atteint le pôle un an plus tôt, en 1908 — une controverse jamais définitivement tranchée à l'époque et qui alimente encore aujourd'hui les débats parmi les historiens de l'exploration polaire, les moyens de navigation disponibles à l'époque ne permettant pas de vérifier avec certitude absolue la position exacte atteinte par l'un ou l'autre explorateur. Peary obtient finalement la reconnaissance officielle du Congrès américain, mais des analyses ultérieures de ses carnets de navigation ont soulevé des doutes sérieux quant à la vitesse de déplacement qu'il prétend avoir atteinte sur la banquise, jugée invraisemblable par plusieurs experts modernes. Quel que soit le vainqueur réel de cette controverse historique, ces expéditions marquent l'aboutissement spectaculaire de plusieurs décennies de tentatives occidentales pour atteindre les deux pôles de la planète.",
     anecdote: "Matthew Henson, le compagnon afro-américain de Peary présent lors de l'expédition finale, aurait selon plusieurs témoignages atteint le point exact du pôle plusieurs minutes avant Peary lui-même, chargé d'ouvrir la route en éclaireur — sa contribution décisive à l'expédition n'a pourtant été officiellement et pleinement reconnue par les autorités américaines que des décennies plus tard, en raison du racisme de l'époque.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Robert Peary", "url": "https://fr.wikipedia.org/wiki/Robert_Peary"}, {"type": "wikipedia", "label": "Wikipédia : Matthew Henson", "url": "https://fr.wikipedia.org/wiki/Matthew_Henson"}, {"type": "autre", "label": "Encyclopaedia Britannica : Robert E. Peary", "url": "https://www.britannica.com/biography/Robert-E-Peary"}]
   },
   {
@@ -5713,6 +6121,7 @@ const BASE_CARTES = [
     description_longue: "Le 27 juin 1898, le marin d'origine canadienne Joshua Slocum boucle, à bord de son voilier Spray, long d'à peine 11 mètres et largement reconstruit de ses propres mains, le tout premier tour du monde jamais accompli en solitaire à la voile, après plus de trois années de navigation entamées en 1895. Parti de Boston, Slocum traverse l'Atlantique, franchit le détroit de Magellan à la pointe de l'Amérique du Sud, traverse le Pacifique et l'océan Indien, contourne le cap de Bonne-Espérance, puis remonte l'Atlantique pour rentrer chez lui, parcourant au total environ 74 000 kilomètres, sans assistance moderne, GPS ni moyen de communication d'aucune sorte avec la terre ferme. Le récit qu'il tire de cette aventure, Seul autour du monde, publié en 1900, devient un immense succès littéraire et reste considéré aujourd'hui encore comme un texte fondateur de la littérature de navigation en solitaire, inspirant des générations entières de navigateurs. Slocum disparaît lui-même mystérieusement en mer en 1909, lors d'une nouvelle traversée solitaire, sans qu'aucune trace de son navire n'ait jamais été retrouvée.",
     anecdote: "Pour se repérer en pleine mer sans les instruments de navigation modernes les plus sophistiqués de son époque (qu'il n'avait pas les moyens de s'offrir), Slocum utilisait notamment une méthode de navigation à l'estime approximative combinée à des observations astronomiques rudimentaires, parvenant malgré tout à naviguer avec une précision qui a longtemps étonné les marins professionnels ayant étudié son parcours après coup.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Joshua Slocum", "url": "https://fr.wikipedia.org/wiki/Joshua_Slocum"}, {"type": "autre", "label": "Encyclopaedia Britannica : Joshua Slocum", "url": "https://www.britannica.com/biography/Joshua-Slocum"}, {"type": "autre", "label": "Smithsonian Magazine : Joshua Slocum's Solo Voyage", "url": "https://www.smithsonianmag.com/history/joshua-slocums-solo-voyage-180972366/"}]
   },
   {
@@ -5727,6 +6136,7 @@ const BASE_CARTES = [
     description_longue: "En janvier 1778, au cours de sa troisième et dernière expédition dans le Pacifique, le capitaine britannique James Cook devient le premier Européen connu à atteindre l'archipel d'Hawaï, qu'il baptise « îles Sandwich » en l'honneur de son mécène, le comte de Sandwich. Cook avait déjà, lors de ses deux précédents voyages débutés en 1768, cartographié avec une précision remarquable pour l'époque de vastes portions jusque-là mal connues du Pacifique, notamment les côtes de la Nouvelle-Zélande et de l'est de l'Australie, et vérifié l'inexistence d'un grand continent austral mythique longtemps recherché par les navigateurs européens. Ses expéditions, menées avec un souci scientifique inhabituel pour l'époque (il embarque systématiquement des naturalistes, des astronomes et des artistes chargés de documenter précisément la faune, la flore et les populations rencontrées), transforment radicalement la connaissance européenne du Pacifique. James Cook trouve la mort en 1779, tué lors d'un affrontement avec des habitants d'Hawaï, à la suite d'un différend survenu après le vol d'une chaloupe de son navire, alors qu'il était revenu sur l'archipel pour y effectuer des réparations.",
     anecdote: "James Cook a été l'un des tout premiers capitaines de la marine britannique à comprendre et appliquer systématiquement des mesures de prévention contre le scorbut (notamment via la consommation régulière de choucroute et d'agrumes), parvenant à traverser le Pacifique sur de longs mois sans perdre le moindre marin à cause de cette maladie jusque-là redoutée de tous les équipages en haute mer.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : James Cook", "url": "https://fr.wikipedia.org/wiki/James_Cook"}, {"type": "wikipedia", "label": "Wikipédia : Histoire d'Hawaï", "url": "https://fr.wikipedia.org/wiki/Histoire_d%27Hawa%C3%AF"}, {"type": "autre", "label": "Encyclopaedia Britannica : James Cook", "url": "https://www.britannica.com/biography/James-Cook"}]
   },
   {
@@ -5741,6 +6151,7 @@ const BASE_CARTES = [
     description_longue: "En avril 1828, l'explorateur français René Caillié atteint la légendaire cité de Tombouctou, au Mali actuel, après avoir traversé seul, déguisé en marchand musulman égyptien pour ne pas éveiller les soupçons hostiles des populations locales envers les étrangers occidentaux, plusieurs milliers de kilomètres de savane et de désert depuis la côte ouest-africaine. Bien que d'autres Européens l'aient probablement précédé sur place sans en revenir vivants pour en témoigner, Caillié est le premier à parvenir à la fois à atteindre Tombouctou et à rentrer sain et sauf pour raconter son voyage, traversant ensuite le Sahara jusqu'au Maroc. Autodidacte sans grande fortune ni soutien officiel préalable, il avait appris seul l'arabe et les rudiments de l'islam pendant plusieurs années pour préparer méticuleusement cette expédition. Bien que Tombouctou, autrefois grand centre commercial et intellectuel florissant, se révèle à son arrivée être une ville en net déclin par rapport à sa réputation légendaire en Europe, son récit de voyage, publié à son retour, lui vaut une reconnaissance immédiate et le prix de la Société de géographie de Paris.",
     anecdote: "Caillié a dû dissimuler pendant tout son voyage non seulement son identité européenne mais aussi ses véritables intentions d'exploration, prétendant être un musulman égyptien élevé en France puis souhaitant simplement rentrer dans son pays d'origine — un mensonge permanent et risqué qu'il a dû maintenir pendant des mois entiers, sachant qu'être démasqué aurait probablement signifié sa mort immédiate.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : René Caillié", "url": "https://fr.wikipedia.org/wiki/Ren%C3%A9_Caill%C3%A9"}, {"type": "wikipedia", "label": "Wikipédia : Tombouctou", "url": "https://fr.wikipedia.org/wiki/Tombouctou"}, {"type": "autre", "label": "Encyclopaedia Britannica : Timbuktu", "url": "https://www.britannica.com/place/Timbuktu"}]
   },
   {
@@ -5755,6 +6166,7 @@ const BASE_CARTES = [
     description_longue: "En novembre 1855, le missionnaire et explorateur écossais David Livingstone devient le premier Européen connu à découvrir les impressionnantes chutes d'eau du fleuve Zambèze, en Afrique australe, qu'il baptise « chutes Victoria » en l'honneur de la reine britannique, bien qu'elles soient déjà connues et nommées Mosi-oa-Tunya (« la fumée qui tonne ») par les populations locales depuis bien plus longtemps. Au cours de ses nombreuses années d'exploration du continent africain, Livingstone parcourt des milliers de kilomètres à travers des régions jusque-là très mal cartographiées par les Européens, notamment à la recherche des sources du Nil, tout en dénonçant publiquement, avec une conviction sincère, le commerce d'esclaves qui continue de sévir en Afrique orientale à cette époque. Sa disparition prolongée pendant plusieurs années, sans nouvelles fiables parvenant en Europe, déclenche une expédition de recherche financée par un journal américain et menée par le journaliste Henry Morton Stanley, qui finit par le retrouver en 1871 près du lac Tanganyika, prononçant la phrase restée célèbre : « Docteur Livingstone, je présume ? ».",
     anecdote: "Livingstone est mort en 1873 en Afrique, dans l'actuelle Zambie, agenouillé près de son lit comme s'il priait ; par un accord respectueux avec les autorités britanniques, son cœur a été retiré et enterré sur place en Afrique par ses compagnons africains, tandis que le reste de son corps, embaumé, a été rapporté en Angleterre pour y être inhumé à l'abbaye de Westminster.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : David Livingstone", "url": "https://fr.wikipedia.org/wiki/David_Livingstone"}, {"type": "wikipedia", "label": "Wikipédia : Chutes Victoria", "url": "https://fr.wikipedia.org/wiki/Chutes_Victoria"}, {"type": "autre", "label": "Encyclopaedia Britannica : David Livingstone", "url": "https://www.britannica.com/biography/David-Livingstone"}]
   },
   {
@@ -5769,6 +6181,7 @@ const BASE_CARTES = [
     description_longue: "Le 10 avril 1896, à l'occasion des premiers Jeux olympiques modernes organisés à Athènes sous l'impulsion de Pierre de Coubertin, une nouvelle épreuve fait son apparition au programme : le marathon, une course d'environ 40 kilomètres reliant la ville de Marathon à Athènes, censée commémorer la légende antique du soldat grec Phidippidès, qui aurait couru cette même distance en 490 avant notre ère pour annoncer la victoire grecque sur les Perses avant de s'effondrer, mort d'épuisement, juste après avoir livré son message. C'est un coureur local, le berger et porteur d'eau grec Spyrídon Loúis, jusque-là inconnu, qui remporte cette première épreuve olympique sous les acclamations enthousiastes d'un public grec galvanisé par cette victoire nationale symbolique. La distance officielle du marathon, fixée depuis 1921 à 42,195 kilomètres, ne correspond d'ailleurs pas exactement à la distance parcourue lors de cette première course de 1896 : elle a été légèrement allongée lors des Jeux de Londres de 1908, pour permettre à la course de débuter précisément au château de Windsor et de se terminer devant la loge royale du stade, fixant ainsi, presque par accident protocolaire, la distance encore utilisée aujourd'hui dans le monde entier.",
     anecdote: "La légende de Phidippidès mourant après avoir couru pour annoncer la victoire de Marathon est presque certainement une invention littéraire tardive : l'historien grec contemporain le plus fiable de la bataille, Hérodote, ne mentionne absolument pas cet épisode dans son récit détaillé de la bataille, qui n'apparaît que dans des sources beaucoup plus tardives, plusieurs siècles après les faits.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Marathon (sport)", "url": "https://fr.wikipedia.org/wiki/Marathon_(sport)"}, {"type": "wikipedia", "label": "Wikipédia : Spýros Loúis", "url": "https://fr.wikipedia.org/wiki/Sp%C3%BDros_Lo%C3%BAis"}, {"type": "autre", "label": "Comité International Olympique : Athènes 1896", "url": "https://olympics.com/fr/olympic-games/athens-1896"}]
   },
   {
@@ -5783,6 +6196,7 @@ const BASE_CARTES = [
     description_longue: "En juin 1958, lors de la Coupe du monde de football disputée en Suède, le jeune attaquant brésilien Edson Arantes do Nascimento, alors âgé de seulement 17 ans et déjà surnommé Pelé, s'impose comme la révélation du tournoi. Il inscrit notamment un doublé décisif en demi-finale contre la France, puis un triplé en finale contre le pays hôte suédois, remportée 5 buts à 2 par le Brésil, qui décroche ainsi son tout premier titre de champion du monde. Cette performance exceptionnelle d'un joueur encore adolescent fait immédiatement de Pelé une star mondiale du football, un statut qu'il conservera durant toute sa carrière, remportant au total trois Coupes du monde avec le Brésil (1958, 1962, 1970), un record encore inégalé aujourd'hui par aucun autre joueur. Cette victoire de 1958 marque aussi durablement l'histoire du football brésilien : elle installe la Seleção comme l'une des grandes nations historiques du football mondial et popularise à l'échelle planétaire un style de jeu offensif et technique, souvent qualifié depuis lors de « futebol-arte », resté profondément associé à l'identité footballistique brésilienne.",
     anecdote: "Pelé aurait, selon plusieurs témoignages, pleuré de joie et d'épuisement sur le terrain immédiatement après le coup de sifflet final de la finale de 1958, submergé par l'émotion d'avoir remporté un titre mondial à seulement 17 ans — des images de ces larmes, prises dans les bras de son coéquipier, comptent aujourd'hui parmi les photographies les plus emblématiques de l'histoire du football.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Coupe du monde de football de 1958", "url": "https://fr.wikipedia.org/wiki/Coupe_du_monde_de_football_de_1958"}, {"type": "wikipedia", "label": "Wikipédia : Pelé", "url": "https://fr.wikipedia.org/wiki/Pel%C3%A9"}, {"type": "autre", "label": "FIFA : Sweden 1958", "url": "https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/sweden1958"}]
   },
   {
@@ -5797,6 +6211,7 @@ const BASE_CARTES = [
     description_longue: "Le 25 février 1964, le jeune boxeur américain Cassius Clay, alors âgé de 22 ans et outsider présumé face au redoutable champion du monde des poids lourds Sonny Liston, réputé quasiment invincible, crée l'une des plus grandes surprises de l'histoire de la boxe en le battant par abandon au sixième round. Peu après cette victoire, Clay annonce publiquement sa conversion à l'islam et son adhésion à l'organisation Nation of Islam, adoptant le nom de Muhammad Ali, qu'il conservera pour le reste de sa carrière et de sa vie. Ali s'impose dans les années suivantes comme l'une des personnalités sportives les plus marquantes et les plus engagées politiquement du XXe siècle : il refuse notamment, en 1967, d'être incorporé dans l'armée américaine pour combattre au Vietnam, invoquant ses convictions religieuses et son opposition à la guerre, ce qui lui vaut d'être déchu de son titre et interdit de boxe pendant plus de trois ans, avant que sa condamnation ne soit finalement annulée par la Cour suprême des États-Unis. Considéré par beaucoup comme l'un des plus grands boxeurs de tous les temps, Ali reste également une figure emblématique de la lutte pour les droits civiques et contre le racisme aux États-Unis.",
     anecdote: "Avant leur combat, Cassius Clay avait multiplié les provocations verbales spectaculaires envers Sonny Liston, se surnommant lui-même « le plus grand » et prédisant publiquement le round exact auquel il remporterait la victoire — un style de communication provocateur et théâtral, encore rare dans le sport à l'époque, qui deviendra par la suite sa marque de fabrique reconnaissable entre toutes.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Muhammad Ali", "url": "https://fr.wikipedia.org/wiki/Muhammad_Ali"}, {"type": "wikipedia", "label": "Wikipédia : Sonny Liston", "url": "https://fr.wikipedia.org/wiki/Sonny_Liston"}, {"type": "autre", "label": "Encyclopaedia Britannica : Muhammad Ali", "url": "https://www.britannica.com/biography/Muhammad-Ali"}]
   },
   {
@@ -5811,6 +6226,7 @@ const BASE_CARTES = [
     description_longue: "Le 1er juillet 1903, soixante coureurs cyclistes s'élancent de la banlieue parisienne pour la toute première édition du Tour de France, une course organisée par le journal sportif L'Auto (ancêtre direct de L'Équipe), dans le but avoué de relancer ses ventes, alors en net recul face à la concurrence d'un journal rival. L'idée, proposée par le journaliste Géo Lefèvre, consiste à créer une course cycliste par étapes faisant le tour complet du pays, un concept jusque-là inédit dans le monde du cyclisme. Le succès populaire et médiatique est immédiat et dépasse largement les espérances des organisateurs, les ventes du journal L'Auto étant multipliées plusieurs fois durant la course. Remportée par le coureur français Maurice Garin, cette première édition, longue d'environ 2 428 kilomètres répartis en seulement six étapes très longues (certaines dépassant 400 kilomètres, parcourues parfois de nuit), pose les bases de ce qui deviendra l'une des compétitions sportives annuelles les plus suivies et les plus prestigieuses au monde, disputée sans interruption majeure (hormis les deux guerres mondiales) depuis maintenant plus d'un siècle.",
     anecdote: "La deuxième édition du Tour de France, en 1904, a été marquée par une telle ampleur de tricheries (coureurs prenant le train ou la voiture sur certaines portions, sabotages entre concurrents, jets de clous sur la route) que les organisateurs ont sérieusement envisagé d'arrêter définitivement la course après seulement deux éditions, avant de finalement décider de la poursuivre en renforçant considérablement les contrôles.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Tour de France 1903", "url": "https://fr.wikipedia.org/wiki/Tour_de_France_1903"}, {"type": "wikipedia", "label": "Wikipédia : Maurice Garin", "url": "https://fr.wikipedia.org/wiki/Maurice_Garin"}, {"type": "autre", "label": "Le Tour de France (site officiel) : Histoire", "url": "https://www.letour.fr/fr/histoire"}]
   },
   {
@@ -5825,6 +6241,7 @@ const BASE_CARTES = [
     description_longue: "Le 6 mai 1954, sur une piste d'athlétisme d'Oxford, l'étudiant en médecine et coureur britannique Roger Bannister devient le premier être humain officiellement chronométré à parcourir la distance du mile (environ 1 609 mètres) en moins de quatre minutes, avec un temps de 3 minutes 59 secondes et 4 dixièmes. Cette barrière symbolique était considérée depuis des années par de nombreux experts et physiologistes du sport comme une limite physiologique quasiment infranchissable pour le corps humain. Bannister, qui s'entraînait alors seulement pendant ses heures de pause déjeuner entre ses études de médecine, prépare méticuleusement sa tentative avec l'aide de deux camarades coureurs chargés de régler l'allure de course à ses côtés. Fait révélateur de la nature largement psychologique de cette barrière : à peine 46 jours après l'exploit de Bannister, l'Australien John Landy devient à son tour le deuxième homme à descendre sous les quatre minutes, suivi rapidement par de nombreux autres athlètes, une fois la limite mentale prouvée franchissable par un premier précurseur. Bannister abandonnera d'ailleurs la compétition d'athlétisme de haut niveau peu après cet exploit pour se consacrer entièrement à sa carrière de neurologue.",
     anecdote: "Roger Bannister a toujours affirmé, tout au long de sa vie, être davantage fier de sa carrière de neurologue et de ses contributions à la recherche médicale que de son record sportif mondialement célèbre, une position rare et assumée pour l'un des athlètes les plus emblématiques de l'histoire du sport britannique.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Roger Bannister", "url": "https://fr.wikipedia.org/wiki/Roger_Bannister"}, {"type": "autre", "label": "Encyclopaedia Britannica : Roger Bannister", "url": "https://www.britannica.com/biography/Roger-Bannister"}, {"type": "autre", "label": "World Athletics : Bannister breaks 4-minute mile", "url": "https://worldathletics.org/heritage/news/heritage-bannister-four-minute-mile"}]
   },
   {
@@ -5839,6 +6256,7 @@ const BASE_CARTES = [
     description_longue: "En 1987, après des décennies durant lesquelles les instances dirigeantes du rugby s'étaient montrées réticentes à l'idée d'un tournoi mondial (par crainte de fragiliser le statut amateur du sport, encore officiellement en vigueur à l'époque), la toute première Coupe du monde de rugby à XV est organisée conjointement par l'Australie et la Nouvelle-Zélande. C'est cette dernière, l'équipe des All Blacks, qui remporte le tout premier titre mondial, s'imposant en finale face à la France à Auckland. Ce tournoi, disputé tous les quatre ans depuis, deviendra progressivement l'une des plus grandes compétitions sportives internationales, aux côtés de la Coupe du monde de football et des Jeux olympiques, en termes d'audience et d'importance pour les nations où le rugby occupe une place culturelle majeure (Nouvelle-Zélande, Afrique du Sud, pays des îles britanniques, France). Le rugby professionnel, encore inexistant lors de cette première édition, ne sera officiellement autorisé par les instances internationales qu'en 1995, transformant en profondeur l'organisation et le niveau de la compétition dans les décennies suivantes.",
     anecdote: "La Coupe du monde de rugby elle-même, le trophée remis à l'équipe victorieuse, porte le nom de Webb Ellis Cup, en hommage à William Webb Ellis, un élève d'un collège anglais qui aurait, selon une légende sportive largement admise mais jamais formellement prouvée par les historiens, inventé le rugby en 1823 en ramassant le ballon à la main lors d'un match de football scolaire, en violation des règles alors en vigueur.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Coupe du monde de rugby à XV 1987", "url": "https://fr.wikipedia.org/wiki/Coupe_du_monde_de_rugby_%C3%A0_XV_1987"}, {"type": "wikipedia", "label": "Wikipédia : William Webb Ellis", "url": "https://fr.wikipedia.org/wiki/William_Webb_Ellis"}, {"type": "autre", "label": "World Rugby : Rugby World Cup History", "url": "https://www.rugbyworldcup.com/history"}]
   },
   {
@@ -5853,6 +6271,7 @@ const BASE_CARTES = [
     description_longue: "En juillet 1877, le All England Croquet and Lawn Tennis Club, situé dans le quartier londonien de Wimbledon, organise le tout premier tournoi de tennis sur gazon jamais disputé, dans le but de financer l'achat d'un nouveau rouleau à gazon pour l'entretien de ses terrains. Seulement 22 joueurs, tous des hommes amateurs britanniques, participent à cette édition inaugurale, disputée sur un unique court, devant un public restreint d'environ 200 spectateurs payants. Spencer Gore en remporte le titre. Ce tournoi, qui prend rapidement de l'ampleur dans les décennies suivantes (l'épreuve féminine est introduite dès 1884), devient progressivement le plus prestigieux et le plus ancien tournoi de tennis au monde, aujourd'hui l'un des quatre tournois du Grand Chelem aux côtés de Roland-Garros, de l'US Open et de l'Open d'Australie. Wimbledon reste aujourd'hui encore le seul des quatre tournois majeurs à se disputer exclusivement sur gazon et à imposer à ses joueurs et joueuses un code vestimentaire strictement blanc, une tradition remontant directement à l'époque victorienne de sa création.",
     anecdote: "La règle du tout-blanc obligatoire à Wimbledon, encore rigoureusement appliquée aujourd'hui (les organisateurs ont même précisé récemment que les sous-vêtements des joueuses devaient eux aussi être blancs), trouve son origine dans les codes vestimentaires victoriens de la fin du XIXe siècle, où le blanc était considéré comme la couleur la plus appropriée pour dissimuler discrètement les marques de transpiration, jugées inconvenantes en public à l'époque.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Tournoi de Wimbledon", "url": "https://fr.wikipedia.org/wiki/Tournoi_de_Wimbledon"}, {"type": "autre", "label": "Wimbledon (site officiel) : History", "url": "https://www.wimbledon.com/en_GB/atoz/history.html"}, {"type": "autre", "label": "Encyclopaedia Britannica : Wimbledon Championships", "url": "https://www.britannica.com/sports/Wimbledon-Championships"}]
   },
   {
@@ -5867,6 +6286,7 @@ const BASE_CARTES = [
     description_longue: "En l'an 80 de notre ère, l'empereur romain Titus inaugure officiellement le Colisée (à l'origine baptisé amphithéâtre Flavien, du nom de la dynastie impériale qui l'a fait construire), pouvant accueillir, selon les estimations des historiens, entre 50 000 et 80 000 spectateurs. Les cérémonies d'inauguration s'étalent sur une centaine de jours, marqués par des combats de gladiateurs et des chasses d'animaux exotiques, importés à grands frais depuis toutes les provinces de l'Empire. Prouesse d'ingénierie remarquable pour son époque, l'édifice dispose d'un système sophistiqué de galeries souterraines (l'hypogée) permettant de faire surgir animaux et décors directement au centre de l'arène par un réseau d'ascenseurs et de trappes actionnés manuellement, ainsi que d'un immense velum, une toile rétractable protégeant les spectateurs du soleil, manœuvrée par des marins spécialement affectés à cette tâche. Le Colisée reste aujourd'hui l'un des monuments les plus emblématiques et les plus visités de l'Antiquité romaine, malgré des siècles de pillages, de tremblements de terre et de récupération de ses pierres pour d'autres constructions à travers Rome.",
     anecdote: "Le Colisée aurait été financé, selon une inscription retrouvée sur le site, en grande partie grâce au butin rapporté par les légions romaines après la prise de Jérusalem en l'an 70, y compris probablement une partie issue du pillage du Temple juif — un lien direct entre l'un des monuments les plus emblématiques de Rome et l'un des événements les plus dramatiques de l'histoire juive antique.",
     fiabilite: "avere",
+    difficulte: "facile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Colisée", "url": "https://fr.wikipedia.org/wiki/Colis%C3%A9e"}, {"type": "autre", "label": "UNESCO : Centre historique de Rome", "url": "https://whc.unesco.org/fr/list/91/"}, {"type": "autre", "label": "Encyclopaedia Britannica : Colosseum", "url": "https://www.britannica.com/topic/Colosseum-Rome-Italy"}]
   },
   {
@@ -5881,6 +6301,7 @@ const BASE_CARTES = [
     description_longue: "En 1163, sous l'impulsion de l'évêque de Paris Maurice de Sully, débute la construction de la cathédrale Notre-Dame de Paris, sur l'île de la Cité, à l'emplacement d'édifices religieux plus anciens. Le chantier, qui s'étale sur environ deux siècles avant son achèvement complet vers 1345, illustre l'essor de l'art gothique naissant en Île-de-France, caractérisé par ses arcs-boutants permettant de construire des murs plus fins percés de vastes vitraux, ses voûtes sur croisées d'ogives et sa recherche constante de verticalité et de lumière. Notre-Dame devient rapidement l'un des principaux lieux de culte et de cérémonies royales du royaume de France, accueillant notamment le couronnement de Napoléon Ier en 1804. Après avoir traversé les dégradations de la Révolution française puis connu une importante restauration au XIXe siècle sous la direction de l'architecte Eugène Viollet-le-Duc, la cathédrale est partiellement détruite par un incendie majeur en avril 2019, qui provoque l'effondrement de sa flèche et d'une grande partie de sa toiture, avant d'être entièrement restaurée et rouverte au public en décembre 2024.",
     anecdote: "L'incendie d'avril 2019, qui a ému le monde entier en direct devant les caméras de télévision, a paradoxalement permis aux chercheurs et archéologues d'accéder, lors des travaux de restauration qui ont suivi, à des éléments jusque-là invisibles de la structure médiévale d'origine, notamment le tout premier squelette du réseau de charpente en bois du XIIe siècle, révélant des détails inédits sur les techniques de construction gothique.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Cathédrale Notre-Dame de Paris", "url": "https://fr.wikipedia.org/wiki/Cath%C3%A9drale_Notre-Dame_de_Paris"}, {"type": "autre", "label": "Ministère de la Culture : Notre-Dame de Paris", "url": "https://www.notredamedeparis.fr/"}, {"type": "autre", "label": "UNESCO : Paris, rives de la Seine", "url": "https://whc.unesco.org/fr/list/600/"}]
   },
   {
@@ -5895,6 +6316,7 @@ const BASE_CARTES = [
     description_longue: "En 1882 débutent, sous la direction initiale de l'architecte Francisco de Paula del Villar puis, dès l'année suivante, sous celle du jeune architecte catalan Antoni Gaudí, les travaux de construction de la basilique de la Sagrada Família, à Barcelone. Gaudí y développe un style architectural entièrement personnel et novateur, mêlant des influences gothiques et naturalistes, avec des formes organiques directement inspirées de la nature (arbres, os, coquillages) et des solutions structurelles très en avance sur son temps, comme des colonnes inclinées imitant des troncs d'arbres ramifiés pour mieux répartir les charges. Gaudí consacre les quarante dernières années de sa vie presque exclusivement à ce projet titanesque, qu'il sait ne jamais voir achevé de son vivant, allant jusqu'à s'y installer sur place vers la fin de sa vie. Il meurt accidentellement en 1926, renversé par un tramway alors qu'il se rendait à pied à l'église, sans que les passants ne le reconnaissent immédiatement en raison de sa tenue négligée. Plus d'un siècle après le début du chantier, la construction de la Sagrada Família, financée exclusivement par des dons privés et les revenus touristiques sans aucun financement public, se poursuit encore aujourd'hui, avec un achèvement désormais annoncé pour les années à venir.",
     anecdote: "Antoni Gaudí, mortellement blessé par le tramway qui l'a percuté en 1926, a d'abord été pris pour un mendiant sans ressources en raison de ses vêtements usés et de l'absence de papiers d'identité sur lui, et a été transporté dans un hôpital réservé aux indigents, où il n'a été formellement identifié et reconnu par ses proches que le lendemain, alors que son état s'était déjà considérablement dégradé.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Sagrada Família", "url": "https://fr.wikipedia.org/wiki/Sagrada_Fam%C3%ADlia"}, {"type": "wikipedia", "label": "Wikipédia : Antoni Gaudí", "url": "https://fr.wikipedia.org/wiki/Antoni_Gaud%C3%AD"}, {"type": "autre", "label": "Sagrada Família (site officiel) : Histoire", "url": "https://sagradafamilia.org/fr/histoire"}]
   },
   {
@@ -5909,6 +6331,7 @@ const BASE_CARTES = [
     description_longue: "Le 20 octobre 1973, l'Opéra de Sydney, en Australie, est officiellement inauguré par la reine Élisabeth II, après un chantier long et particulièrement mouvementé de quatorze années. Conçu par l'architecte danois Jørn Utzon, vainqueur en 1957 d'un concours international d'architecture, l'édifice se distingue par sa silhouette spectaculaire de coques blanches évoquant des voiles de bateau ou des coquillages, posée directement sur un promontoire s'avançant dans le port de Sydney. Le projet, initialement estimé à 7 millions de dollars australiens et à quatre années de travaux, connaît d'importants dépassements budgétaires et de calendrier (le coût final avoisine les 102 millions de dollars), en grande partie liés aux défis techniques inédits posés par la réalisation de ses toitures courbes complexes, qui nécessitent le développement de solutions d'ingénierie totalement nouvelles pour l'époque. Utzon lui-même démissionne du projet en 1966, en froid avec les autorités locales, et ne verra jamais l'édifice achevé ni ne remettra les pieds en Australie de son vivant. Devenu l'un des monuments les plus reconnaissables au monde et symbole national de l'Australie, l'Opéra de Sydney est classé au patrimoine mondial de l'UNESCO depuis 2007.",
     anecdote: "Jørn Utzon n'a jamais vu son chef-d'œuvre achevé en personne : brouillé avec les autorités australiennes qui l'ont poussé à la démission en 1966, il n'est jamais retourné en Australie de son vivant, et c'est seulement en 1999, soit plus de vingt-cinq ans après l'inauguration, qu'il a accepté une réconciliation officielle avec les autorités locales, sans pour autant faire le voyage lui-même.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Opéra de Sydney", "url": "https://fr.wikipedia.org/wiki/Op%C3%A9ra_de_Sydney"}, {"type": "wikipedia", "label": "Wikipédia : Jørn Utzon", "url": "https://fr.wikipedia.org/wiki/J%C3%B8rn_Utzon"}, {"type": "autre", "label": "UNESCO : Sydney Opera House", "url": "https://whc.unesco.org/fr/list/166/"}]
   },
   {
@@ -5923,6 +6346,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1450, sous le règne de l'empereur inca Pachacútec, est construite la cité de Machu Picchu, perchée à plus de 2 400 mètres d'altitude sur un éperon rocheux des Andes péruviennes, probablement conçue comme résidence royale et sanctuaire religieux plutôt que comme simple ville ordinaire. Les bâtisseurs incas y déploient une maîtrise remarquable de la taille et de l'assemblage de blocs de pierre sans mortier, ajustés avec une précision telle que la lame d'un couteau ne peut souvent pas se glisser entre les blocs, une technique qui confère à l'édifice une résistance exceptionnelle aux fréquents séismes de la région andine. Abandonnée environ un siècle plus tard, probablement au moment de la conquête espagnole du Pérou dans les années 1530, la cité échappe totalement à la connaissance et à la destruction des conquistadors espagnols, qui ne la découvrent jamais, recouverte par la végétation dense de la forêt tropicale de montagne pendant près de quatre siècles. Elle n'est redécouverte pour le monde occidental qu'en 1911 par l'explorateur américain Hiram Bingham, bien qu'elle n'ait en réalité jamais été totalement oubliée des populations locales vivant dans la région.",
     anecdote: "Malgré des décennies de recherches archéologiques poussées, la fonction précise et le nom d'origine réel donné par les Incas eux-mêmes à ce site restent encore aujourd'hui incertains : « Machu Picchu », qui signifie « vieille montagne » en langue quechua, est en réalité simplement le nom du sommet montagneux voisin, adopté par commodité par les archéologues occidentaux plutôt qu'un nom historique authentique du site lui-même.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Machu Picchu", "url": "https://fr.wikipedia.org/wiki/Machu_Picchu"}, {"type": "wikipedia", "label": "Wikipédia : Hiram Bingham", "url": "https://fr.wikipedia.org/wiki/Hiram_Bingham_(explorateur)"}, {"type": "autre", "label": "UNESCO : Sanctuaire historique de Machu Picchu", "url": "https://whc.unesco.org/fr/list/274/"}]
   },
   {
@@ -5937,6 +6361,7 @@ const BASE_CARTES = [
     description_longue: "Vers 1150, s'achève au Cambodge la construction du temple d'Angkor Vat, sous le règne du roi khmer Suryavarman II, à l'origine dédié au dieu hindou Vishnou avant d'être progressivement converti en sanctuaire bouddhiste dans les siècles suivants. Avec une superficie totale avoisinant les 160 hectares, entouré d'un vaste fossé rempli d'eau évoquant symboliquement l'océan cosmique de la mythologie hindoue, Angkor Vat est considéré comme le plus grand monument religieux jamais construit sur Terre, dépassant en superficie la plupart des grandes cathédrales et temples ultérieurs. Ses tours centrales, disposées en forme de fleur de lotus, ainsi que ses kilomètres de bas-reliefs sculptés représentant des scènes mythologiques hindoues (notamment le célèbre « Barattage de la mer de lait »), témoignent d'une maîtrise architecturale, artistique et logistique exceptionnelle de la civilisation khmère à son apogée. Progressivement abandonné après le déclin de l'empire khmer et l'envahissement par la végétation tropicale environnante, le site est redécouvert et fait connaître à l'Occident au XIXe siècle par le naturaliste français Henri Mouhot, avant de devenir aujourd'hui l'un des sites archéologiques les plus visités d'Asie du Sud-Est et le symbole national du Cambodge, figurant même sur son drapeau.",
     anecdote: "Angkor Vat est le seul monument architectural au monde à figurer directement sur le drapeau national d'un pays, le Cambodge, une reconnaissance officielle et symbolique unique témoignant de l'importance identitaire et culturelle exceptionnelle de ce temple pour la nation cambodgienne moderne.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Angkor Vat", "url": "https://fr.wikipedia.org/wiki/Angkor_Vat"}, {"type": "autre", "label": "UNESCO : Angkor", "url": "https://whc.unesco.org/fr/list/668/"}, {"type": "autre", "label": "Encyclopaedia Britannica : Angkor Wat", "url": "https://www.britannica.com/topic/Angkor-Wat"}]
   },
   {
@@ -5951,6 +6376,7 @@ const BASE_CARTES = [
     description_longue: "Le 27 août 1883, le volcan Krakatoa, situé sur une petite île du détroit de la Sonde, entre Java et Sumatra, en Indonésie, entre en éruption dans l'une des explosions volcaniques les plus puissantes jamais enregistrées par des instruments scientifiques. Le bruit de l'explosion finale, entendu jusqu'à plus de 4 800 kilomètres de distance (jusqu'à l'île Rodrigues, dans l'océan Indien), reste le son le plus fort jamais mesuré dans l'histoire moderne. L'éruption fait s'effondrer une grande partie de l'île sur elle-même et déclenche des vagues de tsunami dévastatrices, atteignant par endroits plus de 30 mètres de hauteur, qui font environ 36 000 morts dans les régions côtières environnantes. Les immenses quantités de cendres volcaniques projetées dans la haute atmosphère provoquent également des couchers de soleil d'un rouge intense observés dans le monde entier pendant plusieurs mois, ainsi qu'un refroidissement climatique global temporaire mesurable pendant plusieurs années. L'éruption du Krakatoa reste aujourd'hui encore l'une des catastrophes naturelles les plus étudiées par les volcanologues, ayant considérablement fait progresser la compréhension scientifique des risques volcaniques et des tsunamis.",
     anecdote: "Le tableau Le Cri, peint par l'artiste norvégien Edvard Munch en 1893, dont le ciel rougeoyant et tourmenté est devenu l'une des images les plus reconnaissables de l'art moderne, aurait pu être partiellement inspiré par les spectaculaires couchers de soleil rouge sang observés en Europe dans les mois ayant suivi l'éruption du Krakatoa, une hypothèse avancée par plusieurs historiens de l'art et confirmée par des études climatologiques rétrospectives.",
     fiabilite: "avere",
+    difficulte: "moyenne",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Éruption du Krakatoa en 1883", "url": "https://fr.wikipedia.org/wiki/%C3%89ruption_du_Krakatoa_en_1883"}, {"type": "autre", "label": "USGS : Krakatoa", "url": "https://www.usgs.gov/volcanoes"}, {"type": "autre", "label": "Encyclopaedia Britannica : Krakatoa", "url": "https://www.britannica.com/place/Krakatoa"}]
   },
   {
@@ -5965,6 +6391,7 @@ const BASE_CARTES = [
     description_longue: "Le 1er novembre 1755, jour de la Toussaint, un séisme d'une magnitude estimée à environ 8,5 à 9 frappe Lisbonne, alors capitale de l'un des plus vastes empires coloniaux du monde. Les secousses, ressenties jusqu'en Afrique du Nord et en Scandinavie, détruisent une grande partie de la ville en quelques minutes ; les incendies déclenchés par les innombrables cierges allumés pour la fête religieuse, puis un tsunami dévastateur remontant l'estuaire du Tage, achèvent de dévaster la capitale portugaise. Le bilan humain, difficile à établir précisément, est estimé entre 30 000 et 50 000 morts sur une population urbaine d'environ 200 000 habitants. Au-delà de ses conséquences matérielles et humaines immédiates, cette catastrophe a un retentissement intellectuel considérable dans toute l'Europe des Lumières : elle alimente notamment une intense controverse philosophique sur l'existence du mal et la justice divine, incitant Voltaire à rédiger son Poème sur le désastre de Lisbonne puis son conte philosophique Candide, qui remet en question l'idée optimiste selon laquelle le monde tel qu'il existe serait nécessairement le meilleur possible.",
     anecdote: "Le premier ministre portugais de l'époque, le marquis de Pombal, aurait répondu à la question de savoir que faire face à l'ampleur du désastre par la formule restée célèbre : « Enterrer les morts et nourrir les vivants » — il organise ensuite l'une des toutes premières reconstructions urbaines planifiées scientifiquement de l'histoire, avec des immeubles conçus pour mieux résister aux futurs séismes.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Tremblement de terre de 1755 à Lisbonne", "url": "https://fr.wikipedia.org/wiki/Tremblement_de_terre_de_1755_%C3%A0_Lisbonne"}, {"type": "wikipedia", "label": "Wikipédia : Candide ou l'Optimisme", "url": "https://fr.wikipedia.org/wiki/Candide_ou_l%27Optimisme"}, {"type": "autre", "label": "Encyclopaedia Britannica : Lisbon earthquake of 1755", "url": "https://www.britannica.com/event/Lisbon-earthquake-of-1755"}]
   },
   {
@@ -5979,6 +6406,7 @@ const BASE_CARTES = [
     description_longue: "En 1912, le météorologue et géophysicien allemand Alfred Wegener présente publiquement sa théorie de la dérive des continents, selon laquelle tous les continents actuels auraient autrefois formé une seule et unique masse continentale, qu'il baptise la Pangée, avant de se fragmenter et de dériver lentement à la surface du globe jusqu'à leurs positions actuelles. Wegener s'appuie sur un faisceau d'indices convergents pour étayer son hypothèse : la correspondance troublante entre les côtes de l'Afrique et de l'Amérique du Sud, qui semblent s'emboîter comme les pièces d'un puzzle, mais aussi la présence de fossiles identiques et de formations géologiques similaires de part et d'autre de l'océan Atlantique, aujourd'hui séparées par des milliers de kilomètres. Sa théorie, pourtant étayée par des preuves solides, se heurte à un rejet quasi unanime de la communauté scientifique de son époque, faute d'un mécanisme physique crédible et démontrable capable d'expliquer comment des continents entiers pourraient réellement se déplacer. Il faudra attendre les années 1960, plusieurs décennies après la mort de Wegener en 1930 lors d'une expédition scientifique au Groenland, et la découverte de l'expansion des fonds océaniques, pour que sa théorie soit enfin validée et intégrée dans le cadre plus large, aujourd'hui pleinement admis, de la tectonique des plaques.",
     anecdote: "Alfred Wegener, dont la théorie a fini par révolutionner entièrement les sciences de la Terre, n'était pourtant pas lui-même géologue de formation mais météorologue et explorateur polaire : cette absence de légitimité disciplinaire reconnue par ses pairs géologues de l'époque a probablement contribué, en plus du manque de mécanisme physique convaincant, au rejet initial et prolongé de ses idées pourtant aujourd'hui unanimement reconnues comme fondatrices.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Alfred Wegener", "url": "https://fr.wikipedia.org/wiki/Alfred_Wegener"}, {"type": "wikipedia", "label": "Wikipédia : Dérive des continents", "url": "https://fr.wikipedia.org/wiki/D%C3%A9rive_des_continents"}, {"type": "autre", "label": "USGS : Historical perspective on continental drift", "url": "https://pubs.usgs.gov/gip/dynamic/historical.html"}]
   },
   {
@@ -5993,6 +6421,7 @@ const BASE_CARTES = [
     description_longue: "Dans la nuit du 12 au 13 novembre 1970, le cyclone Bhola frappe la région côtière du Pakistan oriental (l'actuel Bangladesh), provoquant une onde de tempête gigantesque qui submerge les basses terres extrêmement peuplées du delta du Gange et du Brahmapoutre. Le bilan humain, très difficile à établir avec précision en raison du chaos engendré et des moyens de communication limités de l'époque dans cette région, est estimé entre 300 000 et 500 000 morts selon les sources, ce qui fait de ce cyclone la catastrophe naturelle météorologique la plus meurtrière jamais enregistrée dans l'histoire moderne. La gestion jugée très défaillante de la catastrophe par le gouvernement pakistanais, alors basé loin de la région touchée, alimente un profond ressentiment politique dans cette partie orientale et essentiellement bengalie du pays, déjà marquée par de fortes tensions ethniques et politiques avec le pouvoir central. Cette catastrophe est aujourd'hui considérée par de nombreux historiens comme l'un des facteurs déclencheurs majeurs de la guerre de libération qui aboutira, l'année suivante, à l'indépendance du Bangladesh.",
     anecdote: "La catastrophe du cyclone Bhola a directement inspiré, l'année suivante, l'organisation par le musicien George Harrison (ex-Beatles) et le musicien indien Ravi Shankar du « Concert for Bangladesh » en 1971 à New York, considéré comme le tout premier grand concert caritatif de l'histoire de la musique moderne, un modèle qui inspirera plus tard des événements comme le Live Aid.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Cyclone Bhola", "url": "https://fr.wikipedia.org/wiki/Cyclone_Bhola"}, {"type": "autre", "label": "Encyclopaedia Britannica : Bhola cyclone", "url": "https://www.britannica.com/event/Bhola-cyclone"}, {"type": "autre", "label": "NOAA : Deadliest tropical cyclones", "url": "https://www.nhc.noaa.gov/outreach/history/"}]
   },
   {
@@ -6007,6 +6436,7 @@ const BASE_CARTES = [
     description_longue: "Le 8 mai 1902, la montagne Pelée, un volcan situé sur l'île de la Martinique, entre en éruption de façon soudaine et extraordinairement violente, projetant en quelques minutes seulement un nuage ardent de gaz brûlants, de cendres et de roches (une « nuée ardente ») directement sur la ville voisine de Saint-Pierre, alors surnommée le « Petit Paris des Antilles » pour son rayonnement culturel et économique dans la région. La ville entière est anéantie en l'espace de quelques minutes à peine, faisant environ 28 000 à 30 000 morts, ce qui en fait la catastrophe volcanique la plus meurtrière du XXe siècle. Sur l'ensemble de la population de la ville, seuls quelques rares survivants sont recensés, dont le cas le plus célèbre reste celui de Ludger Sylbaris, un prisonnier incarcéré dans une cellule de prison particulièrement bien isolée et enterrée, qui survit à l'éruption malgré de graves brûlures et devient par la suite une attraction itinérante du cirque Barnum, présenté comme « l'homme qui a survécu à la fin du monde ». Cette catastrophe a également marqué durablement la volcanologie moderne, popularisant l'étude scientifique systématique des nuées ardentes comme phénomène volcanique spécifique particulièrement dangereux.",
     anecdote: "Les autorités locales et le gouverneur de la Martinique auraient, selon plusieurs témoignages historiques, sciemment minimisé les signes avant-coureurs de l'éruption dans les jours précédant la catastrophe, en partie pour ne pas perturber des élections locales prévues à peine quelques jours plus tard, contribuant ainsi, selon certains historiens, à l'ampleur tragique du bilan humain final.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Éruption de la montagne Pelée de 1902", "url": "https://fr.wikipedia.org/wiki/%C3%89ruption_de_la_montagne_Pel%C3%A9e_de_1902"}, {"type": "wikipedia", "label": "Wikipédia : Ludger Sylbaris", "url": "https://fr.wikipedia.org/wiki/Ludger_Sylbaris"}, {"type": "autre", "label": "Encyclopaedia Britannica : Mount Pelée", "url": "https://www.britannica.com/place/Mount-Pelee"}]
   },
   {
@@ -6021,6 +6451,7 @@ const BASE_CARTES = [
     description_longue: "À partir du milieu des années 1930, une succession de sécheresses sévères combinées à des décennies de pratiques agricoles intensives ayant épuisé et fragilisé les sols des Grandes Plaines américaines (Oklahoma, Texas, Kansas, Colorado) provoque une série de gigantesques tempêtes de poussière, connues collectivement sous le nom de « Dust Bowl ». D'énormes nuages de terre arable, littéralement arrachée par le vent faute de couverture végétale suffisante pour la retenir, obscurcissent le ciel sur des centaines de kilomètres, provoquant des cas de « pneumonie de la poussière » chez de nombreux habitants et rendant par endroits l'agriculture totalement impossible pendant plusieurs années consécutives. Cette catastrophe écologique, aggravée par la Grande Dépression économique qui frappe simultanément les États-Unis, pousse environ 2,5 millions de personnes à quitter la région, dans l'un des plus importants exodes internes de l'histoire américaine, immortalisé notamment par le roman de John Steinbeck Les Raisins de la colère. Le Dust Bowl pousse le gouvernement fédéral américain à mettre en place, dans les années suivantes, les premières grandes politiques de conservation des sols et d'agriculture durable à l'échelle nationale, encore largement en vigueur aujourd'hui.",
     anecdote: "Le 11 mai 1934, l'une des tempêtes de poussière les plus massives du Dust Bowl a transporté une quantité colossale de terre arrachée aux Grandes Plaines jusqu'à des villes situées à des milliers de kilomètres de distance, dont Chicago, New York et Washington D.C., où une fine couche de poussière rougeâtre est retombée sur les capitales de la côte est, rendant visible et tangible pour les populations urbaines une catastrophe qui semblait pourtant se dérouler loin de chez elles.",
     fiabilite: "avere",
+    difficulte: "difficile",
     liens: [{"type": "wikipedia", "label": "Wikipédia : Dust Bowl", "url": "https://fr.wikipedia.org/wiki/Dust_Bowl"}, {"type": "wikipedia", "label": "Wikipédia : Les Raisins de la colère", "url": "https://fr.wikipedia.org/wiki/Les_Raisins_de_la_col%C3%A8re"}, {"type": "autre", "label": "National Archives : The Dust Bowl", "url": "https://www.archives.gov/education/lessons/dust-bowl"}]
   },
 ];

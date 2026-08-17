@@ -313,6 +313,26 @@ body {
   gap: 8px;
   margin-bottom: 8px;
 }
+.lobby-filtres-titre-toggle {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+.lobby-filtres-chevron {
+  font-size: 10px;
+  opacity: 0.6;
+  transition: transform 0.15s ease;
+  display: inline-block;
+}
+.lobby-filtres.ouverte .lobby-filtres-chevron { transform: rotate(90deg); }
+.lobby-filtres:not(.ouverte) .lobby-filtres-grille,
+.lobby-filtres:not(.ouverte) .lobby-filtres-compte { display: none; }
 .lobby-filtres-titre { font-size: 11px; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
 .lobby-filtres-actions { font-size: 11px; opacity: 0.6; white-space: nowrap; }
 .lien-filtre {
@@ -331,6 +351,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 6px 10px;
 }
+.lobby-filtres-grille--difficulte { grid-template-columns: 1fr; }
 .filtre-famille {
   display: flex;
   align-items: center;
@@ -441,18 +462,36 @@ body {
 }
 .carte-grande .date-grand.cachee { color: rgba(255, 255, 255, 0.15); font-size: 14px; }
 
+.badges-inspecteur {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
 .badge-fiabilite {
   display: inline-block;
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: bold;
-  margin-bottom: 14px;
   width: fit-content;
 }
+.badges-inspecteur .badge-fiabilite { margin-bottom: 0; }
 .badge-avere { background: #ec4899; color: #5c0a35; }
 .badge-debattu { background: #f39c12; color: #532; }
 .badge-legende { background: #e74c3c; color: #fff; }
+
+.badge-difficulte {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  width: fit-content;
+}
+.badge-difficulte--facile { background: #2ecc71; color: #063d20; }
+.badge-difficulte--moyenne { background: #f39c12; color: #532; }
+.badge-difficulte--difficile { background: #e74c3c; color: #fff; }
 
 .info-bloc {
   background: rgba(255, 255, 255, 0.06);

@@ -84,7 +84,9 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   document.getElementById('btn-mode-cible').classList.remove('actif');
   document.getElementById('lobby-cible-ligne').hidden = true;
   filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+  filtresDifficulteMultiActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
+  creerGrilleFiltres('lobby-filtres-difficulte-grille-multi', filtresDifficulteMultiActifs, majCompteFiltresMulti, DIFFICULTES_FILTRABLES);
   majCompteFiltresMulti();
 });
 
@@ -246,13 +248,16 @@ document.getElementById('btn-duree-illimitee').addEventListener('click', () => {
   document.getElementById('multi-duree-tour').disabled = dureeIllimitee;
 });
 
-/* Filtres de categories (hote uniquement, avant le lancement). */
+/* Filtres de categories et de difficulte (hote uniquement, avant le lancement). */
 let filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+let filtresDifficulteMultiActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
 function majCompteFiltresMulti() {
-  const n = compterCartesFiltrees(filtresMultiActifs);
-  const zone = document.getElementById('lobby-filtres-compte-multi');
-  if (!zone) return;
-  zone.textContent = `${n} carte${n > 1 ? 's' : ''} disponible${n > 1 ? 's' : ''} avec ce filtre.`;
+  const n = compterCartesFiltrees(filtresMultiActifs, filtresDifficulteMultiActifs);
+  const texte = `${n} carte${n > 1 ? 's' : ''} disponible${n > 1 ? 's' : ''} avec ce filtre.`;
+  ['lobby-filtres-compte-multi', 'lobby-filtres-compte-multi-difficulte'].forEach((id) => {
+    const zone = document.getElementById(id);
+    if (zone) zone.textContent = texte;
+  });
 }
 document.getElementById('btn-filtres-multi-tout').addEventListener('click', () => {
   filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
@@ -262,6 +267,16 @@ document.getElementById('btn-filtres-multi-tout').addEventListener('click', () =
 document.getElementById('btn-filtres-multi-aucun').addEventListener('click', () => {
   filtresMultiActifs.clear();
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
+  majCompteFiltresMulti();
+});
+document.getElementById('btn-filtres-difficulte-multi-tout').addEventListener('click', () => {
+  filtresDifficulteMultiActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
+  creerGrilleFiltres('lobby-filtres-difficulte-grille-multi', filtresDifficulteMultiActifs, majCompteFiltresMulti, DIFFICULTES_FILTRABLES);
+  majCompteFiltresMulti();
+});
+document.getElementById('btn-filtres-difficulte-multi-aucun').addEventListener('click', () => {
+  filtresDifficulteMultiActifs.clear();
+  creerGrilleFiltres('lobby-filtres-difficulte-grille-multi', filtresDifficulteMultiActifs, majCompteFiltresMulti, DIFFICULTES_FILTRABLES);
   majCompteFiltresMulti();
 });
 
@@ -304,7 +319,7 @@ async function lancerNouvelleManche() {
   const cibleCartes = modeLongueurChoisi === 'cible' ? Math.max(5, cibleSaisie || 5) : null;
 
   const minimumRequis = 1 + TAILLE_MAIN_DEFAUT * ids.length;
-  const pool = BASE_CARTES.filter((c) => filtresMultiActifs.has(c.famille));
+  const pool = BASE_CARTES.filter((c) => filtresMultiActifs.has(c.famille) && filtresDifficulteMultiActifs.has(c.difficulte));
   const source = pool.length >= minimumRequis ? pool : BASE_CARTES;
   const toutes = melanger(source);
   const carteRepere = toutes[0];
@@ -329,6 +344,7 @@ async function lancerNouvelleManche() {
     mode_longueur: modeLongueurChoisi,
     cible_cartes: cibleCartes,
     familles_actives: source === pool ? Array.from(filtresMultiActifs) : null,
+    difficultes_actives: source === pool ? Array.from(filtresDifficulteMultiActifs) : null,
     carte_repere: carteRepere.id,
     timeline: [carteRepere.id],
     pioche,

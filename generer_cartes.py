@@ -129,6 +129,9 @@ for row in ws_cartes.iter_rows(min_row=2, values_only=True):
     slug = normalise_famille(categorie)
     fiabilite = row[col_idx['fiabilite']]
     image = row[col_idx['image']]
+    difficulte = (row[col_idx['difficulte']] or "").strip().lower()
+    if difficulte not in ("facile", "moyenne", "difficile"):
+        difficulte = "moyenne"
 
     cartes.append({
         "id": cid,
@@ -142,6 +145,7 @@ for row in ws_cartes.iter_rows(min_row=2, values_only=True):
         "description_longue": row[col_idx['description_longue']],
         "anecdote": row[col_idx['anecdote']] or "",
         "fiabilite": FIAB_SLUG.get(fiabilite, "avere"),
+        "difficulte": difficulte,
         "liens": liens_par_id.get(cid, []),
     })
 
@@ -158,12 +162,15 @@ dates = [c["date"] for c in cartes]
 print("Dates min/max:", min(dates), max(dates))
 avec_image = sum(1 for c in cartes if c["image"])
 print("Cartes avec image renseignee:", avec_image, "/", len(cartes))
+from collections import Counter
+print("Repartition difficulte:", dict(Counter(c["difficulte"] for c in cartes)))
 
 # --- Ecriture du JS ---
 lines = []
 lines.append("// Genere automatiquement a partir de data/cartes_maitre.xlsx (feuilles Cartes + Liens)")
 lines.append("// Ne pas editer ce fichier a la main : modifier le xlsx puis lancer generer_cartes.py")
 lines.append("// image: nom de fichier dans images/ (vide = emoji utilise a la place)")
+lines.append("// difficulte: 'facile'|'moyenne'|'difficile', sert au filtre de difficulte")
 lines.append("// liens: tableau de { type: 'youtube'|'wikipedia'|'publication'|'livre'|'autre', label, url }")
 lines.append("const BASE_CARTES = [")
 for c in cartes:
@@ -179,6 +186,7 @@ for c in cartes:
     lines.append(f'    description_longue: {json.dumps(c["description_longue"], ensure_ascii=False)},')
     lines.append(f'    anecdote: {json.dumps(c["anecdote"], ensure_ascii=False)},')
     lines.append(f'    fiabilite: {json.dumps(c["fiabilite"], ensure_ascii=False)},')
+    lines.append(f'    difficulte: {json.dumps(c["difficulte"], ensure_ascii=False)},')
     lines.append(f'    liens: {json.dumps(c["liens"], ensure_ascii=False)}')
     lines.append("  },")
 lines.append("];")

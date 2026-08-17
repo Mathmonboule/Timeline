@@ -36,20 +36,30 @@ const FAMILLES_FILTRABLES = [
   { id: 'mythologie', label: 'Mythologie', emoji: '🐉' },
   { id: 'sport', label: 'Sport', emoji: '🏅' }
 ];
+// Meme principe que FAMILLES_FILTRABLES, mais pour le filtre de difficulte
+// (carte.difficulte genere par generer_cartes.py a partir de la colonne
+// xlsx du meme nom).
+const DIFFICULTES_FILTRABLES = [
+  { id: 'facile', label: 'Facile', emoji: '🟢' },
+  { id: 'moyenne', label: 'Moyenne', emoji: '🟡' },
+  { id: 'difficile', label: 'Difficile', emoji: '🔴' }
+];
+const DIFFICULTE_INFO = Object.fromEntries(DIFFICULTES_FILTRABLES.map((d) => [d.id, d]));
 // Nombre minimum de cartes necessaires pour qu'une partie soit jouable
 // (1 carte repere + au moins une main complete) ; sert a bloquer un
 // lancement de partie si le joueur a trop filtre les categories.
 const CARTES_MIN_PARTIE = 6;
 
-/* Construit une grille de cases a cocher dans #conteneurId, une par famille
-   filtrable, cochee si presente dans ensembleActif (un Set modifie sur
-   place). onChange est appele apres chaque clic (utile pour desactiver un
-   bouton "Demarrer" si plus assez de cartes ne restent, par ex.). */
-function creerGrilleFiltres(conteneurId, ensembleActif, onChange) {
+/* Construit une grille de cases a cocher dans #conteneurId, une par entree
+   de `liste` (FAMILLES_FILTRABLES ou DIFFICULTES_FILTRABLES), cochee si
+   presente dans ensembleActif (un Set modifie sur place). onChange est
+   appele apres chaque clic (utile pour desactiver un bouton "Demarrer" si
+   plus assez de cartes ne restent, par ex.). */
+function creerGrilleFiltres(conteneurId, ensembleActif, onChange, liste = FAMILLES_FILTRABLES) {
   const conteneur = document.getElementById(conteneurId);
   if (!conteneur) return;
   conteneur.innerHTML = '';
-  FAMILLES_FILTRABLES.forEach((f) => {
+  liste.forEach((f) => {
     const label = document.createElement('label');
     label.className = 'filtre-famille';
     const coche = ensembleActif.has(f.id) ? 'checked' : '';
@@ -63,9 +73,22 @@ function creerGrilleFiltres(conteneurId, ensembleActif, onChange) {
   });
 }
 
-function compterCartesFiltrees(ensembleActif) {
-  return BASE_CARTES.reduce((n, c) => n + (ensembleActif.has(c.famille) ? 1 : 0), 0);
+function compterCartesFiltrees(famillesActives, difficultesActives) {
+  return BASE_CARTES.reduce((n, c) =>
+    n + (famillesActives.has(c.famille) && difficultesActives.has(c.difficulte) ? 1 : 0), 0);
 }
+
+/* Ouverture/fermeture des blocs de filtres repliables ("onglets") : clic sur
+   le bouton-titre pour montrer/cacher la grille de cases a cocher en
+   dessous. Purement visuel (CSS), independant du solo/multi. */
+function initAccordeonsFiltres() {
+  document.querySelectorAll('.lobby-filtres-titre-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      btn.closest('.lobby-filtres').classList.toggle('ouverte');
+    });
+  });
+}
+initAccordeonsFiltres();
 
 /* ================= INITIALISATION ================= */
 function melanger(array) {
@@ -77,11 +100,12 @@ function melanger(array) {
   return a;
 }
 
-// Filtres actifs en solo : toutes les familles cochees par defaut.
+// Filtres actifs en solo : toutes les familles / difficultes cochees par defaut.
 let filtresSoloActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+let filtresDifficulteSoloActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
 
 function initPartie() {
-  const pool = BASE_CARTES.filter((c) => filtresSoloActifs.has(c.famille));
+  const pool = BASE_CARTES.filter((c) => filtresSoloActifs.has(c.famille) && filtresDifficulteSoloActifs.has(c.difficulte));
   const source = pool.length >= CARTES_MIN_PARTIE ? pool : BASE_CARTES;
   const toutes = melanger(source);
   carteRepereInitiale = toutes[0];
@@ -100,13 +124,17 @@ function initPartie() {
 
 /* ================= FILTRES SOLO (panneau Lobby) ================= */
 function majCompteFiltresSolo() {
-  const n = compterCartesFiltrees(filtresSoloActifs);
-  const zone = document.getElementById('lobby-filtres-compte-solo');
-  zone.textContent = n < CARTES_MIN_PARTIE
+  const n = compterCartesFiltrees(filtresSoloActifs, filtresDifficulteSoloActifs);
+  const texte = n < CARTES_MIN_PARTIE
     ? `⚠️ Seulement ${n} carte${n > 1 ? 's' : ''} avec ce filtre (minimum ${CARTES_MIN_PARTIE}) — toutes les catégories seront utilisées à la place.`
     : `${n} carte${n > 1 ? 's' : ''} disponible${n > 1 ? 's' : ''} avec ce filtre.`;
+  ['lobby-filtres-compte-solo', 'lobby-filtres-compte-solo-difficulte'].forEach((id) => {
+    const zone = document.getElementById(id);
+    if (zone) zone.textContent = texte;
+  });
 }
 creerGrilleFiltres('lobby-filtres-grille-solo', filtresSoloActifs, majCompteFiltresSolo);
+creerGrilleFiltres('lobby-filtres-difficulte-grille-solo', filtresDifficulteSoloActifs, majCompteFiltresSolo, DIFFICULTES_FILTRABLES);
 majCompteFiltresSolo();
 
 document.getElementById('btn-filtres-solo-tout').addEventListener('click', () => {
@@ -117,6 +145,16 @@ document.getElementById('btn-filtres-solo-tout').addEventListener('click', () =>
 document.getElementById('btn-filtres-solo-aucun').addEventListener('click', () => {
   filtresSoloActifs.clear();
   creerGrilleFiltres('lobby-filtres-grille-solo', filtresSoloActifs, majCompteFiltresSolo);
+  majCompteFiltresSolo();
+});
+document.getElementById('btn-filtres-difficulte-solo-tout').addEventListener('click', () => {
+  filtresDifficulteSoloActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
+  creerGrilleFiltres('lobby-filtres-difficulte-grille-solo', filtresDifficulteSoloActifs, majCompteFiltresSolo, DIFFICULTES_FILTRABLES);
+  majCompteFiltresSolo();
+});
+document.getElementById('btn-filtres-difficulte-solo-aucun').addEventListener('click', () => {
+  filtresDifficulteSoloActifs.clear();
+  creerGrilleFiltres('lobby-filtres-difficulte-grille-solo', filtresDifficulteSoloActifs, majCompteFiltresSolo, DIFFICULTES_FILTRABLES);
   majCompteFiltresSolo();
 });
 
@@ -532,6 +570,7 @@ function construireDetailCarteHTML(carte, dateVisible) {
   const badgeTexte = carte.fiabilite === 'avere' ? '✅ Avéré'
                     : carte.fiabilite === 'debattu' ? '⚠️ Débattu par les historiens'
                     : '📖 Légende populaire';
+  const difficulteInfo = DIFFICULTE_INFO[carte.difficulte] || DIFFICULTE_INFO.moyenne;
 
   const iconesLiens = { youtube: '🎥', wikipedia: '📖', publication: '📄', livre: '📚', autre: '🔗' };
   const liens = carte.liens || [];
@@ -562,7 +601,10 @@ function construireDetailCarteHTML(carte, dateVisible) {
       <div class="titre-grand">${carte.titre}</div>
       <div class="date-grand ${dateVisible ? '' : 'cachee'}">${dateVisible ? formaterDate(carte.date) : '?'}</div>
     </div>
-    <span class="badge-fiabilite ${badgeClass}">${badgeTexte}</span>
+    <div class="badges-inspecteur">
+      <span class="badge-fiabilite ${badgeClass}">${badgeTexte}</span>
+      <span class="badge-difficulte badge-difficulte--${carte.difficulte}">${difficulteInfo.emoji} ${difficulteInfo.label}</span>
+    </div>
     <div class="info-bloc"><span class="info-bloc-titre">Catégorie</span>${carte.categorie}</div>
     <div class="info-bloc"><span class="info-bloc-titre">Description</span>${carte.description_courte}</div>
     ${blocApprofondi}
