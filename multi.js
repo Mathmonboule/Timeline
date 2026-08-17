@@ -83,8 +83,6 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   document.getElementById('btn-mode-illimite').classList.add('actif');
   document.getElementById('btn-mode-cible').classList.remove('actif');
   document.getElementById('lobby-cible-ligne').hidden = true;
-  tailleMainChoisie = TAILLE_MAIN_DEFAUT;
-  document.querySelectorAll('.btn-taille-main').forEach((b) => b.classList.toggle('actif', parseInt(b.dataset.taille, 10) === TAILLE_MAIN_DEFAUT));
   filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
   majCompteFiltresMulti();
@@ -248,20 +246,6 @@ document.getElementById('btn-duree-illimitee').addEventListener('click', () => {
   document.getElementById('multi-duree-tour').disabled = dureeIllimitee;
 });
 
-/* Taille de la main (hote uniquement, avant le lancement) : le nombre de
-   cartes gardees en main a tout instant. Toujours redessinee a cette
-   taille apres chaque coup (correct ou pas) tant qu'il reste des cartes en
-   pioche et que le joueur n'a pas fini — comme en solo "illimite", pour
-   garder une main lisible plutot que de la voir fondre a chaque bonne
-   reponse. */
-let tailleMainChoisie = TAILLE_MAIN_DEFAUT;
-document.querySelectorAll('.btn-taille-main').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    tailleMainChoisie = parseInt(btn.dataset.taille, 10);
-    document.querySelectorAll('.btn-taille-main').forEach((b) => b.classList.toggle('actif', b === btn));
-  });
-});
-
 /* Filtres de categories (hote uniquement, avant le lancement). */
 let filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
 function majCompteFiltresMulti() {
@@ -319,7 +303,7 @@ async function lancerNouvelleManche() {
   const cibleSaisie = parseInt(document.getElementById('multi-cible-cartes').value, 10);
   const cibleCartes = modeLongueurChoisi === 'cible' ? Math.max(5, cibleSaisie || 10) : null;
 
-  const minimumRequis = 1 + tailleMainChoisie * ids.length;
+  const minimumRequis = 1 + TAILLE_MAIN_DEFAUT * ids.length;
   const pool = BASE_CARTES.filter((c) => filtresMultiActifs.has(c.famille));
   const source = pool.length >= minimumRequis ? pool : BASE_CARTES;
   const toutes = melanger(source);
@@ -327,8 +311,8 @@ async function lancerNouvelleManche() {
   let curseur = 1;
   const mains = {};
   ids.forEach((id) => {
-    mains[id] = toutes.slice(curseur, curseur + tailleMainChoisie).map((c) => c.id);
-    curseur += tailleMainChoisie;
+    mains[id] = toutes.slice(curseur, curseur + TAILLE_MAIN_DEFAUT).map((c) => c.id);
+    curseur += TAILLE_MAIN_DEFAUT;
   });
   const pioche = toutes.slice(curseur).map((c) => c.id);
 
@@ -344,7 +328,6 @@ async function lancerNouvelleManche() {
     tour_fin_a: dureeTourMs ? Date.now() + dureeTourMs : null,
     mode_longueur: modeLongueurChoisi,
     cible_cartes: cibleCartes,
-    taille_main: tailleMainChoisie,
     familles_actives: source === pool ? Array.from(filtresMultiActifs) : null,
     carte_repere: carteRepere.id,
     timeline: [carteRepere.id],
@@ -556,7 +539,8 @@ function renderTimelineMulti(monTour) {
   multiTimeline.forEach((carte, i) => {
     const div = creerCarteHTML(carte, {
       repere: dernierePartieMulti && carte.id === dernierePartieMulti.carte_repere,
-      inspectee: multiCarteInspectee === carte
+      inspectee: multiCarteInspectee === carte,
+      derniereJouee: dernierePartieMulti && carte.id === dernierePartieMulti.derniere_carte_jouee
     });
     div.addEventListener('click', () => {
       multiCarteInspectee = carte;
@@ -573,7 +557,7 @@ function creerZoneDepotMulti(index, monTour) {
 
   if (multiIndexZoneSelectionnee === index && multiCarteChoisie) {
     zone.classList.add('attente');
-    zone.innerHTML = `<div>${multiCarteChoisie.emoji}</div><div class="attente-titre">${multiCarteChoisie.titre}</div>`;
+    zone.innerHTML = `<div class="decor">${elementDecorHTML(multiCarteChoisie)}</div><div class="attente-titre">${multiCarteChoisie.titre}</div>`;
   } else {
     zone.textContent = '+';
   }
@@ -790,9 +774,8 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
   // erreur ne comptent jamais dans cartes_correctes (seul un placement juste
   // l'incremente, cf. plus haut), donc la progression vers l'objectif
   // (mode cible) n'est pas faussee par ces repioches.
-  const tailleMain = partie.taille_main || TAILLE_MAIN_DEFAUT;
   const doitRedessiner = !jeSuisTermine;
-  if (doitRedessiner && pioche.length > 0 && main.length < tailleMain) {
+  if (doitRedessiner && pioche.length > 0 && main.length < TAILLE_MAIN_DEFAUT) {
     const [pioch, ...reste] = pioche;
     main = [...main, pioch];
     pioche = reste;

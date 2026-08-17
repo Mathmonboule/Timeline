@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
-<link rel="stylesheet" href="style.css?v=23">
+<link rel="stylesheet" href="style.css?v=24">
 </head>
 <body>
 
@@ -150,14 +150,6 @@
             <button type="button" id="btn-duree-illimitee" class="btn-duree-illimitee">∞ Illimité</button>
           </div>
 
-          <label class="lobby-parametres-label-suivant">🃏 Cartes en main</label>
-          <div class="lobby-mode-longueur-boutons">
-            <button type="button" class="btn-mode-longueur btn-taille-main actif" data-taille="5">5</button>
-            <button type="button" class="btn-mode-longueur btn-taille-main" data-taille="10">10</button>
-            <button type="button" class="btn-mode-longueur btn-taille-main" data-taille="20">20</button>
-            <button type="button" class="btn-mode-longueur btn-taille-main" data-taille="30">30</button>
-          </div>
-
           <label class="lobby-parametres-label-suivant">🏁 Mode de partie</label>
           <div class="lobby-mode-longueur-boutons">
             <button type="button" class="btn-mode-longueur actif" id="btn-mode-illimite">♾️ Jusqu'au bout</button>
@@ -192,16 +184,10 @@
 
   <!-- ZONE DE JEU (centre) -->
   <div class="zone-jeu">
-    <div class="zone-jeu-logo-ligne">
-      <div class="derniere-carte-multi" id="derniere-carte-multi" hidden>
-        <span class="derniere-carte-label">🕐 Dernière carte jouée</span>
-        <span class="derniere-carte-titre" id="derniere-carte-titre">—</span>
-      </div>
-      <div class="logo-timeline logo-timeline--petit" id="logo-jeu" title="Retour à l'accueil">
-        <img src="images/logo-vortex.svg?v=2" class="logo-vortex-img" alt="">
-        <div class="logo-anneau"></div>
-        <div class="logo-texte">TIMELINE</div>
-      </div>
+    <div class="logo-timeline logo-timeline--petit" id="logo-jeu" title="Retour à l'accueil">
+      <img src="images/logo-vortex.svg?v=2" class="logo-vortex-img" alt="">
+      <div class="logo-anneau"></div>
+      <div class="logo-texte">TIMELINE</div>
     </div>
     <div class="sous-titre">Place les événements dans l'ordre chronologique</div>
 
@@ -222,6 +208,11 @@
         <div class="badge" id="badge-erreurs">❌ Erreurs : <span id="nb-erreurs">0</span></div>
         <div class="badge badge-nohit" id="badge-nohit" hidden>🔥 Série sans faute : <span id="nb-nohit">0</span></div>
         <div class="badge">📚 Pioche restante : <span id="nb-pioche">0</span></div>
+      </div>
+
+      <div class="derniere-carte-multi" id="derniere-carte-multi" hidden>
+        <span class="derniere-carte-label">🕐 Dernière carte jouée</span>
+        <span class="derniere-carte-titre" id="derniere-carte-titre">—</span>
       </div>
 
       <div class="timeline-wrapper">
@@ -285,10 +276,10 @@
 </div>
 
 <script src="cartes.js?v=6"></script>
-<script src="script.js?v=12"></script>
+<script src="script.js?v=13"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=5"></script>
+<script src="multi.js?v=6"></script>
 </body>
 </html>

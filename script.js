@@ -345,6 +345,7 @@ function creerCarteHTML(carte, options = {}) {
   if (options.selectionnee) classes += ' selectionnee';
   if (options.inspectee) classes += ' inspectee';
   if (options.dragging) classes += ' dragging';
+  if (options.derniereJouee) classes += ' derniere-jouee';
   div.className = classes;
 
   const dateTexte = options.cacherDate ? '?' : formaterDate(carte.date);
@@ -405,7 +406,7 @@ function creerZoneDepot(index) {
   if (indexZoneSelectionnee === index && carteChoisie) {
     zone.classList.add('attente');
     zone.innerHTML = `
-      <div>${carteChoisie.emoji}</div>
+      <div class="decor">${elementDecorHTML(carteChoisie)}</div>
       <div class="attente-titre">${carteChoisie.titre}</div>
     `;
   } else {
