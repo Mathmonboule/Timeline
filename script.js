@@ -686,7 +686,7 @@ function initVideoAccueil() {
     && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!veutVideo) return;
   const source = document.createElement('source');
-  source.src = 'Video/portail-accueil.mp4';
+  source.src = 'Video/portail-accueil.mp4?v=2';
   source.type = 'video/mp4';
   video.appendChild(source);
   video.load();
