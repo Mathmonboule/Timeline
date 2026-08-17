@@ -580,7 +580,6 @@ body {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  display: flex;
   flex-direction: column;
   gap: 2px;
   max-width: 150px;
@@ -589,6 +588,11 @@ body {
   border-radius: 12px;
   padding: 6px 10px;
 }
+/* display:flex uniquement quand visible : le poser sans condition ecraserait
+   l'attribut hidden (l'origine "auteur" gagne toujours face a la feuille de
+   style du navigateur, meme a specificite egale) et le badge resterait
+   visible en solo, ou aucun script ne vient jamais l'afficher. */
+.derniere-carte-multi:not([hidden]) { display: flex; }
 .derniere-carte-label { font-size: 9px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.4px; }
 .derniere-carte-titre { font-size: 12px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .main-joueur.pas-mon-tour { opacity: 0.5; filter: grayscale(0.4); }
