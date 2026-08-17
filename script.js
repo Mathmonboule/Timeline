@@ -13,6 +13,8 @@ let carteEnCoursDeDrag = null;
 let indexZoneSelectionnee = null;
 let carteInspectee = null;
 let carteRepereInitiale = null;
+let modeSoloNoHit = false;
+let noHitCompteurActuel = 0;
 
 /* ================= FILTRES PAR CATEGORIE =================
    Liste partagee entre solo (ci-dessous) et multijoueur (multi.js) pour
@@ -91,6 +93,7 @@ function initPartie() {
   carteEnCoursDeDrag = null;
   indexZoneSelectionnee = null;
   carteInspectee = null;
+  noHitCompteurActuel = 0;
   document.getElementById('ecran-fin-container').innerHTML = '';
   render();
 }
@@ -116,6 +119,98 @@ document.getElementById('btn-filtres-solo-aucun').addEventListener('click', () =
   creerGrilleFiltres('lobby-filtres-grille-solo', filtresSoloActifs, majCompteFiltresSolo);
   majCompteFiltresSolo();
 });
+
+/* ================= MODE NO HIT RUN =================
+   Variante solo : la moindre erreur relance aussitot une nouvelle partie.
+   Le score (nombre de cartes placees sans faute) est sauvegarde dans
+   Firebase sous le pseudo du panneau Lobby, un seul enregistrement par
+   pseudo (ecrase seulement si le nouveau score est meilleur). */
+document.getElementById('btn-solo-mode-normal').addEventListener('click', () => {
+  modeSoloNoHit = false;
+  document.getElementById('btn-solo-mode-normal').classList.add('actif');
+  document.getElementById('btn-solo-mode-nohit').classList.remove('actif');
+  document.getElementById('nohit-explication').hidden = true;
+  document.getElementById('lobby-classement-nohit').hidden = true;
+});
+document.getElementById('btn-solo-mode-nohit').addEventListener('click', () => {
+  modeSoloNoHit = true;
+  document.getElementById('btn-solo-mode-nohit').classList.add('actif');
+  document.getElementById('btn-solo-mode-normal').classList.remove('actif');
+  document.getElementById('nohit-explication').hidden = false;
+  document.getElementById('lobby-classement-nohit').hidden = false;
+  chargerClassementNoHit();
+});
+
+// Cle Firebase valide (pas de . # $ [ ] /) derivee du pseudo : un pseudo =
+// une entree, la reecrire remplace l'ancienne au lieu d'en creer une autre.
+function clePseudoNoHit(pseudo) {
+  const nettoye = (pseudo || '').trim().toLowerCase().replace(/[.#$\[\]/]/g, '_');
+  return nettoye || 'anonyme';
+}
+
+function chargerClassementNoHit() {
+  const zone = document.getElementById('classement-nohit-liste');
+  if (typeof dbRef === 'undefined' || !dbRef) {
+    zone.innerHTML = '<div class="info-bloc lobby-note">Classement indisponible (Firebase non configuré).</div>';
+    return;
+  }
+  dbRef.ref('classementNoHit').on('value', (snap) => {
+    const data = snap.val() || {};
+    const liste = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 20);
+    if (liste.length === 0) {
+      zone.innerHTML = '<div class="info-bloc lobby-note">Aucun record pour l\'instant. Sois le premier !</div>';
+      return;
+    }
+    zone.innerHTML = liste.map((entree, i) => `
+      <div class="classement-ligne ${i === 0 ? 'classement-ligne--or' : ''}">
+        <span class="classement-rang">${i + 1}</span>
+        <span class="classement-pseudo">${entree.pseudo}</span>
+        <span class="classement-score">${entree.score}</span>
+      </div>
+    `).join('');
+  });
+}
+
+async function enregistrerScoreNoHit(score) {
+  if (typeof dbRef === 'undefined' || !dbRef) return;
+  if (score <= 0) return;
+  const champPseudo = document.getElementById('pseudo-joueur');
+  const pseudo = (champPseudo && champPseudo.value.trim()) || 'Toi';
+  const cle = clePseudoNoHit(pseudo);
+  try {
+    const ref = dbRef.ref('classementNoHit/' + cle);
+    const snap = await ref.once('value');
+    const existant = snap.val();
+    if (!existant || score > existant.score) {
+      await ref.set({ pseudo, score, maj_le: Date.now() });
+    }
+  } catch (e) {
+    console.warn('Enregistrement du score No Hit Run impossible :', e);
+  }
+}
+
+function terminerNoHitRun(parfait) {
+  const score = noHitCompteurActuel;
+  enregistrerScoreNoHit(score);
+  document.getElementById('btn-valider').disabled = true;
+
+  const container = document.getElementById('ecran-fin-container');
+  container.innerHTML = parfait ? `
+    <div class="ecran-fin ecran-fin--nohit-parfait">
+      <h2>🏆 Sans-faute total !</h2>
+      <p>Tu as placé les <strong>${score}</strong> cartes sans une seule erreur !</p>
+      <button class="btn-rejouer" id="btn-rejouer-nohit">🔄 Rejouer</button>
+    </div>
+  ` : `
+    <div class="ecran-fin ecran-fin--nohit-echec">
+      <h2>💥 Erreur fatale !</h2>
+      <p>Cartes placées sans faute : <strong>${score}</strong></p>
+      <p style="opacity:0.6; font-size:13px;">En mode No Hit Run, la moindre erreur relance une nouvelle partie.</p>
+      <button class="btn-rejouer" id="btn-rejouer-nohit">🔄 Retenter</button>
+    </div>
+  `;
+  document.getElementById('btn-rejouer-nohit').addEventListener('click', initPartie);
+}
 
 /* ================= AUDIO (synthétisé, pas de fichier externe) ================= */
 function jouerSonBonneReponse() {
@@ -274,10 +369,15 @@ function render() {
   document.getElementById('nb-erreurs').textContent = erreurs.length;
   document.getElementById('nb-pioche').textContent = pioche.length;
 
+  document.getElementById('badge-erreurs').hidden = modeSoloNoHit;
+  document.getElementById('badge-nohit').hidden = !modeSoloNoHit;
+  if (modeSoloNoHit) document.getElementById('nb-nohit').textContent = noHitCompteurActuel;
+
   document.getElementById('btn-valider').disabled = (indexZoneSelectionnee === null || carteChoisie === null);
 
   if (main.length === 0) {
-    afficherEcranFin();
+    if (modeSoloNoHit) terminerNoHitRun(true);
+    else afficherEcranFin();
   }
 }
 
@@ -497,8 +597,18 @@ function validerPlacementSolo() {
   const indexResolu = indexZoneSelectionnee;
 
   setTimeout(() => {
+    if (!correct && modeSoloNoHit) {
+      // No Hit Run : la moindre erreur met fin a la tentative immediatement,
+      // la carte ne va pas dans la poubelle, on ne repioche pas.
+      carteChoisie = null;
+      indexZoneSelectionnee = null;
+      terminerNoHitRun(false);
+      return;
+    }
+
     if (correct) {
       timeline.splice(indexResolu, 0, carteResolue);
+      if (modeSoloNoHit) noHitCompteurActuel++;
     } else {
       erreurs.push(carteResolue);
     }
@@ -594,6 +704,8 @@ function afficherAccueil() {
 }
 function afficherJeu() {
   document.getElementById('vue-accueil').style.display = 'none';
+  const vueFrise = document.getElementById('vue-frise');
+  if (vueFrise) vueFrise.style.display = 'none';
   document.getElementById('vue-jeu').style.display = 'flex';
   const videoAccueil = document.getElementById('accueil-video');
   if (videoAccueil) videoAccueil.pause();
@@ -640,21 +752,22 @@ document.getElementById('logo-accueil').addEventListener('click', afficherFrise)
    dans l'integralite du jeu de cartes, du plus ancien evenement au plus
    recent, sans notion de partie ni de score. */
 function etiquetteEre(date) {
-  // Au-dela du million d'annees (passe ou futur), un seul repere "Prehistoire
-  // lointaine" serait un fourre-tout illisible vu la densite de cartes sur
-  // ces echelles (origine de la vie, extinctions, evolution humaine...). On
-  // cree un repere par valeur de duree distincte, avec le meme formatage que
-  // formaterDate, pour une progression lisible a travers les eres.
-  if (Math.abs(date) >= 1000000) {
-    return date < 0 ? `Temps profond — ${formaterDate(date)}` : `Futur lointain — ${formaterDate(date)}`;
-  }
+  // Tout ce qui precede la Prehistoire (origine de la vie, extinctions,
+  // evolution...) et tout ce qui suit 2040 (projections, echelles
+  // cosmologiques) sont chacun regroupes dans UN seul repere : avec la
+  // densite de cartes sur ces echelles, un repere par valeur de duree
+  // rendait la frise illisible (trop de sous-categories).
+  if (date < -1000000) return 'Avant la Préhistoire';
   if (date < -3000) return 'Préhistoire';
   if (date < 500) return 'Antiquité';
   if (date < 1500) return 'Moyen Âge';
   if (date < 1800) return 'Renaissance & Temps modernes';
   if (date < 1900) return 'XIXe siècle';
-  const decennie = Math.floor(date / 10) * 10;
-  return `Années ${decennie}`;
+  if (date < 2040) {
+    const decennie = Math.floor(date / 10) * 10;
+    return `Années ${decennie}`;
+  }
+  return 'Futur';
 }
 
 let friseConstruite = false;

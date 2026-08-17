@@ -493,6 +493,10 @@ function renderJeuMulti(partie) {
   document.getElementById('nb-main').textContent = multiMain.length;
   document.getElementById('nb-erreurs').textContent = multiErreurs.length;
   document.getElementById('nb-pioche').textContent = multiPiocheCount;
+  // Le mode No Hit Run (solo uniquement) peut avoir laisse ce badge cache :
+  // on le remet dans l'etat normal des qu'une partie multi s'affiche.
+  document.getElementById('badge-erreurs').hidden = false;
+  document.getElementById('badge-nohit').hidden = true;
   document.getElementById('btn-valider').disabled = !(monTour && multiIndexZoneSelectionnee !== null && multiCarteChoisie);
   document.getElementById('main-joueur').classList.toggle('pas-mon-tour', !monTour);
 

@@ -342,6 +342,35 @@ body {
 .filtre-famille input { accent-color: #ec4899; cursor: pointer; }
 .filtre-famille span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lobby-filtres-compte { font-size: 11px; opacity: 0.55; margin-top: 8px; }
+
+/* ===== MODE NO HIT RUN (lobby solo) ===== */
+.lobby-mode-jeu-solo { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.lobby-mode-jeu-solo .lobby-parametres-label-suivant { margin: 0 0 6px 0; }
+#nohit-explication { margin-top: 10px; font-size: 12px; }
+
+.lobby-classement-nohit {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.classement-nohit-liste { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; max-height: 220px; overflow-y: auto; }
+.classement-ligne {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+.classement-ligne--or {
+  background: rgba(236, 72, 153, 0.15);
+  border: 1px solid rgba(236, 72, 153, 0.4);
+}
+.classement-rang { width: 20px; text-align: center; opacity: 0.6; font-weight: bold; }
+.classement-ligne--or .classement-rang { opacity: 1; color: #ff8fc7; }
+.classement-pseudo { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.classement-score { font-weight: bold; color: #ff8fc7; }
 .inspecteur-contenu {
   flex: 1;
   padding: 25px 20px;
@@ -849,6 +878,7 @@ body {
 
 .infos { display: flex; gap: 12px; margin-bottom: 4px; font-size: 12px; flex-wrap: wrap; justify-content: center; }
 .badge { background: rgba(255, 255, 255, 0.08); padding: 6px 14px; border-radius: 20px; }
+.badge-nohit { background: rgba(236, 72, 153, 0.18); border: 1px solid rgba(236, 72, 153, 0.5); color: #ff8fc7; font-weight: bold; }
 
 /* TIMELINE */
 .timeline-wrapper { width: 100%; max-width: 100%; margin-bottom: 6px; }
@@ -1134,6 +1164,9 @@ body {
   margin-top: 10px;
 }
 .btn-rejouer:hover { transform: scale(1.06); box-shadow: 0 8px 28px rgba(58, 123, 213, 0.6); }
+.ecran-fin--nohit-echec { border-color: rgba(231, 76, 60, 0.4); background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(231, 76, 60, 0.12)); }
+.ecran-fin--nohit-echec h2 { background: linear-gradient(90deg, #e74c3c, #c0392b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ecran-fin--nohit-parfait { border-color: rgba(236, 72, 153, 0.5); }
 
 /* ANIMATIONS */
 @keyframes popIn {

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
-<link rel="stylesheet" href="style.css?v=19">
+<link rel="stylesheet" href="style.css?v=20">
 </head>
 <body>
 
@@ -104,6 +104,22 @@
           qui c'est de jouer.
         </div>
 
+        <div class="lobby-mode-jeu-solo">
+          <span class="lobby-parametres-label-suivant">🎮 Mode de partie</span>
+          <div class="lobby-mode-longueur-boutons">
+            <button type="button" class="btn-mode-longueur actif" id="btn-solo-mode-normal">🎯 Normal</button>
+            <button type="button" class="btn-mode-longueur" id="btn-solo-mode-nohit">🔥 No Hit Run</button>
+          </div>
+          <div class="info-bloc lobby-note" id="nohit-explication" hidden>
+            Place les cartes sans jamais te tromper. À la première erreur, la partie repart aussitôt à zéro. Ton record est le nombre de cartes placées sans faute — il est sauvegardé sous ton pseudo ci-dessus.
+          </div>
+        </div>
+
+        <div class="lobby-classement-nohit" id="lobby-classement-nohit" hidden>
+          <div class="lobby-filtres-titre">🏆 Classement No Hit Run</div>
+          <div class="classement-nohit-liste" id="classement-nohit-liste"></div>
+        </div>
+
         <div class="lobby-filtres">
           <div class="lobby-filtres-titre-ligne">
             <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
@@ -183,7 +199,8 @@
     <div id="zone-jeu-solo">
       <div class="infos">
         <div class="badge"><span id="label-main">🃏 En main</span> : <span id="nb-main">5</span></div>
-        <div class="badge">❌ Erreurs : <span id="nb-erreurs">0</span></div>
+        <div class="badge" id="badge-erreurs">❌ Erreurs : <span id="nb-erreurs">0</span></div>
+        <div class="badge badge-nohit" id="badge-nohit" hidden>🔥 Série sans faute : <span id="nb-nohit">0</span></div>
         <div class="badge">📚 Pioche restante : <span id="nb-pioche">0</span></div>
       </div>
 
@@ -248,10 +265,10 @@
 </div>
 
 <script src="cartes.js?v=6"></script>
-<script src="script.js?v=10"></script>
+<script src="script.js?v=12"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=3"></script>
+<script src="multi.js?v=4"></script>
 </body>
 </html>
