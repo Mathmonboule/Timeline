@@ -616,9 +616,73 @@ document.getElementById('btn-nouvelle-partie').addEventListener('click', () => {
 });
 
 document.getElementById('logo-jeu').addEventListener('click', afficherAccueil);
-// Le logo de la page d'accueil est purement decoratif (deja sur l'accueil),
-// mais reste cliquable sans effet pour rester coherent visuellement.
-document.getElementById('logo-accueil').addEventListener('click', afficherAccueil);
+// Le logo de la page d'accueil ouvre la frise chronologique (toutes les
+// cartes du jeu, triees par date) plutot que de rester purement decoratif.
+document.getElementById('logo-accueil').addEventListener('click', afficherFrise);
+
+/* ================= VUE FRISE (toutes les cartes, triees par date) =================
+   Ouverte en cliquant sur le logo de l'accueil : une plongee chronologique
+   dans l'integralite du jeu de cartes, du plus ancien evenement au plus
+   recent, sans notion de partie ni de score. */
+function etiquetteEre(date) {
+  if (date < -1000000) return 'Préhistoire lointaine';
+  if (date < -3000) return 'Préhistoire';
+  if (date < 500) return 'Antiquité';
+  if (date < 1500) return 'Moyen Âge';
+  if (date < 1800) return 'Renaissance & Temps modernes';
+  if (date < 1900) return 'XIXe siècle';
+  const decennie = Math.floor(date / 10) * 10;
+  return `Années ${decennie}`;
+}
+
+let friseConstruite = false;
+function construireFrise() {
+  const grille = document.getElementById('frise-grille');
+  grille.innerHTML = '';
+
+  const cartesTriees = [...BASE_CARTES].sort((a, b) => a.date - b.date);
+  document.getElementById('frise-nb-cartes').textContent = cartesTriees.length;
+
+  let ereActuelle = null;
+  cartesTriees.forEach((carte) => {
+    const ere = etiquetteEre(carte.date);
+    if (ere !== ereActuelle) {
+      ereActuelle = ere;
+      const repere = document.createElement('div');
+      repere.className = 'frise-ere';
+      repere.textContent = ere;
+      grille.appendChild(repere);
+    }
+    const div = creerCarteHTML(carte);
+    div.classList.add('carte--frise');
+    div.addEventListener('click', () => ouvrirModalCarte(carte));
+    grille.appendChild(div);
+  });
+
+  friseConstruite = true;
+}
+
+function ouvrirModalCarte(carte) {
+  document.getElementById('frise-modal-contenu').innerHTML = construireDetailCarteHTML(carte, true);
+  document.getElementById('frise-modal').hidden = false;
+}
+function fermerModalCarte() {
+  document.getElementById('frise-modal').hidden = true;
+}
+document.getElementById('frise-modal-fond').addEventListener('click', fermerModalCarte);
+document.getElementById('btn-fermer-modal').addEventListener('click', fermerModalCarte);
+
+function afficherFrise() {
+  if (!friseConstruite) construireFrise();
+  document.getElementById('vue-accueil').style.display = 'none';
+  document.getElementById('vue-frise').style.display = 'flex';
+  const videoAccueil = document.getElementById('accueil-video');
+  if (videoAccueil) videoAccueil.pause();
+}
+document.getElementById('btn-fermer-frise').addEventListener('click', () => {
+  document.getElementById('vue-frise').style.display = 'none';
+  afficherAccueil();
+});
 
 /* ================= SCROLL MOLETTE -> DEFILEMENT HORIZONTAL =================
    La timeline (et la poubelle) defilent horizontalement ; sur un ordinateur

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
-<link rel="stylesheet" href="style.css?v=16">
+<link rel="stylesheet" href="style.css?v=18">
 </head>
 <body>
 
@@ -54,6 +54,7 @@
       </svg>
     </div>
   </div>
+  <div class="accueil-logo-indice">✨ Clique sur le logo pour explorer la frise chronologique</div>
   <div class="accueil-sous-titre">Place les événements dans l'ordre chronologique</div>
 
   <div class="accueil-boutons">
@@ -223,8 +224,31 @@
 
 </div>
 
+<!-- ================= VUE FRISE (toutes les cartes, triees par date) ================= -->
+<div class="vue-frise" id="vue-frise" style="display: none;">
+  <div class="frise-entete">
+    <div class="frise-titre">
+      <span class="frise-titre-principal">🌀 TIMELINE</span>
+      <span class="frise-titre-sous">La frise chronologique — <span id="frise-nb-cartes">0</span> cartes</span>
+    </div>
+    <button class="btn-fermer-frise" id="btn-fermer-frise">✕ Retour à l'accueil</button>
+  </div>
+  <div class="frise-scroll" id="frise-scroll">
+    <div class="frise-grille" id="frise-grille"></div>
+  </div>
+</div>
+
+<!-- Modal detail carte (ouvert depuis la frise) -->
+<div class="frise-modal" id="frise-modal" hidden>
+  <div class="frise-modal-fond" id="frise-modal-fond"></div>
+  <div class="frise-modal-boite">
+    <button class="btn-fermer-modal" id="btn-fermer-modal">✕</button>
+    <div class="frise-modal-contenu" id="frise-modal-contenu"></div>
+  </div>
+</div>
+
 <script src="cartes.js?v=2"></script>
-<script src="script.js?v=6"></script>
+<script src="script.js?v=7"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
