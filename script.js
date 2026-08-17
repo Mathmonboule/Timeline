@@ -640,24 +640,21 @@ document.getElementById('logo-accueil').addEventListener('click', afficherFrise)
    dans l'integralite du jeu de cartes, du plus ancien evenement au plus
    recent, sans notion de partie ni de score. */
 function etiquetteEre(date) {
-  if (date < -1000000) return 'Préhistoire lointaine';
+  // Au-dela du million d'annees (passe ou futur), un seul repere "Prehistoire
+  // lointaine" serait un fourre-tout illisible vu la densite de cartes sur
+  // ces echelles (origine de la vie, extinctions, evolution humaine...). On
+  // cree un repere par valeur de duree distincte, avec le meme formatage que
+  // formaterDate, pour une progression lisible a travers les eres.
+  if (Math.abs(date) >= 1000000) {
+    return date < 0 ? `Temps profond — ${formaterDate(date)}` : `Futur lointain — ${formaterDate(date)}`;
+  }
   if (date < -3000) return 'Préhistoire';
   if (date < 500) return 'Antiquité';
   if (date < 1500) return 'Moyen Âge';
   if (date < 1800) return 'Renaissance & Temps modernes';
   if (date < 1900) return 'XIXe siècle';
-  if (date < 2000) {
-    const decennie = Math.floor(date / 10) * 10;
-    return `Années ${decennie}`;
-  }
-  // Au-dela de l'an 2000, les cartes normales restent par decennie ; les
-  // dates exprimees en duree (projections lointaines, ex: "dans 1 million
-  // d'annees") reutilisent le meme formatage lisible que formaterDate.
-  if (date < 3000) {
-    const decennie = Math.floor(date / 10) * 10;
-    return `Années ${decennie}`;
-  }
-  return `Futur lointain — ${formaterDate(date)}`;
+  const decennie = Math.floor(date / 10) * 10;
+  return `Années ${decennie}`;
 }
 
 let friseConstruite = false;
