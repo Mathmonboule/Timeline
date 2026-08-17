@@ -301,7 +301,7 @@ async function lancerNouvelleManche() {
   const dureeTourMs = dureeIllimitee ? 0 : Math.max(5, dureeSaisie || 20) * 1000;
 
   const cibleSaisie = parseInt(document.getElementById('multi-cible-cartes').value, 10);
-  const cibleCartes = modeLongueurChoisi === 'cible' ? Math.max(5, cibleSaisie || 10) : null;
+  const cibleCartes = modeLongueurChoisi === 'cible' ? Math.max(5, cibleSaisie || 5) : null;
 
   const minimumRequis = 1 + TAILLE_MAIN_DEFAUT * ids.length;
   const pool = BASE_CARTES.filter((c) => filtresMultiActifs.has(c.famille));
@@ -767,15 +767,18 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
   const cible = partie.cible_cartes || 0;
   const jeSuisTermine = modeLongueur === 'cible' ? cartesCorrectes >= cible : main.length === 0;
 
-  // Redessine une carte pour rester a taille pleine apres CHAQUE coup,
-  // correct ou pas (comme en solo "illimite"), tant que le joueur n'a pas
-  // fini et qu'il reste des cartes en pioche commune. La main ne se met a
-  // fondre qu'une fois la pioche epuisee. Les cartes repiochees suite a une
-  // erreur ne comptent jamais dans cartes_correctes (seul un placement juste
-  // l'incremente, cf. plus haut), donc la progression vers l'objectif
-  // (mode cible) n'est pas faussee par ces repioches.
+  // Taille de main visee a cet instant : en mode illimite, toujours la
+  // taille par defaut. En mode cible, elle diminue avec ce qu'il reste a
+  // reussir (ex: objectif 10, il en reste 4 a trouver -> main de 4 cartes
+  // seulement) pour ne jamais redonner plus de cartes que necessaire pour
+  // finir. Une erreur ne change pas l'objectif restant : la main est alors
+  // redessinee jusqu'a cette meme taille (pas au-dela).
+  const tailleMainVisee = modeLongueur === 'cible'
+    ? Math.max(0, Math.min(TAILLE_MAIN_DEFAUT, cible - cartesCorrectes))
+    : TAILLE_MAIN_DEFAUT;
+
   const doitRedessiner = !jeSuisTermine;
-  if (doitRedessiner && pioche.length > 0 && main.length < TAILLE_MAIN_DEFAUT) {
+  if (doitRedessiner && pioche.length > 0 && main.length < tailleMainVisee) {
     const [pioch, ...reste] = pioche;
     main = [...main, pioch];
     pioche = reste;
