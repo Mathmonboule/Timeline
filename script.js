@@ -310,12 +310,16 @@ function localiserCarte(carte) {
 
 /* ================= ILLUSTRATION (image ou emoji de secours) =================
    Convention : si la colonne "image" du xlsx est vide, on essaie automatiquement
-   images/id-<id>.png puis .jpg/.jpeg/.webp avant de retomber sur l'emoji. Il
-   suffit donc de nommer un fichier "id-47.png" et de le deposer dans images/
-   pour qu'il s'affiche, sans toucher au xlsx ni au code. */
+   images-claude/id-<id>.png puis images/id-<id>.png (et leurs variantes .jpg/.jpeg/.webp)
+   avant de retomber sur l'emoji. Il suffit donc de nommer un fichier "id-47.png" et de
+   le deposer dans l'un de ces deux dossiers pour qu'il s'affiche, sans toucher au xlsx
+   ni au code. images-claude/ contient des photos libres de droits recherchees par Claude
+   pour les cartes que l'utilisateur n'a pas illustrees lui-meme. */
 function candidatsImage(carte) {
   if (carte.image) return [`images/${carte.image}`];
-  return ['png', 'jpg', 'jpeg', 'webp'].map(ext => `images/id-${carte.id}.${ext}`);
+  const extensions = ['png', 'jpg', 'jpeg', 'webp'];
+  const dossiers = ['images-claude', 'images'];
+  return dossiers.flatMap(dossier => extensions.map(ext => `${dossier}/id-${carte.id}.${ext}`));
 }
 
 function elementDecorHTML(carte) {
