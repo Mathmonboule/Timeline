@@ -176,6 +176,7 @@ body {
 }
 .lobby-pseudo-input:focus { outline: none; border-bottom-color: #ff8fc7; }
 .lobby-joueur-cartes { font-size: 11px; opacity: 0.6; white-space: nowrap; }
+.lobby-joueur-erreurs { font-size: 11px; opacity: 0.75; white-space: nowrap; color: #ff8fa3; }
 .lobby-note { font-size: 12px; margin-top: auto; }
 
 /* ===== LOBBY MULTIJOUEUR (code, liste de joueurs, demarrer/quitter) ===== */
@@ -554,6 +555,42 @@ body {
   padding: 2px 9px;
   font-variant-numeric: tabular-nums;
 }
+.multi-tour-actuel { display: flex; align-items: center; gap: 10px; }
+.multi-tour-suivant {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+.multi-tour-suivant-label { font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.5px; font-weight: normal; }
+.multi-tour-suivant-nom { font-size: 16px; font-weight: 800; color: #ff8fc7; }
+
+/* Ligne logo + indicateur "derniere carte jouee" (multijoueur uniquement) */
+.zone-jeu-logo-ligne {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.derniere-carte-multi {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 150px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 6px 10px;
+}
+.derniere-carte-label { font-size: 9px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.4px; }
+.derniere-carte-titre { font-size: 12px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .main-joueur.pas-mon-tour { opacity: 0.5; filter: grayscale(0.4); }
 @keyframes distributionCartes {
   0% { transform: translateY(30px) scale(0.85); opacity: 0; }
@@ -1008,7 +1045,9 @@ body {
 
 /* MAIN DU JOUEUR */
 .multi-spectateur-note {
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  margin: 0 auto 8px;
   background: rgba(236, 72, 153, 0.12);
   border: 1px solid rgba(236, 72, 153, 0.4);
   color: #ff8fc7;
@@ -1016,7 +1055,6 @@ body {
   border-radius: 20px;
   font-size: 12px;
   font-weight: bold;
-  margin-bottom: 8px;
 }
 .main-joueur {
   display: flex;
@@ -1033,6 +1071,8 @@ body {
 }
 
 .btn-valider {
+  display: block;
+  margin: 0 auto 10px;
   padding: 10px 36px;
   font-size: 14px;
   font-weight: bold;
@@ -1041,7 +1081,6 @@ body {
   background: linear-gradient(90deg, #3a7bd5, #00d2ff);
   color: white;
   cursor: pointer;
-  margin-bottom: 10px;
   box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
   transition: all 0.2s;
 }
@@ -1075,6 +1114,15 @@ body {
 .pioche-erreurs::-webkit-scrollbar-thumb:hover { background: rgba(231, 76, 60, 0.6); }
 .pioche-erreurs .carte-erreur-vide { opacity: 0.35; font-size: 12px; margin: auto; }
 
+.carte-erreur-groupe { display: flex; flex-direction: column; align-items: center; gap: 3px; flex-shrink: 0; }
+.carte-erreur-auteur {
+  font-size: 9px;
+  opacity: 0.7;
+  max-width: 68px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .carte-erreur {
   width: 68px;
   height: 96px;
@@ -1134,8 +1182,7 @@ body {
   padding: 55px 70px;
   border-radius: 24px;
   text-align: center;
-  margin-top: 30px;
-  margin-bottom: 40px;
+  margin: 30px auto 40px;
   border: 2px solid rgba(58, 123, 213, 0.3);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   animation: slideDown 0.5s ease;
@@ -1247,7 +1294,15 @@ body {
   .timeline-container { padding: 10px 20px; min-height: 140px; }
   .main-joueur { gap: 8px; padding: 10px; }
 
-  .multi-tour-banner { font-size: 12px; padding: 6px 12px; }
+  .multi-tour-banner { font-size: 12px; padding: 6px 12px; flex-wrap: wrap; justify-content: center; }
+  .multi-tour-suivant { padding-left: 8px; }
+  .multi-tour-suivant-nom { font-size: 14px; }
+
+  /* En dessous des boutons ronds lobby/inspecteur (fixes, coins hauts) plutot
+     qu'a cote du logo : pas assez de largeur sur mobile pour les deux sans
+     chevauchement. */
+  .zone-jeu-logo-ligne { flex-direction: column; gap: 6px; margin-top: 34px; }
+  .derniere-carte-multi { position: static; transform: none; max-width: 90vw; align-items: center; }
 }
 
 @media (max-width: 420px) {

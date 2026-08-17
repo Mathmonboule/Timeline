@@ -83,6 +83,8 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   document.getElementById('btn-mode-illimite').classList.add('actif');
   document.getElementById('btn-mode-cible').classList.remove('actif');
   document.getElementById('lobby-cible-ligne').hidden = true;
+  tailleMainChoisie = TAILLE_MAIN_DEFAUT;
+  document.querySelectorAll('.btn-taille-main').forEach((b) => b.classList.toggle('actif', parseInt(b.dataset.taille, 10) === TAILLE_MAIN_DEFAUT));
   filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
   majCompteFiltresMulti();
@@ -194,6 +196,7 @@ function renderLobbyMulti(partie) {
     const texteCartes = (enJeu && modeLongueur === 'cible')
       ? `${j.cartes_correctes || 0}/${partie.cible_cartes || 0} ✓`
       : (j.nb_cartes != null ? j.nb_cartes + ' cartes' : '');
+    const texteErreurs = enJeu ? `❌ ${j.nb_erreurs || 0}` : '';
     const div = document.createElement('div');
     div.className = 'lobby-joueur'
       + (id === JOUEUR_ID ? ' lobby-joueur--actif' : '')
@@ -201,6 +204,7 @@ function renderLobbyMulti(partie) {
     div.innerHTML = `
       <span class="lobby-joueur-tour">${estTour ? '🎯' : (j.hote ? '👑' : '👤')}</span>
       <span class="lobby-joueur-nom">${j.pseudo}${id === JOUEUR_ID ? ' (toi)' : ''}</span>
+      <span class="lobby-joueur-erreurs">${texteErreurs}</span>
       <span class="lobby-joueur-cartes">${texteCartes}</span>
     `;
     liste.appendChild(div);
@@ -231,11 +235,10 @@ function renderLobbyMulti(partie) {
 }
 
 /* ================= DEMARRER LA PARTIE (hote uniquement) =================
-   Distribue 5 cartes a chaque joueur (comme en solo), pose la 1ere carte
+   Distribue une main a chaque joueur (comme en solo), pose la 1ere carte
    restante comme repere sur la timeline commune, met le reste en pioche
-   partagee, et fixe l'ordre des tours = ordre d'arrivee dans le salon. */
-const TAILLE_MAIN_INITIALE = 5;
-const TAILLE_MAIN_MAX = 10;
+   partagee, et fixe l'ordre des tours (tire au sort a chaque manche). */
+const TAILLE_MAIN_DEFAUT = 5;
 
 /* Reglage du temps de tour par l'hote, avant le lancement de la partie. */
 let dureeIllimitee = false;
@@ -243,6 +246,20 @@ document.getElementById('btn-duree-illimitee').addEventListener('click', () => {
   dureeIllimitee = !dureeIllimitee;
   document.getElementById('btn-duree-illimitee').classList.toggle('actif', dureeIllimitee);
   document.getElementById('multi-duree-tour').disabled = dureeIllimitee;
+});
+
+/* Taille de la main (hote uniquement, avant le lancement) : le nombre de
+   cartes gardees en main a tout instant. Toujours redessinee a cette
+   taille apres chaque coup (correct ou pas) tant qu'il reste des cartes en
+   pioche et que le joueur n'a pas fini — comme en solo "illimite", pour
+   garder une main lisible plutot que de la voir fondre a chaque bonne
+   reponse. */
+let tailleMainChoisie = TAILLE_MAIN_DEFAUT;
+document.querySelectorAll('.btn-taille-main').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    tailleMainChoisie = parseInt(btn.dataset.taille, 10);
+    document.querySelectorAll('.btn-taille-main').forEach((b) => b.classList.toggle('actif', b === btn));
+  });
 });
 
 /* Filtres de categories (hote uniquement, avant le lancement). */
@@ -290,7 +307,10 @@ async function lancerNouvelleManche() {
   if (!codePartieActuelle || !estHote) return;
   const snap = await dbRef.ref(`parties/${codePartieActuelle}/joueurs`).get();
   const joueurs = snap.val() || {};
-  const ids = Object.keys(joueurs).sort((a, b) => (joueurs[a].rejoint_le || 0) - (joueurs[b].rejoint_le || 0));
+  // Ordre des tours tire au sort a chaque manche (au lieu de toujours suivre
+  // l'ordre d'arrivee dans le salon, qui donnait toujours la main a l'hote
+  // en premier).
+  const ids = melanger(Object.keys(joueurs));
   if (ids.length < 2) return;
 
   const dureeSaisie = parseInt(document.getElementById('multi-duree-tour').value, 10);
@@ -299,7 +319,7 @@ async function lancerNouvelleManche() {
   const cibleSaisie = parseInt(document.getElementById('multi-cible-cartes').value, 10);
   const cibleCartes = modeLongueurChoisi === 'cible' ? Math.max(5, cibleSaisie || 10) : null;
 
-  const minimumRequis = 1 + TAILLE_MAIN_INITIALE * ids.length;
+  const minimumRequis = 1 + tailleMainChoisie * ids.length;
   const pool = BASE_CARTES.filter((c) => filtresMultiActifs.has(c.famille));
   const source = pool.length >= minimumRequis ? pool : BASE_CARTES;
   const toutes = melanger(source);
@@ -307,8 +327,8 @@ async function lancerNouvelleManche() {
   let curseur = 1;
   const mains = {};
   ids.forEach((id) => {
-    mains[id] = toutes.slice(curseur, curseur + TAILLE_MAIN_INITIALE).map((c) => c.id);
-    curseur += TAILLE_MAIN_INITIALE;
+    mains[id] = toutes.slice(curseur, curseur + tailleMainChoisie).map((c) => c.id);
+    curseur += tailleMainChoisie;
   });
   const pioche = toutes.slice(curseur).map((c) => c.id);
 
@@ -324,13 +344,15 @@ async function lancerNouvelleManche() {
     tour_fin_a: dureeTourMs ? Date.now() + dureeTourMs : null,
     mode_longueur: modeLongueurChoisi,
     cible_cartes: cibleCartes,
+    taille_main: tailleMainChoisie,
     familles_actives: source === pool ? Array.from(filtresMultiActifs) : null,
     carte_repere: carteRepere.id,
     timeline: [carteRepere.id],
     pioche,
     mains,
     erreurs: Object.fromEntries(ids.map((id) => [id, []])),
-    premier_fini: null
+    premier_fini: null,
+    derniere_carte_jouee: null
   };
   ids.forEach((id) => {
     maj[`joueurs/${id}/nb_cartes`] = mains[id].length;
@@ -367,6 +389,7 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
   document.getElementById('multi-attente').hidden = true;
   document.getElementById('multi-tour-banner').hidden = true;
   document.getElementById('multi-spectateur-note').hidden = true;
+  document.getElementById('derniere-carte-multi').hidden = true;
   document.getElementById('label-main').textContent = '🃏 En main';
   document.getElementById('btn-valider').hidden = false;
   document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Poubelle';
@@ -427,6 +450,11 @@ function surMiseAJourPartie(partie) {
   if (partie.statut === 'termine') {
     arreterTimerMulti();
     document.getElementById('multi-tour-banner').hidden = true;
+    // Une fois la partie terminee, plus personne n'est "en train de regarder
+    // la main de X pendant son tour" : sans ca, ce badge (et le texte perime
+    // qu'il affiche) restait visible pour tous les joueurs indefiniment.
+    document.getElementById('multi-spectateur-note').hidden = true;
+    document.getElementById('btn-valider').hidden = true;
     afficherEcranFinMulti(partie);
   } else {
     document.getElementById('ecran-fin-container').innerHTML = '';
@@ -452,9 +480,16 @@ function mettreAJourEtatLocalMulti(partie) {
   }
 
   // Poubelle commune : toutes les cartes en erreur de TOUS les joueurs,
-  // visibles par tout le monde pendant toute la partie.
-  const idsErreursTous = Object.values(partie.erreurs || {}).flat();
-  multiErreurs = idsErreursTous.map((id) => CARTE_PAR_ID[id]).filter(Boolean);
+  // visibles par tout le monde pendant toute la partie, avec le pseudo de
+  // qui s'est trompe pour chaque carte (pour savoir qui a rate quoi).
+  const joueursPartie = partie.joueurs || {};
+  const erreursParJoueur = partie.erreurs || {};
+  multiErreurs = Object.keys(erreursParJoueur).flatMap((id) => {
+    const pseudo = (joueursPartie[id] || {}).pseudo || '?';
+    return (erreursParJoueur[id] || [])
+      .map((cardId) => ({ carte: CARTE_PAR_ID[cardId], pseudo }))
+      .filter((e) => e.carte);
+  });
 }
 
 /* Petit son + animation de "distribution" jouee une seule fois quand la
@@ -617,7 +652,10 @@ function renderErreursMulti() {
     return;
   }
 
-  multiErreurs.forEach((carte) => {
+  multiErreurs.forEach(({ carte, pseudo }) => {
+    const groupe = document.createElement('div');
+    groupe.className = 'carte-erreur-groupe';
+
     const div = document.createElement('div');
     div.className = 'carte-erreur' + (multiCarteInspectee === carte ? ' inspectee' : '');
     div.innerHTML = `
@@ -629,7 +667,14 @@ function renderErreursMulti() {
       multiCarteInspectee = carte;
       renderJeuMulti(dernierePartieMulti);
     });
-    container.appendChild(div);
+
+    const auteur = document.createElement('div');
+    auteur.className = 'carte-erreur-auteur';
+    auteur.textContent = `🙈 ${pseudo}`;
+
+    groupe.appendChild(div);
+    groupe.appendChild(auteur);
+    container.appendChild(groupe);
   });
 }
 
@@ -638,7 +683,7 @@ function renderInspecteurMulti() {
   const carte = multiCarteInspectee;
   const dansMain = carte && multiMain.includes(carte);
   const dansTimeline = carte && multiTimeline.includes(carte);
-  const dansErreurs = carte && multiErreurs.includes(carte);
+  const dansErreurs = carte && multiErreurs.some((e) => e.carte === carte);
 
   if (!carte || (!dansMain && !dansTimeline && !dansErreurs)) {
     multiCarteInspectee = null;
@@ -738,13 +783,16 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
   const cible = partie.cible_cartes || 0;
   const jeSuisTermine = modeLongueur === 'cible' ? cartesCorrectes >= cible : main.length === 0;
 
-  // Redessine une carte pour rester a taille pleine :
-  // - mode illimite : uniquement sur une erreur (comportement d'origine —
-  //   une bonne reponse fait baisser durablement la main)
-  // - mode cible : apres CHAQUE coup, correct ou pas, tant que l'objectif
-  //   personnel n'est pas encore atteint
-  const doitRedessiner = modeLongueur === 'cible' ? !jeSuisTermine : !correct;
-  if (doitRedessiner && pioche.length > 0 && main.length < TAILLE_MAIN_MAX) {
+  // Redessine une carte pour rester a taille pleine apres CHAQUE coup,
+  // correct ou pas (comme en solo "illimite"), tant que le joueur n'a pas
+  // fini et qu'il reste des cartes en pioche commune. La main ne se met a
+  // fondre qu'une fois la pioche epuisee. Les cartes repiochees suite a une
+  // erreur ne comptent jamais dans cartes_correctes (seul un placement juste
+  // l'incremente, cf. plus haut), donc la progression vers l'objectif
+  // (mode cible) n'est pas faussee par ces repioches.
+  const tailleMain = partie.taille_main || TAILLE_MAIN_DEFAUT;
+  const doitRedessiner = !jeSuisTermine;
+  if (doitRedessiner && pioche.length > 0 && main.length < tailleMain) {
     const [pioch, ...reste] = pioche;
     main = [...main, pioch];
     pioche = reste;
@@ -775,6 +823,11 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
     tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null,
     statut: tousTermines ? 'termine' : 'en_cours'
   };
+  // La timeline est triee par date, pas par ordre de jeu : on ne peut donc
+  // pas deduire "la derniere carte jouee" de son dernier element, d'ou ce
+  // champ dedie (mis a jour uniquement sur un placement correct, puisque
+  // seules les cartes justes rejoignent la timeline).
+  if (correct) maj.derniere_carte_jouee = carte.id;
 
   await refPartie.update(maj);
 }
@@ -821,6 +874,21 @@ function majBanniereTour(partie, restant) {
   const pseudoActuel = joueurActuel ? joueurActuel.pseudo : '…';
   texte.textContent = monTour ? '🎯 À toi de jouer !' : `⏳ Tour de ${pseudoActuel}`;
   compte.hidden = restant === null;
+
+  const nomSuivant = document.getElementById('multi-tour-suivant-nom');
+  const ordre = partie.ordre_tours || [];
+  const idxActuel = ordre.indexOf(partie.tour_actuel);
+  const idxSuivant = prochainIndexActif(partie, idxActuel);
+  const idSuivant = ordre[idxSuivant];
+  const estMemeJoueur = idSuivant === partie.tour_actuel;
+  const joueurSuivant = (partie.joueurs || {})[idSuivant];
+  nomSuivant.textContent = estMemeJoueur ? '—' : (joueurSuivant ? (idSuivant === JOUEUR_ID ? 'toi' : joueurSuivant.pseudo) : '…');
+
+  const derniereCarteZone = document.getElementById('derniere-carte-multi');
+  const derniereCarteTitre = document.getElementById('derniere-carte-titre');
+  const derniereCarte = partie.derniere_carte_jouee != null ? CARTE_PAR_ID[partie.derniere_carte_jouee] : null;
+  derniereCarteZone.hidden = !derniereCarte;
+  if (derniereCarte) derniereCarteTitre.textContent = derniereCarte.titre;
   if (restant !== null) compte.textContent = restant + 's';
 }
 
