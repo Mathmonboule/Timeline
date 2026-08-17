@@ -1318,19 +1318,6 @@ body {
   .btn-mode { width: 100%; }
 }
 
-/* ===== INDICE "clique sur le logo" (accueil) ===== */
-.accueil-logo-indice {
-  opacity: 0.55;
-  font-size: 12.5px;
-  letter-spacing: 0.3px;
-  margin-top: -6px;
-  animation: pulseIndice 2.6s ease-in-out infinite;
-}
-@keyframes pulseIndice {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.85; }
-}
-
 /* ===== VUE FRISE (toutes les cartes triees par date, en grille) =====
    Ouverte en cliquant sur le logo de l'accueil. Meme principe de bascule
    que .vue-accueil / .vue-jeu : display gere en JS via style inline, la
