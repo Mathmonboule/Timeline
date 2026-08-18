@@ -52,6 +52,7 @@ body {
   transition: transform 0.2s;
 }
 .btn-toggle-inspecteur:hover { transform: scale(1.1); }
+.btn-toggle-inspecteur svg, .btn-toggle-lobby svg { width: 18px; height: 18px; }
 
 /* ===== LOBBY GAUCHE ===== */
 .lobby {
@@ -123,6 +124,9 @@ body {
   width: fit-content;
 }
 .btn-nouvelle-partie {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
@@ -134,6 +138,9 @@ body {
   cursor: pointer;
   transition: background 0.15s ease, transform 0.15s ease;
 }
+.btn-nouvelle-partie svg { width: 12px; height: 12px; flex-shrink: 0; }
+.btn-demarrer-partie { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.btn-demarrer-partie svg { width: 14px; height: 14px; flex-shrink: 0; }
 .btn-nouvelle-partie:hover { background: rgba(255, 255, 255, 0.16); transform: scale(1.03); }
 .lobby-joueur {
   display: flex;
@@ -153,7 +160,8 @@ body {
   background: rgba(255, 205, 60, 0.1);
   box-shadow: 0 0 14px rgba(255, 205, 60, 0.2);
 }
-.lobby-joueur-tour { font-size: 16px; }
+.lobby-joueur-tour { display: flex; align-items: center; width: 16px; min-width: 16px; color: #f5a623; }
+.lobby-joueur-tour svg { width: 16px; height: 16px; }
 .lobby-joueur-nom {
   flex: 1;
   font-size: 13px;
@@ -212,7 +220,8 @@ body {
   flex-shrink: 0;
 }
 .btn-copier-code:hover { background: rgba(255, 255, 255, 0.16); }
-.btn-copier-code.copie { background: rgba(46, 204, 113, 0.25); border-color: rgba(46, 204, 113, 0.6); }
+.btn-copier-code.copie { background: rgba(46, 204, 113, 0.25); border-color: rgba(46, 204, 113, 0.6); color: #4ade80; }
+.btn-copier-code svg { width: 14px; height: 14px; }
 .lobby-joueurs-liste { display: flex; flex-direction: column; }
 .lobby-parametres {
   margin-top: 14px;
@@ -227,7 +236,7 @@ body {
   letter-spacing: 0.5px;
   margin-bottom: 6px;
 }
-.lobby-duree-ligne { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.lobby-duree-ligne:not([hidden]) { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .lobby-duree-ligne span { font-size: 12px; opacity: 0.7; }
 #multi-duree-tour, #multi-cible-cartes {
   width: 62px;
@@ -381,6 +390,7 @@ body {
   padding: 3px 0;
 }
 .filtre-famille input { accent-color: #ec4899; cursor: pointer; }
+.pastille-diff { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
 .filtre-famille span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lobby-filtres-compte { font-size: 11px; opacity: 0.55; margin-top: 8px; }
 
@@ -442,7 +452,12 @@ body {
   background: rgba(255, 255, 255, 0.04);
   border-radius: 10px;
   border-left: 3px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
 }
+.icone-cadenas { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; opacity: 0.7; }
 .carte-grande {
   width: 100%;
   aspect-ratio: 2/3;
@@ -556,6 +571,9 @@ body {
 }
 .liste-liens { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
 .lien-externe {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   color: #7fd6ff;
   text-decoration: none;
   font-size: 12.5px;
@@ -565,6 +583,7 @@ body {
   transition: background 0.2s;
 }
 .lien-externe:hover { background: rgba(0, 210, 255, 0.18); text-decoration: underline; }
+.lien-externe svg { width: 14px; height: 14px; flex-shrink: 0; }
 
 .inspecteur-contenu::-webkit-scrollbar { width: 6px; }
 .inspecteur-contenu::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
@@ -1143,7 +1162,7 @@ body {
 .zone-depot.attente .attente-titre { font-size: 10px; text-align: center; padding: 4px 6px; opacity: 0.9; font-weight: bold; background: rgba(0, 0, 0, 0.35); }
 
 /* MAIN DU JOUEUR */
-.multi-spectateur-note {
+.multi-spectateur-note:not([hidden]) {
   display: block;
   width: fit-content;
   margin: 0 auto 8px;
@@ -1169,7 +1188,7 @@ body {
   min-height: 210px;
 }
 
-.btn-valider {
+.btn-valider:not([hidden]) {
   display: block;
   margin: 0 auto 10px;
   padding: 10px 36px;
@@ -1297,6 +1316,9 @@ body {
 }
 .ecran-fin p { font-size: 14px; opacity: 0.8; margin-bottom: 12px; line-height: 1.6; }
 .btn-rejouer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 14px 38px;
   background: linear-gradient(90deg, #3a7bd5, #00d2ff);
   border: none;
@@ -1310,6 +1332,7 @@ body {
   margin-top: 10px;
 }
 .btn-rejouer:hover { transform: scale(1.06); box-shadow: 0 8px 28px rgba(58, 123, 213, 0.6); }
+.btn-rejouer svg { width: 16px; height: 16px; flex-shrink: 0; }
 .ecran-fin--nohit-echec { border-color: rgba(231, 76, 60, 0.4); background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(231, 76, 60, 0.12)); }
 .ecran-fin--nohit-echec h2 { background: linear-gradient(90deg, #e74c3c, #c0392b); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .ecran-fin--nohit-parfait { border-color: rgba(236, 72, 153, 0.5); }

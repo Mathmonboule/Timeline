@@ -40,11 +40,13 @@ const FAMILLES_FILTRABLES = [
 // (carte.difficulte genere par generer_cartes.py a partir de la colonne
 // xlsx du meme nom).
 const DIFFICULTES_FILTRABLES = [
-  { id: 'facile', label: 'Facile', emoji: '🟢' },
-  { id: 'moyenne', label: 'Moyenne', emoji: '🟡' },
-  { id: 'difficile', label: 'Difficile', emoji: '🔴' }
+  { id: 'facile', label: 'Facile', couleur: '#2ecc71' },
+  { id: 'moyenne', label: 'Moyenne', couleur: '#f39c12' },
+  { id: 'difficile', label: 'Difficile', couleur: '#e74c3c' }
 ];
 const DIFFICULTE_INFO = Object.fromEntries(DIFFICULTES_FILTRABLES.map((d) => [d.id, d]));
+// Petite icone SVG "recommencer" reutilisee sur les boutons Rejouer/Retenter.
+const ICONE_RESTART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
 // Nombre minimum de cartes necessaires pour qu'une partie soit jouable
 // (1 carte repere + au moins une main complete) ; sert a bloquer un
 // lancement de partie si le joueur a trop filtre les categories.
@@ -63,7 +65,10 @@ function creerGrilleFiltres(conteneurId, ensembleActif, onChange, liste = FAMILL
     const label = document.createElement('label');
     label.className = 'filtre-famille';
     const coche = ensembleActif.has(f.id) ? 'checked' : '';
-    label.innerHTML = `<input type="checkbox" ${coche}><span>${f.emoji} ${f.label}</span>`;
+    const puce = f.couleur
+      ? `<span class="pastille-diff" style="background:${f.couleur}"></span>`
+      : `${f.emoji} `;
+    label.innerHTML = `<input type="checkbox" ${coche}><span>${puce}${f.label}</span>`;
     const checkbox = label.querySelector('input');
     checkbox.addEventListener('change', () => {
       if (checkbox.checked) ensembleActif.add(f.id); else ensembleActif.delete(f.id);
@@ -126,7 +131,7 @@ function initPartie() {
 function majCompteFiltresSolo() {
   const n = compterCartesFiltrees(filtresSoloActifs, filtresDifficulteSoloActifs);
   const texte = n < CARTES_MIN_PARTIE
-    ? `⚠️ Seulement ${n} carte${n > 1 ? 's' : ''} avec ce filtre (minimum ${CARTES_MIN_PARTIE}) — toutes les catégories seront utilisées à la place.`
+    ? `Seulement ${n} carte${n > 1 ? 's' : ''} avec ce filtre (minimum ${CARTES_MIN_PARTIE}) — toutes les catégories seront utilisées à la place.`
     : `${n} carte${n > 1 ? 's' : ''} disponible${n > 1 ? 's' : ''} avec ce filtre.`;
   ['lobby-filtres-compte-solo', 'lobby-filtres-compte-solo-difficulte'].forEach((id) => {
     const zone = document.getElementById(id);
@@ -235,16 +240,16 @@ function terminerNoHitRun(parfait) {
   const container = document.getElementById('ecran-fin-container');
   container.innerHTML = parfait ? `
     <div class="ecran-fin ecran-fin--nohit-parfait">
-      <h2>🏆 Sans-faute total !</h2>
+      <h2>Sans-faute total !</h2>
       <p>Tu as placé les <strong>${score}</strong> cartes sans une seule erreur !</p>
-      <button class="btn-rejouer" id="btn-rejouer-nohit">🔄 Rejouer</button>
+      <button class="btn-rejouer" id="btn-rejouer-nohit">${ICONE_RESTART} Rejouer</button>
     </div>
   ` : `
     <div class="ecran-fin ecran-fin--nohit-echec">
-      <h2>💥 Erreur fatale !</h2>
+      <h2>Erreur fatale !</h2>
       <p>Cartes placées sans faute : <strong>${score}</strong></p>
       <p style="opacity:0.6; font-size:13px;">En mode No Hit Run, la moindre erreur relance une nouvelle partie.</p>
-      <button class="btn-rejouer" id="btn-rejouer-nohit">🔄 Retenter</button>
+      <button class="btn-rejouer" id="btn-rejouer-nohit">${ICONE_RESTART} Retenter</button>
     </div>
   `;
   document.getElementById('btn-rejouer-nohit').addEventListener('click', initPartie);
@@ -380,7 +385,7 @@ function localiserCarte(carte) {
    il suffit de deposer un fichier "id-47.png" dans l'un des deux dossiers pour qu'il
    s'affiche, sans toucher au xlsx ni au code. */
 function candidatsImage(carte) {
-  const extensions = ['png', 'jpg', 'jpeg', 'webp'];
+  const extensions = ['jpg', 'png', 'jpeg', 'webp'];
   const dossiers = ['images', 'images-claude'];
   return dossiers.flatMap(dossier => extensions.map(ext => `${dossier}/id-${carte.id}.${ext}`));
 }
@@ -388,7 +393,8 @@ function candidatsImage(carte) {
 function elementDecorHTML(carte) {
   const [premier, ...reste] = candidatsImage(carte);
   const resteAttr = JSON.stringify(reste).replace(/"/g, '&quot;');
-  return `<img src="${premier}" alt="" data-reste='${resteAttr}' data-emoji="${carte.emoji}" onerror="essaierImageSuivante(this)">`;
+  const altAttr = (carte.titre || '').replace(/"/g, '&quot;');
+  return `<img src="${premier}" alt="${altAttr}" loading="lazy" data-reste='${resteAttr}' data-emoji="${carte.emoji}" onerror="essaierImageSuivante(this)">`;
 }
 
 function essaierImageSuivante(img) {
@@ -408,7 +414,7 @@ function essaierImageSuivante(img) {
    (par essai de chargement reel, pas de simple pari sur une extension) ;
    resout vers l'URL trouvee, ou null si aucune des extensions ne fonctionne. */
 function trouverImageDansDossier(id, dossier) {
-  const extensions = ['png', 'jpg', 'jpeg', 'webp'];
+  const extensions = ['jpg', 'png', 'jpeg', 'webp'];
   return new Promise((resolve) => {
     let i = 0;
     function essayer() {
@@ -649,12 +655,18 @@ function construireDetailCarteHTML(carte, dateVisible) {
   const badgeClass = carte.fiabilite === 'avere' ? 'badge-avere'
                     : carte.fiabilite === 'debattu' ? 'badge-debattu'
                     : 'badge-legende';
-  const badgeTexte = carte.fiabilite === 'avere' ? '✅ Avéré'
-                    : carte.fiabilite === 'debattu' ? '⚠️ Débattu par les historiens'
-                    : '📖 Légende populaire';
+  const badgeTexte = carte.fiabilite === 'avere' ? 'Avéré'
+                    : carte.fiabilite === 'debattu' ? 'Débattu par les historiens'
+                    : 'Légende populaire';
   const difficulteInfo = DIFFICULTE_INFO[carte.difficulte] || DIFFICULTE_INFO.moyenne;
 
-  const iconesLiens = { youtube: '🎥', wikipedia: '📖', publication: '📄', livre: '📚', autre: '🔗' };
+  const iconesLiens = {
+    youtube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>',
+    wikipedia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+    publication: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>',
+    livre: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+    autre: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+  };
   const liens = carte.liens || [];
   const blocLiens = liens.length > 0
     ? `<div class="info-bloc">
@@ -675,7 +687,10 @@ function construireDetailCarteHTML(carte, dateVisible) {
     <div class="info-bloc"><span class="info-bloc-titre">Contexte approfondi</span>${carte.description_longue}</div>
     ${carte.anecdote ? `<div class="info-bloc"><span class="info-bloc-titre">Le saviez-vous ?</span>${carte.anecdote}</div>` : ''}
     ${blocLiens}`
-    : `<div class="placeholder-inspecteur placeholder-inspecteur--petit">🔒 Contexte, anecdote et liens se débloquent une fois la carte jouée.</div>`;
+    : `<div class="placeholder-inspecteur placeholder-inspecteur--petit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icone-cadenas"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Contexte, anecdote et liens se débloquent une fois la carte jouée.
+      </div>`;
 
   return `
     <div class="carte-grande famille-${carte.famille}">
@@ -689,7 +704,7 @@ function construireDetailCarteHTML(carte, dateVisible) {
     </div>
     <div class="badges-inspecteur">
       <span class="badge-fiabilite ${badgeClass}">${badgeTexte}</span>
-      <span class="badge-difficulte badge-difficulte--${carte.difficulte}">${difficulteInfo.emoji} ${difficulteInfo.label}</span>
+      <span class="badge-difficulte badge-difficulte--${carte.difficulte}">${difficulteInfo.label}</span>
     </div>
     <div class="info-bloc"><span class="info-bloc-titre">Catégorie</span>${carte.categorie}</div>
     <div class="info-bloc"><span class="info-bloc-titre">Description</span>${carte.description_courte}</div>
@@ -764,7 +779,7 @@ function validerPlacementSolo() {
 function afficherMessage(correct) {
   const msg = document.createElement('div');
   msg.className = 'message-resultat ' + (correct ? 'bon' : 'mauvais');
-  msg.textContent = correct ? '✅ Bonne réponse !' : '❌ Mauvaise réponse !';
+  msg.textContent = correct ? 'Bonne réponse !' : 'Mauvaise réponse !';
   document.body.appendChild(msg);
   setTimeout(() => msg.remove(), 1300);
 }
@@ -787,7 +802,7 @@ function afficherPopupErreur(carte, onFermeture) {
         <div class="titre-grand">${carte.titre}</div>
       </div>
       <div class="popup-erreur-description">${carte.description_courte}</div>
-      <div class="popup-erreur-indice">❌ Clique n'importe où pour continuer</div>
+      <div class="popup-erreur-indice">Clique n'importe où pour continuer</div>
     </div>
   `;
   fond.addEventListener('click', () => {
@@ -803,19 +818,19 @@ function afficherEcranFin() {
   const placees = timeline.length - 1;
   container.innerHTML = `
     <div class="ecran-fin">
-      <h2>🎉 Partie terminée !</h2>
+      <h2>Partie terminée !</h2>
       <p>Cartes placées avec succès : <strong>${placees}</strong></p>
       <p>Erreurs commises : <strong>${erreurs.length}</strong></p>
       <p style="opacity:0.55; font-size:12px;">Pioche épuisée (${BASE_CARTES.length} cartes au total dans le jeu de base)</p>
-      <button class="btn-rejouer" id="btn-rejouer">🔄 Rejouer</button>
+      <button class="btn-rejouer" id="btn-rejouer">${ICONE_RESTART} Rejouer</button>
     </div>
   `;
   document.getElementById('btn-rejouer').addEventListener('click', initPartie);
 }
 
 /* ================= TOGGLE INSPECTEUR (droite) =================
-   L'icone du bouton (🔍) reste fixe : elle identifie le panneau, seul son
-   etat ouvert/ferme change (classe .replie). */
+   L'icone du bouton (loupe SVG) reste fixe : elle identifie le panneau, seul
+   son etat ouvert/ferme change (classe .replie). */
 document.getElementById('btn-toggle-inspecteur').addEventListener('click', () => {
   document.getElementById('inspecteur').classList.toggle('replie');
 });
@@ -892,7 +907,7 @@ document.getElementById('btn-solo').addEventListener('click', () => {
   document.getElementById('multi-spectateur-note').hidden = true;
   document.getElementById('label-main').textContent = '🃏 En main';
   document.getElementById('btn-valider').hidden = false;
-  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Poubelle';
+  document.querySelector('.pioche-erreurs-section h3').textContent = 'Poubelle';
   afficherJeu();
   initPartie();
 });

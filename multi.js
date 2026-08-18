@@ -90,10 +90,10 @@ function initBoutonCopierCode(boutonId, valeurId) {
       try { document.execCommand('copy'); } catch (e2) { /* tant pis */ }
       zone.remove();
     }
-    const original = bouton.textContent;
-    bouton.textContent = '✅';
+    const original = bouton.innerHTML;
+    bouton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
     bouton.classList.add('copie');
-    setTimeout(() => { bouton.textContent = original; bouton.classList.remove('copie'); }, 1200);
+    setTimeout(() => { bouton.innerHTML = original; bouton.classList.remove('copie'); }, 1200);
   });
 }
 initBoutonCopierCode('btn-copier-code-lobby', 'lobby-code-valeur');
@@ -201,7 +201,7 @@ function entrerDansLobbyMulti(code, hote) {
   document.getElementById('multi-spectateur-note').hidden = true;
   document.getElementById('label-main').textContent = '🃏 En main';
   document.getElementById('btn-valider').hidden = false;
-  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Poubelle commune';
+  document.querySelector('.pioche-erreurs-section h3').textContent = 'Poubelle commune';
 
   // Si l'onglet se ferme pendant qu'on est dans le lobby, on se retire proprement
   // pour que la liste des joueurs reste correcte pour les autres.
@@ -231,13 +231,16 @@ function renderLobbyMulti(partie) {
     const texteCartes = (enJeu && modeLongueur === 'cible')
       ? `${j.cartes_correctes || 0}/${partie.cible_cartes || 0} ✓`
       : (j.nb_cartes != null ? j.nb_cartes + ' cartes' : '');
-    const texteErreurs = enJeu ? `❌ ${j.nb_erreurs || 0}` : '';
+    const texteErreurs = enJeu ? `${j.nb_erreurs || 0} erreur${(j.nb_erreurs || 0) > 1 ? 's' : ''}` : '';
     const div = document.createElement('div');
     div.className = 'lobby-joueur'
       + (id === JOUEUR_ID ? ' lobby-joueur--actif' : '')
       + (estTour ? ' lobby-joueur--tour' : '');
+    const iconeHote = j.hote
+      ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 18h14l1.4-9.3-4.9 3.3L12 6l-3.5 6-4.9-3.3L5 18z"/></svg>'
+      : '';
     div.innerHTML = `
-      <span class="lobby-joueur-tour">${estTour ? '🎯' : (j.hote ? '👑' : '👤')}</span>
+      <span class="lobby-joueur-tour">${iconeHote}</span>
       <span class="lobby-joueur-nom">${j.pseudo}${id === JOUEUR_ID ? ' (toi)' : ''}</span>
       <span class="lobby-joueur-erreurs">${texteErreurs}</span>
       <span class="lobby-joueur-cartes">${texteCartes}</span>
@@ -427,7 +430,7 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
   document.getElementById('derniere-carte-multi').hidden = true;
   document.getElementById('label-main').textContent = '🃏 En main';
   document.getElementById('btn-valider').hidden = false;
-  document.querySelector('.pioche-erreurs-section h3').textContent = '🗑️ Poubelle';
+  document.querySelector('.pioche-erreurs-section h3').textContent = 'Poubelle';
 
   afficherAccueil();
 });
@@ -612,7 +615,7 @@ function renderJeuMulti(partie) {
     const pseudoRegarde = ((partie.joueurs || {})[multiSpectateJoueurId] || {}).pseudo || '?';
     labelMain.textContent = `🃏 Main de ${pseudoRegarde}`;
     noteSpectateur.hidden = false;
-    noteSpectateur.textContent = `👀 Tu as fini ! Tu regardes la main de ${pseudoRegarde} pendant son tour.`;
+    noteSpectateur.textContent = `Tu as fini ! Tu regardes la main de ${pseudoRegarde} pendant son tour.`;
   } else {
     labelMain.textContent = '🃏 En main';
     noteSpectateur.hidden = true;
@@ -742,7 +745,7 @@ function renderErreursMulti() {
 
     const auteur = document.createElement('div');
     auteur.className = 'carte-erreur-auteur';
-    auteur.textContent = `🙈 ${pseudo}`;
+    auteur.textContent = `${pseudo}`;
 
     groupe.appendChild(div);
     groupe.appendChild(auteur);
@@ -959,7 +962,7 @@ function majBanniereTour(partie, restant) {
   banniere.classList.toggle('multi-tour-banner--moi', monTour);
   const joueurActuel = (partie.joueurs || {})[partie.tour_actuel];
   const pseudoActuel = joueurActuel ? joueurActuel.pseudo : '…';
-  texte.textContent = monTour ? '🎯 À toi de jouer !' : `⏳ Tour de ${pseudoActuel}`;
+  texte.textContent = monTour ? 'À toi de jouer !' : `Tour de ${pseudoActuel}`;
   compte.hidden = restant === null;
 
   const nomSuivant = document.getElementById('multi-tour-suivant-nom');
@@ -1010,7 +1013,7 @@ async function passerTourParTimeout() {
 function afficherMessagePremierFini(cestMoi, pseudo) {
   const msg = document.createElement('div');
   msg.className = 'message-resultat bon message-premier-fini';
-  msg.textContent = cestMoi ? '🎉 Bravo, tu as fini le premier !' : `🏆 ${pseudo} a fini le premier !`;
+  msg.textContent = cestMoi ? 'Bravo, tu as fini le premier !' : `${pseudo} a fini le premier !`;
   document.body.appendChild(msg);
   jouerSonVictoire();
   setTimeout(() => msg.remove(), 2800);
@@ -1028,15 +1031,15 @@ function afficherEcranFinMulti(partie) {
   const lignes = ordre.map((id) => {
     const j = joueurs[id] || { pseudo: '?' };
     const gagnant = id === partie.premier_fini;
-    return `<li>${gagnant ? '🏆 ' : ''}${j.pseudo}${id === JOUEUR_ID ? ' (toi)' : ''} — ${j.nb_erreurs || 0} erreur${(j.nb_erreurs || 0) > 1 ? 's' : ''}</li>`;
+    return `<li>${j.pseudo}${id === JOUEUR_ID ? ' (toi)' : ''} — ${j.nb_erreurs || 0} erreur${(j.nb_erreurs || 0) > 1 ? 's' : ''}</li>`;
   }).join('');
 
   container.innerHTML = `
     <div class="ecran-fin">
-      <h2>🎉 Partie terminée !</h2>
-      ${premierPseudo ? `<p><strong>${premierPseudo}</strong> ${texteVictoire} 🏆</p>` : ''}
+      <h2>Partie terminée !</h2>
+      ${premierPseudo ? `<p><strong>${premierPseudo}</strong> ${texteVictoire}</p>` : ''}
       <ul style="text-align:left; margin: 10px auto; max-width: 320px; opacity: 0.85; font-size: 13px;">${lignes}</ul>
-      <button class="btn-rejouer" id="btn-quitter-fin-multi">🚪 Retour à l'accueil</button>
+      <button class="btn-rejouer" id="btn-quitter-fin-multi">Retour à l'accueil</button>
     </div>
   `;
   document.getElementById('btn-quitter-fin-multi').addEventListener('click', () => {

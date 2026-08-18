@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
 <link rel="icon" type="image/svg+xml" href="images/logo-vortex.svg?v=2">
-<link rel="stylesheet" href="style.css?v=30">
+<link rel="stylesheet" href="style.css?v=31">
 </head>
 <body>
 
@@ -58,15 +58,15 @@
   <div class="accueil-sous-titre">Place les événements dans l'ordre chronologique</div>
 
   <div class="accueil-boutons">
-    <button class="btn-mode btn-mode--solo" id="btn-solo">🧑 Jouer en solo</button>
-    <button class="btn-mode btn-mode--multi" id="btn-multi">👥 Jouer en multijoueur</button>
+    <button class="btn-mode btn-mode--solo" id="btn-solo">Jouer en solo</button>
+    <button class="btn-mode btn-mode--multi" id="btn-multi">Jouer en multijoueur</button>
   </div>
   <div class="accueil-multi-panneau" id="accueil-multi-panneau" hidden>
     <div class="multi-champ">
       <label for="multi-pseudo">Ton pseudo</label>
       <input type="text" id="multi-pseudo" maxlength="16" placeholder="Ex : Alex" spellcheck="false" autocomplete="off">
     </div>
-    <button class="btn-multi-action btn-multi-creer" id="btn-creer-partie">➕ Créer une partie</button>
+    <button class="btn-multi-action btn-multi-creer" id="btn-creer-partie">Créer une partie</button>
     <div class="multi-separateur">ou rejoindre avec un code</div>
     <div class="multi-rejoindre">
       <input type="text" id="multi-code-input" maxlength="5" placeholder="CODE" spellcheck="false" autocomplete="off">
@@ -82,27 +82,32 @@
 
   <!-- LOBBY (gauche) -->
   <div class="lobby" id="lobby">
-    <button class="btn-toggle-lobby" id="btn-toggle-lobby">👥</button>
+    <button class="btn-toggle-lobby" id="btn-toggle-lobby">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </button>
     <div class="lobby-contenu" id="lobby-contenu">
-      <h2>👥 Lobby</h2>
+      <h2>Lobby</h2>
       <div class="lobby-mode-badge-ligne">
         <div class="lobby-mode-badge" id="lobby-mode-badge">Partie solo</div>
-        <button class="btn-nouvelle-partie" id="btn-nouvelle-partie" title="Recommencer une partie solo">🔄 Nouvelle partie</button>
+        <button class="btn-nouvelle-partie" id="btn-nouvelle-partie" title="Recommencer une partie solo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Nouvelle partie
+        </button>
       </div>
 
       <!-- SOLO -->
       <div id="lobby-solo-zone">
         <div class="lobby-joueur lobby-joueur--actif">
-          <span class="lobby-joueur-tour">🎯</span>
+          <span class="lobby-joueur-tour"></span>
           <input type="text" id="pseudo-joueur" class="lobby-pseudo-input" value="Toi" maxlength="16" spellcheck="false">
           <span class="lobby-joueur-cartes" id="lobby-joueur-cartes">5 cartes</span>
         </div>
 
         <div class="lobby-mode-jeu-solo">
-          <span class="lobby-parametres-label-suivant">🎮 Mode de partie</span>
+          <span class="lobby-parametres-label-suivant">Mode de partie</span>
           <div class="lobby-mode-longueur-boutons">
-            <button type="button" class="btn-mode-longueur actif" id="btn-solo-mode-normal">🎯 Normal</button>
-            <button type="button" class="btn-mode-longueur" id="btn-solo-mode-nohit">🔥 No Hit Run</button>
+            <button type="button" class="btn-mode-longueur actif" id="btn-solo-mode-normal">Normal</button>
+            <button type="button" class="btn-mode-longueur" id="btn-solo-mode-nohit">No Hit Run</button>
           </div>
           <div class="info-bloc lobby-note" id="nohit-explication" hidden>
             Place les cartes sans jamais te tromper. À la première erreur, la partie repart aussitôt à zéro. Ton record est le nombre de cartes placées sans faute — il est sauvegardé sous ton pseudo ci-dessus.
@@ -110,7 +115,7 @@
         </div>
 
         <div class="lobby-classement-nohit" id="lobby-classement-nohit" hidden>
-          <div class="lobby-filtres-titre">🏆 Classement No Hit Run</div>
+          <div class="lobby-filtres-titre">Classement No Hit Run</div>
           <div class="classement-nohit-liste" id="classement-nohit-liste"></div>
         </div>
 
@@ -118,7 +123,7 @@
           <div class="lobby-filtres-titre-ligne">
             <button type="button" class="lobby-filtres-titre-toggle">
               <span class="lobby-filtres-chevron">▸</span>
-              <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
+              <span class="lobby-filtres-titre">Catégories incluses</span>
             </button>
             <span class="lobby-filtres-actions">
               <button type="button" class="lien-filtre" id="btn-filtres-solo-tout">Tout</button>
@@ -134,7 +139,7 @@
           <div class="lobby-filtres-titre-ligne">
             <button type="button" class="lobby-filtres-titre-toggle">
               <span class="lobby-filtres-chevron">▸</span>
-              <span class="lobby-filtres-titre">🎚️ Difficulté</span>
+              <span class="lobby-filtres-titre">Difficulté</span>
             </button>
             <span class="lobby-filtres-actions">
               <button type="button" class="lien-filtre" id="btn-filtres-difficulte-solo-tout">Tout</button>
@@ -153,23 +158,25 @@
           <span class="lobby-code-label">Code de la partie</span>
           <div class="lobby-code-ligne">
             <span class="lobby-code-valeur" id="lobby-code-valeur">-----</span>
-            <button type="button" class="btn-copier-code" id="btn-copier-code-lobby" title="Copier le code">📋</button>
+            <button type="button" class="btn-copier-code" id="btn-copier-code-lobby" title="Copier le code">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
           </div>
         </div>
         <div class="lobby-joueurs-liste" id="lobby-joueurs-liste"></div>
 
         <div class="lobby-parametres" id="lobby-parametres" hidden>
-          <label for="multi-duree-tour">⏱️ Temps par tour</label>
+          <label for="multi-duree-tour">Temps par tour</label>
           <div class="lobby-duree-ligne">
             <button type="button" id="btn-duree-illimitee" class="btn-duree-illimitee">∞ Illimité</button>
             <input type="number" id="multi-duree-tour" min="5" max="600" value="20" step="5">
             <span>secondes</span>
           </div>
 
-          <label class="lobby-parametres-label-suivant">🏁 Mode de partie</label>
+          <label class="lobby-parametres-label-suivant">Mode de partie</label>
           <div class="lobby-mode-longueur-boutons">
-            <button type="button" class="btn-mode-longueur actif" id="btn-mode-cible">🎯 Nombre de cartes</button>
-            <button type="button" class="btn-mode-longueur" id="btn-mode-illimite">♾️ Jusqu'au bout</button>
+            <button type="button" class="btn-mode-longueur actif" id="btn-mode-cible">Nombre de cartes</button>
+            <button type="button" class="btn-mode-longueur" id="btn-mode-illimite">Jusqu'au bout</button>
           </div>
           <div class="lobby-duree-ligne" id="lobby-cible-ligne">
             <input type="number" id="multi-cible-cartes" min="5" max="100" value="5" step="1">
@@ -180,7 +187,7 @@
             <div class="lobby-filtres-titre-ligne">
               <button type="button" class="lobby-filtres-titre-toggle">
                 <span class="lobby-filtres-chevron">▸</span>
-                <span class="lobby-filtres-titre">🗂️ Catégories incluses</span>
+                <span class="lobby-filtres-titre">Catégories incluses</span>
               </button>
               <span class="lobby-filtres-actions">
                 <button type="button" class="lien-filtre" id="btn-filtres-multi-tout">Tout</button>
@@ -196,7 +203,7 @@
             <div class="lobby-filtres-titre-ligne">
               <button type="button" class="lobby-filtres-titre-toggle">
                 <span class="lobby-filtres-chevron">▸</span>
-                <span class="lobby-filtres-titre">🎚️ Difficulté</span>
+                <span class="lobby-filtres-titre">Difficulté</span>
               </button>
               <span class="lobby-filtres-actions">
                 <button type="button" class="lien-filtre" id="btn-filtres-difficulte-multi-tout">Tout</button>
@@ -209,10 +216,13 @@
           </div>
         </div>
 
-        <button class="btn-demarrer-partie" id="btn-demarrer-partie" hidden>▶ Démarrer la partie</button>
-        <button class="btn-demarrer-partie" id="btn-nouvelle-partie-multi" hidden>🔄 Nouvelle partie</button>
+        <button class="btn-demarrer-partie" id="btn-demarrer-partie" hidden>Démarrer la partie</button>
+        <button class="btn-demarrer-partie" id="btn-nouvelle-partie-multi" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Nouvelle partie
+        </button>
         <div class="info-bloc lobby-note" id="lobby-multi-note">En attente que l'hôte démarre la partie…</div>
-        <button class="btn-quitter-partie" id="btn-quitter-partie">🚪 Quitter la partie</button>
+        <button class="btn-quitter-partie" id="btn-quitter-partie">Quitter la partie</button>
       </div>
     </div>
   </div>
@@ -239,14 +249,14 @@
 
     <div id="zone-jeu-solo">
       <div class="infos">
-        <div class="badge"><span id="label-main">🃏 En main</span> : <span id="nb-main">5</span></div>
-        <div class="badge" id="badge-erreurs">❌ Erreurs : <span id="nb-erreurs">0</span></div>
-        <div class="badge badge-nohit" id="badge-nohit" hidden>🔥 Série sans faute : <span id="nb-nohit">0</span></div>
-        <div class="badge">📚 Pioche restante : <span id="nb-pioche">0</span></div>
+        <div class="badge"><span id="label-main">En main</span> : <span id="nb-main">5</span></div>
+        <div class="badge" id="badge-erreurs">Erreurs : <span id="nb-erreurs">0</span></div>
+        <div class="badge badge-nohit" id="badge-nohit" hidden>Série sans faute : <span id="nb-nohit">0</span></div>
+        <div class="badge">Pioche restante : <span id="nb-pioche">0</span></div>
       </div>
 
       <div class="derniere-carte-multi" id="derniere-carte-multi" hidden>
-        <span class="derniere-carte-label">🕐 Dernière carte jouée</span>
+        <span class="derniere-carte-label">Dernière carte jouée</span>
         <span class="derniere-carte-titre" id="derniere-carte-titre">—</span>
       </div>
 
@@ -260,7 +270,7 @@
       <div class="main-joueur" id="main-joueur"></div>
 
       <div class="pioche-erreurs-section">
-        <h3>🗑️ Poubelle</h3>
+        <h3>Poubelle</h3>
         <div class="pioche-erreurs" id="pioche-erreurs"></div>
       </div>
 
@@ -270,16 +280,20 @@
     <div class="multi-attente" id="multi-attente" hidden>
       <div class="multi-attente-code">
         Code de la partie : <strong id="multi-attente-code-valeur">-----</strong>
-        <button type="button" class="btn-copier-code" id="btn-copier-code-attente" title="Copier le code">📋</button>
+        <button type="button" class="btn-copier-code" id="btn-copier-code-attente" title="Copier le code">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
       </div>
-      <p>⏳ En attente que l'hôte démarre la partie…</p>
+      <p>En attente que l'hôte démarre la partie…</p>
       <p>Partage le code ci-dessus à tes amis pour qu'ils rejoignent depuis le panneau <strong>Lobby</strong> à gauche.</p>
     </div>
   </div>
 
   <!-- INSPECTEUR (droite) -->
   <div class="inspecteur" id="inspecteur">
-    <button class="btn-toggle-inspecteur" id="btn-toggle-inspecteur">🔍</button>
+    <button class="btn-toggle-inspecteur" id="btn-toggle-inspecteur">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
     <div class="inspecteur-contenu" id="inspecteur-contenu">
       <h2>Inspecteur</h2>
       <div id="contenu-inspecteur">
@@ -294,7 +308,7 @@
 <div class="vue-frise" id="vue-frise" style="display: none;">
   <div class="frise-entete">
     <div class="frise-titre">
-      <span class="frise-titre-principal">🌀 TIMELINE</span>
+      <span class="frise-titre-principal">TIMELINE</span>
       <span class="frise-titre-sous">La frise chronologique — <span id="frise-nb-cartes">0</span> cartes</span>
     </div>
     <button class="btn-fermer-frise" id="btn-fermer-frise">✕ Retour à l'accueil</button>
@@ -314,10 +328,10 @@
 </div>
 
 <script src="cartes.js?v=14"></script>
-<script src="script.js?v=20"></script>
+<script src="script.js?v=21"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=11"></script>
+<script src="multi.js?v=12"></script>
 </body>
 </html>
