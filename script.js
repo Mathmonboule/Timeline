@@ -377,9 +377,12 @@ function localiserCarte(carte) {
    ni au code. images-claude/ contient des photos libres de droits recherchees par Claude
    pour les cartes que l'utilisateur n'a pas illustrees lui-meme. */
 function candidatsImage(carte) {
-  if (carte.image) return [`images/${carte.image}`];
-  const extensions = ['png', 'jpg', 'jpeg', 'webp'];
   const dossiers = ['images-claude', 'images'];
+  // Si la colonne xlsx precise un nom de fichier exact, on l'essaie dans les
+  // deux dossiers (l'un des deux contiendra le fichier reel) plutot que de
+  // supposer qu'il vit forcement dans images/.
+  if (carte.image) return dossiers.map(dossier => `${dossier}/${carte.image}`);
+  const extensions = ['png', 'jpg', 'jpeg', 'webp'];
   return dossiers.flatMap(dossier => extensions.map(ext => `${dossier}/id-${carte.id}.${ext}`));
 }
 

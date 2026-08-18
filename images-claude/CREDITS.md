@@ -1279,3 +1279,204 @@ bottom left
 - Credit : File:Dust Storm Texas 1935.jpg
 
 NOAA, George E. Marsh Album, Historic C&amp;GS Collection
+## id-431.jpg
+- Source : https://fr.wikipedia.org/wiki/Manifeste%20du%20parti%20communiste
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Communist-manifesto.png
+- Licence : Public domain
+- Auteur : Friedrich Engels, Karl Marx
+- Credit : from https://www.britannica.com/topic/The-Communist-Manifesto
+
+## id-432.jpg
+- Source : https://fr.wikipedia.org/wiki/Le%20Capital
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Zentralbibliothek_Zürich_Das_Kapital_Marx_1867.jpg
+- Licence : Public domain
+- Auteur : Zentralbibliothek Zürich
+- Credit : This document was created as part of the Zentralbibliothek Zürich project.
+
+## id-433.jpg
+- Source : https://en.wikipedia.org/wiki/First%20International
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Geneva_Congress_of_the_First_International,_1866.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : File:Premier congrès de l'Alliance Internationale à Genève en 1866.tif
+
+## id-434.jpg
+- Source : https://en.wikipedia.org/wiki/Russian%20Revolution%20of%201905
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Bloody_Sunday_in_1905_by_Wojciech_Kossak.png
+- Licence : Public domain
+- Auteur : Wojciech Kossak
+- Credit : http://joker-photoworks.blogspot.com/2015/04/9-1905.html
+
+## id-435.jpg
+- Source : https://en.wikipedia.org/wiki/Spartacist%20uprising
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Soldiers_the_Brandenburger_Tor_during_the_Spartacist_uprising_Jan_7_1919.jpg
+- Licence : Public domain
+- Auteur : New-York Tribune
+- Credit : New-York Tribune, N.Y.), February 16, 1919
+
+## id-436.jpg
+- Source : https://en.wikipedia.org/wiki/Georgi%20Dimitrov
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Georgiy_Mihaylovich_Dimitrov_TASS_Portrait_Trim_Edit.jpg
+- Licence : Public domain
+- Auteur : TASS
+- Credit : https://www.muis.ee/museaalview/2474113
+
+## id-437.jpg
+- Source : https://en.wikipedia.org/wiki/Bolsheviks
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Presidium_of_the_9th_Congress_of_the_Russian_Communist_Party_(Bolsheviks).jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : 9th Congress of Russian Communist Party Photo #850828
+
+## id-438.jpg
+- Source : https://fr.wikipedia.org/wiki/R%C3%A9volution%20d%27Octobre
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Red_Guard_Vulkan_factory.jpg
+- Licence : Public domain
+- Auteur : Viktor Bulla
+- Credit : http://photoarchive.spb.ru:9090/www/showObject.do?object=2502078330
+
+## id-439.jpg
+- Source : https://en.wikipedia.org/wiki/Russian%20Civil%20War
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:CWRArticleImage.jpg
+- Licence : Public domain
+- Auteur : User:Yanachka
+- Credit : Own work
+
+## id-440.jpg
+- Source : https://fr.wikipedia.org/wiki/Place%20Rouge
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Red_Square_-_Moscow_2024.jpg
+- Licence : CC BY 4.0
+- Auteur : Юрий Д.К.
+- Credit : Own work
+
+## id-441.jpg
+- Source : https://fr.wikipedia.org/wiki/Vladimir%20Ilitch%20L%C3%A9nine
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Lenin_in_1920_(cropped).jpg
+- Licence : Public domain
+- Auteur : Unknown, presumably official
+- Credit : [1], date attested from http://www.marxists.org/archive/lenin/photo/1920/015.htm
+
+## id-442.jpg
+- Source : https://fr.wikipedia.org/wiki/L%C3%A9on%20Trotski
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Лев_Давидович_Троцкий.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : Original publication: Журнал «Прожектор» №1 (23) 15 января 1924 годаImmediate source: postcard at auction
+
+## id-443.jpg
+- Source : https://fr.wikipedia.org/wiki/L%C3%A9on%20Trotski
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Лев_Давидович_Троцкий.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : Original publication: Журнал «Прожектор» №1 (23) 15 января 1924 годаImmediate source: postcard at auction
+
+## id-444.jpg
+- Source : https://en.wikipedia.org/wiki/Proclamation%20of%20the%20People%27s%20Republic%20of%20China
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Mao_Proclaiming_New_China.JPG
+- Licence : Public domain
+- Auteur : Orihara1
+- Credit : Own work
+
+## id-445.jpg
+- Source : https://fr.wikipedia.org/wiki/R%C3%A9volution%20cubaine
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:CheyFidel.jpg
+- Licence : Public domain
+- Auteur : Alberto Korda
+- Credit : Museo Che Guevara, Havana Cuba
+
+## id-446.jpg
+- Source : https://fr.wikipedia.org/wiki/Salvador%20Allende
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Salvador_Allende,_President_of_Chile,_gtfy.00154.jpg
+- Licence : Public domain
+- Auteur : Bernard Gotfryd
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID gtfy.00154.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-447.jpg
+- Source : https://en.wikipedia.org/wiki/1973%20Chilean%20coup%20d%27%C3%A9tat
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Golpe_de_Estado_1973.jpg
+- Licence : CC BY 3.0 cl
+- Auteur : Biblioteca del Congreso Nacional de Chile
+- Credit : http://historiapolitica.bcn.cl/hitos_periodo/ver_imagen?id=/JPG/9879899b59c576808adc84087e928318/ercilla_11091973_p7_1024.jpg
+
+## id-448.jpg
+- Source : https://fr.wikipedia.org/wiki/R%C3%A9volte%20des%20canuts
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Révolte_de_canuts_à_Lyon_en_1834.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : Bibliothèque nationale de France
+
+## id-449.jpg
+- Source : https://en.wikipedia.org/wiki/Haymarket%20affair
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:HaymarketRiot-Harpers.jpg
+- Licence : Public domain
+- Auteur : Thure de Thulstrup
+- Credit : de Thulstrup, Thure (May 15, 1886). "The Anarchist riot in Chicago: a dynamite bomb exploding among the police". Harper's Weekly 30 (1534): 312-313.
+
+## id-450.jpg
+- Source : https://fr.wikipedia.org/wiki/Alfred%20Dreyfus
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Alfred_Dreyfus_(1859-1935).jpg
+- Licence : Public domain
+- Auteur : Aron Gerschel
+- Credit : http://media.web.britannica.com/eb-media/45/8245-050-75EEC0A6.jpg
+
+## id-451.jpg
+- Source : https://fr.wikipedia.org/wiki/L%C3%A9on%20Blum
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Léon_Blum.jpg
+- Licence : Public domain
+- Auteur : AnonymousUnknown author (Keystone France)
+- Credit : Gettyimages
+
+## id-452.jpg
+- Source : https://en.wikipedia.org/wiki/War%20in%20the%20Vend%C3%A9e
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:GuerreVendée_1.jpg
+- Licence : Public domain
+- Auteur : Paul-Émile Boutigny
+- Credit : Musée d'art et d'histoire de Cholet, Cholet (France)
+
+## id-453.jpg
+- Source : https://en.wikipedia.org/wiki/Revolutions%20of%201848
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Horace_Vernet-Barricade_rue_Soufflot.jpg
+- Licence : Public domain
+- Auteur : Horace Vernet
+- Credit : memo.fr and gallerix.org
+
+## id-454.jpg
+- Source : https://en.wikipedia.org/wiki/Paris%20Commune
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Barricade18March1871_(cropped).jpg
+- Licence : Public domain
+- Credit : https://www.parismuseescollections.paris.fr/fr/musee-carnavalet/oeuvres/barricade-de-la-chaussee-menilmontant-18-mars-1871
+
+## id-455.jpg
+- Source : https://fr.wikipedia.org/wiki/Dimanche%20rouge
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:U_Narvskikh_vorot.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : http://www.tsaarinikolai.com/tekstit/9_tammikuu.htm
+
+## id-456.jpg
+- Source : https://en.wikipedia.org/wiki/Second%20International
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Congresso_Socialdem_1910.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : http://www.denstoredanske.dk/@api/deki/files/987/=254125.502.jpg
+
+## id-457.jpg
+- Source : https://fr.wikipedia.org/wiki/Mai%2068
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Le_pouvoir_aux_conseils_de_travailleurs.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : This file comes from Gallica Digital Library and is available under the digital ID btv1b53015889m
+
+## id-458.jpg
+- Source : https://fr.wikipedia.org/wiki/R%C3%A9volution%20culturelle
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Political_slogan_by_Red_Guards_on_the_campus_of_Fudan_University_1976.jpg
+- Licence : Public domain
+- Auteur : Villa Giulia
+- Credit : Self-photographed (see talk page)
+
+## id-459.jpg
+- Source : https://fr.wikipedia.org/wiki/Rosa%20Luxemburg
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-14077-006,_Rosa_Luxemburg.jpg
+- Licence : CC BY-SA 3.0 de
+- Auteur : Unknown authorUnknown author
+- Credit : Deutsches Bundesarchiv (German Federal Archive), Bild 183-14077-006
