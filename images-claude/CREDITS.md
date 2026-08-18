@@ -2438,3 +2438,16 @@ Atomic_cloud_over_Hiroshima.jpg
 - Licence : Public domain
 - Auteur : NASA/JPL-Caltech
 - Credit : https://mars.nasa.gov/resources/26253/perseverances-selfie-at-rochette/
+## id-112.jpg
+- Source : https://en.wikipedia.org/wiki/Magnavox%20Odyssey
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Magnavox-Odyssey-Console-Set.jpg
+- Licence : Public domain
+- Auteur : Evan-Amos
+- Credit : Own work
+
+## id-115.jpg
+- Source : https://fr.wikipedia.org/wiki/Michael%20Jackson
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Michael_Jackson_with_Grammy_Awards_in_1984.jpg
+- Licence : Public domain
+- Auteur : United Press International
+- Credit : [1], [2], [3]
