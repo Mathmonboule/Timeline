@@ -310,6 +310,29 @@ function jouerSonErreur() {
   } catch (e) { /* audio indisponible, on ignore */ }
 }
 
+/* Petit carillon joue en multijoueur quand la main revient a nous (voir
+   multi.js : surMiseAJourPartie detecte la transition de tour pour n'appeler
+   ceci qu'une seule fois par changement, pas a chaque tick du timer). */
+function jouerSonTonTour() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [783.99, 1046.5];
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      const start = ctx.currentTime + i * 0.13;
+      gain.gain.setValueAtTime(0.16, start);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
+      osc.start(start);
+      osc.stop(start + 0.35);
+    });
+  } catch (e) { /* audio indisponible, on ignore */ }
+}
+
 /* ================= UTILITAIRES ================= */
 /* Formate une duree en "X millions/milliards d'annees" ou, au-dela de mille
    milliards, en notation "10^N ans" (seule maniere lisible d'exprimer des
@@ -644,34 +667,34 @@ function validerPlacementSolo() {
   const indexResolu = indexZoneSelectionnee;
 
   setTimeout(() => {
-    if (!correct && modeSoloNoHit) {
-      // No Hit Run : la moindre erreur met fin a la tentative immediatement,
-      // la carte ne va pas dans la poubelle, on ne repioche pas.
-      carteChoisie = null;
-      indexZoneSelectionnee = null;
-      terminerNoHitRun(false);
-      return;
-    }
+    carteChoisie = null;
+    indexZoneSelectionnee = null;
 
     if (correct) {
       timeline.splice(indexResolu, 0, carteResolue);
       if (modeSoloNoHit) noHitCompteurActuel++;
-    } else {
+      main = main.filter((c) => c !== carteResolue);
+      // MODE SOLO ILLIMITE : on repioche systématiquement, même en cas de
+      // bonne réponse, jusqu'à épuisement de la pioche.
+      if (pioche.length > 0) main.push(pioche.shift());
+      render();
+      return;
+    }
+
+    // Erreur : on montre d'abord la carte (description courte, sans date ni
+    // contexte approfondi) dans une pop-up ; la carte ne part reellement en
+    // poubelle (ou, en No Hit Run, ne met fin a la tentative) qu'une fois
+    // cette pop-up fermee par un clic.
+    afficherPopupErreur(carteResolue, () => {
+      if (modeSoloNoHit) {
+        terminerNoHitRun(false);
+        return;
+      }
       erreurs.push(carteResolue);
-    }
-    main = main.filter((c) => c !== carteResolue);
-
-    // MODE SOLO ILLIMITE : on repioche systématiquement, même en cas de bonne
-    // réponse, jusqu'à épuisement des 137 cartes. C'est le mode par défaut
-    // voulu pour l'instant. Le mode multijoueur (lobby, règles, le premier
-    // qui vide sa main gagne) sera un mode séparé, ajouté plus tard.
-    if (pioche.length > 0) {
-      main.push(pioche.shift());
-    }
-
-    carteChoisie = null;
-    indexZoneSelectionnee = null;
-    render();
+      main = main.filter((c) => c !== carteResolue);
+      if (pioche.length > 0) main.push(pioche.shift());
+      render();
+    });
   }, 450);
 }
 
@@ -681,6 +704,32 @@ function afficherMessage(correct) {
   msg.textContent = correct ? '✅ Bonne réponse !' : '❌ Mauvaise réponse !';
   document.body.appendChild(msg);
   setTimeout(() => msg.remove(), 1300);
+}
+
+/* Pop-up centrale montree apres une erreur (solo et multi), avant que la
+   carte ne parte reellement en poubelle : on y voit la carte (decor + titre)
+   et sa description courte, mais ni la date ni le contexte approfondi (pour
+   ne pas transformer l'erreur en lecon d'histoire non demandee). Un clic
+   n'importe ou dans la pop-up la ferme et declenche onFermeture, qui est
+   responsable de faire effectivement passer la carte en poubelle. */
+function afficherPopupErreur(carte, onFermeture) {
+  const fond = document.createElement('div');
+  fond.className = 'popup-erreur-fond';
+  fond.innerHTML = `
+    <div class="popup-erreur-boite">
+      <div class="carte-grande famille-${carte.famille}">
+        <div class="decor-grand">${elementDecorHTML(carte)}</div>
+        <div class="titre-grand">${carte.titre}</div>
+      </div>
+      <div class="popup-erreur-description">${carte.description_courte}</div>
+      <div class="popup-erreur-indice">❌ Clique n'importe où pour continuer</div>
+    </div>
+  `;
+  fond.addEventListener('click', () => {
+    fond.remove();
+    onFermeture();
+  });
+  document.body.appendChild(fond);
 }
 
 /* ================= ECRAN DE FIN ================= */

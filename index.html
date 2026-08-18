@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
 <link rel="icon" type="image/svg+xml" href="images/logo-vortex.svg?v=2">
-<link rel="stylesheet" href="style.css?v=27">
+<link rel="stylesheet" href="style.css?v=28">
 </head>
 <body>
 
@@ -151,7 +151,10 @@
       <div id="lobby-multi-zone" hidden>
         <div class="lobby-code-zone">
           <span class="lobby-code-label">Code de la partie</span>
-          <span class="lobby-code-valeur" id="lobby-code-valeur">-----</span>
+          <div class="lobby-code-ligne">
+            <span class="lobby-code-valeur" id="lobby-code-valeur">-----</span>
+            <button type="button" class="btn-copier-code" id="btn-copier-code-lobby" title="Copier le code">📋</button>
+          </div>
         </div>
         <div class="lobby-joueurs-liste" id="lobby-joueurs-liste"></div>
 
@@ -165,10 +168,10 @@
 
           <label class="lobby-parametres-label-suivant">🏁 Mode de partie</label>
           <div class="lobby-mode-longueur-boutons">
-            <button type="button" class="btn-mode-longueur actif" id="btn-mode-illimite">♾️ Jusqu'au bout</button>
-            <button type="button" class="btn-mode-longueur" id="btn-mode-cible">🎯 Nombre de cartes</button>
+            <button type="button" class="btn-mode-longueur actif" id="btn-mode-cible">🎯 Nombre de cartes</button>
+            <button type="button" class="btn-mode-longueur" id="btn-mode-illimite">♾️ Jusqu'au bout</button>
           </div>
-          <div class="lobby-duree-ligne" id="lobby-cible-ligne" hidden>
+          <div class="lobby-duree-ligne" id="lobby-cible-ligne">
             <input type="number" id="multi-cible-cartes" min="5" max="100" value="5" step="5">
             <span>cartes à réussir chacun</span>
           </div>
@@ -265,7 +268,10 @@
     </div>
 
     <div class="multi-attente" id="multi-attente" hidden>
-      <div class="multi-attente-code">Code de la partie : <strong id="multi-attente-code-valeur">-----</strong></div>
+      <div class="multi-attente-code">
+        Code de la partie : <strong id="multi-attente-code-valeur">-----</strong>
+        <button type="button" class="btn-copier-code" id="btn-copier-code-attente" title="Copier le code">📋</button>
+      </div>
       <p>⏳ En attente que l'hôte démarre la partie…</p>
       <p>Partage le code ci-dessus à tes amis pour qu'ils rejoignent depuis le panneau <strong>Lobby</strong> à gauche.</p>
     </div>
@@ -308,10 +314,10 @@
 </div>
 
 <script src="cartes.js?v=11"></script>
-<script src="script.js?v=16"></script>
+<script src="script.js?v=17"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=8"></script>
+<script src="multi.js?v=9"></script>
 </body>
 </html>

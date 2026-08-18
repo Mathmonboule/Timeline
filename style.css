@@ -194,7 +194,25 @@ body {
   text-align: center;
 }
 .lobby-code-label { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
+.lobby-code-ligne { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .lobby-code-valeur { font-size: 22px; font-weight: 900; letter-spacing: 4px; color: #ff8fc7; }
+.btn-copier-code {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+}
+.btn-copier-code:hover { background: rgba(255, 255, 255, 0.16); }
+.btn-copier-code.copie { background: rgba(46, 204, 113, 0.25); border-color: rgba(46, 204, 113, 0.6); }
 .lobby-joueurs-liste { display: flex; flex-direction: column; }
 .lobby-parametres {
   margin-top: 14px;
@@ -250,7 +268,8 @@ body {
   letter-spacing: 0.5px;
   margin: 14px 0 6px 0;
 }
-.lobby-mode-longueur-boutons { display: flex; gap: 6px; flex-wrap: wrap; }
+.lobby-mode-longueur-boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.lobby-mode-longueur-boutons .btn-mode-longueur { white-space: normal; text-align: center; }
 .btn-mode-longueur {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -408,6 +427,7 @@ body {
   letter-spacing: 1.5px;
   margin: 0 0 20px 0;
   font-weight: bold;
+  text-align: center;
 }
 .placeholder-inspecteur {
   opacity: 0.4;
@@ -1495,6 +1515,43 @@ body {
   z-index: 1;
 }
 .btn-fermer-modal:hover { background: rgba(236, 72, 153, 0.4); }
+
+/* ===== POP-UP D'ERREUR (solo + multi, avant que la carte parte en poubelle) ===== */
+.popup-erreur-fond {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 8, 16, 0.82);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  animation: fadeIn 0.2s ease;
+}
+.popup-erreur-boite {
+  width: 280px;
+  max-width: 100%;
+  text-align: center;
+  animation: slideDown 0.25s ease;
+}
+.popup-erreur-boite .carte-grande { margin-bottom: 14px; border-color: rgba(231, 76, 60, 0.5); }
+.popup-erreur-description {
+  background: #12182c;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.popup-erreur-indice {
+  margin-top: 14px;
+  font-size: 12px;
+  opacity: 0.65;
+  font-weight: bold;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 @media (max-width: 640px) {
   .frise-entete { padding: 14px 16px; }

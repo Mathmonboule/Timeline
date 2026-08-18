@@ -67,22 +67,55 @@ function pseudoSaisi() {
   return val.slice(0, 16) || 'Joueur';
 }
 
+/* ================= COPIER LE CODE DE PARTIE ================= */
+// Deux boutons (panneau Lobby + ecran d'attente) partagent la meme logique :
+// copier le code affiche a cote, avec un petit feedback visuel temporaire.
+function initBoutonCopierCode(boutonId, valeurId) {
+  const bouton = document.getElementById(boutonId);
+  if (!bouton) return;
+  bouton.addEventListener('click', async () => {
+    const code = document.getElementById(valeurId).textContent.trim();
+    if (!code || code === '-----') return;
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch (e) {
+      // navigator.clipboard indisponible (contexte non securise, vieux
+      // navigateur...) : repli sur un textarea temporaire + execCommand.
+      const zone = document.createElement('textarea');
+      zone.value = code;
+      zone.style.position = 'fixed';
+      zone.style.opacity = '0';
+      document.body.appendChild(zone);
+      zone.select();
+      try { document.execCommand('copy'); } catch (e2) { /* tant pis */ }
+      zone.remove();
+    }
+    const original = bouton.textContent;
+    bouton.textContent = '✅';
+    bouton.classList.add('copie');
+    setTimeout(() => { bouton.textContent = original; bouton.classList.remove('copie'); }, 1200);
+  });
+}
+initBoutonCopierCode('btn-copier-code-lobby', 'lobby-code-valeur');
+initBoutonCopierCode('btn-copier-code-attente', 'multi-attente-code-valeur');
+
 /* ================= OUVERTURE / FERMETURE DU PANNEAU DE CREATION ================= */
 document.getElementById('btn-multi').addEventListener('click', () => {
   const panneau = document.getElementById('accueil-multi-panneau');
   panneau.hidden = !panneau.hidden;
   // Repart sur un reglage neutre a chaque ouverture du panneau, pour qu'un
-  // "illimite" choisi lors d'une partie precedente (dans la meme session)
-  // ne reste pas colle silencieusement a la partie suivante.
+  // choix fait lors d'une partie precedente (dans la meme session) ne reste
+  // pas colle silencieusement a la partie suivante. "Nombre de cartes" est
+  // le mode par defaut.
   dureeIllimitee = false;
   const btnIllimite = document.getElementById('btn-duree-illimitee');
   const inputDuree = document.getElementById('multi-duree-tour');
   if (btnIllimite) btnIllimite.classList.remove('actif');
   if (inputDuree) { inputDuree.disabled = false; inputDuree.value = 20; }
-  modeLongueurChoisi = 'illimite';
-  document.getElementById('btn-mode-illimite').classList.add('actif');
-  document.getElementById('btn-mode-cible').classList.remove('actif');
-  document.getElementById('lobby-cible-ligne').hidden = true;
+  modeLongueurChoisi = 'cible';
+  document.getElementById('btn-mode-cible').classList.add('actif');
+  document.getElementById('btn-mode-illimite').classList.remove('actif');
+  document.getElementById('lobby-cible-ligne').hidden = false;
   filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
   filtresDifficulteMultiActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
@@ -154,6 +187,7 @@ function entrerDansLobbyMulti(code, hote) {
   enPartieMultiAnimeeDemarrage = false;
   premierFiniAnnonce = false;
   multiSpectateJoueurId = null;
+  dernierTourJoueurId = null;
 
   document.getElementById('lobby-mode-badge').textContent = 'Partie multijoueur';
   document.getElementById('btn-nouvelle-partie').hidden = true;
@@ -280,11 +314,11 @@ document.getElementById('btn-filtres-difficulte-multi-aucun').addEventListener('
   majCompteFiltresMulti();
 });
 
-/* Mode de partie (hote uniquement) : "illimite" (comportement d'origine,
-   on joue jusqu'a epuisement naturel de la main) ou "cible" (chacun doit
+/* Mode de partie (hote uniquement) : "cible" (par defaut -- chacun doit
    reussir un nombre choisi de cartes ; sa main est alors redessinee apres
-   CHAQUE coup, correct ou pas, jusqu'a avoir atteint l'objectif). */
-let modeLongueurChoisi = 'illimite';
+   CHAQUE coup, correct ou pas, jusqu'a avoir atteint l'objectif) ou
+   "illimite" (on joue jusqu'a epuisement naturel de la main). */
+let modeLongueurChoisi = 'cible';
 document.getElementById('btn-mode-illimite').addEventListener('click', () => {
   modeLongueurChoisi = 'illimite';
   document.getElementById('btn-mode-illimite').classList.add('actif');
@@ -333,6 +367,7 @@ async function lancerNouvelleManche() {
 
   premierFiniAnnonce = false;
   enPartieMultiAnimeeDemarrage = false;
+  dernierTourJoueurId = null;
 
   const maj = {
     statut: 'en_cours',
@@ -416,10 +451,20 @@ let multiCarteInspectee = null;
 let timerMultiHandle = null;
 let premierFiniAnnonce = false;
 let multiSpectateJoueurId = null;
+// Dernier tour_actuel vu, pour ne jouer le carillon "a toi de jouer" que sur
+// une VRAIE transition vers notre tour (pas a chaque snapshot Firebase recu
+// pendant que c'est deja notre tour). null au chargement : evite aussi de
+// jouer le son si on rejoint/rafraichit une partie ou c'est deja notre tour.
+let dernierTourJoueurId = null;
 
 function surMiseAJourPartie(partie) {
   dernierePartieMulti = partie;
   renderLobbyMulti(partie);
+
+  if (partie.statut === 'en_cours' && partie.tour_actuel !== dernierTourJoueurId) {
+    if (dernierTourJoueurId !== null && partie.tour_actuel === JOUEUR_ID) jouerSonTonTour();
+    dernierTourJoueurId = partie.tour_actuel;
+  }
 
   if (partie.statut === 'lobby') {
     document.getElementById('multi-attente').hidden = false;
@@ -717,7 +762,19 @@ function validerPlacementMulti() {
   multiCarteChoisie = null;
   multiIndexZoneSelectionnee = null;
 
-  setTimeout(() => appliquerResolutionTour(correct, carteResolue, indexResolu), 450);
+  setTimeout(() => {
+    if (correct) {
+      appliquerResolutionTour(true, carteResolue, indexResolu);
+      return;
+    }
+    // Erreur : pop-up (carte + description courte, sans date ni contexte
+    // approfondi) avant d'ecrire le resultat sur Firebase -- la carte ne
+    // part en poubelle et le tour ne passe au joueur suivant qu'une fois la
+    // pop-up fermee par un clic.
+    afficherPopupErreur(carteResolue, () => {
+      appliquerResolutionTour(false, carteResolue, indexResolu);
+    });
+  }, 450);
 }
 
 /* ---- Aides "qui a fini ?" / "qui joue apres ?" (mode-aware) =================
