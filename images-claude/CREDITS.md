@@ -1480,3 +1480,961 @@ NOAA, George E. Marsh Album, Historic C&amp;GS Collection
 - Licence : CC BY-SA 3.0 de
 - Auteur : Unknown authorUnknown author
 - Credit : Deutsches Bundesarchiv (German Federal Archive), Bild 183-14077-006
+## id-1.jpg
+- Source : https://en.wikipedia.org/wiki/Dinosaur
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Sinosauropteryxfossil.jpg
+- Licence : CC BY-SA 2.0
+- Auteur : Sam / Olai Ose / Skjaervoy from Zhangjiagang, China
+- Credit : Dinosaurs!
+
+## id-2.jpg
+- Source : https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene%20extinction%20event
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Impact_event.jpg
+- Licence : Public domain
+- Auteur : The original uploader was Fredrik at English Wikipedia.
+- Credit : Source Made by Fredrik. Cloud texture from public domain NASA image.
+
+Transferred from en.wikipedia to Commons by Vojtech.dostal.
+
+## id-3.jpg
+- Source : https://en.wikipedia.org/wiki/Lomekwi
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Lake_turkana_satellite.jpg
+- Licence : Public domain
+- Auteur : Photograph:  NASA
+- Credit : NASA World Wind
+
+## id-4.jpg
+- Source : https://en.wikipedia.org/wiki/Cave%20painting
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:SantaCruz-CuevaManos-P2210651b.jpg
+- Licence : Public domain
+- Auteur : Mariano
+- Credit : Own work
+
+## id-5.jpg
+- Source : https://en.wikipedia.org/wiki/Sheep
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Flock_of_sheep.jpg
+- Licence : Public domain
+- Auteur : Keith Weller
+- Credit : http://www.ars.usda.gov/is/graphics/photos/apr12/k4166-5.htm (Image Number K4166-5)
+
+## id-6.jpg
+- Source : https://en.wikipedia.org/wiki/Wheel
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Landesmuseum_Württemberg_Kelten_011.4.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Bybbisch94, Christian Gebhardt
+- Credit : Own work
+
+## id-7.jpg
+- Source : https://en.wikipedia.org/wiki/Minotaur
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Tondo_Minotaur_London_E4_MAN.jpg
+- Licence : CC BY 2.5
+- Auteur : Painter of London E 4
+- Credit : Marie-Lan Nguyen
+
+## id-8.jpg
+- Source : https://fr.wikipedia.org/wiki/Cadran%20solaire
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Got_the_time^_-_geograph.org.uk_-_1469342.jpg
+- Licence : CC BY-SA 2.0
+- Auteur : adam sommerville
+- Credit : From geograph.org.uk
+
+## id-9.jpg
+- Source : https://fr.wikipedia.org/wiki/Pythagore
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Kapitolinischer_Pythagoras_adjusted.jpg
+- Licence : Public domain
+- Auteur : The original uploader was Galilea at German Wikipedia.
+- Credit : First upload to Wikipedia: de.wikipedia; description page is/was here.
+
+(Original text: Fotografiert am 30.03.2025) Second upload to Commons: http://commons.wikimedia.org/wiki/Image:Kapitolinischer_der gute abdo.jpg and this is an adjusted version of the second one.
+
+## id-10.jpg
+- Source : https://en.wikipedia.org/wiki/Crossbow
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Une_arbalète_classique.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : L'Arbalétrier
+- Credit : Own work
+
+## id-11.jpg
+- Source : https://fr.wikipedia.org/wiki/Phare%20d%27Alexandrie
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:PHAROS2013-3000x2250.jpg
+- Licence : Attribution
+- Auteur : Emad Victor SHENOUDA 
+de:User:Xlance en:User:Xlance   fr:User:Xlance   ar:User:Xlance
+
+
+
+
+
+The copyright holder of this file, Emad Victor SHENOUDA, allows anyone to use it for any purpose, provided that the copyright holder is properly attributed. Redistribution, derivative work, commercial use, and all other use is permitted.
+
+
+Attribution: Emad Victor SHENOUDA
+Attribution
+- Credit : Own work
+
+## id-12.jpg
+- Source : https://fr.wikipedia.org/wiki/Grande%20Muraille
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Great_Wall_of_China_July_2006.JPG
+- Licence : CC0
+- Auteur : Velatrix
+- Credit : Own work
+
+## id-13.jpg
+- Source : https://fr.wikipedia.org/wiki/Spartacus
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Tod_des_Spartacus_by_Hermann_Vogel.jpg
+- Licence : Public domain
+- Auteur : Hermann Vogel
+- Credit : http://www.allposters.com/-sp/Slave-Revolt-in-the-Final-Battle-Crassus-Defeats-the-Slaves-and-Spartacus-is-Killed-Posters_i1879371_.htm
+
+## id-14.jpg
+- Source : https://fr.wikipedia.org/wiki/Cl%C3%A9op%C3%A2tre%20VII
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Cleopatra_VII,_dalla_via_appia_tra_ariccia_e_genzano,_40-30_ac_ca._02.JPG
+- Licence : Public domain
+- Auteur : Sailko
+- Credit : Own work
+
+## id-15.jpg
+- Source : https://fr.wikipedia.org/wiki/Jules%20C%C3%A9sar
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Retrato_de_Julio_César_(26724093101)_(cropped).jpg
+- Licence : Public domain
+- Auteur : Ángel M. Felicísimo from Mérida, España
+- Credit : Retrato de Julio César
+
+## id-16.jpg
+- Source : https://fr.wikipedia.org/wiki/Pomp%C3%A9i
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Pompeii_(4873744179).jpg
+- Licence : CC BY 2.0
+- Auteur : Glen Scarborough from The Central Coast, Australia
+- Credit : Pompeii
+
+## id-17.jpg
+- Source : https://en.wikipedia.org/wiki/History%20of%20chess
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:NMSLewisChessmen29.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : National Museums Scotland
+- Credit : National Museums Scotland
+
+## id-18.jpg
+- Source : https://en.wikipedia.org/wiki/Viking%20raid%20warfare%20and%20tactics
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Cultural_History_(historisk)_Museum_Oslo._VIKINGR_Norwegian_Viking-Age_Exhibition_11_Elaborate_swords,_decorated_hilts,_ornated_blades,_home-forged_and_foreign-made,_ca_800-1000._Found_in_Telemark,_Nordland,_Hedmark._4706.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Wolfmann
+- Credit : Own work
+
+## id-19.jpg
+- Source : https://en.wikipedia.org/wiki/Fork
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Assorted_forks.jpg
+- Licence : CC BY-SA 3.0 us
+
+## id-20.jpg
+- Source : https://en.wikipedia.org/wiki/Sign%20language
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:ASL_family.jpg
+- Licence : CC BY 2.0
+- Auteur : David Fulmer from Pittsburgh
+- Credit : Natural American Sign Language
+
+## id-21.jpg
+- Source : https://en.wikipedia.org/wiki/Ch%C3%A2teau%20de%20Chinon
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Chinon_-_Château_vu_depuis_la_plage.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Benjamin Smith
+- Credit : Own work
+
+## id-22.jpg
+- Source : https://en.wikipedia.org/wiki/Cannon
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:(Saint-Lys)_Fauconneau_de_1589.jpg
+- Licence : Public domain
+- Auteur : Didier Descouens
+- Credit : Own work
+
+## id-23.jpg
+- Source : https://en.wikipedia.org/wiki/Tenochtitlan
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Vista_completa_de_Tenochtitlán.jpg
+- Licence : CC BY 4.0
+- Auteur : thomas kole
+- Credit : https://tenochtitlan.thomaskole.nl/es.html
+
+## id-24.jpg
+- Source : https://fr.wikipedia.org/wiki/Peste%20noire
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Doutielt3.jpg
+- Licence : Public domain
+- Auteur : Pierart dou Tielt (fl. 1340-1360)
+- Credit : http://balat.kikirpa.be/photo.php?path=X004175&amp;objnr=20049662
+
+## id-25.jpg
+- Source : https://fr.wikipedia.org/wiki/Imprimerie
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Die_Buchdruckerei_by_Daniel_Chodowiecki_(150289207).jpg
+- Licence : Public domain
+- Auteur : Daniel Nikolaus Chodowiecki
+- Credit : National Library of Poland
+
+## id-26.jpg
+- Source : https://fr.wikipedia.org/wiki/Christophe%20Colomb
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ridolfo_del_Ghirlandaio_-_Ritratto_di_Cristoforo_Colombo_(1520).jpg
+- Licence : Public domain
+- Auteur : Ridolfo del Ghirlandaio
+- Credit : rmf24.pl
+
+## id-27.jpg
+- Source : https://en.wikipedia.org/wiki/Toothbrush
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Toothbrush_20050716_004.jpg
+- Licence : Public domain
+- Auteur : Jonas Bergsten
+- Credit : Photo taken by Jonas Bergsten using a Canon PowerShot G3.
+
+## id-28.jpg
+- Source : https://en.wikipedia.org/wiki/Pocket%20watch
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Pocket_Watch_(Savonette).jpg
+- Licence : CC BY-SA 4.0
+- Auteur : ElooKoN
+- Credit : Own work: https://www.elookon.de/fotos-und-zeichnungen
+
+## id-29.jpg
+- Source : https://en.wikipedia.org/wiki/Ferdinand%20Magellan
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ferdinand_Magellan.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : The Mariner's Museum Collection
+
+## id-30.jpg
+- Source : https://fr.wikipedia.org/wiki/Lunette%20astronomique
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Grande_Lunette_Nice.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : User Ericd on en.wikipedia
+- Credit : I (Ericd took this picture myself on April 19, 2003 with a Minolta XD-5 and a 24mm f/2.8 Rokkor lens on Kodak Max 400. The picture has been scanned from a negative.
+
+## id-31.jpg
+- Source : https://en.wikipedia.org/wiki/Thermoscope
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Musée_des_Arts_et_Métiers_thermoscope_de_galilée_1592.JPG
+- Licence : CC BY-SA 3.0
+- Auteur : Chatsam
+- Credit : Own work
+
+## id-32.jpg
+- Source : https://fr.wikipedia.org/wiki/Rom%C3%A9o%20et%20Juliette
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Romeoandjuliet1597.jpg
+- Licence : Public domain
+
+## id-33.jpg
+- Source : https://fr.wikipedia.org/wiki/Taj%20Mahal
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Taj_Mahal,_Agra,_India_edit3.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Taj_Mahal,_Agra,_India_edit2.jpg: Yann; edited by King of Hearts
+derivative work: Jbarta (talk)
+- Credit : Taj_Mahal,_Agra,_India_edit2.jpg
+
+## id-34.jpg
+- Source : https://fr.wikipedia.org/wiki/Grand%20incendie%20de%20Londres
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Great_Fire_London.jpg
+- Licence : Public domain
+- Auteur : Unknown artistUnknown artist
+- Credit : museumoflondonprints.com
+
+## id-35.jpg
+- Source : https://en.wikipedia.org/wiki/Croissant
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Croissant-Petr_Kratochvil.jpg
+- Licence : CC0
+- Auteur : Petr Kratochvil
+- Credit : http://www.publicdomainpictures.net/view-image.php?image=12541&amp;picture=croissant
+
+## id-36.jpg
+- Source : https://en.wikipedia.org/wiki/Mount%20Fuji
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:View_of_Mount_Fuji_from_Ōwakudani_20211202.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Suicasmo
+- Credit : Own work
+
+## id-37.jpg
+- Source : https://en.wikipedia.org/wiki/Sextant
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Sextant.jpg
+- Licence : Public domain
+
+## id-38.jpg
+- Source : https://en.wikipedia.org/wiki/Celsius
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Melting_ice_thermometer.jpg
+- Licence : CC0
+- Auteur : Ulflund
+- Credit : Own work
+
+## id-39.jpg
+- Source : https://en.wikipedia.org/wiki/Washing%20machine
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:LG_드럼세탁기와_식기세척기,_영국서_물사용_효율_최우수_제품_수상.jpg
+- Licence : CC BY 2.0
+- Auteur : LG전자
+- Credit : LG 드럼세탁기와 식기세척기, 영국서 물사용 효율 최우수 제품 수상
+
+## id-40.jpg
+- Source : https://fr.wikipedia.org/wiki/D%C3%A9claration%20d%27ind%C3%A9pendance%20des%20%C3%89tats-Unis
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:United_States_Declaration_of_Independence.jpg
+- Licence : Public domain
+- Auteur : original: w:Second Continental Congress; reproduction: William Stone
+- Credit : numerous
+
+## id-41.jpg
+- Source : https://en.wikipedia.org/wiki/Jean-Pierre%20Blanchard
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Jean_Pierre_Blanchard.jpg
+- Licence : Public domain
+- Auteur : J. Newton, sculpsit ; R. Livesay, pinxit
+- Credit : http://memory.loc.gov/master/pnp/ppmsca/02100/02174u.tif
+
+This file was transfered from en.wikipedia.org. The original file description page is (was) here.
+
+## id-42.jpg
+- Source : https://fr.wikipedia.org/wiki/Prise%20de%20la%20Bastille
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Prise_de_la_Bastille.jpg
+- Licence : Public domain
+- Auteur : Jean-Pierre Houël
+- Credit : This file comes from Gallica Digital Library and is available under the digital ID btv1b103025148
+
+## id-43.jpg
+- Source : https://en.wikipedia.org/wiki/Pencil
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Pencils_hb.jpg
+- Licence : CC BY 3.0
+- Auteur : Original uploader was Dmgerman at en.wikipedia
+- Credit : Transfered from en.wikipedia:
+
+2007-09-15 07:35 Dmgerman 600×400×8 (119825 bytes) two pencils grade hb
+Transfer was stated to be made by User:Ddxc.
+
+## id-44.jpg
+- Source : https://fr.wikipedia.org/wiki/Pile%20volta%C3%AFque
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Pila_di_Volta_01.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Luigi Chiesa
+- Credit : Own work
+
+## id-45.jpg
+- Source : https://fr.wikipedia.org/wiki/Sacre%20de%20Napol%C3%A9on%20Ier
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Sacre_de_Napoléon_par_Percier_et_Fontaine.png
+- Licence : Public domain
+- Auteur : Charles Percier (1764–1838), Pierre François Léonard Fontaine (1762–1853)
+- Credit : https://c7.alamy.com/compfr/hcge73/livre-du-sacre-par-percier-et-fontaine-nef-centrale-de-notre-dame-1807-hcge73.jpg
+
+## id-46.jpg
+- Source : https://en.wikipedia.org/wiki/Richard%20Trevithick
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Richard_Trevithick_portrait.jpg
+- Licence : Public domain
+- Auteur : John Linnell
+- Credit : Original publication: Unknown
+
+Immediate source: [1]
+
+## id-47.jpg
+- Source : https://en.wikipedia.org/wiki/Steel%20and%20tin%20cans
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Empty_tin_can2009-01-19.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Sun Ladder
+- Credit : Own work
+
+## id-48.jpg
+- Source : https://en.wikipedia.org/wiki/Shampoo
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Hair_wash_with_shampoo.jpg
+- Licence : CC BY 2.0
+- Auteur : thejbird
+- Credit : https://www.flickr.com/photos/86603835@N00/19648336
+
+## id-49.jpg
+- Source : https://fr.wikipedia.org/wiki/Napol%C3%A9on%20Ier
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project_2.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : Google Arts &amp; Culture  — zQEbF0AA9NhCXQ
+
+## id-50.jpg
+- Source : https://en.wikipedia.org/wiki/Lighter
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:White_lighter_with_flame.JPG
+- Licence : Public domain
+- Auteur : Kimmo Palosaari
+- Credit : OpenPhoto.org
+
+## id-51.jpg
+- Source : https://en.wikipedia.org/wiki/Match
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Friction_d'une_allumette.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Yann SEGALEN
+- Credit : Own work
+
+## id-52.jpg
+- Source : https://en.wikipedia.org/wiki/Morse%20code
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Morsetaste.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Hp.Baumeler
+- Credit : Own work
+
+## id-53.jpg
+- Source : https://fr.wikipedia.org/wiki/Ru%C3%A9e%20vers%20l%27or%20en%20Californie
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:California_Clipper_500.jpg
+- Licence : Public domain
+- Auteur : - G.F. Nesbitt &amp; Co., printer
+- Credit : http://content.cdlib.org/ark:/13030/tf1r29p10v/?layout=metadata
+
+## id-54.jpg
+- Source : https://fr.wikipedia.org/wiki/D%C3%A9cret%20d%27abolition%20de%20l%27esclavage%20du%2027%20avril%201848
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Décret_d'abolition_de_l'esclavage-Archives_nationales-BB-30-1125-A-296.jpg
+- Licence : Public domain
+- Credit : This file was provided to Wikimedia Commons by the Archives Nationales as part of a cooperation project with Wikimédia France.
+
+## id-55.jpg
+- Source : https://en.wikipedia.org/wiki/Can%20opener
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Kitchen-Modern-Can-Opener.jpg
+- Licence : Public domain
+- Auteur : Evan-Amos
+- Credit : Own work
+
+## id-56.jpg
+- Source : https://en.wikipedia.org/wiki/Unification%20of%20Italy
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Episodio_delle_cinque_giornate_(Baldassare_Verazzi).jpg
+- Licence : Public domain
+- Auteur : Baldassare Verazzi (1819-1886)
+- Credit : https://www.flickr.com/photos/archiviovco/7999524777/
+
+## id-57.jpg
+- Source : https://fr.wikipedia.org/wiki/Assassinat%20d%27Abraham%20Lincoln
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:The_Assassination_of_President_Lincoln_-_Currier_and_Ives_2.png
+- Licence : Public domain
+- Auteur : Currier &amp; Ives, 1865.
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID cph.3b49830.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-58.jpg
+- Source : https://fr.wikipedia.org/wiki/Treizi%C3%A8me%20amendement%20de%20la%20Constitution%20des%20%C3%89tats-Unis
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:AdoptionOf13thAmendment.jpg
+- Licence : Public domain
+- Auteur : Harper's Weekly, 18 February 1865
+- Credit : Internet Archive
+
+## id-59.jpg
+- Source : https://fr.wikipedia.org/wiki/Jesse%20James
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Jesse_James_NYPost.jpg
+- Licence : Public domain
+- Auteur : Photographer unknown. Scan by LoC.
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID cph.3a07300.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-60.jpg
+- Source : https://en.wikipedia.org/wiki/Jeans
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Jeans.jpg
+- Licence : Public domain
+- Auteur : uploaded by Juanmak
+- Credit : from de:Bild:Jeans.jpg
+
+## id-61.jpg
+- Source : https://fr.wikipedia.org/wiki/Alexander%20Graham%20Bell
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Alexander_Graham_Bell.jpg
+- Licence : Public domain
+- Auteur : Moffett Studio
+- Credit : Library and Archives Canada / C-017335
+
+## id-62.jpg
+- Source : https://en.wikipedia.org/wiki/Phonograph
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Edison_and_phonograph_edit1.jpg
+- Licence : Public domain
+- Auteur : Levin C. Handy (per http://hdl.loc.gov/loc.pnp/cwpbh.04326)
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID cwpbh.04044.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-63.jpg
+- Source : https://en.wikipedia.org/wiki/Incandescent%20light%20bulb
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Gluehlampe_01_KMJ.png
+- Licence : CC BY-SA 3.0
+- Auteur : KMJ, alpha masking by Edokter
+- Credit : de.wikipedia, original upload 26. Jun 2004 by
+
+## id-64.jpg
+- Source : https://en.wikipedia.org/wiki/Home%20Insurance%20Building
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Home_Insurance_Building.JPG
+- Licence : Public domain
+- Auteur : Chicago Architectural Photographing Company
+- Credit : This image  is available from the United States Library of Congress's National Digital Library Program under the digital ID mhsalad.250058.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-65.jpg
+- Source : https://fr.wikipedia.org/wiki/Tour%20Eiffel
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons.jpg
+- Licence : Public domain
+- Auteur : Benh LIEU SONG
+- Credit : Own work
+
+## id-66.jpg
+- Source : https://en.wikipedia.org/wiki/Toothpaste
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Toothpasteonbrush.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Thegreenj
+- Credit : Own work
+
+## id-67.jpg
+- Source : https://fr.wikipedia.org/wiki/John%20Harvey%20Kellogg
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:John_Harvey_Kellogg_ggbain.15047.jpg
+- Licence : Public domain
+- Auteur : Bain News Service
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID ggbain.15047.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-68.jpg
+- Source : https://en.wikipedia.org/wiki/Guglielmo%20Marconi
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Guglielmo_Marconi.jpg
+- Licence : Public domain
+- Auteur : Pach Brothers
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID cph.3a40043.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-69.jpg
+- Source : https://fr.wikipedia.org/wiki/Auguste%20et%20Louis%20Lumi%C3%A8re
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Fratelli_Lumiere.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : MeisterDrucke
+
+## id-70.jpg
+- Source : https://en.wikipedia.org/wiki/Zeppelin
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:ZR3_USS_Los_Angeles_an_Kriegsschiff.jpg
+- Licence : Public domain
+- Auteur : USN
+- Credit : U.S. Naval Historical Center photo # NH 73285 [1]
+
+## id-71.jpg
+- Source : https://en.wikipedia.org/wiki/Teddy%20bear
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Teddy_bear_early_1900s_-_Smithsonian_Museum_of_Natural_History.jpg
+- Licence : CC BY-SA 2.0
+- Auteur : Smithsonian Museum of Natural History
+- Credit : https://www.flickr.com/photos/23165290@N00/7237653442/
+
+## id-72.jpg
+- Source : https://fr.wikipedia.org/wiki/Orville%20et%20Wilbur%20Wright
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Wright_Brothers_at_home,_1909.jpg
+- Licence : Public domain
+- Auteur : unattributed
+- Credit : Smithsonian's National Air and Space Museum
+
+## id-73.jpg
+- Source : https://fr.wikipedia.org/wiki/Marie%20Curie
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Marie_Curie_c1920.jpg
+- Licence : Public domain
+- Auteur : Henri Manuel
+- Credit : Christie's
+
+## id-74.jpg
+- Source : https://en.wikipedia.org/wiki/Tea%20bag
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Tea_bags.jpg
+- Licence : CC BY-SA 2.5
+- Auteur : André Karwath aka Aka
+- Credit : Own work
+
+## id-75.jpg
+- Source : https://en.wikipedia.org/wiki/Seaplane
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Grumman_HU-16D_Albatross_Chalks_MIA_03.87.jpg
+- Licence : CC BY 3.0
+- Auteur : RuthAS
+- Credit : Own work
+
+## id-76.jpg
+- Source : https://fr.wikipedia.org/wiki/Naufrage%20du%20Titanic
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Stöwer_Titanic.jpg
+- Licence : Public domain
+- Auteur : Willy Stöwer
+- Credit : Magazine Die Gartenlaube, en:Die Gartenlaube and de:Die Gartenlaube
+
+## id-77.jpg
+- Source : https://fr.wikipedia.org/wiki/Premi%C3%A8re%20Guerre%20mondiale
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Montage_photo_1914-1918.png
+- Licence : CC0
+- Auteur : Nangniot
+- Credit : Own work
+
+## id-78.jpg
+- Source : https://fr.wikipedia.org/wiki/Attentat%20de%20Sarajevo
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:L'assassinat_de_l'Archiduc_héritier_d'Autriche_et_de_la_Duchesse_sa_femme_à_Sarajevo_supplément_illustré_du_Petit_Journal_du_12_juillet_1914.jpg
+- Licence : Public domain
+- Auteur : Le Petit Journal
+- Credit : Bibliothèque nationale de France
+
+## id-79.jpg
+- Source : https://fr.wikipedia.org/wiki/RMS%20Lusitania
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:RMS_Lusitania_coming_into_port,_possibly_in_New_York,_1907-13-crop.jpg
+- Licence : Public domain
+- Auteur : George Grantham Bain
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID cph.3g13287.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-80.jpg
+- Source : https://fr.wikipedia.org/wiki/Armistice%20du%2011%20novembre%201918
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Armisticetrain.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : Press photo published all over the world. F.ex. Jan Dąbrowski  "Wielka wojna 1914-1918" ( The Great War 1914-1918) Warsaw 1937
+
+## id-81.jpg
+- Source : https://fr.wikipedia.org/wiki/Trait%C3%A9%20de%20Versailles
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Treaty_of_Versailles_Signing,_Hall_of_Mirrors.jpg
+- Licence : Public domain
+- Auteur : Helen Johns Kirtland (1890-1979) and Lucian Swift Kirtland (died 1965)
+- Credit : US National Archives
+
+## id-82.jpg
+- Source : https://en.wikipedia.org/wiki/Tomb%20of%20Tutankhamun
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Inside_Pharaoh_Tutankhamun's_tomb,_18th_dynasty.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : EditorfromMars
+- Credit : Own work
+
+## id-83.jpg
+- Source : https://fr.wikipedia.org/wiki/Charles%20Lindbergh
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Col_Charles_Lindbergh,_original,_hec.21329.jpg
+- Licence : Public domain
+- Auteur : Harris &amp; Ewing
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID hec.21329.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-84.jpg
+- Source : https://fr.wikipedia.org/wiki/Alexander%20Fleming
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Alexander_Fleming_1945.jpg
+- Licence : Public domain
+- Auteur : Nobel Foundation
+- Credit : http://nobelprize.org/
+
+## id-85.jpg
+- Source : https://fr.wikipedia.org/wiki/Guitare%20%C3%A9lectrique
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Madrid-Gibson_Les_Paul_(2009).jpg
+- Licence : CC BY 2.0
+- Auteur : Alberto Carrasco Casado
+- Credit : Flickr: Madrid-Gibson Les Paul (2009)
+
+## id-86.jpg
+- Source : https://fr.wikipedia.org/wiki/Krach%20de%201929
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Crowd_outside_nyse.jpg
+- Licence : Public domain
+- Auteur : US-gov
+- Credit : From an SSA poster: http://www.ssa.gov/history/wallst.html (dead link)
+Archive: https://web.archive.org/web/20001214081300/http://www.ssa.gov/history/wallst.html
+
+## id-87.jpg
+- Source : https://fr.wikipedia.org/wiki/Coupe%20du%20monde%20de%20football%201930
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Uruguay_1930_World_Cup.jpg
+- Licence : Public domain
+- Auteur : Guillermo Laborde (1886–1940)
+- Credit : Here
+
+## id-88.jpg
+- Source : https://fr.wikipedia.org/wiki/Campagne%20de%20Pologne%20%281939%29
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Battle_of_Poland.png
+- Licence : CC BY-SA 3.0
+- Auteur : Ai6z83xl3g
+- Credit : Own work
+
+## id-89.jpg
+- Source : https://fr.wikipedia.org/wiki/D%C3%A9barquement%20de%20Normandie
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Into_the_Jaws_of_Death_23-0455M_edit.jpg
+- Licence : Public domain
+- Auteur : Chief Photographer's Mate (CPHoM) Robert F. Sargent
+- Credit : This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-90.jpg
+- Source : https://fr.wikipedia.org/wiki/Bombardements%20atomiques%20d%27Hiroshima%20et%20de%20Nagasaki
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Atomic_bombing_of_Japan.jpg
+- Licence : Public domain
+- Auteur : George R. Caron / Charles Levy
+- Credit : Nagasakibomb.jpg
+Atomic_cloud_over_Hiroshima.jpg
+
+## id-91.jpg
+- Source : https://fr.wikipedia.org/wiki/Capitulation%20du%20Japon
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Mamoru_Shigemitsu_signs_the_Instrument_of_Surrender,_officially_ending_the_Second_World_War_-_Alt.jpg
+- Licence : Public domain
+- Auteur : Army Signal Corps photographer LT. Stephen E. Korpanty
+- Credit : Naval Historical Center Photo # SC 213700; Hogh-resolution copy from http://ww2db.com/images/battle_japansurrender25.jpg
+
+## id-92.jpg
+- Source : https://en.wikipedia.org/wiki/Headquarters%20of%20the%20United%20Nations
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Midtown_Manhattan_Skyline_004_(cropped).jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Kidfly182
+- Credit : Own work
+
+## id-93.jpg
+- Source : https://fr.wikipedia.org/wiki/Ambroise%20Croizat
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ambroise_Croizat.jpg
+- Licence : CC0
+- Auteur : Rouge Production
+- Credit : Rouge Production via L'humanité
+
+## id-94.jpg
+- Source : https://fr.wikipedia.org/wiki/Rideau%20de%20fer
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Železná_opona,_Čížov.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Vojtěch Dostál
+- Credit : Own work
+
+## id-95.jpg
+- Source : https://fr.wikipedia.org/wiki/Mouvement%20pour%20l%27ind%C3%A9pendance%20de%20l%27Inde
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Demonstration_against_British_Rule_in_India_-_c1930's.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : http://www.oldindianphotos.in/2013/09/satyagrahis-demostrating-against.html
+
+## id-96.jpg
+- Source : https://fr.wikipedia.org/wiki/Bell%20X-1
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Bell_X-1_46-062_(in_flight).jpg
+- Licence : Public domain
+- Auteur : NASA
+- Credit : NASA Langley Research Center website
+
+## id-97.jpg
+- Source : https://en.wikipedia.org/wiki/Transistor
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Transbauformen.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Ulfbastel
+- Credit : Own work
+
+## id-98.jpg
+- Source : https://fr.wikipedia.org/wiki/Kenneth%20Arnold
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:K-Arnold(reconstitution).png
+- Licence : Public domain
+- Auteur : No machine-readable author provided. Crobard~commonswiki assumed (based on copyright claims).
+- Credit : No machine-readable source provided. Own work assumed (based on copyright claims).
+
+## id-99.jpg
+- Source : https://en.wikipedia.org/wiki/Phonograph%20record
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Vinilos_distintos_tamaños.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Banfield
+- Credit : Own work
+
+## id-100.jpg
+- Source : https://fr.wikipedia.org/wiki/Edmund%20Hillary
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Edmund_Hillary,_c._1953,_autograph_removed.jpg
+- Licence : Public domain
+- Auteur : Photographer unidentified. Retouched by TimofKingsland.
+- Credit : Pascoe, John Dobree, 1908-1972. Edmund Percival Hillary. Ref: 1/2-020196-F. Alexander Turnbull Library, Wellington, New Zealand. http://beta.natlib.govt.nz/records/22676310
+
+## id-101.jpg
+- Source : https://en.wikipedia.org/wiki/Nucleic%20acid%20double%20helix
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:DNA_orbit_animated_static_thumb.png
+- Licence : CC BY-SA 3.0
+- Auteur : 84user adapting file originally uploaded by Richard Wheeler (Zephyris) at en.wikipedia
+- Credit : Derived from File:DNA orbit animated.gif originally from here.
+
+## id-102.jpg
+- Source : https://fr.wikipedia.org/wiki/Rosa%20Parks
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Rosa_Parks_1997.jpg
+- Licence : CC BY-SA 2.0
+- Auteur : John Mathew Smith &amp; www.celebrity-photos.com from Laurel  Maryland, USA
+- Credit : ROSA PARKS
+
+## id-103.jpg
+- Source : https://fr.wikipedia.org/wiki/Spoutnik%201
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Sputnik_asm.jpg
+- Licence : Public domain
+- Auteur : NSSDC, NASA[1]
+- Credit : http://nssdc.gsfc.nasa.gov/database/MasterCatalog?sc=1957-001B
+
+## id-104.jpg
+- Source : https://fr.wikipedia.org/wiki/Ludwig%20Guttmann
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ludwig_Guttmann_1976.jpeg
+- Licence : CC BY-SA 3.0
+- Auteur : Unknown authorUnknown author
+- Credit : Australian Paralympic Committee
+
+## id-105.jpg
+- Source : https://fr.wikipedia.org/wiki/Youri%20Gagarine
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Yuri_Gagarin_(1961).jpg
+- Licence : Public domain
+- Auteur : Arto Jousi / /Suomen valokuvataiteen museo / Alma Media / Uuden Suomen kokoelma
+- Credit : Finnish Museum of Photography
+
+## id-106.jpg
+- Source : https://fr.wikipedia.org/wiki/Mur%20de%20Berlin
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Berlinermauer.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Noir
+- Credit : Own work, https://thierrynoir.com/biography/essays/berlin-wall/
+
+## id-107.jpg
+- Source : https://fr.wikipedia.org/wiki/Crise%20des%20missiles%20de%20Cuba
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Cuban_missiles.jpg
+- Licence : Public domain
+- Auteur : see above
+- Credit : National Archives.gov
+
+## id-108.jpg
+- Source : https://fr.wikipedia.org/wiki/Assassinat%20de%20John%20F.%20Kennedy
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:JFK_limousine.png
+- Licence : Public domain
+- Auteur : Walt Cisco, Dallas Morning News
+- Credit : https://www.alamy.com/picture-of-president-kennedy-in-the-limousine-in-dallas-texas-on-main-street-minutes-before-the-assassination-also-in-the-presidential-limousine-are-jackie-kennedy-texas-governor-john-connally-and-his-wife-nellie-image501878963.html?imageid=6AFE70C4-F21C-4ABF-9A96-DEAFAB5E1C2F&amp;p=36552&amp;pn=1&amp;searchId=fdcfd88d5309b2dc2271b0a6bf93fa13&amp;searchtype=0
+
+## id-109.jpg
+- Source : https://fr.wikipedia.org/wiki/Assassinat%20de%20Martin%20Luther%20King
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Lorraine_Motel_Memphis.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Y.Leclercq©
+- Credit : Own work
+
+## id-110.jpg
+- Source : https://fr.wikipedia.org/wiki/Apollo%2011
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Apollo_11_insignia.png
+- Licence : Public domain
+- Auteur : NASA
+- Credit : http://history.nasa.gov/apollo_patches.html (direct link)
+
+## id-111.jpg
+- Source : https://en.wikipedia.org/wiki/ARPANET
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Arpanet_logical_map,_march_1977.png
+- Licence : Public domain
+- Auteur : ARPANET
+- Credit : The Computer History Museum ([1]), en:File:Arpnet-map-march-1977.png
+
+## id-113.jpg
+- Source : https://fr.wikipedia.org/wiki/Sudoku
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Sudoku_en_periódico.jpg
+- Licence : CC BY 2.0
+- Auteur : Héctor Rodríguez from Guardamar, Spain
+- Credit : Trabajo fácil
+
+## id-117.jpg
+- Source : https://fr.wikipedia.org/wiki/Chute%20du%20mur%20de%20Berlin
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:West_and_East_Germans_at_the_Brandenburg_Gate_in_1989.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Unknown photographer, Reproduction by Lear 21 at English Wikipedia.
+- Credit : Original photo by unknown author. Reproduction from public documentation/memorial by Lear 21 at English Wikipedia.
+
+## id-118.jpg
+- Source : https://fr.wikipedia.org/wiki/Tim%20Berners-Lee
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:LS3_4919_(cropped).jpg
+- Licence : CC BY 2.0
+- Auteur : Web Summit
+- Credit : https://www.flickr.com/photos/websummit/54135747450/
+
+## id-119.jpg
+- Source : https://fr.wikipedia.org/wiki/Nelson%20Mandela
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Nelson_Mandela_1994.jpg
+- Licence : CC BY-SA 2.0
+- Auteur : Kingkongphoto &amp; www.celebrity-photos.com from Laurel
+- Credit : Flickr: NELSON MANDELA
+
+## id-120.jpg
+- Source : https://fr.wikipedia.org/wiki/Dislocation%20de%20l%27URSS
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Grand_Kremlin_Palace_façade,_1982-2008.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Photos by Steve/Ruth Bosman (1982) and Ed Yourdon (2008); cropping, image editing and montage by MaGioZal
+- Credit : File:Supreme Soviet 1982.jpg and File:Grand Kremlin Palace, Moscow.jpg
+
+## id-122.jpg
+- Source : https://en.wikipedia.org/wiki/Presidency%20of%20Nelson%20Mandela
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Nelson_Mandela_1994.jpg
+- Licence : CC BY-SA 2.0
+- Auteur : Kingkongphoto &amp; www.celebrity-photos.com from Laurel
+- Credit : Flickr: NELSON MANDELA
+
+## id-123.jpg
+- Source : https://fr.wikipedia.org/wiki/Dolly%20%28brebis%29
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Dolly_face_closeup.jpg
+- Licence : CC BY-SA 2.0
+- Auteur : Toni Barros from São Paulo, Brasil
+- Credit : Hello, Dolly!
+
+## id-125.jpg
+- Source : https://fr.wikipedia.org/wiki/Attentats%20du%2011%20septembre%202001
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:September_11_Photo_Montage.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : UpstateNYer
+- Credit : Own work; derivative work of the following:
+
+
+		
+			
+			WTC smoking on 9-11.jpeg
+ by Michael Foran on Flickr
+		
+		
+			
+			DN-SD-03-11451.JPEG
+ by the United States Navy
+		
+		
+			
+			UA Flight 175 hits WTC south tower 9-11 edit.jpeg
+ by TheMachineStops on Flickr
+		
+		
+			
+			WTC-Fireman requests 10 more colleagues.jpg
+ by the US Government
+		
+		
+			
+			Flight93Engine.jpg
+ by the US Government
+		
+		
+			
+			Video2 flight77 pentagon.png
+ by the United States Department of Defense
+
+## id-126.jpg
+- Source : https://fr.wikipedia.org/wiki/Jimmy%20Wales
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Jimmy_Wales_2024_portrait_3x4_(2).jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Le Commissaire
+- Credit : File:Wikimania 2024 by Le Commissaire - Opening ceremony - 54.jpg
+
+## id-127.jpg
+- Source : https://fr.wikipedia.org/wiki/Mark%20Zuckerberg
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:F20250904AH-2915_(54778607243)_(cropped).jpg
+- Licence : Public domain
+- Auteur : The White House
+- Credit : https://www.flickr.com/photos/202101414@N05/54778607243/
+
+## id-128.jpg
+- Source : https://en.wikipedia.org/wiki/Steve%20Jobs
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Steve_Jobs_Headshot_2010_(cropped_4).jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Matthew Yohe
+- Credit : I (Matt Yohe (talk)) created this work entirely by myself.
+
+## id-129.jpg
+- Source : https://fr.wikipedia.org/wiki/Barack%20Obama
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:President_Barack_Obama.jpg
+- Licence : Public domain
+- Auteur : Official White House Photo by Pete Souza
+- Credit : P120612PS-0463 (direct link)Official White House page direct link)
+
+## id-130.jpg
+- Source : https://fr.wikipedia.org/wiki/Usain%20Bolt
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Usain_Bolt_Rio_100m_final_2016i-cr.jpg
+- Licence : CC BY 3.0 br
+- Auteur : Fernando Frazão/Agência Brasil
+- Credit : [1] [2]
+
+## id-131.jpg
+- Source : https://en.wikipedia.org/wiki/Cryptocurrency%20ATM
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Bitcoin_ATM_in_South_Africa.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : TapticInfo
+- Credit : Own work
+
+## id-132.jpg
+- Source : https://fr.wikipedia.org/wiki/Felix%20Baumgartner
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:12._Internationale_Sportnacht_Davos_2014_(15409745296)_(cropped).jpg
+- Licence : CC BY-SA 2.0
+- Auteur : 12. Internationale Sportnacht Davos from Davos, Schweiz
+- Credit : 12. Internationale Sportnacht Davos 2014
+
+## id-133.jpg
+- Source : https://fr.wikipedia.org/wiki/Boson%20de%20Higgs
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Candidate_Higgs_Events_in_ATLAS_and_CMS.png
+- Licence : CC BY-SA 3.0
+- Auteur : CERN for the ATLAS and CMS Collaborations
+- Credit : https://cds.cern.ch/record/1630222
+
+## id-134.jpg
+- Source : https://en.wikipedia.org/wiki/Ice%20Bucket%20Challenge
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Doing_the_ALS_Ice_Bucket_Challenge_(14927191426).jpg
+- Licence : CC BY 2.0
+- Auteur : slgckgc
+- Credit : Doing the ALS Ice Bucket Challenge
+
+## id-136.jpg
+- Source : https://en.wikipedia.org/wiki/Area%2051
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Sentinel-Homey.png
+- Licence : Attribution
+- Auteur : ESA
+- Credit : https://apps.sentinel-hub.com/sentinel-playground/
+
+## id-137.jpg
+- Source : https://en.wikipedia.org/wiki/Perseverance%20%28rover%29
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Perseverance-Selfie-at-Rochette-Horizontal-V2.gif
+- Licence : Public domain
+- Auteur : NASA/JPL-Caltech
+- Credit : https://mars.nasa.gov/resources/26253/perseverances-selfie-at-rochette/

@@ -763,6 +763,7 @@ function renderInspecteurMulti() {
     return;
   }
   zone.innerHTML = construireDetailCarteHTML(carte, !dansMain);
+  configurerNavigationIllustration(carte, zone);
 }
 
 /* ---- Validation d'un placement (mon tour uniquement) ---- */

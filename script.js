@@ -370,19 +370,18 @@ function localiserCarte(carte) {
 }
 
 /* ================= ILLUSTRATION (image ou emoji de secours) =================
-   Convention : si la colonne "image" du xlsx est vide, on essaie automatiquement
-   images-claude/id-<id>.png puis images/id-<id>.png (et leurs variantes .jpg/.jpeg/.webp)
-   avant de retomber sur l'emoji. Il suffit donc de nommer un fichier "id-47.png" et de
-   le deposer dans l'un de ces deux dossiers pour qu'il s'affiche, sans toucher au xlsx
-   ni au code. images-claude/ contient des photos libres de droits recherchees par Claude
-   pour les cartes que l'utilisateur n'a pas illustrees lui-meme. */
+   Deux dossiers possibles pour l'illustration d'une carte :
+   - images/       : illustrations personnelles de l'utilisateur (IA, style dessin) -- PRIORITAIRES.
+   - images-claude/ : photos/oeuvres du domaine public recherchees par Claude pour les
+     cartes que l'utilisateur n'a pas (encore) illustrees lui-meme, ou en complement.
+   On essaie systematiquement id-<id>.<ext> dans images/ d'abord (l'utilisateur passe
+   toujours devant), puis dans images-claude/, avant de retomber sur l'emoji. La colonne
+   "image" du xlsx n'est plus utilisee pour construire le chemin (uniquement documentaire) :
+   il suffit de deposer un fichier "id-47.png" dans l'un des deux dossiers pour qu'il
+   s'affiche, sans toucher au xlsx ni au code. */
 function candidatsImage(carte) {
-  const dossiers = ['images-claude', 'images'];
-  // Si la colonne xlsx precise un nom de fichier exact, on l'essaie dans les
-  // deux dossiers (l'un des deux contiendra le fichier reel) plutot que de
-  // supposer qu'il vit forcement dans images/.
-  if (carte.image) return dossiers.map(dossier => `${dossier}/${carte.image}`);
   const extensions = ['png', 'jpg', 'jpeg', 'webp'];
+  const dossiers = ['images', 'images-claude'];
   return dossiers.flatMap(dossier => extensions.map(ext => `${dossier}/id-${carte.id}.${ext}`));
 }
 
@@ -403,6 +402,62 @@ function essaierImageSuivante(img) {
     span.textContent = img.dataset.emoji;
     img.replaceWith(span);
   }
+}
+
+/* Cherche la premiere extension existante pour id-<id> dans un dossier donne
+   (par essai de chargement reel, pas de simple pari sur une extension) ;
+   resout vers l'URL trouvee, ou null si aucune des extensions ne fonctionne. */
+function trouverImageDansDossier(id, dossier) {
+  const extensions = ['png', 'jpg', 'jpeg', 'webp'];
+  return new Promise((resolve) => {
+    let i = 0;
+    function essayer() {
+      if (i >= extensions.length) { resolve(null); return; }
+      const url = `${dossier}/id-${id}.${extensions[i]}`;
+      const test = new Image();
+      test.onload = () => resolve(url);
+      test.onerror = () => { i += 1; essayer(); };
+      test.src = url;
+    }
+    essayer();
+  });
+}
+
+/* Uniquement dans l'inspecteur (solo et multi, via #contenu-inspecteur) :
+   si la carte dispose a la fois d'une illustration personnelle (images/) ET
+   d'une photo trouvee par Claude (images-claude/), affiche deux petites
+   fleches pour basculer de l'une a l'autre -- l'illustration personnelle
+   reste prioritaire et s'affiche en premier. Ne fait rien si un seul des
+   deux existe (rien a basculer). Asynchrone : le rendu initial (emoji ou
+   premiere image trouvee via candidatsImage) reste instantane, les fleches
+   n'apparaissent qu'une fois la verification terminee. */
+function configurerNavigationIllustration(carte, zone) {
+  const decor = zone.querySelector(`.decor-grand[data-carte-id="${carte.id}"]`);
+  if (!decor) return;
+  Promise.all([
+    trouverImageDansDossier(carte.id, 'images'),
+    trouverImageDansDossier(carte.id, 'images-claude'),
+  ]).then(([urlPerso, urlClaude]) => {
+    // La carte inspectee a pu changer pendant l'attente : on abandonne si ce
+    // n'est plus la meme (evite d'activer des fleches sur la mauvaise carte).
+    if (!zone.contains(decor) || !decor.isConnected) return;
+    if (zone.querySelector(`.decor-grand[data-carte-id="${carte.id}"]`) !== decor) return;
+    const sources = [urlPerso, urlClaude].filter(Boolean);
+    if (sources.length < 2) return;
+    let index = 0;
+    const img = decor.querySelector('img');
+    const btnGauche = decor.querySelector('.btn-decor-nav--gauche');
+    const btnDroite = decor.querySelector('.btn-decor-nav--droite');
+    if (!img || !btnGauche || !btnDroite) return;
+    function majAffichage() {
+      img.src = sources[index];
+      btnGauche.hidden = index === 0;
+      btnDroite.hidden = index === sources.length - 1;
+    }
+    majAffichage();
+    btnGauche.addEventListener('click', () => { index = Math.max(0, index - 1); majAffichage(); });
+    btnDroite.addEventListener('click', () => { index = Math.min(sources.length - 1, index + 1); majAffichage(); });
+  });
 }
 
 /* ================= CREATION D'ELEMENTS CARTE ================= */
@@ -583,6 +638,7 @@ function renderInspecteur() {
   const localisation = localiserCarte(carte);
   const dateVisible = localisation !== 'main';
   zone.innerHTML = construireDetailCarteHTML(carte, dateVisible);
+  configurerNavigationIllustration(carte, zone);
 }
 
 /* Construit le HTML detaille d'une carte pour l'inspecteur. Partage entre le
@@ -623,7 +679,11 @@ function construireDetailCarteHTML(carte, dateVisible) {
 
   return `
     <div class="carte-grande famille-${carte.famille}">
-      <div class="decor-grand">${elementDecorHTML(carte)}</div>
+      <div class="decor-grand" data-carte-id="${carte.id}">
+        ${elementDecorHTML(carte)}
+        <button type="button" class="btn-decor-nav btn-decor-nav--gauche" hidden title="Illustration précédente">◀</button>
+        <button type="button" class="btn-decor-nav btn-decor-nav--droite" hidden title="Illustration suivante">▶</button>
+      </div>
       <div class="titre-grand">${carte.titre}</div>
       <div class="date-grand ${dateVisible ? '' : 'cachee'}">${dateVisible ? formaterDate(carte.date) : '?'}</div>
     </div>
