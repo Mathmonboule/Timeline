@@ -188,6 +188,7 @@ function entrerDansLobbyMulti(code, hote) {
   premierFiniAnnonce = false;
   multiSpectateJoueurId = null;
   dernierTourJoueurId = null;
+  dernierCarteRepereVue = null;
 
   document.getElementById('lobby-mode-badge').textContent = 'Partie multijoueur';
   document.getElementById('btn-nouvelle-partie').hidden = true;
@@ -456,6 +457,9 @@ let multiSpectateJoueurId = null;
 // pendant que c'est deja notre tour). null au chargement : evite aussi de
 // jouer le son si on rejoint/rafraichit une partie ou c'est deja notre tour.
 let dernierTourJoueurId = null;
+// Derniere carte repere vue, pour detecter le debut d'une TOUTE NOUVELLE
+// manche (voir bloc de reset ci-dessous).
+let dernierCarteRepereVue = null;
 
 function surMiseAJourPartie(partie) {
   dernierePartieMulti = partie;
@@ -464,6 +468,25 @@ function surMiseAJourPartie(partie) {
   if (partie.statut === 'en_cours' && partie.tour_actuel !== dernierTourJoueurId) {
     if (dernierTourJoueurId !== null && partie.tour_actuel === JOUEUR_ID) jouerSonTonTour();
     dernierTourJoueurId = partie.tour_actuel;
+  }
+
+  // Detecte le debut d'une TOUTE NOUVELLE manche (carte repere differente de
+  // la precedente vue) pour repartir sur un etat local propre, cote CHAQUE
+  // client -- pas seulement l'hote qui a clique "Nouvelle partie". Sans ca,
+  // un invite qui n'a jamais clique ce bouton lui-meme gardait des drapeaux
+  // ou selections de la manche precedente : premierFiniAnnonce jamais remis
+  // a false (empechant la prochaine annonce de "premier fini" de s'afficher
+  // chez lui), ou une carte encore "inspectee"/"choisie" qui n'existe plus
+  // dans la nouvelle main, ou la note "tu regardes la main de X" qui pouvait
+  // rester affichee un instant avec le pseudo de la manche d'avant.
+  if (partie.statut === 'en_cours' && partie.carte_repere != null && partie.carte_repere !== dernierCarteRepereVue) {
+    dernierCarteRepereVue = partie.carte_repere;
+    premierFiniAnnonce = false;
+    multiCarteChoisie = null;
+    multiCarteEnDrag = null;
+    multiIndexZoneSelectionnee = null;
+    multiCarteInspectee = null;
+    document.getElementById('multi-spectateur-note').hidden = true;
   }
 
   if (partie.statut === 'lobby') {
@@ -515,7 +538,11 @@ function mettreAJourEtatLocalMulti(partie) {
   // afficher -- a la place on regarde la main du joueur dont c'est le tour,
   // pour pouvoir suivre la fin de partie au lieu de fixer un ecran vide.
   const jeSuisTermine = estJoueurTermine(partie, JOUEUR_ID);
-  if (jeSuisTermine && partie.statut === 'en_cours' && partie.tour_actuel) {
+  // Garde-fou : on ne bascule en mode spectateur que si le joueur dont c'est
+  // le tour n'est pas LUI-MEME deja termine (ne devrait jamais arriver vu
+  // que prochainIndexActif saute les joueurs finis, mais evite d'afficher
+  // "tu regardes la main de X" avec un X perime si ca se produit quand meme).
+  if (jeSuisTermine && partie.statut === 'en_cours' && partie.tour_actuel && !estJoueurTermine(partie, partie.tour_actuel)) {
     multiMain = (((partie.mains || {})[partie.tour_actuel]) || []).map((id) => CARTE_PAR_ID[id]).filter(Boolean);
     multiSpectateJoueurId = partie.tour_actuel;
   } else {

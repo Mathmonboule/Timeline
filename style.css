@@ -1536,6 +1536,14 @@ body {
   text-align: center;
   animation: slideDown 0.25s ease;
 }
+.popup-erreur-date {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #ff8fc7;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 12px rgba(236, 72, 153, 0.5);
+}
 .popup-erreur-boite .carte-grande { margin-bottom: 14px; border-color: rgba(231, 76, 60, 0.5); }
 .popup-erreur-description {
   background: #12182c;

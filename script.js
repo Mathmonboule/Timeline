@@ -707,16 +707,18 @@ function afficherMessage(correct) {
 }
 
 /* Pop-up centrale montree apres une erreur (solo et multi), avant que la
-   carte ne parte reellement en poubelle : on y voit la carte (decor + titre)
-   et sa description courte, mais ni la date ni le contexte approfondi (pour
-   ne pas transformer l'erreur en lecon d'histoire non demandee). Un clic
-   n'importe ou dans la pop-up la ferme et declenche onFermeture, qui est
-   responsable de faire effectivement passer la carte en poubelle. */
+   carte ne parte reellement en poubelle : on y voit la date en grand (pour
+   bien comprendre l'erreur), la carte (decor + titre) et sa description
+   courte, mais pas le contexte approfondi (pour ne pas transformer l'erreur
+   en lecon d'histoire non demandee). Un clic n'importe ou dans la pop-up la
+   ferme et declenche onFermeture, qui est responsable de faire effectivement
+   passer la carte en poubelle. */
 function afficherPopupErreur(carte, onFermeture) {
   const fond = document.createElement('div');
   fond.className = 'popup-erreur-fond';
   fond.innerHTML = `
     <div class="popup-erreur-boite">
+      <div class="popup-erreur-date">${formaterDate(carte.date)}</div>
       <div class="carte-grande famille-${carte.famille}">
         <div class="decor-grand">${elementDecorHTML(carte)}</div>
         <div class="titre-grand">${carte.titre}</div>
