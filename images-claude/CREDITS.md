@@ -2451,3 +2451,357 @@ Atomic_cloud_over_Hiroshima.jpg
 - Licence : Public domain
 - Auteur : United Press International
 - Credit : [1], [2], [3]
+
+## id-475.jpg
+- Source : https://fr.wikipedia.org/wiki/Assassinat%20de%20Jules%20C%C3%A9sar
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Jean-Léon_Gérôme_-_The_Death_of_Caesar_-_Walters_37884.jpg
+- Licence : Public domain
+- Auteur : Jean-Léon Gérôme
+- Credit : Walters Art Museum:  Home page  Info about artwork
+
+## id-476.jpg
+- Source : https://fr.wikipedia.org/wiki/Jeanne%20d%27Arc
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Contemporaine_afb_jeanne_d_arc.png
+- Licence : Public domain
+- Auteur : Clément de Fauquembergue
+- Credit : Transferred from nl.wikipedia to Commons by Koektrommel using CommonsHelper.
+
+## id-477.jpg
+- Source : https://fr.wikipedia.org/wiki/Bataille%20de%20Marignan
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Marignan.jpg
+- Licence : Public domain
+- Auteur : The Maître à la Ratière (or souricière ("master of the mouse trap", after his painter's mark), also known as Maître NA.DAT) is an obscure painter active in Rome by 1512-1513. (Brulliot 1832)
+- Credit : RMN (Domaine de Chantilly) / René-Gabriel Ojéda (retouched by the uploader). see also [1]
+
+## id-478.jpg
+- Source : https://fr.wikipedia.org/wiki/D%C3%A9claration%20des%20droits%20de%20l%27homme%20et%20du%20citoyen%20de%201789
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Declaration_of_the_Rights_of_Man_and_of_the_Citizen_in_1789.jpg
+- Licence : Public domain
+- Auteur : 
+- Credit : https://www.parismuseescollections.paris.fr/fr/musee-carnavalet/oeuvres/declaration-des-droits-de-l-homme-et-du-citoyen-4#infos-principales
+
+## id-479.jpg
+- Source : https://fr.wikipedia.org/wiki/Adolf%20Hitler
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-H1216-0500-002,_Adolf_Hitler.jpg
+- Licence : CC BY-SA 3.0 de
+- Auteur : Heinrich Hoffmann
+- Credit : This image was provided to Wikimedia Commons by the German Federal Archive (Deutsches Bundesarchiv) as part of a cooperation project. The German Federal Archive guarantees an authentic representation only using the originals (negative and/or positive), resp. the digitalization of the originals as provided by the Digital Image Archive.
+
+## id-480.jpg
+- Source : https://fr.wikipedia.org/wiki/Charles%20de%20Gaulle
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:De_Gaulle-OWI_(3x4_cropped)_(2).jpg
+- Licence : Public domain
+- Auteur : Office of War Information, Overseas Picture Division. [1]  
+
+The image prefix (LC-USW3) at the Library of Congress image page matches that of pictures from the OWI collection (see prefix list here.
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID cph.3b42159.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-481.jpg
+- Source : https://fr.wikipedia.org/wiki/Lib%C3%A9ration%20de%20Paris
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Crowds_of_French_patriots_line_the_Champs_Elysees-edit2.jpg
+- Licence : Public domain
+- Auteur : Jack Downey, U.S. Office of War Information
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID fsac.1a55001.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-482.jpg
+- Source : https://fr.wikipedia.org/wiki/Mohandas%20Karamchand%20Gandhi
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Mahatma-Gandhi,_studio,_1931.jpg
+- Licence : Public domain
+- Auteur : Elliott &amp; Fry
+- Credit : philogalichet.fr (context)
+
+## id-483.jpg
+- Source : https://fr.wikipedia.org/wiki/D%C3%A9claration%20universelle%20des%20droits%20de%20l%27homme
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Eleanor_Roosevelt_UDHR.jpg
+- Licence : CC BY 2.0
+- Auteur : FDR Presidential Library &amp; Museum
+- Credit : https://www.flickr.com/photos/fdrlibrary/27758131387/
+
+## id-484.jpg
+- Source : https://fr.wikipedia.org/wiki/Palais%20de%20l%27%C3%89lys%C3%A9e
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Secretary_Pompeo_Arrives_to_Meet_with_French_Foreign_Minister_Le_Drian_in_Paris_(50610423656)_(cropped).jpg
+- Licence : Public domain
+- Auteur : U.S. Department of State from United States
+- Credit : Secretary Pompeo Arrives to Meet with French Foreign Minister Le Drian in Paris
+
+## id-485.jpg
+- Source : https://en.wikipedia.org/wiki/Lyndon%20B.%20Johnson
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Lyndon_B._Johnson,_photo_portrait,_color_(3x4_cropped)(2).jpg
+- Licence : Public domain
+- Auteur : Arnold Newman
+- Credit : http://photolab.lbjlib.utexas.edu/detail.asp?id=18170
+
+## id-486.jpg
+- Source : https://fr.wikipedia.org/wiki/Cath%C3%A9drale%20Saint-Paul%20de%20Londres
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:St_Pauls_aerial_(cropped).jpg
+- Licence : CC BY 2.0
+- Auteur : Mark Fosh
+- Credit : originally posted to Flickr as St Pauls
+
+## id-487.jpg
+- Source : https://fr.wikipedia.org/wiki/Diana%20Spencer
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Diana,_Princess_of_Wales_1997_(2).jpg
+- Licence : CC BY-SA 2.0
+- Auteur : John Mathew Smith &amp; www.celebrity-photos.com from Laurel  Maryland, USA (Archived link)
+- Credit : BEST ALL-TIME DIANA! (Archived link)
+
+## id-488.jpg
+- Source : https://fr.wikipedia.org/wiki/Billets%20de%20banque%20en%20euro
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Euro_banknotes,_Europa_series.png
+- Licence : CC0
+- Auteur : Bericht
+- Credit : Own work
+
+## id-489.jpg
+- Source : https://fr.wikipedia.org/wiki/Attentats%20du%2013%20novembre%202015%20en%20France
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:13_November_2015_Paris_attacks_-_montage.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : ERIC  SALARD, Chris93, Maya-Anaïs Yataghène, Mstyslav Chernov, 
+
+Fugitron et intervenants sur la discussion associée (montage)
+- Credit : Own work (montage) ; derivative work of the following : 
+
+## id-490.jpg
+- Source : https://fr.wikipedia.org/wiki/Palais%20de%20Westminster
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Houses_of_Parliament_in_2022_(cropped).jpg
+- Licence : CC BY 2.0
+- Auteur : Terry Ott from Washington, DC Metro Area, United States of America
+- Credit : Built in 1016
+
+## id-491.jpg
+- Source : https://fr.wikipedia.org/wiki/Emmanuel%20Macron
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Emmanuel_Macron_2025_(cropped).jpg
+- Licence : Public domain
+- Auteur : Nebojša Tejić
+- Credit : https://www.flickr.com/photos/141163381@N04/54869784798/
+
+## id-492.jpg
+- Source : https://fr.wikipedia.org/wiki/Pand%C3%A9mie%20de%20Covid-19
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Pandemic_photomontage_COVID-19.png
+- Licence : CC BY-SA 4.0
+- Auteur : Lofhi
+- Credit : Top picture: File:13981210000546637185832350425406 بخش ویژه «بیماران کرونا» بیمارستان امام خمینی.jpg / Fars News Agency - Mohsen Atayi / CC BY 4.0
+
+## id-493.jpg
+- Source : https://fr.wikipedia.org/wiki/%C3%89lisabeth%20II
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Elizabeth_II_in_Berlin_2015_(cropped).JPG
+- Licence : CC BY-SA 4.0
+- Auteur : PolizeiBerlin
+- Credit : Own work
+
+## id-494.jpg
+- Source : https://fr.wikipedia.org/wiki/Couronnement%20d%27%C3%89lisabeth%20II
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Queen_Elizabeth_II_on_her_Coronation_Day.jpg
+- Licence : Public domain
+- Auteur : Cecil Beaton
+- Credit : Royal Collection RCIN 2153177
+
+## id-495.jpg
+- Source : https://fr.wikipedia.org/wiki/Bataille%20de%20Verdun
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:French_trench_battle.jpg
+- Licence : Public domain
+- Auteur : Bain News Service
+- Credit : This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ID ggbain.26253.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.
+
+## id-496.jpg
+- Source : https://fr.wikipedia.org/wiki/Attaque%20de%20Pearl%20Harbor
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Attack_on_Pearl_Harbor_Japanese_planes_view.jpg
+- Licence : Public domain
+- Auteur : Imperial Japanese Navy
+- Credit : Official U.S. Navy photograph NH 50930.
+
+## id-497.jpg
+- Source : https://fr.wikipedia.org/wiki/Bataille%20de%20Stalingrad
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Battle_of_Stalingrad_-_Collage.png
+- Licence : CC BY-SA 4.0
+- Auteur : PattyB0YY
+- Credit : (1) File:Расчет советской 76,2-мм пушки ЗиС-3 ведет огонь в Сталинграде. Ноябрь 1942 г.jpg
+
+## id-498.jpg
+- Source : https://fr.wikipedia.org/wiki/Bataille%20de%20Berlin
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Raising_a_flag_over_the_Reichstag_2.jpg
+- Licence : Public domain
+- Auteur : Yevgeny Khaldei
+- Credit : mil.ru[1]
+
+## id-499.jpg
+- Source : https://fr.wikipedia.org/wiki/Catastrophe%20nucl%C3%A9aire%20de%20Tchernobyl
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:IAEA_02790015_(5613115146).jpg
+- Licence : CC BY-SA 2.0
+- Auteur : IAEA Imagebank
+- Credit : 02790015
+
+## id-500.jpg
+- Source : https://fr.wikipedia.org/wiki/Accident%20de%20la%20navette%20spatiale%20Challenger
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Challenger_Photo_Montage.jpg
+- Licence : Public domain
+- Auteur : Galdrad
+- Credit : Own work derivative / montage of PD-USGov-NASA images File:Challenger explosion.jpg, File:STS-51-L.jpg, File:STS-51-J TV1 01.jpg, File:Challenger breakup.jpg, File:STS-51-L Recovered Debris (O-Ring Tracks on Right SRB Joint) - GPN-2004-00010.jpg, File:STS-51-L Recovered Debris (Left Solid Rocket Booster) - GPN-2004-00009.jpg, File:Sts33-e204.jpg and PD-USGov Whitehouse Photo File:Reagans attend Challenger memorial service.jpg
+
+## id-501.jpg
+- Source : https://fr.wikipedia.org/wiki/S%C3%A9isme%20et%20tsunami%20de%202004%20dans%20l%27oc%C3%A9an%20Indien
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Carte-Pays-Tsunami.png
+- Licence : CC BY-SA 2.0 fr
+- Auteur : The original uploader was RobinL at French Wikipedia.
+- Credit : Transferred from fr.wikipedia to Commons by Zil using CommonsHelper.
+
+## id-502.jpg
+- Source : https://fr.wikipedia.org/wiki/Accident%20nucl%C3%A9aire%20de%20Fukushima
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Fukushima_I_by_Digital_Globe.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Digital Globe
+- Credit : Earthquake and Tsunami damage-Dai Ichi Power Plant, Japan
+
+## id-503.jpg
+- Source : https://fr.wikipedia.org/wiki/Apollo%2013
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Apollo_13-insignia.png
+- Licence : Public domain
+- Auteur : NASA
+- Credit : http://spaceflight.nasa.gov/gallery/images/apollo/apollo13/html/s69-60662.html
+
+## id-504.jpg
+- Source : https://fr.wikipedia.org/wiki/La%C3%AFka
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Posta_Romana_-_1959_-_Laika_120_B.jpg
+- Licence : Public domain
+- Auteur : Colectivul Dumitrana
+- Credit : scanned by user Neozoon - 'scanned 2009-10-22'; alternative on web at https://archive.is/qg0Cb
+
+## id-505.jpg
+- Source : https://fr.wikipedia.org/wiki/Louis%20Pasteur
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Louis_Pasteur_(1822_-_1895),_microbiologist_and_chemist_Wellcome_V0026980.jpg
+- Licence : Public domain
+- Auteur : Paul Nadar
+- Credit : https://wellcomeimages.org/indexplus/obf_images/d8/c6/67f06fb28c3d4605eefbe9bee6b1.jpg
+
+## id-506.jpg
+- Source : https://fr.wikipedia.org/wiki/Daguerr%C3%A9otype
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Susse_Frères_Daguerreotype_camera_1839.jpg
+- Licence : Public domain
+- Auteur : Liudmila &amp; Nelson
+- Credit : Susse Frére camera in the collection of the Westlicht Photography Museum in Vienna, Austria
+
+## id-507.jpg
+- Source : https://fr.wikipedia.org/wiki/Carl%20Benz
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Carl_Benz_c._1889.jpg
+- Licence : Public domain
+- Auteur : Unknown authorUnknown author
+- Credit : https://www.alamy.com/stock-photo-carl-friedrich-benz-around-1889-36994428.html
+
+## id-508.jpg
+- Source : https://fr.wikipedia.org/wiki/Bill%20Gates
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Bill_Gates_-_Nov._8,_2019.jpg
+- Licence : Public domain
+- Auteur : Senator Chris Coons
+- Credit : Meeting with Bill Gates - Nov. 8, 2019
+
+## id-509.jpg
+- Source : https://fr.wikipedia.org/wiki/Concorde%20%28avion%29
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Concorde_1_94-9-5_kix_(cropped).jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Spaceaero2
+- Credit : File:Concord 1 94-9-5 kix.jpg
+
+## id-510.jpg
+- Source : https://fr.wikipedia.org/wiki/Macintosh
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Macintosh_128k_transparency.png
+- Licence : CC BY-SA 3.0
+- Auteur : w:User:Grm wnr
+- Credit : Modifications of Image:Macintosh 128k.jpg and w:Image:Macintosh 128k No Text.jpg
+
+## id-511.jpg
+- Source : https://fr.wikipedia.org/wiki/Bill%20Gates
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Bill_Gates_-_Nov._8,_2019.jpg
+- Licence : Public domain
+- Auteur : Senator Chris Coons
+- Credit : Meeting with Bill Gates - Nov. 8, 2019
+
+## id-512.jpg
+- Source : https://fr.wikipedia.org/wiki/Jeff%20Bezos
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Secretary_of_Defense_Ash_Carter_meets_with_Jeff_Bezos,_May_5,_2016_(1)_(cropped).jpg
+- Licence : Public domain
+- Auteur : DoD photo by Senior Master Sgt. Adrian Cadiz (Released)
+- Credit : https://www.flickr.com/photos/secdef/26804537356/in/album-72157668014155445/
+
+## id-513.jpg
+- Source : https://fr.wikipedia.org/wiki/Larry%20Page
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Larry_Page_in_the_European_Parliament,_17.06.2009.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Marcin Mycielski, European Parliament (Stansfield)
+- Credit : Own work
+
+## id-514.jpg
+- Source : https://en.wikipedia.org/wiki/Jawed%20Karim
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Jawed_Karim_2008.jpg
+- Licence : Public domain
+- Auteur : Picture taken by Robin BrownOriginal uploaded by Jawed (Transfered by Quibik)
+- Credit : Original uploaded on en.wikipedia
+
+## id-515.jpg
+- Source : https://fr.wikipedia.org/wiki/Zin%C3%A9dine%20Zidane
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Zinedine_Zidane_by_Tasnim_03.jpg
+- Licence : CC BY 4.0
+- Auteur : Hadi Abyar
+- Credit : https://newsmedia.tasnimnews.ir/Tasnim/Uploaded/Image/1396/09/22/1396092209314019412768864.jpg
+
+## id-516.jpg
+- Source : https://fr.wikipedia.org/wiki/Finale%20de%20la%20Coupe%20du%20monde%20de%20football%202018
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:France_champion_of_the_Football_World_Cup_Russia_2018.jpg
+- Licence : CC BY 4.0
+- Auteur : Russian Presidential Press and Information Office
+- Credit : http://kremlin.ru/events/president/news/58009
+
+## id-517.jpg
+- Source : https://fr.wikipedia.org/wiki/Tour%20Eiffel
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons.jpg
+- Licence : Public domain
+- Auteur : Benh LIEU SONG
+- Credit : Own work
+
+## id-518.jpg
+- Source : https://fr.wikipedia.org/wiki/Statue%20de%20la%20Libert%C3%A9
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Statue_of_Liberty,_statue,_Liberty_Island,_New_York.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Christian David
+- Credit : Own work
+
+## id-519.jpg
+- Source : https://fr.wikipedia.org/wiki/Empire%20State%20Building
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Empire_State_Building_(aerial_view).jpg
+- Licence : Public domain
+- Auteur : Sam Valadi
+- Credit : https://www.flickr.com/photos/132084522@N05/17339180506
+
+## id-520.jpg
+- Source : https://fr.wikipedia.org/wiki/Elvis%20Presley
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Elvis_Presley_promoting_Jailhouse_Rock.jpg
+- Licence : Public domain
+- Auteur : Metro-Goldwyn-Mayer, Inc. Reproduction Number: LC-USZ6-2067 Location: NYWTS -- BIOG
+- Credit : The Library of Congress retrieved 3d02067r.jpg from Jailhouse Rock.
+
+## id-521.jpg
+- Source : https://fr.wikipedia.org/wiki/John%20Lennon
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:John_Lennon_"Walls_and_Bridges"_1974_press_photo_2_(color)_(cropped).jpg
+- Licence : Public domain
+- Auteur : Bob Gruen; Distributed by Capitol Records
+- Credit : Listen to This Press Kit (1974)  Immediate (iHeart)
+
+## id-522.jpg
+- Source : https://fr.wikipedia.org/wiki/Michael%20Jackson
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Michael_Jackson_with_Grammy_Awards_in_1984.jpg
+- Licence : Public domain
+- Auteur : United Press International
+- Credit : [1], [2], [3]
+
+## id-523.jpg
+- Source : https://fr.wikipedia.org/wiki/Trait%C3%A9%20de%20Maastricht
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:GER_—_BY_—_Regensburg_-_Donaumarkt_1_(Museum_der_Bayerischen_Geschichte;_Vertrag_von_Maastricht)_(cropped).JPG
+- Licence : CC BY 2.0 de
+- Auteur : User:Mateus2019
+- Credit : Self-photographed
+
+## id-524.jpg
+- Source : https://fr.wikipedia.org/wiki/Lehman%20Brothers
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Lehman_Brothers_Times_Square_by_David_Shankbone.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : David Shankbone
+- Credit : Own work
