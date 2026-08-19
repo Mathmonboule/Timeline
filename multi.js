@@ -116,7 +116,7 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   document.getElementById('btn-mode-cible').classList.add('actif');
   document.getElementById('btn-mode-illimite').classList.remove('actif');
   document.getElementById('lobby-cible-ligne').hidden = false;
-  filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+  filtresMultiActifs = new Set(FAMILLES_PAR_DEFAUT);
   filtresDifficulteMultiActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
   creerGrilleFiltres('lobby-filtres-difficulte-grille-multi', filtresDifficulteMultiActifs, majCompteFiltresMulti, DIFFICULTES_FILTRABLES);
@@ -287,7 +287,7 @@ document.getElementById('btn-duree-illimitee').addEventListener('click', () => {
 });
 
 /* Filtres de categories et de difficulte (hote uniquement, avant le lancement). */
-let filtresMultiActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+let filtresMultiActifs = new Set(FAMILLES_PAR_DEFAUT);
 let filtresDifficulteMultiActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
 function majCompteFiltresMulti() {
   const n = compterCartesFiltrees(filtresMultiActifs, filtresDifficulteMultiActifs);

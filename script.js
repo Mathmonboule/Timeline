@@ -26,16 +26,25 @@ const FAMILLES_FILTRABLES = [
   { id: 'science', label: 'Science', emoji: '🔬' },
   { id: 'inventions', label: 'Inventions', emoji: '⚙️' },
   { id: 'culture', label: 'Culture', emoji: '🎭' },
-  { id: 'cinema', label: 'Cinéma', emoji: '🎬' },
-  { id: 'television', label: 'Télévision', emoji: '📺' },
-  { id: 'jeuxvideo', label: 'Jeux vidéo', emoji: '🎮' },
   { id: 'architecture', label: 'Architecture', emoji: '🏛️' },
   { id: 'nature', label: 'Nature', emoji: '🌿' },
   { id: 'guerre', label: 'Guerre', emoji: '⚔️' },
   { id: 'exploration', label: 'Exploration', emoji: '🧭' },
   { id: 'mythologie', label: 'Mythologie', emoji: '🐉' },
-  { id: 'sport', label: 'Sport', emoji: '🏅' }
+  { id: 'sport', label: 'Sport', emoji: '🏅' },
+  // Categories "bonus" : oeuvres de fiction sous droits d'auteur, placees a
+  // part (a la fin, en dore) et decochees par defaut -- a l'utilisateur de
+  // les activer volontairement s'il veut les inclure dans sa partie.
+  { id: 'cinema', label: 'Cinéma', emoji: '🎬', bonus: true },
+  { id: 'television', label: 'Télévision', emoji: '📺', bonus: true },
+  { id: 'jeuxvideo', label: 'Jeux vidéo', emoji: '🎮', bonus: true },
+  { id: 'manga', label: 'Manga', emoji: '🎴', bonus: true }
 ];
+// Selection de depart (chargement de la page, ouverture du panneau multi) :
+// tout sauf les categories bonus, qui restent une option volontaire. Le
+// bouton "Tout" reste le seul moyen d'activer aussi les categories bonus
+// d'un coup.
+const FAMILLES_PAR_DEFAUT = FAMILLES_FILTRABLES.filter((f) => !f.bonus).map((f) => f.id);
 // Meme principe que FAMILLES_FILTRABLES, mais pour le filtre de difficulte
 // (carte.difficulte genere par generer_cartes.py a partir de la colonne
 // xlsx du meme nom).
@@ -63,7 +72,7 @@ function creerGrilleFiltres(conteneurId, ensembleActif, onChange, liste = FAMILL
   conteneur.innerHTML = '';
   liste.forEach((f) => {
     const label = document.createElement('label');
-    label.className = 'filtre-famille';
+    label.className = 'filtre-famille' + (f.bonus ? ' filtre-famille--bonus' : '');
     const coche = ensembleActif.has(f.id) ? 'checked' : '';
     const puce = f.couleur
       ? `<span class="pastille-diff" style="background:${f.couleur}"></span>`
@@ -105,8 +114,8 @@ function melanger(array) {
   return a;
 }
 
-// Filtres actifs en solo : toutes les familles / difficultes cochees par defaut.
-let filtresSoloActifs = new Set(FAMILLES_FILTRABLES.map((f) => f.id));
+// Filtres actifs en solo : toutes les familles (hors bonus) / difficultes cochees par defaut.
+let filtresSoloActifs = new Set(FAMILLES_PAR_DEFAUT);
 let filtresDifficulteSoloActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
 
 function initPartie() {
@@ -394,7 +403,14 @@ function elementDecorHTML(carte) {
   const [premier, ...reste] = candidatsImage(carte);
   const resteAttr = JSON.stringify(reste).replace(/"/g, '&quot;');
   const altAttr = (carte.titre || '').replace(/"/g, '&quot;');
-  return `<img src="${premier}" alt="${altAttr}" loading="lazy" data-reste='${resteAttr}' data-emoji="${carte.emoji}" onerror="essaierImageSuivante(this)">`;
+  // draggable="false" est essentiel : une <img> est intrinsequement
+  // "draggable" dans tous les navigateurs (glisser une image de page web est
+  // un comportement natif, independant de tout JS). Sans ca, demarrer un
+  // drag exactement sur les pixels de l'image (la quasi-totalite d'une
+  // carte) declenche le drag natif de l'IMG a la place du drag personnalise
+  // pose sur la carte parente (.carte, draggable=true) : le fantome affiche
+  // alors seulement l'image nue, sans bordure ni titre ni date.
+  return `<img src="${premier}" alt="${altAttr}" loading="lazy" draggable="false" data-reste='${resteAttr}' data-emoji="${carte.emoji}" onerror="essaierImageSuivante(this)">`;
 }
 
 function essaierImageSuivante(img) {

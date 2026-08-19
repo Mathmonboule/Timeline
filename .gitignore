@@ -1,6 +1,9 @@
 # Fichiers de verrouillage Excel/LibreOffice (le classeur est ouvert en édition)
 .~lock.*#
 
+# Sauvegardes automatiques du xlsx avant import (scripts d'ajout de cartes)
+data/cartes_maitre.xlsx.bak_*
+
 # Fichiers systeme
 Thumbs.db
 .DS_Store

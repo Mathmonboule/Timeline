@@ -53,12 +53,15 @@ EMOJIS = {
     431: "📕", 432: "📗", 433: "🌍", 434: "✊", 435: "⚔️", 436: "🌐", 437: "🗳️", 438: "🚩", 439: "💥", 440: "🚩",
     441: "⚰️", 442: "📢", 443: "🚢", 444: "🇨🇳", 445: "🇨🇺", 446: "🗳️", 447: "💣", 448: "🧵", 449: "💣", 450: "⚖️",
     451: "🏖️", 452: "⚜️", 453: "🔥", 454: "🏛️", 455: "🩸", 456: "🌐", 457: "🚧", 458: "📕", 459: "🕊️",
+    # ids 460+ : les 15 mangas les plus connus (categorie "Manga", bonus dore).
+    460: "🏴‍☠️", 461: "🐉", 462: "🍥", 463: "🕵️", 464: "🏀", 465: "⚔️", 466: "🧟", 467: "📓",
+    468: "⚗️", 469: "🦸", 470: "👻", 471: "💫", 472: "🌙", 473: "🏍️", 474: "🤖",
 }
 
 FAMILLE_SLUG = {
     "Histoire": "histoire", "Science": "science", "Invention": "inventions", "Inventions": "inventions",
     "Culture": "culture", "Architecture": "architecture", "Nature": "nature", "Guerre": "guerre",
-    "Exploration": "exploration", "Mythologie": "mythologie", "Sport": "sport",
+    "Exploration": "exploration", "Mythologie": "mythologie", "Sport": "sport", "Manga": "manga",
 }
 
 # Emoji par defaut pour une carte SANS emoji dedie ET sans image : mieux que "?" partout.
@@ -67,7 +70,7 @@ FAMILLE_SLUG = {
 # la reproduisent cote client pour construire les cases a cocher des filtres).
 EMOJI_PAR_FAMILLE = {
     "histoire": "📜", "science": "🔬", "inventions": "⚙️", "culture": "🎭",
-    "cinema": "🎬", "television": "📺", "jeuxvideo": "🎮",
+    "cinema": "🎬", "television": "📺", "jeuxvideo": "🎮", "manga": "🎴",
     "architecture": "🏛️", "nature": "🌿", "guerre": "⚔️", "exploration": "🧭",
     "mythologie": "🐉", "sport": "🏅",
 }

@@ -392,6 +392,9 @@ body {
 .filtre-famille input { accent-color: #ec4899; cursor: pointer; }
 .pastille-diff { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
 .filtre-famille span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.filtre-famille--bonus span { color: #b8860b; font-weight: 600; }
+.filtre-famille--bonus input { accent-color: #d4a017; }
+.filtre-famille--bonus { border-top: 1px dashed rgba(212, 160, 23, 0.4); margin-top: 4px; padding-top: 7px; }
 .lobby-filtres-compte { font-size: 11px; opacity: 0.55; margin-top: 8px; }
 
 /* ===== MODE NO HIT RUN (lobby solo) ===== */
