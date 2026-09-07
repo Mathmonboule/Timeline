@@ -1013,8 +1013,15 @@ body {
   color: #ff8fc7;
 }
 
-.infos { display: flex; gap: 12px; margin-bottom: 4px; font-size: 12px; flex-wrap: wrap; justify-content: center; }
-.badge { background: rgba(255, 255, 255, 0.08); padding: 6px 14px; border-radius: 20px; }
+/* Rangee logo + indicateurs : les badges encadrent le logo (a gauche et a
+   droite) au lieu d'etre empiles dessous, pour ne pas creuser d'espace
+   vertical inutile entre le logo et la timeline -- crucial sur mobile ou
+   chaque pixel de hauteur compte pour la timeline. */
+.entete-partie { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; }
+.infos-partie { display: flex; flex-direction: column; gap: 5px; font-size: 11.5px; flex: 1; max-width: 160px; }
+.infos-partie--gauche { align-items: flex-end; text-align: right; }
+.infos-partie--droite { align-items: flex-start; text-align: left; }
+.badge { background: rgba(255, 255, 255, 0.08); padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
 .badge-nohit { background: rgba(236, 72, 153, 0.18); border: 1px solid rgba(236, 72, 153, 0.5); color: #ff8fc7; font-weight: bold; }
 
 /* TIMELINE */
@@ -1414,6 +1421,9 @@ body {
 
   .zone-jeu { width: 100%; padding: 8px 12px 16px; }
   .logo-timeline--petit { width: 58px; height: 58px; }
+  .entete-partie { gap: 6px; }
+  .infos-partie { font-size: 10px; gap: 3px; max-width: 42vw; }
+  .badge { padding: 4px 8px; border-radius: 14px; }
   .logo-timeline--petit .logo-texte { font-size: 7.5px; letter-spacing: 0.2px; }
 
   .timeline-container { padding: 10px 20px; min-height: 170px; }
@@ -1474,6 +1484,172 @@ body {
   transition: transform 0.2s ease, background 0.2s ease;
 }
 .btn-fermer-frise:hover { background: rgba(236, 72, 153, 0.28); transform: scale(1.04); }
+
+.frise-entete-boutons { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* ===== ADMIN (panneau d'edition en direct, depuis la frise) ===== */
+.btn-admin {
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  font-size: 13.5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.btn-admin:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.04); }
+.btn-admin.actif {
+  border-color: rgba(46, 204, 113, 0.6);
+  background: rgba(46, 204, 113, 0.16);
+  color: #7CFFB2;
+}
+.btn-admin-ajouter {
+  padding: 10px 18px;
+  border: 1px solid rgba(46, 204, 113, 0.5);
+  border-radius: 24px;
+  background: rgba(46, 204, 113, 0.14);
+  color: #7CFFB2;
+  font-size: 13.5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.btn-admin-ajouter:hover { background: rgba(46, 204, 113, 0.26); transform: scale(1.04); }
+
+/* Petit indice visuel (icone crayon) sur chaque carte de la frise quand le
+   mode admin est actif -- rien ne change au clic lui-meme (deja gere en JS
+   via ouvrirModalCarte), c'est juste pour signaler que la carte est cliquable
+   pour etre editee plutot que simplement consultee. */
+.frise-admin-actif .carte--frise { position: relative; }
+.frise-admin-actif .carte--frise::after {
+  content: '✏️';
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 50%;
+  font-size: 13px;
+  z-index: 2;
+}
+
+/* ===== MODAL CONNEXION ADMIN ===== */
+.admin-login-modal { position: fixed; inset: 0; z-index: 110; align-items: center; justify-content: center; padding: 24px; }
+.admin-login-modal:not([hidden]) { display: flex; }
+.admin-login-fond { position: absolute; inset: 0; background: rgba(6, 8, 16, 0.78); backdrop-filter: blur(4px); }
+.admin-login-boite {
+  position: relative;
+  width: 320px;
+  max-width: 100%;
+  background: #12182c;
+  border: 1px solid rgba(46, 204, 113, 0.35);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideDown 0.25s ease;
+}
+.admin-login-boite h3 { margin: 0; font-size: 16px; }
+.admin-login-boite input[type="password"] {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  font-size: 14px;
+}
+.admin-login-erreur { color: #e74c3c; font-size: 12.5px; }
+.admin-login-boutons { display: flex; justify-content: flex-end; gap: 10px; }
+.btn-admin-principal, .btn-admin-secondaire {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.btn-admin-principal { background: #2ecc71; color: #06210f; }
+.btn-admin-principal:hover { filter: brightness(1.1); }
+.btn-admin-secondaire { background: rgba(255, 255, 255, 0.08); color: white; border-color: rgba(255, 255, 255, 0.18); }
+.btn-admin-secondaire:hover { background: rgba(255, 255, 255, 0.14); }
+
+/* ===== FORMULAIRE ADMIN (dans #frise-modal, remplace la fiche lecture seule) ===== */
+.formulaire-admin { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+.formulaire-admin h3 { margin: 0; font-size: 17px; color: #ff8fc7; }
+.admin-champ { display: flex; flex-direction: column; gap: 5px; }
+.admin-champ label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6; }
+.admin-champ input[type="text"],
+.admin-champ input[type="number"],
+.admin-champ input[type="url"],
+.admin-champ select,
+.admin-champ textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  font-size: 13.5px;
+  font-family: inherit;
+  resize: vertical;
+}
+.admin-champ textarea { min-height: 60px; }
+.admin-ligne-double { display: flex; gap: 10px; }
+.admin-ligne-double > .admin-champ { flex: 1; min-width: 0; }
+
+.admin-image-zone { display: flex; align-items: center; gap: 12px; }
+.admin-image-apercu {
+  width: 64px;
+  height: 88px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.admin-image-apercu[hidden] { display: none; }
+
+.admin-liens-liste { display: flex; flex-direction: column; gap: 8px; }
+.admin-lien-ligne { display: flex; gap: 8px; align-items: center; }
+.admin-lien-ligne select { flex: 0 0 108px; }
+.admin-lien-ligne input[type="text"] { flex: 1; min-width: 0; }
+.admin-lien-ligne input[type="url"] { flex: 1.4; min-width: 0; }
+.btn-admin-retirer-lien {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(231, 76, 60, 0.5);
+  background: rgba(231, 76, 60, 0.15);
+  color: #ff8f80;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+.btn-admin-ajouter-lien {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.btn-admin-ajouter-lien:hover { background: rgba(255, 255, 255, 0.12); }
+
+.admin-formulaire-boutons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+.admin-formulaire-statut { font-size: 12.5px; opacity: 0.7; }
+.admin-formulaire-statut.erreur { color: #e74c3c; opacity: 1; }
+.admin-formulaire-statut.succes { color: #2ecc71; opacity: 1; }
 
 .frise-scroll {
   flex: 1;

@@ -396,7 +396,15 @@ function localiserCarte(carte) {
 function candidatsImage(carte) {
   const extensions = ['jpg', 'png', 'jpeg', 'webp'];
   const dossiers = ['images', 'images-claude'];
-  return dossiers.flatMap(dossier => extensions.map(ext => `${dossier}/id-${carte.id}.${ext}`));
+  const base = dossiers.flatMap(dossier => extensions.map(ext => `${dossier}/id-${carte.id}.${ext}`));
+  // Une carte creee/modifiee depuis le panneau admin (admin.js) stocke son
+  // image directement en data-URL (ou URL externe) dans carte.image, plutot
+  // que comme nom de fichier documentaire -- on la propose alors en tout
+  // premier candidat.
+  if (carte.image && /^(data:|https?:\/\/)/.test(carte.image)) {
+    return [carte.image, ...base];
+  }
+  return base;
 }
 
 function elementDecorHTML(carte) {
@@ -990,6 +998,13 @@ function construireFrise() {
 }
 
 function ouvrirModalCarte(carte) {
+  // En mode admin (admin.js), un clic sur une carte de la frise ouvre le
+  // formulaire d'edition plutot que la fiche en lecture seule.
+  if (typeof adminActif !== 'undefined' && adminActif && typeof construireFormulaireAdminHTML === 'function') {
+    document.getElementById('frise-modal-contenu').innerHTML = construireFormulaireAdminHTML(carte, false);
+    document.getElementById('frise-modal').hidden = false;
+    return;
+  }
   document.getElementById('frise-modal-contenu').innerHTML = construireDetailCarteHTML(carte, true);
   document.getElementById('frise-modal').hidden = false;
 }

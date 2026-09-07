@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timeline - Le Jeu</title>
 <link rel="icon" type="image/svg+xml" href="images/logo-vortex.svg?v=2">
-<link rel="stylesheet" href="style.css?v=32">
+<link rel="stylesheet" href="style.css?v=33">
 </head>
 <body>
 
@@ -229,10 +229,20 @@
 
   <!-- ZONE DE JEU (centre) -->
   <div class="zone-jeu">
-    <div class="logo-timeline logo-timeline--petit" id="logo-jeu" title="Retour à l'accueil">
-      <img src="images/logo-vortex.svg?v=2" class="logo-vortex-img" alt="">
-      <div class="logo-anneau"></div>
-      <div class="logo-texte">TIMELINE</div>
+    <div class="entete-partie">
+      <div class="infos-partie infos-partie--gauche">
+        <div class="badge"><span id="label-main">En main</span> : <span id="nb-main">5</span></div>
+        <div class="badge" id="badge-erreurs">Erreurs : <span id="nb-erreurs">0</span></div>
+      </div>
+      <div class="logo-timeline logo-timeline--petit" id="logo-jeu" title="Retour à l'accueil">
+        <img src="images/logo-vortex.svg?v=2" class="logo-vortex-img" alt="">
+        <div class="logo-anneau"></div>
+        <div class="logo-texte">TIMELINE</div>
+      </div>
+      <div class="infos-partie infos-partie--droite">
+        <div class="badge">Pioche restante : <span id="nb-pioche">0</span></div>
+        <div class="badge badge-nohit" id="badge-nohit" hidden>Série sans faute : <span id="nb-nohit">0</span></div>
+      </div>
     </div>
     <div class="sous-titre">Place les événements dans l'ordre chronologique</div>
 
@@ -248,13 +258,6 @@
     </div>
 
     <div id="zone-jeu-solo">
-      <div class="infos">
-        <div class="badge"><span id="label-main">En main</span> : <span id="nb-main">5</span></div>
-        <div class="badge" id="badge-erreurs">Erreurs : <span id="nb-erreurs">0</span></div>
-        <div class="badge badge-nohit" id="badge-nohit" hidden>Série sans faute : <span id="nb-nohit">0</span></div>
-        <div class="badge">Pioche restante : <span id="nb-pioche">0</span></div>
-      </div>
-
       <div class="derniere-carte-multi" id="derniere-carte-multi" hidden>
         <span class="derniere-carte-label">Dernière carte jouée</span>
         <span class="derniere-carte-titre" id="derniere-carte-titre">—</span>
@@ -311,10 +314,28 @@
       <span class="frise-titre-principal">TIMELINE</span>
       <span class="frise-titre-sous">La frise chronologique — <span id="frise-nb-cartes">0</span> cartes</span>
     </div>
-    <button class="btn-fermer-frise" id="btn-fermer-frise">✕ Retour à l'accueil</button>
+    <div class="frise-entete-boutons">
+      <button class="btn-admin-ajouter" id="btn-admin-ajouter" hidden type="button">+ Ajouter une carte</button>
+      <button class="btn-admin" id="btn-admin" type="button" title="Accès administrateur">🔒 Admin</button>
+      <button class="btn-fermer-frise" id="btn-fermer-frise">✕ Retour à l'accueil</button>
+    </div>
   </div>
   <div class="frise-scroll" id="frise-scroll">
     <div class="frise-grille" id="frise-grille"></div>
+  </div>
+</div>
+
+<!-- Connexion admin (mot de passe) -->
+<div class="admin-login-modal" id="admin-login-modal" hidden>
+  <div class="admin-login-fond" id="admin-login-fond"></div>
+  <div class="admin-login-boite">
+    <h3>Accès administrateur</h3>
+    <input type="password" id="admin-login-mdp" placeholder="Mot de passe" autocomplete="off">
+    <div class="admin-login-erreur" id="admin-login-erreur" hidden>Mot de passe incorrect.</div>
+    <div class="admin-login-boutons">
+      <button type="button" class="btn-admin-secondaire" id="admin-login-annuler">Annuler</button>
+      <button type="button" class="btn-admin-principal" id="admin-login-valider">Valider</button>
+    </div>
   </div>
 </div>
 
@@ -328,10 +349,11 @@
 </div>
 
 <script src="cartes.js?v=16"></script>
-<script src="script.js?v=22"></script>
+<script src="script.js?v=23"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
 <script src="multi.js?v=13"></script>
+<script src="admin.js?v=1"></script>
 </body>
 </html>
