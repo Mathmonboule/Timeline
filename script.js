@@ -9,12 +9,31 @@ let main = [];
 let timeline = [];
 let erreurs = [];
 let carteChoisie = null;
-let carteEnCoursDeDrag = null;
 let indexZoneSelectionnee = null;
 let carteInspectee = null;
 let carteRepereInitiale = null;
 let modeSoloNoHit = false;
 let noHitCompteurActuel = 0;
+
+/* Le badge "En main" de l'entete de partie n'affiche plus qu'une icone (plus
+   de mot, cf. demande utilisateur) : le texte descriptif (utile en
+   multijoueur quand on regarde la main d'un autre joueur en tant que
+   spectateur, cf. multi.js) reste porte par #label-main, mais uniquement
+   pour les lecteurs d'ecran et comme infobulle au survol du badge. */
+function majLabelEnMain(texte) {
+  const label = document.getElementById('label-main');
+  if (label) label.textContent = texte;
+  const badge = document.getElementById('badge-en-main');
+  if (badge) badge.title = texte;
+}
+
+/* Ouvre le panneau inspecteur (utile sur mobile, ou il est replie par
+   defaut) : appele au double-clic/double-tap sur une carte pour montrer sa
+   fiche complete sans etape supplementaire. */
+function ouvrirPanneauInspecteur() {
+  const inspecteur = document.getElementById('inspecteur');
+  if (inspecteur) inspecteur.classList.remove('replie');
+}
 
 /* ================= FILTRES PAR CATEGORIE =================
    Liste partagee entre solo (ci-dessous) et multijoueur (multi.js) pour
@@ -128,7 +147,6 @@ function initPartie() {
   pioche = toutes.slice(6);
   erreurs = [];
   carteChoisie = null;
-  carteEnCoursDeDrag = null;
   indexZoneSelectionnee = null;
   carteInspectee = null;
   noHitCompteurActuel = 0;
@@ -510,6 +528,116 @@ function creerCarteHTML(carte, options = {}) {
   return div;
 }
 
+/* ================= GLISSER-DEPOSER UNIFIE (souris + tactile) =================
+   Remplace le Drag and Drop HTML5 natif (draggable + dragstart/dragover/drop),
+   qui a deux defauts genants : son rendu de "fantome" est incoherent d'un
+   navigateur a l'autre (Firefox l'affiche dans un style tres degrade par
+   rapport a Chrome, sans qu'on puisse vraiment le controler), et il ne
+   fonctionne tout simplement PAS au toucher sur mobile (les navigateurs
+   mobiles n'emettent pas d'evenements dragstart/dragover pour un geste
+   tactile). A la place, on gere nous-memes un fantome (clone DOM de la
+   carte, position:fixed) pilote par les Pointer Events, qui unifient
+   souris/tactile/stylet en une seule API geree pareil partout : ca resout
+   les deux problemes d'un coup avec un seul mecanisme.
+
+   Cette fonction NE remplace PAS le flux existant "cliquer la carte pour la
+   selectionner, puis cliquer le + de la zone souhaitee" (toujours gere par
+   onTap ci-dessous, appele pour un simple tap sans mouvement reel) : les deux
+   cohabitent, le joueur choisit celui qu'il prefere. */
+function rendreCarteInteractive(div, { onTap, onDepose }) {
+  const SEUIL_DEPLACEMENT = 6; // px avant de considerer que c'est un glisser, pas un tap
+  let origine = null;
+  let pointerId = null;
+  let dragActif = false;
+  let venaitDeGlisser = false;
+  let fantome = null;
+  let zoneSurvolee = null;
+
+  function nettoyerFantome() {
+    if (fantome) { fantome.remove(); fantome = null; }
+  }
+
+  div.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    origine = { x: e.clientX, y: e.clientY };
+    pointerId = e.pointerId;
+    dragActif = false;
+  });
+
+  div.addEventListener('pointermove', (e) => {
+    if (origine === null || e.pointerId !== pointerId) return;
+    const dx = e.clientX - origine.x;
+    const dy = e.clientY - origine.y;
+    if (!dragActif) {
+      if (Math.hypot(dx, dy) < SEUIL_DEPLACEMENT) return;
+      dragActif = true;
+      try { div.setPointerCapture(pointerId); } catch (err) { /* ignore : deja capture ou pointeur invalide */ }
+      const rect = div.getBoundingClientRect();
+      fantome = div.cloneNode(true);
+      fantome.classList.add('carte-drag-fantome');
+      fantome.style.width = rect.width + 'px';
+      fantome.style.height = rect.height + 'px';
+      fantome.style.left = rect.left + 'px';
+      fantome.style.top = rect.top + 'px';
+      document.body.appendChild(fantome);
+      div.classList.add('carte-source-glissee');
+    }
+    e.preventDefault();
+    const rect = fantome.getBoundingClientRect();
+    fantome.style.left = (e.clientX - rect.width / 2) + 'px';
+    fantome.style.top = (e.clientY - rect.height / 2) + 'px';
+    const sousLePointeur = document.elementFromPoint(e.clientX, e.clientY);
+    const zone = sousLePointeur ? sousLePointeur.closest('.zone-depot') : null;
+    if (zone !== zoneSurvolee) {
+      if (zoneSurvolee) zoneSurvolee.classList.remove('survol');
+      if (zone) zone.classList.add('survol');
+      zoneSurvolee = zone;
+    }
+  });
+
+  function terminerGeste(e) {
+    if (origine === null || (e && e.pointerId !== pointerId)) return;
+    origine = null;
+    if (!dragActif) return;
+    dragActif = false;
+    venaitDeGlisser = true;
+    div.classList.remove('carte-source-glissee');
+    const zoneCible = zoneSurvolee;
+    if (zoneSurvolee) zoneSurvolee.classList.remove('survol');
+    zoneSurvolee = null;
+
+    if (zoneCible) {
+      // Anime le fantome jusqu'a la position exacte de la zone cible avant de
+      // le retirer : c'est ce petit "snap" final qui rend le geste fluide.
+      const r = zoneCible.getBoundingClientRect();
+      fantome.style.transition = 'left 0.18s ease, top 0.18s ease, width 0.18s ease, height 0.18s ease';
+      fantome.style.left = r.left + 'px';
+      fantome.style.top = r.top + 'px';
+      fantome.style.width = r.width + 'px';
+      fantome.style.height = r.height + 'px';
+      setTimeout(() => { nettoyerFantome(); onDepose(zoneCible); }, 180);
+    } else {
+      // Aucune zone valide sous le doigt/curseur au relachement : la carte
+      // revient a son point de depart avec un petit effet de rebond.
+      const r = div.getBoundingClientRect();
+      fantome.style.transition = 'left 0.22s cubic-bezier(.34,1.56,.64,1), top 0.22s cubic-bezier(.34,1.56,.64,1)';
+      fantome.style.left = r.left + 'px';
+      fantome.style.top = r.top + 'px';
+      setTimeout(nettoyerFantome, 220);
+    }
+  }
+  div.addEventListener('pointerup', terminerGeste);
+  div.addEventListener('pointercancel', terminerGeste);
+
+  // Un simple tap (sans depassement du seuil de deplacement) declenche le
+  // clic normal ; un clic qui suit un VRAI glisser est ignore (sinon on
+  // declencherait aussi une (re)selection de la carte en plus de son depot).
+  div.addEventListener('click', () => {
+    if (venaitDeGlisser) { venaitDeGlisser = false; return; }
+    if (onTap) onTap();
+  });
+}
+
 /* ================= RENDU PRINCIPAL ================= */
 function render() {
   renderTimeline();
@@ -547,6 +675,10 @@ function renderTimeline() {
       inspectee: carteInspectee === carte
     });
     carteDiv.addEventListener('click', () => selectionnerCartePourInspecteur(carte));
+    carteDiv.addEventListener('dblclick', () => {
+      selectionnerCartePourInspecteur(carte);
+      ouvrirPanneauInspecteur();
+    });
     container.appendChild(carteDiv);
     container.appendChild(creerZoneDepot(i + 1));
   });
@@ -555,6 +687,7 @@ function renderTimeline() {
 function creerZoneDepot(index) {
   const zone = document.createElement('div');
   zone.className = 'zone-depot';
+  zone.dataset.index = index;
 
   if (indexZoneSelectionnee === index && carteChoisie) {
     zone.classList.add('attente');
@@ -566,20 +699,6 @@ function creerZoneDepot(index) {
     zone.textContent = '+';
   }
 
-  zone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    if (carteEnCoursDeDrag) zone.classList.add('survol');
-  });
-  zone.addEventListener('dragleave', () => zone.classList.remove('survol'));
-  zone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    zone.classList.remove('survol');
-    if (carteEnCoursDeDrag) {
-      carteChoisie = carteEnCoursDeDrag;
-      indexZoneSelectionnee = index;
-      render();
-    }
-  });
   zone.addEventListener('click', () => {
     if (carteChoisie) {
       indexZoneSelectionnee = index;
@@ -600,24 +719,25 @@ function renderMain() {
       selectionnee: carteChoisie === carte,
       inspectee: carteInspectee === carte
     });
-    div.draggable = true;
 
-    div.addEventListener('dragstart', () => {
-      carteEnCoursDeDrag = carte;
-      div.classList.add('dragging');
+    rendreCarteInteractive(div, {
+      onTap: () => {
+        selectionnerCartePourInspecteur(carte);
+        if (carteChoisie !== carte) {
+          indexZoneSelectionnee = null;
+        }
+        carteChoisie = carte;
+        render();
+      },
+      onDepose: (zoneCible) => {
+        carteChoisie = carte;
+        indexZoneSelectionnee = Number(zoneCible.dataset.index);
+        render();
+      },
     });
-    div.addEventListener('dragend', () => {
-      div.classList.remove('dragging');
-      carteEnCoursDeDrag = null;
-    });
-
-    div.addEventListener('click', () => {
+    div.addEventListener('dblclick', () => {
       selectionnerCartePourInspecteur(carte);
-      if (carteChoisie !== carte) {
-        indexZoneSelectionnee = null;
-      }
-      carteChoisie = carte;
-      render();
+      ouvrirPanneauInspecteur();
     });
 
     container.appendChild(div);
@@ -645,6 +765,10 @@ function renderPiocheErreurs() {
       <div class="date-carte">${formaterDate(carte.date)}</div>
     `;
     div.addEventListener('click', () => selectionnerCartePourInspecteur(carte));
+    div.addEventListener('dblclick', () => {
+      selectionnerCartePourInspecteur(carte);
+      ouvrirPanneauInspecteur();
+    });
     container.appendChild(div);
   });
 }
@@ -874,15 +998,15 @@ if (window.matchMedia('(max-width: 860px)').matches) {
 }
 
 /* ================= VIDEO DE FOND DE L'ACCUEIL =================
-   N'attache la source (donc ne declenche AUCUN telechargement) que sur
-   grand ecran et si l'utilisateur n'a pas demande moins d'animations —
-   display:none seul ne suffit pas a empecher le navigateur de charger une
-   balise <video preload>, d'ou cette injection conditionnelle en JS. */
+   N'attache la source (donc ne declenche AUCUN telechargement) que si
+   l'utilisateur n'a pas demande moins d'animations — display:none seul ne
+   suffit pas a empecher le navigateur de charger une balise <video preload>,
+   d'ou cette injection conditionnelle en JS. Affichee sur mobile comme sur
+   desktop (plus de restriction de largeur d'ecran ici).*/
 function initVideoAccueil() {
   const video = document.getElementById('accueil-video');
   if (!video) return;
-  const veutVideo = window.matchMedia('(min-width: 641px)').matches
-    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const veutVideo = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!veutVideo) return;
   const source = document.createElement('source');
   source.src = 'Video/portail-accueil.mp4?v=2';
@@ -929,7 +1053,7 @@ document.getElementById('btn-solo').addEventListener('click', () => {
   // termine APRES ce bloc) pour ne jamais laisser affiche un reste d'etat
   // "spectateur" multijoueur (main d'un autre joueur, note, bouton cache).
   document.getElementById('multi-spectateur-note').hidden = true;
-  document.getElementById('label-main').textContent = '🃏 En main';
+  majLabelEnMain('En main');
   document.getElementById('btn-valider').hidden = false;
   document.querySelector('.pioche-erreurs-section h3').textContent = 'Poubelle';
   afficherJeu();

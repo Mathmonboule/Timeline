@@ -199,7 +199,7 @@ function entrerDansLobbyMulti(code, hote) {
   document.getElementById('zone-jeu-solo').hidden = true;
   document.getElementById('multi-attente').hidden = false;
   document.getElementById('multi-spectateur-note').hidden = true;
-  document.getElementById('label-main').textContent = '🃏 En main';
+  majLabelEnMain('En main');
   document.getElementById('btn-valider').hidden = false;
   document.querySelector('.pioche-erreurs-section h3').textContent = 'Poubelle commune';
 
@@ -428,7 +428,7 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
   document.getElementById('multi-tour-banner').hidden = true;
   document.getElementById('multi-spectateur-note').hidden = true;
   document.getElementById('derniere-carte-multi').hidden = true;
-  document.getElementById('label-main').textContent = '🃏 En main';
+  majLabelEnMain('En main');
   document.getElementById('btn-valider').hidden = false;
   document.querySelector('.pioche-erreurs-section h3').textContent = 'Poubelle';
 
@@ -449,7 +449,6 @@ let multiMain = [];
 let multiErreurs = [];
 let multiPiocheCount = 0;
 let multiCarteChoisie = null;
-let multiCarteEnDrag = null;
 let multiIndexZoneSelectionnee = null;
 let multiCarteInspectee = null;
 let timerMultiHandle = null;
@@ -486,7 +485,6 @@ function surMiseAJourPartie(partie) {
     dernierCarteRepereVue = partie.carte_repere;
     premierFiniAnnonce = false;
     multiCarteChoisie = null;
-    multiCarteEnDrag = null;
     multiIndexZoneSelectionnee = null;
     multiCarteInspectee = null;
     document.getElementById('multi-spectateur-note').hidden = true;
@@ -609,15 +607,14 @@ function renderJeuMulti(partie) {
   document.getElementById('btn-valider').disabled = !(monTour && multiIndexZoneSelectionnee !== null && multiCarteChoisie);
   document.getElementById('main-joueur').classList.toggle('pas-mon-tour', !monTour);
 
-  const labelMain = document.getElementById('label-main');
   const noteSpectateur = document.getElementById('multi-spectateur-note');
   if (multiSpectateJoueurId) {
     const pseudoRegarde = ((partie.joueurs || {})[multiSpectateJoueurId] || {}).pseudo || '?';
-    labelMain.textContent = `🃏 Main de ${pseudoRegarde}`;
+    majLabelEnMain(`Main de ${pseudoRegarde}`);
     noteSpectateur.hidden = false;
     noteSpectateur.textContent = `Tu as fini ! Tu regardes la main de ${pseudoRegarde} pendant son tour.`;
   } else {
-    labelMain.textContent = '🃏 En main';
+    majLabelEnMain('En main');
     noteSpectateur.hidden = true;
   }
   document.getElementById('btn-valider').hidden = !!multiSpectateJoueurId;
@@ -637,6 +634,11 @@ function renderTimelineMulti(monTour) {
       multiCarteInspectee = carte;
       renderJeuMulti(dernierePartieMulti);
     });
+    div.addEventListener('dblclick', () => {
+      multiCarteInspectee = carte;
+      renderJeuMulti(dernierePartieMulti);
+      ouvrirPanneauInspecteur();
+    });
     container.appendChild(div);
     container.appendChild(creerZoneDepotMulti(i + 1, monTour));
   });
@@ -645,6 +647,7 @@ function renderTimelineMulti(monTour) {
 function creerZoneDepotMulti(index, monTour) {
   const zone = document.createElement('div');
   zone.className = 'zone-depot';
+  zone.dataset.index = index;
 
   if (multiIndexZoneSelectionnee === index && multiCarteChoisie) {
     zone.classList.add('attente');
@@ -655,20 +658,6 @@ function creerZoneDepotMulti(index, monTour) {
 
   if (!monTour) return zone;
 
-  zone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    if (multiCarteEnDrag) zone.classList.add('survol');
-  });
-  zone.addEventListener('dragleave', () => zone.classList.remove('survol'));
-  zone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    zone.classList.remove('survol');
-    if (multiCarteEnDrag) {
-      multiCarteChoisie = multiCarteEnDrag;
-      multiIndexZoneSelectionnee = index;
-      renderJeuMulti(dernierePartieMulti);
-    }
-  });
   zone.addEventListener('click', () => {
     if (multiCarteChoisie) {
       multiIndexZoneSelectionnee = index;
@@ -690,26 +679,31 @@ function renderMainMulti(monTour) {
       inspectee: multiCarteInspectee === carte
     });
 
-    div.addEventListener('click', () => {
+    const selectionnerPourInspection = () => {
       multiCarteInspectee = carte;
       if (monTour) {
         if (multiCarteChoisie !== carte) multiIndexZoneSelectionnee = null;
         multiCarteChoisie = carte;
       }
       renderJeuMulti(dernierePartieMulti);
-    });
+    };
 
     if (monTour) {
-      div.draggable = true;
-      div.addEventListener('dragstart', () => {
-        multiCarteEnDrag = carte;
-        div.classList.add('dragging');
+      rendreCarteInteractive(div, {
+        onTap: selectionnerPourInspection,
+        onDepose: (zoneCible) => {
+          multiCarteChoisie = carte;
+          multiIndexZoneSelectionnee = Number(zoneCible.dataset.index);
+          renderJeuMulti(dernierePartieMulti);
+        },
       });
-      div.addEventListener('dragend', () => {
-        div.classList.remove('dragging');
-        multiCarteEnDrag = null;
-      });
+    } else {
+      div.addEventListener('click', selectionnerPourInspection);
     }
+    div.addEventListener('dblclick', () => {
+      selectionnerPourInspection();
+      ouvrirPanneauInspecteur();
+    });
 
     container.appendChild(div);
   });
@@ -741,6 +735,11 @@ function renderErreursMulti() {
     div.addEventListener('click', () => {
       multiCarteInspectee = carte;
       renderJeuMulti(dernierePartieMulti);
+    });
+    div.addEventListener('dblclick', () => {
+      multiCarteInspectee = carte;
+      renderJeuMulti(dernierePartieMulti);
+      ouvrirPanneauInspecteur();
     });
 
     const auteur = document.createElement('div');

@@ -897,10 +897,11 @@ body {
   animation: slideDown 0.6s ease;
 }
 
-/* Sur ecran etroit ou si l'utilisateur prefere moins d'animation, on
-   n'affiche pas la video (poids + confort) : le fond degrade + le
-   tourbillon SVG du badge suffisent a poser l'ambiance. */
-@media (max-width: 640px), (prefers-reduced-motion: reduce) {
+/* Si l'utilisateur prefere moins d'animation, pas de video (poids + confort) :
+   le fond degrade + le tourbillon SVG du badge suffisent a poser l'ambiance.
+   La video reste affichee sur mobile (voir initVideoAccueil() dans script.js
+   pour le gate JS correspondant, qui ne charge la source que dans ce cas). */
+@media (prefers-reduced-motion: reduce) {
   .accueil-video-fond { display: none; }
   .accueil-video-overlay { background: radial-gradient(circle at 50% 42%, rgba(20, 40, 70, 0.55), rgba(6, 10, 22, 0.92) 70%); }
 }
@@ -1023,6 +1024,20 @@ body {
 .infos-partie--droite { align-items: flex-start; text-align: left; }
 .badge { background: rgba(255, 255, 255, 0.08); padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
 .badge-nohit { background: rgba(236, 72, 153, 0.18); border: 1px solid rgba(236, 72, 153, 0.5); color: #ff8fc7; font-weight: bold; }
+/* Badges de l'entete de partie : icone seule + nombre, sans mot -- le sens
+   doit etre porte par le pictogramme (voir title="..." pour le survol). */
+/* :not([hidden]) est indispensable : un display:flex nu l'emporterait sinon
+   sur la regle [hidden]{display:none} du navigateur (l'origine "auteur" bat
+   toujours l'origine "user-agent", quelle que soit la specificite) -- ce
+   badge porte aussi la classe .badge-nohit, cachee par defaut via [hidden]. */
+.badge-icone:not([hidden]) { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: bold; font-variant-numeric: tabular-nums; }
+.icone-badge { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.9; }
+.badge-nohit .icone-badge { color: #ff8fc7; }
+/* Texte reserve aux lecteurs d'ecran (et, en multijoueur, sert de tooltip
+   dynamique quand ce badge devient "Main de <pseudo>" pendant qu'on regarde
+   la main d'un autre joueur -- cf. label-main dans multi.js) : invisible a
+   l'ecran mais toujours present dans le DOM. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 /* TIMELINE */
 .timeline-wrapper { width: 100%; max-width: 100%; margin-bottom: 6px; }
@@ -1095,7 +1110,20 @@ body {
 }
 .carte .date-carte.cachee { color: rgba(255, 255, 255, 0.2); }
 .carte.repere { border-color: #d4af37; }
-.carte.dragging { opacity: 0.3; }
+/* Glisser-deposer unifie souris/tactile (voir rendreCarteInteractive dans
+   script.js) : la carte source s'estompe pendant que son "fantome" (clone
+   flottant en position:fixed, ci-dessous) suit le pointeur ou le doigt. */
+.carte-source-glissee { opacity: 0.3; }
+.carte-drag-fantome {
+  position: fixed;
+  z-index: 200;
+  pointer-events: none;
+  margin: 0;
+  cursor: grabbing;
+  transform: scale(1.06) rotate(-2deg);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.6);
+  will-change: left, top, transform;
+}
 
 /* Familles de categories (couleurs) */
 .famille-histoire     { background: linear-gradient(160deg, #4a2f1a, #2b1a0f); --glow: 212,175,55; }
@@ -1197,6 +1225,10 @@ body {
   max-width: 100%;
   min-height: 210px;
 }
+/* Empeche le navigateur de traiter un geste demarre sur une carte en main
+   comme un scroll de page (necessaire au tactile pour que le glisser-deposer
+   custom, cf. rendreCarteInteractive, recoive bien les pointermove). */
+.main-joueur .carte { touch-action: none; }
 
 .btn-valider:not([hidden]) {
   display: block;
@@ -1419,15 +1451,44 @@ body {
   .btn-toggle-lobby { left: 10px; right: auto; }
   .btn-toggle-inspecteur { right: 10px; left: auto; }
 
-  .zone-jeu { width: 100%; padding: 8px 12px 16px; }
+  .zone-jeu { width: 100%; padding: 6px 10px 8px; }
   .logo-timeline--petit { width: 58px; height: 58px; }
   .entete-partie { gap: 6px; }
   .infos-partie { font-size: 10px; gap: 3px; max-width: 42vw; }
   .badge { padding: 4px 8px; border-radius: 14px; }
   .logo-timeline--petit .logo-texte { font-size: 7.5px; letter-spacing: 0.2px; }
+  .sous-titre { margin: 2px 0 3px; font-size: 10.5px; }
 
+  /* La timeline elle-meme (taille des cartes, min-height du container) ne
+     change pas sur mobile : seuls les blocs autour (main, poubelle, marges)
+     se resserrent pour que les trois zones (frise / main / poubelle) tiennent
+     ensemble a l'ecran, sans avoir a scroller la page pour voir sa main. */
   .timeline-container { padding: 10px 20px; min-height: 170px; }
-  .main-joueur { gap: 8px; padding: 10px; }
+  .timeline-wrapper { margin-bottom: 3px; }
+
+  /* MAIN DU JOUEUR : cartes nettement plus petites (largeur en %, 5 cartes +
+     leurs espaces tiennent alors toujours sur une seule rangee quelle que
+     soit la largeur exacte du telephone) plutot que la taille pleine (132px)
+     utilisee par la timeline. */
+  .main-joueur { gap: 4px; padding: 6px; margin-bottom: 4px; min-height: 0; }
+  .main-joueur .carte {
+    width: 18%;
+    max-width: 68px;
+    height: auto;
+    aspect-ratio: 132 / 200;
+    border-radius: 10px;
+    border-width: 2px;
+  }
+  .main-joueur .carte .decor { font-size: 20px; }
+  .main-joueur .carte .titre-carte { font-size: 7px; padding: 3px 2px; line-height: 1.1; }
+  .main-joueur .carte .date-carte { font-size: 7.5px; padding: 3px; }
+
+  .btn-valider:not([hidden]) { padding: 8px 28px; font-size: 12.5px; margin: 0 auto 6px; }
+
+  /* POUBELLE : deja compacte (cartes 68x96 + defilement horizontal), on ne
+     resserre que les marges/le padding autour. */
+  .pioche-erreurs-section h3 { margin: 0 0 3px 0; }
+  .pioche-erreurs { min-height: 88px; padding: 6px; }
 
   .multi-tour-banner { font-size: 12px; padding: 6px 12px; flex-wrap: wrap; justify-content: center; }
   .multi-tour-suivant { padding-left: 8px; }
