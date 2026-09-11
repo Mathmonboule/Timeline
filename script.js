@@ -15,6 +15,19 @@ let carteRepereInitiale = null;
 let modeSoloNoHit = false;
 let noHitCompteurActuel = 0;
 
+/* Cache des <div class="carte"> deja crees, par objet carte (cle) : evite de
+   detruire/recreer (donc de refaire charger l'image depuis zero) une carte
+   deja affichee a chaque fois que render() est appele. Avant ce cache,
+   TOUTE la timeline/la main/la poubelle etait reconstruite du neant a
+   chaque placement de carte (via innerHTML = ''), ce qui relancait le
+   chargement de CHAQUE image deja affichee : un scintillement visible,
+   parfois meme un texte alt agrandi le temps du rechargement sur Firefox
+   (voir aussi le font-size:0 sur .decor img dans style.css). Reinitialise a
+   chaque nouvelle partie (voir initPartie()). */
+let cacheCartesTimeline = new Map();
+let cacheCartesMain = new Map();
+let cacheCartesErreurs = new Map();
+
 /* Le badge "En main" de l'entete de partie n'affiche plus qu'une icone (plus
    de mot, cf. demande utilisateur) : le texte descriptif (utile en
    multijoueur quand on regarde la main d'un autre joueur en tant que
@@ -150,6 +163,9 @@ function initPartie() {
   indexZoneSelectionnee = null;
   carteInspectee = null;
   noHitCompteurActuel = 0;
+  cacheCartesTimeline = new Map();
+  cacheCartesMain = new Map();
+  cacheCartesErreurs = new Map();
   document.getElementById('ecran-fin-container').innerHTML = '';
   render();
 }
@@ -509,15 +525,18 @@ function configurerNavigationIllustration(carte, zone) {
 }
 
 /* ================= CREATION D'ELEMENTS CARTE ================= */
-function creerCarteHTML(carte, options = {}) {
-  const div = document.createElement('div');
+function calculerClassesCarte(carte, options = {}) {
   let classes = `carte famille-${carte.famille}`;
   if (options.repere) classes += ' repere';
   if (options.selectionnee) classes += ' selectionnee';
   if (options.inspectee) classes += ' inspectee';
-  if (options.dragging) classes += ' dragging';
   if (options.derniereJouee) classes += ' derniere-jouee';
-  div.className = classes;
+  return classes;
+}
+
+function creerCarteHTML(carte, options = {}) {
+  const div = document.createElement('div');
+  div.className = calculerClassesCarte(carte, options);
 
   const dateTexte = options.cacherDate ? '?' : formaterDate(carte.date);
   div.innerHTML = `
@@ -544,7 +563,7 @@ function creerCarteHTML(carte, options = {}) {
    selectionner, puis cliquer le + de la zone souhaitee" (toujours gere par
    onTap ci-dessous, appele pour un simple tap sans mouvement reel) : les deux
    cohabitent, le joueur choisit celui qu'il prefere. */
-function rendreCarteInteractive(div, { onTap, onDepose }) {
+function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
   const SEUIL_DEPLACEMENT = 6; // px avant de considerer que c'est un glisser, pas un tap
   let origine = null;
   let pointerId = null;
@@ -559,6 +578,11 @@ function rendreCarteInteractive(div, { onTap, onDepose }) {
 
   div.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
+    // estActif() est reevalue a CHAQUE geste (pas fige a la creation de la
+    // carte) : utile en multijoueur ou une carte peut etre re-servie par le
+    // cache d'un rendu a l'autre alors que ce n'est plus/pas encore le tour
+    // du joueur (voir renderMainMulti dans multi.js). Si absent, toujours actif.
+    if (estActif && !estActif()) return;
     origine = { x: e.clientX, y: e.clientY };
     pointerId = e.pointerId;
     dragActif = false;
@@ -593,7 +617,7 @@ function rendreCarteInteractive(div, { onTap, onDepose }) {
       if (zone) zone.classList.add('survol');
       zoneSurvolee = zone;
     }
-  });
+  }, { passive: false }); // explicite : garantit que preventDefault() ci-dessus bloque bien le scroll tactile, meme si un navigateur mobile particulier traiterait pointermove comme passif par defaut
 
   function terminerGeste(e) {
     if (origine === null || (e && e.pointerId !== pointerId)) return;
@@ -665,23 +689,29 @@ function render() {
 
 function renderTimeline() {
   const container = document.getElementById('timeline-container');
-  container.innerHTML = '';
-
-  container.appendChild(creerZoneDepot(0));
+  const nouveauCache = new Map();
+  const nodes = [creerZoneDepot(0)];
 
   timeline.forEach((carte, i) => {
-    const carteDiv = creerCarteHTML(carte, {
-      repere: carte === carteRepereInitiale,
-      inspectee: carteInspectee === carte
-    });
-    carteDiv.addEventListener('click', () => selectionnerCartePourInspecteur(carte));
-    carteDiv.addEventListener('dblclick', () => {
-      selectionnerCartePourInspecteur(carte);
-      ouvrirPanneauInspecteur();
-    });
-    container.appendChild(carteDiv);
-    container.appendChild(creerZoneDepot(i + 1));
+    const options = { repere: carte === carteRepereInitiale, inspectee: carteInspectee === carte };
+    let carteDiv = cacheCartesTimeline.get(carte);
+    if (!carteDiv) {
+      carteDiv = creerCarteHTML(carte, options);
+      carteDiv.addEventListener('click', () => selectionnerCartePourInspecteur(carte));
+      carteDiv.addEventListener('dblclick', () => {
+        selectionnerCartePourInspecteur(carte);
+        ouvrirPanneauInspecteur();
+      });
+    } else {
+      carteDiv.className = calculerClassesCarte(carte, options);
+    }
+    nouveauCache.set(carte, carteDiv);
+    nodes.push(carteDiv);
+    nodes.push(creerZoneDepot(i + 1));
   });
+
+  cacheCartesTimeline = nouveauCache;
+  container.replaceChildren(...nodes);
 }
 
 function creerZoneDepot(index) {
@@ -711,66 +741,78 @@ function creerZoneDepot(index) {
 
 function renderMain() {
   const container = document.getElementById('main-joueur');
-  container.innerHTML = '';
+  const nouveauCache = new Map();
 
-  main.forEach((carte) => {
-    const div = creerCarteHTML(carte, {
-      cacherDate: true,
-      selectionnee: carteChoisie === carte,
-      inspectee: carteInspectee === carte
-    });
-
-    rendreCarteInteractive(div, {
-      onTap: () => {
+  const nodes = main.map((carte) => {
+    const options = { cacherDate: true, selectionnee: carteChoisie === carte, inspectee: carteInspectee === carte };
+    let div = cacheCartesMain.get(carte);
+    if (!div) {
+      div = creerCarteHTML(carte, options);
+      rendreCarteInteractive(div, {
+        onTap: () => {
+          selectionnerCartePourInspecteur(carte);
+          if (carteChoisie !== carte) {
+            indexZoneSelectionnee = null;
+          }
+          carteChoisie = carte;
+          render();
+        },
+        onDepose: (zoneCible) => {
+          carteChoisie = carte;
+          indexZoneSelectionnee = Number(zoneCible.dataset.index);
+          render();
+        },
+      });
+      div.addEventListener('dblclick', () => {
         selectionnerCartePourInspecteur(carte);
-        if (carteChoisie !== carte) {
-          indexZoneSelectionnee = null;
-        }
-        carteChoisie = carte;
-        render();
-      },
-      onDepose: (zoneCible) => {
-        carteChoisie = carte;
-        indexZoneSelectionnee = Number(zoneCible.dataset.index);
-        render();
-      },
-    });
-    div.addEventListener('dblclick', () => {
-      selectionnerCartePourInspecteur(carte);
-      ouvrirPanneauInspecteur();
-    });
-
-    container.appendChild(div);
+        ouvrirPanneauInspecteur();
+      });
+    } else {
+      div.className = calculerClassesCarte(carte, options);
+    }
+    nouveauCache.set(carte, div);
+    return div;
   });
+
+  cacheCartesMain = nouveauCache;
+  container.replaceChildren(...nodes);
 }
 
 function renderPiocheErreurs() {
   const container = document.getElementById('pioche-erreurs');
-  container.innerHTML = '';
 
   if (erreurs.length === 0) {
+    cacheCartesErreurs = new Map();
     const vide = document.createElement('div');
     vide.className = 'carte-erreur-vide';
     vide.textContent = 'Aucune erreur pour le moment — tant mieux !';
-    container.appendChild(vide);
+    container.replaceChildren(vide);
     return;
   }
 
-  erreurs.forEach((carte) => {
-    const div = document.createElement('div');
+  const nouveauCache = new Map();
+  const nodes = erreurs.map((carte) => {
+    let div = cacheCartesErreurs.get(carte);
+    if (!div) {
+      div = document.createElement('div');
+      div.innerHTML = `
+        <div class="decor">${elementDecorHTML(carte)}</div>
+        <div class="titre-carte">${carte.titre}</div>
+        <div class="date-carte">${formaterDate(carte.date)}</div>
+      `;
+      div.addEventListener('click', () => selectionnerCartePourInspecteur(carte));
+      div.addEventListener('dblclick', () => {
+        selectionnerCartePourInspecteur(carte);
+        ouvrirPanneauInspecteur();
+      });
+    }
     div.className = 'carte-erreur' + (carteInspectee === carte ? ' inspectee' : '');
-    div.innerHTML = `
-      <div class="decor">${elementDecorHTML(carte)}</div>
-      <div class="titre-carte">${carte.titre}</div>
-      <div class="date-carte">${formaterDate(carte.date)}</div>
-    `;
-    div.addEventListener('click', () => selectionnerCartePourInspecteur(carte));
-    div.addEventListener('dblclick', () => {
-      selectionnerCartePourInspecteur(carte);
-      ouvrirPanneauInspecteur();
-    });
-    container.appendChild(div);
+    nouveauCache.set(carte, div);
+    return div;
   });
+
+  cacheCartesErreurs = nouveauCache;
+  container.replaceChildren(...nodes);
 }
 
 /* ================= INSPECTEUR DE CARTE ================= */

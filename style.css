@@ -482,7 +482,15 @@ body {
   background: rgba(255, 255, 255, 0.04);
   overflow: hidden;
 }
-.carte-grande .decor-grand img { width: 100%; height: 100%; object-fit: cover; }
+/* font-size:0 sur ces 4 <img> (et non sur .decor, qui en a besoin pour la
+   taille de l'emoji de secours) : tant que l'image n'a pas fini de charger
+   (ou si elle echoue), le texte de son attribut alt (le titre complet de la
+   carte) peut s'afficher brievement a la place -- Firefox le rend beaucoup
+   plus visible/grand que Chrome dans ce cas precis, provoquant un titre
+   demesure qui deborde de la carte le temps du chargement. Sans impact sur
+   l'accessibilite : les lecteurs d'ecran lisent alt independamment de son
+   rendu visuel. */
+.carte-grande .decor-grand img { width: 100%; height: 100%; object-fit: cover; font-size: 0; }
 .btn-decor-nav {
   position: absolute;
   top: 50%;
@@ -1019,9 +1027,9 @@ body {
    vertical inutile entre le logo et la timeline -- crucial sur mobile ou
    chaque pixel de hauteur compte pour la timeline. */
 .entete-partie { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; }
-.infos-partie { display: flex; flex-direction: column; gap: 5px; font-size: 11.5px; flex: 1; max-width: 160px; }
-.infos-partie--gauche { align-items: flex-end; text-align: right; }
-.infos-partie--droite { align-items: flex-start; text-align: left; }
+.infos-partie { display: flex; flex-direction: row; align-items: center; gap: 8px; font-size: 11.5px; flex: 1; max-width: 160px; }
+.infos-partie--gauche { justify-content: flex-end; }
+.infos-partie--droite { justify-content: flex-start; }
 .badge { background: rgba(255, 255, 255, 0.08); padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
 .badge-nohit { background: rgba(236, 72, 153, 0.18); border: 1px solid rgba(236, 72, 153, 0.5); color: #ff8fc7; font-weight: bold; }
 /* Badges de l'entete de partie : icone seule + nombre, sans mot -- le sens
@@ -1091,7 +1099,7 @@ body {
 .carte.selectionnee { border-color: #3a7bd5; transform: scale(1.06); box-shadow: 0 15px 40px rgba(58, 123, 213, 0.5); }
 .carte.inspectee { border-color: #00d2ff; }
 .carte .decor { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 52px; overflow: hidden; }
-.carte .decor img { width: 100%; height: 100%; object-fit: cover; }
+.carte .decor img { width: 100%; height: 100%; object-fit: cover; font-size: 0; }
 .carte .titre-carte {
   background: rgba(0, 0, 0, 0.62);
   padding: 6px 6px;
@@ -1196,7 +1204,7 @@ body {
   overflow: hidden;
 }
 .zone-depot.attente .decor { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 30px; overflow: hidden; }
-.zone-depot.attente .decor img { width: 100%; height: 100%; object-fit: cover; }
+.zone-depot.attente .decor img { width: 100%; height: 100%; object-fit: cover; font-size: 0; }
 .zone-depot.attente .attente-titre { font-size: 10px; text-align: center; padding: 4px 6px; opacity: 0.9; font-weight: bold; background: rgba(0, 0, 0, 0.35); }
 
 /* MAIN DU JOUEUR */
@@ -1227,8 +1235,18 @@ body {
 }
 /* Empeche le navigateur de traiter un geste demarre sur une carte en main
    comme un scroll de page (necessaire au tactile pour que le glisser-deposer
-   custom, cf. rendreCarteInteractive, recoive bien les pointermove). */
-.main-joueur .carte { touch-action: none; }
+   custom, cf. rendreCarteInteractive, recoive bien les pointermove). Les deux
+   regles -webkit- suivantes ciblent un piege specifique a Safari/iOS : un
+   appui prolonge sur une <img> y declenche par defaut le menu contextuel
+   natif (copier/enregistrer l'image), qui peut recuperer le geste avant que
+   notre JS n'ait la moindre chance de reagir -- sans elles, un glisser
+   demarre sur mobile peut sembler ne "rien faire" du tout. */
+.main-joueur .carte,
+.main-joueur .carte img {
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+}
 
 .btn-valider:not([hidden]) {
   display: block;
@@ -1299,7 +1317,7 @@ body {
 }
 .carte-erreur:hover { opacity: 1; transform: scale(1.07); border-color: rgba(231, 76, 60, 0.6); }
 .carte-erreur .decor { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
-.carte-erreur .decor img { width: 100%; height: 100%; object-fit: cover; }
+.carte-erreur .decor img { width: 100%; height: 100%; object-fit: cover; font-size: 0; }
 .carte-erreur .titre-carte { font-size: 7px; padding: 3px 2px; background: rgba(0, 0, 0, 0.65); text-align: center; font-weight: bold; line-height: 1.05; }
 .carte-erreur .date-carte { font-size: 8.5px; padding: 2px; background: rgba(0, 0, 0, 0.85); text-align: center; }
 

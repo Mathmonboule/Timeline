@@ -451,6 +451,12 @@ let multiPiocheCount = 0;
 let multiCarteChoisie = null;
 let multiIndexZoneSelectionnee = null;
 let multiCarteInspectee = null;
+// Cache des <div class="carte"> deja crees (meme principe qu'en solo, voir
+// script.js) : evite de recharger l'image de chaque carte deja affichee a
+// chaque snapshot Firebase recu.
+let cacheCartesTimelineMulti = new Map();
+let cacheCartesMainMulti = new Map();
+let cacheCartesErreursMulti = new Map();
 let timerMultiHandle = null;
 let premierFiniAnnonce = false;
 let multiSpectateJoueurId = null;
@@ -487,6 +493,9 @@ function surMiseAJourPartie(partie) {
     multiCarteChoisie = null;
     multiIndexZoneSelectionnee = null;
     multiCarteInspectee = null;
+    cacheCartesTimelineMulti = new Map();
+    cacheCartesMainMulti = new Map();
+    cacheCartesErreursMulti = new Map();
     document.getElementById('multi-spectateur-note').hidden = true;
   }
 
@@ -622,26 +631,37 @@ function renderJeuMulti(partie) {
 
 function renderTimelineMulti(monTour) {
   const container = document.getElementById('timeline-container');
-  container.innerHTML = '';
-  container.appendChild(creerZoneDepotMulti(0, monTour));
+  const nouveauCache = new Map();
+  const nodes = [creerZoneDepotMulti(0, monTour)];
+
   multiTimeline.forEach((carte, i) => {
-    const div = creerCarteHTML(carte, {
+    const options = {
       repere: dernierePartieMulti && carte.id === dernierePartieMulti.carte_repere,
       inspectee: multiCarteInspectee === carte,
       derniereJouee: dernierePartieMulti && carte.id === dernierePartieMulti.derniere_carte_jouee
-    });
-    div.addEventListener('click', () => {
-      multiCarteInspectee = carte;
-      renderJeuMulti(dernierePartieMulti);
-    });
-    div.addEventListener('dblclick', () => {
-      multiCarteInspectee = carte;
-      renderJeuMulti(dernierePartieMulti);
-      ouvrirPanneauInspecteur();
-    });
-    container.appendChild(div);
-    container.appendChild(creerZoneDepotMulti(i + 1, monTour));
+    };
+    let div = cacheCartesTimelineMulti.get(carte);
+    if (!div) {
+      div = creerCarteHTML(carte, options);
+      div.addEventListener('click', () => {
+        multiCarteInspectee = carte;
+        renderJeuMulti(dernierePartieMulti);
+      });
+      div.addEventListener('dblclick', () => {
+        multiCarteInspectee = carte;
+        renderJeuMulti(dernierePartieMulti);
+        ouvrirPanneauInspecteur();
+      });
+    } else {
+      div.className = calculerClassesCarte(carte, options);
+    }
+    nouveauCache.set(carte, div);
+    nodes.push(div);
+    nodes.push(creerZoneDepotMulti(i + 1, monTour));
   });
+
+  cacheCartesTimelineMulti = nouveauCache;
+  container.replaceChildren(...nodes);
 }
 
 function creerZoneDepotMulti(index, monTour) {
@@ -670,86 +690,107 @@ function creerZoneDepotMulti(index, monTour) {
 
 function renderMainMulti(monTour) {
   const container = document.getElementById('main-joueur');
-  container.innerHTML = '';
+  const nouveauCache = new Map();
 
-  multiMain.forEach((carte) => {
-    const div = creerCarteHTML(carte, {
-      cacherDate: true,
-      selectionnee: multiCarteChoisie === carte,
-      inspectee: multiCarteInspectee === carte
-    });
+  const nodes = multiMain.map((carte) => {
+    const options = { cacherDate: true, selectionnee: multiCarteChoisie === carte, inspectee: multiCarteInspectee === carte };
+    let div = cacheCartesMainMulti.get(carte);
 
     const selectionnerPourInspection = () => {
       multiCarteInspectee = carte;
-      if (monTour) {
+      if (div._monTour) {
         if (multiCarteChoisie !== carte) multiIndexZoneSelectionnee = null;
         multiCarteChoisie = carte;
       }
       renderJeuMulti(dernierePartieMulti);
     };
 
-    if (monTour) {
+    if (!div) {
+      div = creerCarteHTML(carte, options);
+      // Le glisser-deposer est TOUJOURS branche (une carte deja affichee peut
+      // etre reutilisee par le cache d'un tour a l'autre), mais gate en
+      // temps reel via estActif() sur div._monTour, mis a jour ci-dessous a
+      // CHAQUE rendu -- sinon une carte redevenue interactive apres un tour
+      // d'attente garderait le comportement "clic simple" fige a sa creation.
       rendreCarteInteractive(div, {
-        onTap: selectionnerPourInspection,
-        onDepose: (zoneCible) => {
-          multiCarteChoisie = carte;
-          multiIndexZoneSelectionnee = Number(zoneCible.dataset.index);
-          renderJeuMulti(dernierePartieMulti);
-        },
+        estActif: () => div._monTour,
+        onTap: () => div._onTap && div._onTap(),
+        onDepose: (zoneCible) => div._onDepose && div._onDepose(zoneCible),
       });
+      div.addEventListener('dblclick', () => div._onDblClick && div._onDblClick());
     } else {
-      div.addEventListener('click', selectionnerPourInspection);
+      div.className = calculerClassesCarte(carte, options);
     }
-    div.addEventListener('dblclick', () => {
+
+    div._monTour = monTour;
+    div._onTap = selectionnerPourInspection;
+    div._onDepose = (zoneCible) => {
+      multiCarteChoisie = carte;
+      multiIndexZoneSelectionnee = Number(zoneCible.dataset.index);
+      renderJeuMulti(dernierePartieMulti);
+    };
+    div._onDblClick = () => {
       selectionnerPourInspection();
       ouvrirPanneauInspecteur();
-    });
+    };
 
-    container.appendChild(div);
+    nouveauCache.set(carte, div);
+    return div;
   });
+
+  cacheCartesMainMulti = nouveauCache;
+  container.replaceChildren(...nodes);
 }
 
 function renderErreursMulti() {
   const container = document.getElementById('pioche-erreurs');
-  container.innerHTML = '';
 
   if (multiErreurs.length === 0) {
+    cacheCartesErreursMulti = new Map();
     const vide = document.createElement('div');
     vide.className = 'carte-erreur-vide';
     vide.textContent = 'Aucune erreur pour le moment — tant mieux !';
-    container.appendChild(vide);
+    container.replaceChildren(vide);
     return;
   }
 
-  multiErreurs.forEach(({ carte, pseudo }) => {
-    const groupe = document.createElement('div');
-    groupe.className = 'carte-erreur-groupe';
+  const nouveauCache = new Map();
+  const nodes = multiErreurs.map(({ carte, pseudo }) => {
+    let groupe = cacheCartesErreursMulti.get(carte);
+    if (!groupe) {
+      groupe = document.createElement('div');
+      groupe.className = 'carte-erreur-groupe';
 
-    const div = document.createElement('div');
-    div.className = 'carte-erreur' + (multiCarteInspectee === carte ? ' inspectee' : '');
-    div.innerHTML = `
-      <div class="decor">${elementDecorHTML(carte)}</div>
-      <div class="titre-carte">${carte.titre}</div>
-      <div class="date-carte">${formaterDate(carte.date)}</div>
-    `;
-    div.addEventListener('click', () => {
-      multiCarteInspectee = carte;
-      renderJeuMulti(dernierePartieMulti);
-    });
-    div.addEventListener('dblclick', () => {
-      multiCarteInspectee = carte;
-      renderJeuMulti(dernierePartieMulti);
-      ouvrirPanneauInspecteur();
-    });
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <div class="decor">${elementDecorHTML(carte)}</div>
+        <div class="titre-carte">${carte.titre}</div>
+        <div class="date-carte">${formaterDate(carte.date)}</div>
+      `;
+      div.addEventListener('click', () => {
+        multiCarteInspectee = carte;
+        renderJeuMulti(dernierePartieMulti);
+      });
+      div.addEventListener('dblclick', () => {
+        multiCarteInspectee = carte;
+        renderJeuMulti(dernierePartieMulti);
+        ouvrirPanneauInspecteur();
+      });
 
-    const auteur = document.createElement('div');
-    auteur.className = 'carte-erreur-auteur';
-    auteur.textContent = `${pseudo}`;
+      const auteur = document.createElement('div');
+      auteur.className = 'carte-erreur-auteur';
+      auteur.textContent = `${pseudo}`;
 
-    groupe.appendChild(div);
-    groupe.appendChild(auteur);
-    container.appendChild(groupe);
+      groupe.appendChild(div);
+      groupe.appendChild(auteur);
+    }
+    groupe.firstElementChild.className = 'carte-erreur' + (multiCarteInspectee === carte ? ' inspectee' : '');
+    nouveauCache.set(carte, groupe);
+    return groupe;
   });
+
+  cacheCartesErreursMulti = nouveauCache;
+  container.replaceChildren(...nodes);
 }
 
 function renderInspecteurMulti() {
