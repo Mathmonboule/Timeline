@@ -2,10 +2,18 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Timeline - Le Jeu</title>
 <link rel="icon" type="image/svg+xml" href="images/logo-vortex.svg?v=2">
-<link rel="stylesheet" href="style.css?v=37">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png?v=1">
+<link rel="manifest" href="manifest.json?v=1">
+<meta name="theme-color" content="#0f3460">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Timeline">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=1">
+<link rel="stylesheet" href="style.css?v=38">
 </head>
 <body>
 
@@ -366,7 +374,14 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=16"></script>
+<script src="multi.js?v=17"></script>
 <script src="admin.js?v=1"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js?v=1').catch(() => {});
+  });
+}
+</script>
 </body>
 </html>

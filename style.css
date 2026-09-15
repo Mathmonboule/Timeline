@@ -3,18 +3,23 @@
 html, body {
   height: 100%;
 }
+html {
+  background: #1a1a2e;
+}
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #16213e 100%);
   color: white;
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 /* ===== VUE JEU (conteneur 3 colonnes : lobby | zone-jeu | inspecteur) ===== */
 .vue-jeu {
   display: flex;
   height: 100vh;
+  height: 100dvh;
 }
 
 /* ===== INSPECTEUR DROITE ===== */
@@ -28,6 +33,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   order: 3;
 }
 .inspecteur.replie { width: 50px; min-width: 50px; }
@@ -65,6 +71,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   order: 1;
 }
 .lobby.replie { width: 50px; min-width: 50px; }
@@ -861,6 +868,7 @@ body {
 .vue-accueil {
   position: relative;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -900,7 +908,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  padding: 20px;
+  padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
   text-align: center;
   animation: slideDown 0.6s ease;
 }
@@ -1469,7 +1477,7 @@ body {
   .btn-toggle-lobby { left: 10px; right: auto; }
   .btn-toggle-inspecteur { right: 10px; left: auto; }
 
-  .zone-jeu { width: 100%; padding: 6px 10px 8px; }
+  .zone-jeu { width: 100%; padding: max(6px, env(safe-area-inset-top)) 10px max(8px, env(safe-area-inset-bottom)); }
   .logo-timeline--petit { width: 58px; height: 58px; }
   .entete-partie { gap: 6px; }
   .infos-partie { font-size: 10px; gap: 3px; max-width: 42vw; }
@@ -1536,6 +1544,7 @@ body {
 .vue-frise {
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   background: linear-gradient(180deg, #0b1226 0%, #150a1f 55%, #1a0f28 100%);
 }
 
@@ -1544,7 +1553,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 28px;
+  padding: max(18px, env(safe-area-inset-top)) 28px 18px;
   border-bottom: 2px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(6px);
@@ -1875,7 +1884,7 @@ body {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 @media (max-width: 640px) {
-  .frise-entete { padding: 14px 16px; }
+  .frise-entete { padding: max(14px, env(safe-area-inset-top)) 16px 14px; }
   .frise-titre-principal { font-size: 16px; }
   .frise-grille { padding: 20px 14px 90px; gap: 10px; }
   .frise-ere { font-size: 14px; margin: 26px 0 4px; }

@@ -40,7 +40,11 @@ function obtenirJoueurId() {
   }
   return id;
 }
-const JOUEUR_ID = obtenirJoueurId();
+// let (pas const) : une reconnexion depuis un AUTRE appareil (localStorage
+// donc different) peut reprendre l'identite d'origine si le pseudo saisi
+// correspond a un joueur deja engage dans la partie en cours -- voir le
+// gestionnaire de "Rejoindre une partie" plus bas.
+let JOUEUR_ID = obtenirJoueurId();
 
 let codePartieActuelle = null;
 let estHote = false;
@@ -161,19 +165,49 @@ document.getElementById('btn-rejoindre-partie').addEventListener('click', async 
       return;
     }
     const partie = snap.val();
+    const joueursActuels = partie.joueurs ? Object.keys(partie.joueurs) : [];
+    const dejaDansLaPartie = joueursActuels.includes(JOUEUR_ID);
+
     if (partie.statut !== 'lobby') {
-      afficherErreurMulti('Cette partie a déjà commencé.');
+      // Partie deja en cours : on n'accepte qu'un RETOUR d'un joueur deja
+      // engage dans cette manche -- meme appareil (meme JOUEUR_ID via
+      // localStorage), ou meme pseudo depuis un autre appareil (l'ancien a
+      // pu crasher/changer de telephone). Un nouvel arrivant reste refuse.
+      let idDeRetour = dejaDansLaPartie ? JOUEUR_ID : null;
+      if (!idDeRetour) {
+        const pseudoNormalise = pseudo.trim().toLowerCase();
+        const ordreManche = partie.ordre_tours || joueursActuels;
+        idDeRetour = ordreManche.find((id) => {
+          const j = (partie.joueurs || {})[id];
+          return j && (j.pseudo || '').trim().toLowerCase() === pseudoNormalise;
+        }) || null;
+      }
+      if (!idDeRetour) {
+        afficherErreurMulti("Cette partie a déjà commencé : seul un joueur qui y participait déjà peut la rejoindre, avec le même pseudo qu'avant.");
+        return;
+      }
+      // Adopte l'identite d'origine pour le reste de la session sur cet
+      // appareil : tout le reste du code (base sur JOUEUR_ID) continue de
+      // fonctionner sans modification, main/timeline/tour compris.
+      if (idDeRetour !== JOUEUR_ID) {
+        JOUEUR_ID = idDeRetour;
+        try { localStorage.setItem('timeline_joueur_id', idDeRetour); } catch (e) {}
+      }
+      await dbRef.ref(`parties/${code}/joueurs/${JOUEUR_ID}/pseudo`).set(pseudo);
+      entrerDansLobbyMulti(code, !!((partie.joueurs || {})[JOUEUR_ID] || {}).hote);
       return;
     }
-    const joueursActuels = partie.joueurs ? Object.keys(partie.joueurs) : [];
-    if (!joueursActuels.includes(JOUEUR_ID) && joueursActuels.length >= 8) {
+
+    if (!dejaDansLaPartie && joueursActuels.length >= 8) {
       afficherErreurMulti('Ce salon est complet (8 joueurs maximum).');
       return;
     }
     await dbRef.ref(`parties/${code}/joueurs/${JOUEUR_ID}`).set({
-      pseudo, hote: false, rejoint_le: firebase.database.ServerValue.TIMESTAMP
+      pseudo,
+      hote: dejaDansLaPartie ? !!partie.joueurs[JOUEUR_ID].hote : false,
+      rejoint_le: dejaDansLaPartie ? partie.joueurs[JOUEUR_ID].rejoint_le : firebase.database.ServerValue.TIMESTAMP
     });
-    entrerDansLobbyMulti(code, joueursActuels.includes(JOUEUR_ID) ? !!partie.joueurs[JOUEUR_ID].hote : false);
+    entrerDansLobbyMulti(code, dejaDansLaPartie ? !!partie.joueurs[JOUEUR_ID].hote : false);
   } catch (e) {
     afficherErreurMulti("Impossible de rejoindre cette partie : " + e.message);
   }
@@ -203,10 +237,18 @@ function entrerDansLobbyMulti(code, hote) {
   document.getElementById('btn-valider').hidden = false;
   document.querySelector('.pioche-erreurs-section h3').textContent = 'Poubelle commune';
 
-  // Si l'onglet se ferme pendant qu'on est dans le lobby, on se retire proprement
-  // pour que la liste des joueurs reste correcte pour les autres.
-  dbRef.ref(`parties/${code}/joueurs/${JOUEUR_ID}`).onDisconnect().remove();
+  // L'appartenance au lobby/a la partie se decide desormais phase par phase
+  // dans surMiseAJourPartie (retrait automatique en lobby, mais PAS en
+  // pleine partie -- voir le commentaire la-bas pour le detail). Reinitialise
+  // ici pour que chaque nouvelle entree dans un salon reparte propre.
+  dernierStatutOnDisconnect = null;
 
+  // .off() avant de rattacher : evite d'accumuler plusieurs listeners sur le
+  // meme salon si cette fonction est appelee plus d'une fois dans la session
+  // (ex: on quitte puis on rejoint sans recharger la page), ce qui aurait
+  // sinon fait tourner surMiseAJourPartie plusieurs fois par mise a jour
+  // (sons/animations en double, etc.).
+  dbRef.ref('parties/' + code).off();
   dbRef.ref('parties/' + code).on('value', (snap) => {
     const partie = snap.val();
     if (!partie) return; // partie supprimee entre-temps
@@ -408,6 +450,22 @@ document.getElementById('btn-nouvelle-partie-multi').addEventListener('click', l
 document.getElementById('btn-quitter-partie').addEventListener('click', async () => {
   if (codePartieActuelle && dbRef) {
     try {
+      // Si c'est mon tour au moment ou je pars, je le fais avancer moi-meme
+      // tout de suite plutot que de laisser les autres attendre un eventuel
+      // timeout (qui n'existe meme pas du tout en duree "Illimitee").
+      if (dernierePartieMulti && dernierePartieMulti.statut === 'en_cours' && dernierePartieMulti.tour_actuel === JOUEUR_ID) {
+        const ordre = dernierePartieMulti.ordre_tours || [];
+        const idxActuel = ordre.indexOf(JOUEUR_ID);
+        const prochainIndex = prochainIndexActif(dernierePartieMulti, idxActuel, { id: JOUEUR_ID, termine: true });
+        const refPartie = dbRef.ref('parties/' + codePartieActuelle);
+        if (ordre[prochainIndex] !== JOUEUR_ID) {
+          await refPartie.update({
+            tour_index: prochainIndex,
+            tour_actuel: ordre[prochainIndex],
+            tour_fin_a: dernierePartieMulti.duree_tour_ms ? Date.now() + dernierePartieMulti.duree_tour_ms : null
+          });
+        }
+      }
       await dbRef.ref(`parties/${codePartieActuelle}/joueurs/${JOUEUR_ID}`).remove();
     } catch (e) { /* tant pis, on quitte quand meme localement */ }
     dbRef.ref('parties/' + codePartieActuelle).off();
@@ -468,10 +526,33 @@ let dernierTourJoueurId = null;
 // Derniere carte repere vue, pour detecter le debut d'une TOUTE NOUVELLE
 // manche (voir bloc de reset ci-dessous).
 let dernierCarteRepereVue = null;
+// Dernier statut pour lequel on a (re)pose la regle onDisconnect -- evite de
+// rappeler l'API a chaque snapshot recu (frequent en pleine partie) alors
+// que rien n'a change sur ce plan-la.
+let dernierStatutOnDisconnect = null;
 
 function surMiseAJourPartie(partie) {
   dernierePartieMulti = partie;
   renderLobbyMulti(partie);
+
+  // Tant que la partie est en lobby, une deconnexion retire proprement le
+  // joueur de la liste (comportement historique, attendu avant meme le debut
+  // du jeu). Une fois la partie lancee, on ANNULE cette suppression
+  // automatique : un crash, un ecran qui se verrouille ou une coupure reseau
+  // en pleine partie ne doit plus faire perdre la main ni la progression du
+  // joueur -- il doit pouvoir revenir (meme appareil, ou meme pseudo depuis
+  // un autre appareil, cf. "Rejoindre une partie") et reprendre exactement
+  // la ou il en etait, sans que quitter/rejoindre un AUTRE joueur ne
+  // perturbe la partie pour tout le monde.
+  if (partie.statut !== dernierStatutOnDisconnect && codePartieActuelle) {
+    dernierStatutOnDisconnect = partie.statut;
+    const refMoi = dbRef.ref(`parties/${codePartieActuelle}/joueurs/${JOUEUR_ID}`);
+    if (partie.statut === 'lobby') {
+      refMoi.onDisconnect().remove();
+    } else {
+      refMoi.onDisconnect().cancel();
+    }
+  }
 
   if (partie.statut === 'en_cours' && partie.tour_actuel !== dernierTourJoueurId) {
     if (dernierTourJoueurId !== null && partie.tour_actuel === JOUEUR_ID) jouerSonTonTour();
@@ -857,6 +938,14 @@ function validerPlacementMulti() {
    le coeur du correctif du bug ou la partie restait bloquee sur un joueur
    qui n'avait plus de carte a jouer. */
 function estJoueurTermine(partie, id) {
+  // Un joueur qui a explicitement quitte la partie (retire de "joueurs", cf.
+  // btn-quitter-partie) n'est plus jamais compte : sans ca, en mode "Nombre
+  // de cartes a reussir", la partie restait bloquee a lui redonner un tour
+  // indefiniment puisque son objectif n'etait jamais atteint. Un joueur
+  // simplement DECONNECTE (crash, reseau) reste lui dans "joueurs" pendant
+  // une manche en cours (cf. surMiseAJourPartie) et garde donc normalement
+  // son etat "pas termine", pour pouvoir reprendre sa progression au retour.
+  if (!((partie.joueurs || {})[id])) return true;
   const mode = partie.mode_longueur || 'illimite';
   if (mode === 'cible') {
     const cc = ((partie.joueurs || {})[id] || {}).cartes_correctes || 0;
@@ -962,8 +1051,16 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
   await refPartie.update(maj);
 }
 
-/* ---- Timer de tour (duree choisie par l'hote, ou illimite), gere par le
-   client dont c'est le tour ---- */
+/* ---- Timer de tour (duree choisie par l'hote, ou illimite) ----
+   Le joueur dont c'est le tour saute normalement lui-meme des que son temps
+   est ecoule. Mais s'il a disparu (deconnecte en pleine partie, cf.
+   surMiseAJourPartie qui ne le retire plus automatiquement), plus personne
+   ne ferait jamais ce constat -- d'ou le delai de courtoisie ci-dessous : au
+   bout de DELAI_SECOURS_MS passe l'echeance, n'importe quel AUTRE client
+   present prend le relais pour ne pas bloquer la partie indefiniment.
+   passerTourParTimeout() est ecrite pour etre sans risque a appeler de la
+   sorte (relit l'etat frais, n'agit que si le tour n'a pas deja avance). */
+const DELAI_SECOURS_MS = 8000;
 function demarrerTimerMulti(partie) {
   arreterTimerMulti();
   if (!partie.duree_tour_ms) {
@@ -975,8 +1072,12 @@ function demarrerTimerMulti(partie) {
     if (!dernierePartieMulti.duree_tour_ms) { majBanniereTour(dernierePartieMulti, null); return; }
     const restant = Math.max(0, Math.round((dernierePartieMulti.tour_fin_a - Date.now()) / 1000));
     majBanniereTour(dernierePartieMulti, restant);
-    if (restant <= 0 && dernierePartieMulti.tour_actuel === JOUEUR_ID && dernierePartieMulti.statut === 'en_cours') {
-      passerTourParTimeout();
+    if (restant <= 0 && dernierePartieMulti.statut === 'en_cours') {
+      if (dernierePartieMulti.tour_actuel === JOUEUR_ID) {
+        passerTourParTimeout();
+      } else if (Date.now() - dernierePartieMulti.tour_fin_a > DELAI_SECOURS_MS) {
+        passerTourParTimeout();
+      }
     }
   };
   tick();
@@ -1022,18 +1123,31 @@ function majBanniereTour(partie, restant) {
   if (restant !== null) compte.textContent = restant + 's';
 }
 
-/* Quand le temps est ecoule, le joueur dont c'est le tour fait simplement
-   passer la main au suivant (sans penalite : pas de regle explicite donnee
-   pour un timeout, on reste sur l'option la moins punitive). */
+/* Quand le temps est ecoule, le joueur dont c'est le tour fait normalement
+   passer la main au suivant lui-meme (sans penalite : pas de regle explicite
+   donnee pour un timeout, on reste sur l'option la moins punitive). Mais
+   cette fonction peut aussi etre appelee par N'IMPORTE QUEL AUTRE client
+   (cf. demarrerTimerMulti) si le joueur dont c'est le tour a manifestement
+   disparu (deconnecte) et n'a pas saute son propre tour apres un delai de
+   courtoisie -- sinon, en illimite comme en duree fixe, une deconnexion en
+   pleine partie bloquait tout le monde indefiniment. On avance donc TOUJOURS
+   a partir de partie.tour_actuel (l'etat serveur le plus frais), jamais a
+   partir de l'identite de qui a appele la fonction. */
 async function passerTourParTimeout() {
   const refPartie = dbRef.ref('parties/' + codePartieActuelle);
   const snap = await refPartie.get();
   const partie = snap.val();
-  if (!partie || partie.tour_actuel !== JOUEUR_ID || partie.statut !== 'en_cours') return;
+  if (!partie || partie.statut !== 'en_cours' || !partie.duree_tour_ms) return;
+  // Relit l'etat le plus frais avant d'agir : si quelqu'un d'autre a deja
+  // fait avancer le tour entre-temps, tour_fin_a a change et n'est plus
+  // depasse -- on ne fait alors rien, pour eviter un double-saut.
+  if (partie.tour_fin_a && Date.now() < partie.tour_fin_a) return;
 
   const ordre = partie.ordre_tours || [];
-  const idxActuel = ordre.indexOf(JOUEUR_ID);
+  const idxActuel = ordre.indexOf(partie.tour_actuel);
+  if (idxActuel === -1) return;
   const prochainIndex = prochainIndexActif(partie, idxActuel);
+  const cetaitMonTour = partie.tour_actuel === JOUEUR_ID;
 
   await refPartie.update({
     tour_index: prochainIndex,
@@ -1041,8 +1155,10 @@ async function passerTourParTimeout() {
     tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null
   });
 
-  multiCarteChoisie = null;
-  multiIndexZoneSelectionnee = null;
+  if (cetaitMonTour) {
+    multiCarteChoisie = null;
+    multiIndexZoneSelectionnee = null;
+  }
 }
 
 /* ---- Message "premier fini" (annonce immediate, avant la fin de partie) ----
