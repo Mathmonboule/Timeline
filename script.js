@@ -725,16 +725,25 @@ function creerZoneDepot(index) {
       <div class="decor">${elementDecorHTML(carteChoisie)}</div>
       <div class="attente-titre">${carteChoisie.titre}</div>
     `;
+    // La carte deja placee dans cette zone (en attente de validation) reste
+    // elle-meme glissable : on la reprend directement pour la deposer sur
+    // une AUTRE zone-depot, sans devoir la retaper depuis la main.
+    rendreCarteInteractive(zone, {
+      onTap: () => {},
+      onDepose: (zoneCible) => {
+        indexZoneSelectionnee = Number(zoneCible.dataset.index);
+        render();
+      },
+    });
   } else {
     zone.textContent = '+';
+    zone.addEventListener('click', () => {
+      if (carteChoisie) {
+        indexZoneSelectionnee = index;
+        render();
+      }
+    });
   }
-
-  zone.addEventListener('click', () => {
-    if (carteChoisie) {
-      indexZoneSelectionnee = index;
-      render();
-    }
-  });
 
   return zone;
 }

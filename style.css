@@ -3,13 +3,12 @@
 html, body {
   height: 100%;
 }
-html {
+html, body {
   background: #1a1a2e;
 }
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #16213e 100%);
   color: white;
   overflow: hidden;
   overscroll-behavior: none;
@@ -20,6 +19,7 @@ body {
   display: flex;
   height: 100vh;
   height: 100dvh;
+  background: #1a1a2e;
 }
 
 /* ===== INSPECTEUR DROITE ===== */
@@ -873,6 +873,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #1a1a2e;
 }
 
 /* Video "portail" plein ecran : une nebuleuse qui derive, pour donner
@@ -1210,7 +1211,12 @@ body {
   flex-direction: column;
   padding: 0;
   overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
 }
+.zone-depot.attente:active { cursor: grabbing; }
 .zone-depot.attente .decor { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 30px; overflow: hidden; }
 .zone-depot.attente .decor img { width: 100%; height: 100%; object-fit: cover; font-size: 0; }
 .zone-depot.attente .attente-titre { font-size: 10px; text-align: center; padding: 4px 6px; opacity: 0.9; font-weight: bold; background: rgba(0, 0, 0, 0.35); }

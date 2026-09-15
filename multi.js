@@ -753,10 +753,21 @@ function creerZoneDepotMulti(index, monTour) {
   if (multiIndexZoneSelectionnee === index && multiCarteChoisie) {
     zone.classList.add('attente');
     zone.innerHTML = `<div class="decor">${elementDecorHTML(multiCarteChoisie)}</div><div class="attente-titre">${multiCarteChoisie.titre}</div>`;
-  } else {
-    zone.textContent = '+';
+    if (monTour) {
+      // Meme logique qu'en solo (voir creerZoneDepot dans script.js) : la
+      // carte deja placee en attente reste glissable vers une autre zone.
+      rendreCarteInteractive(zone, {
+        onTap: () => {},
+        onDepose: (zoneCible) => {
+          multiIndexZoneSelectionnee = Number(zoneCible.dataset.index);
+          renderJeuMulti(dernierePartieMulti);
+        },
+      });
+    }
+    return zone;
   }
 
+  zone.textContent = '+';
   if (!monTour) return zone;
 
   zone.addEventListener('click', () => {
