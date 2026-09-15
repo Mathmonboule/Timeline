@@ -110,12 +110,14 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   // Repart sur un reglage neutre a chaque ouverture du panneau, pour qu'un
   // choix fait lors d'une partie precedente (dans la meme session) ne reste
   // pas colle silencieusement a la partie suivante. "Nombre de cartes" est
-  // le mode par defaut.
-  dureeIllimitee = false;
+  // le mode par defaut ; "Illimite" est le reglage par defaut du temps par
+  // tour (moins stressant pour decouvrir le jeu, l'hote peut toujours
+  // choisir une duree ensuite).
+  dureeIllimitee = true;
   const btnIllimite = document.getElementById('btn-duree-illimitee');
   const inputDuree = document.getElementById('multi-duree-tour');
-  if (btnIllimite) btnIllimite.classList.remove('actif');
-  if (inputDuree) { inputDuree.disabled = false; inputDuree.value = 20; }
+  if (btnIllimite) btnIllimite.classList.add('actif');
+  if (inputDuree) { inputDuree.disabled = true; inputDuree.value = 20; }
   modeLongueurChoisi = 'cible';
   document.getElementById('btn-mode-cible').classList.add('actif');
   document.getElementById('btn-mode-illimite').classList.remove('actif');
@@ -320,8 +322,9 @@ function renderLobbyMulti(partie) {
    partagee, et fixe l'ordre des tours (tire au sort a chaque manche). */
 const TAILLE_MAIN_DEFAUT = 5;
 
-/* Reglage du temps de tour par l'hote, avant le lancement de la partie. */
-let dureeIllimitee = false;
+/* Reglage du temps de tour par l'hote, avant le lancement de la partie.
+   Illimite par defaut (voir aussi le reset dans le handler de btn-multi). */
+let dureeIllimitee = true;
 document.getElementById('btn-duree-illimitee').addEventListener('click', () => {
   dureeIllimitee = !dureeIllimitee;
   document.getElementById('btn-duree-illimitee').classList.toggle('actif', dureeIllimitee);

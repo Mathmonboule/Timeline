@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Timeline">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="style.css?v=41">
+<link rel="stylesheet" href="style.css?v=42">
 </head>
 <body>
 
@@ -176,8 +176,8 @@
         <div class="lobby-parametres" id="lobby-parametres" hidden>
           <label for="multi-duree-tour">Temps par tour</label>
           <div class="lobby-duree-ligne">
-            <button type="button" id="btn-duree-illimitee" class="btn-duree-illimitee">∞ Illimité</button>
-            <input type="number" id="multi-duree-tour" min="5" max="600" value="20" step="5">
+            <button type="button" id="btn-duree-illimitee" class="btn-duree-illimitee actif">∞ Illimité</button>
+            <input type="number" id="multi-duree-tour" min="5" max="600" value="20" step="5" disabled>
             <span>secondes</span>
           </div>
 
@@ -374,7 +374,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=19"></script>
+<script src="multi.js?v=20"></script>
 <script src="admin.js?v=1"></script>
 <script>
 if ('serviceWorker' in navigator) {

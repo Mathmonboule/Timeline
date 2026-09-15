@@ -1505,7 +1505,12 @@ body {
      elle-meme tout ce qui reste une fois la frise/la main posees. */
   .timeline-container { padding: 10px 20px; min-height: 170px; }
   .timeline-wrapper { margin-bottom: 3px; }
-  #zone-jeu-solo { display: flex; flex-direction: column; flex-grow: 1; min-height: 0; }
+  /* :not([hidden]) obligatoire : #zone-jeu-solo est aussi bascule via
+     l'attribut hidden (entree/sortie du lobby multijoueur) -- une regle
+     display:flex non gardee ecraserait la regle par defaut du navigateur
+     [hidden]{display:none} et laisserait la partie precedente visible
+     derriere le panneau lobby (bug constate au passage solo -> multi). */
+  #zone-jeu-solo:not([hidden]) { display: flex; flex-direction: column; flex-grow: 1; min-height: 0; }
 
   /* MAIN DU JOUEUR : cartes bien plus grandes (quitte a passer sur 2 lignes
      -- 3 puis 2 -- plutot que de forcer les 5 sur une seule rangee minuscule
