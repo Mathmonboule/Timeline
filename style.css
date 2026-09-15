@@ -1498,41 +1498,44 @@ body {
 
   /* La timeline elle-meme (taille des cartes, min-height du container) ne
      change pas sur mobile : seuls les blocs autour (main, poubelle, marges)
-     se resserrent pour que les trois zones (frise / main / poubelle) tiennent
-     ensemble a l'ecran, sans avoir a scroller la page pour voir sa main. */
+     se resserrent/s'etirent pour que les trois zones (frise / main /
+     poubelle) tiennent ensemble a l'ecran, sans avoir a scroller la page,
+     ET sans laisser d'espace vide en bas : #zone-jeu-solo grandit pour
+     occuper tout le reste de la hauteur de .zone-jeu, et la poubelle prend
+     elle-meme tout ce qui reste une fois la frise/la main posees. */
   .timeline-container { padding: 10px 20px; min-height: 170px; }
   .timeline-wrapper { margin-bottom: 3px; }
+  #zone-jeu-solo { display: flex; flex-direction: column; flex-grow: 1; min-height: 0; }
 
-  /* MAIN DU JOUEUR : largeur en % (5 cartes + leurs espaces tiennent alors
-     toujours sur une seule rangee quelle que soit la largeur exacte du
-     telephone), mais avec une hauteur EXPLICITE plus genereuse que ne le
-     voudrait le ratio 132/200 de la timeline : sur telephone, la largeur est
-     la ressource rare (il faut faire tenir 5 cartes cote a cote) alors que
-     la hauteur est abondante (l'espace sous la poubelle restait vide) --
-     donc on etire volontairement les cartes en main pour mieux les lire. */
-  .main-joueur { gap: 5px; padding: 7px; margin-bottom: 5px; min-height: 0; }
+  /* MAIN DU JOUEUR : cartes bien plus grandes (quitte a passer sur 2 lignes
+     -- 3 puis 2 -- plutot que de forcer les 5 sur une seule rangee minuscule
+     et illisible). La largeur reste le facteur limitant (3 cartes cote a
+     cote par ligne), la hauteur suit le ratio naturel de la carte. */
+  .main-joueur { gap: 8px; padding: 8px; margin-bottom: 6px; min-height: 0; }
   .main-joueur .carte {
-    width: 18%;
-    max-width: 68px;
-    height: 138px;
-    border-radius: 10px;
+    width: 30%;
+    max-width: 112px;
+    height: auto;
+    aspect-ratio: 132 / 200;
+    border-radius: 12px;
     border-width: 2px;
   }
-  .main-joueur .carte .decor { font-size: 26px; }
-  .main-joueur .carte .titre-carte { font-size: 9.5px; padding: 5px 3px; line-height: 1.15; }
-  .main-joueur .carte .date-carte { font-size: 10px; padding: 5px; }
+  .main-joueur .carte .decor { font-size: 34px; }
+  .main-joueur .carte .titre-carte { font-size: 11.5px; padding: 6px 4px; line-height: 1.15; }
+  .main-joueur .carte .date-carte { font-size: 12px; padding: 6px; }
 
   .btn-valider:not([hidden]) { padding: 8px 28px; font-size: 12.5px; margin: 0 auto 6px; }
 
-  /* POUBELLE : cartes agrandies (78x114 au lieu des 68x96 par defaut) pour
-     rester lisibles, l'espace vertical liberes par le reste des reglages
-     mobile ci-dessus le permet largement. */
+  /* POUBELLE : occupe tout l'espace restant en bas d'ecran (au lieu d'une
+     hauteur fixe qui laissait un vide en dessous), cartes agrandies (86x124
+     au lieu des 68x96 par defaut) pour rester lisibles. */
   .pioche-erreurs-section h3 { margin: 0 0 4px 0; }
-  .pioche-erreurs { min-height: 128px; padding: 8px; }
-  .carte-erreur { width: 78px; height: 114px; }
-  .carte-erreur .decor { font-size: 26px; }
-  .carte-erreur .titre-carte { font-size: 8px; }
-  .carte-erreur .date-carte { font-size: 9px; }
+  .pioche-erreurs-section { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .pioche-erreurs { flex: 1; min-height: 0; padding: 8px; align-items: center; }
+  .carte-erreur { width: 86px; height: 124px; }
+  .carte-erreur .decor { font-size: 28px; }
+  .carte-erreur .titre-carte { font-size: 8.5px; }
+  .carte-erreur .date-carte { font-size: 9.5px; }
 
   /* Le multijoueur ajoute deux blocs que le solo n'a pas (bandeau de tour +
      derniere carte jouee) : sans les compresser specifiquement, ils
