@@ -727,6 +727,7 @@ function renderTimelineMulti(monTour) {
       div.addEventListener('click', () => {
         multiCarteInspectee = carte;
         renderJeuMulti(dernierePartieMulti);
+        if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
       });
       div.addEventListener('dblclick', () => {
         multiCarteInspectee = carte;
@@ -795,6 +796,7 @@ function renderMainMulti(monTour) {
         multiCarteChoisie = carte;
       }
       renderJeuMulti(dernierePartieMulti);
+      if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
     };
 
     if (!div) {
@@ -862,6 +864,7 @@ function renderErreursMulti() {
       div.addEventListener('click', () => {
         multiCarteInspectee = carte;
         renderJeuMulti(dernierePartieMulti);
+        if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
       });
       div.addEventListener('dblclick', () => {
         multiCarteInspectee = carte;

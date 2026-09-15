@@ -1474,7 +1474,12 @@ body {
 
   .btn-toggle-lobby, .btn-toggle-inspecteur {
     position: fixed;
-    top: 12px;
+    /* Aligne avec le logo TIMELINE de l'entete (voir le padding-top de
+       .zone-jeu juste plus bas) : sans env(safe-area-inset-top), ces
+       boutons se retrouvaient sous l'encoche/la barre de statut en PWA
+       installee, partiellement inaccessibles au toucher (impossibles a
+       refermer). */
+    top: max(12px, calc(env(safe-area-inset-top) + 6px));
     z-index: 70;
     width: 42px;
     height: 42px;
@@ -1498,29 +1503,36 @@ body {
   .timeline-container { padding: 10px 20px; min-height: 170px; }
   .timeline-wrapper { margin-bottom: 3px; }
 
-  /* MAIN DU JOUEUR : cartes nettement plus petites (largeur en %, 5 cartes +
-     leurs espaces tiennent alors toujours sur une seule rangee quelle que
-     soit la largeur exacte du telephone) plutot que la taille pleine (132px)
-     utilisee par la timeline. */
-  .main-joueur { gap: 4px; padding: 6px; margin-bottom: 4px; min-height: 0; }
+  /* MAIN DU JOUEUR : largeur en % (5 cartes + leurs espaces tiennent alors
+     toujours sur une seule rangee quelle que soit la largeur exacte du
+     telephone), mais avec une hauteur EXPLICITE plus genereuse que ne le
+     voudrait le ratio 132/200 de la timeline : sur telephone, la largeur est
+     la ressource rare (il faut faire tenir 5 cartes cote a cote) alors que
+     la hauteur est abondante (l'espace sous la poubelle restait vide) --
+     donc on etire volontairement les cartes en main pour mieux les lire. */
+  .main-joueur { gap: 5px; padding: 7px; margin-bottom: 5px; min-height: 0; }
   .main-joueur .carte {
     width: 18%;
     max-width: 68px;
-    height: auto;
-    aspect-ratio: 132 / 200;
+    height: 138px;
     border-radius: 10px;
     border-width: 2px;
   }
-  .main-joueur .carte .decor { font-size: 20px; }
-  .main-joueur .carte .titre-carte { font-size: 7px; padding: 3px 2px; line-height: 1.1; }
-  .main-joueur .carte .date-carte { font-size: 7.5px; padding: 3px; }
+  .main-joueur .carte .decor { font-size: 26px; }
+  .main-joueur .carte .titre-carte { font-size: 9.5px; padding: 5px 3px; line-height: 1.15; }
+  .main-joueur .carte .date-carte { font-size: 10px; padding: 5px; }
 
   .btn-valider:not([hidden]) { padding: 8px 28px; font-size: 12.5px; margin: 0 auto 6px; }
 
-  /* POUBELLE : deja compacte (cartes 68x96 + defilement horizontal), on ne
-     resserre que les marges/le padding autour. */
-  .pioche-erreurs-section h3 { margin: 0 0 3px 0; }
-  .pioche-erreurs { min-height: 88px; padding: 6px; }
+  /* POUBELLE : cartes agrandies (78x114 au lieu des 68x96 par defaut) pour
+     rester lisibles, l'espace vertical liberes par le reste des reglages
+     mobile ci-dessus le permet largement. */
+  .pioche-erreurs-section h3 { margin: 0 0 4px 0; }
+  .pioche-erreurs { min-height: 128px; padding: 8px; }
+  .carte-erreur { width: 78px; height: 114px; }
+  .carte-erreur .decor { font-size: 26px; }
+  .carte-erreur .titre-carte { font-size: 8px; }
+  .carte-erreur .date-carte { font-size: 9px; }
 
   /* Le multijoueur ajoute deux blocs que le solo n'a pas (bandeau de tour +
      derniere carte jouee) : sans les compresser specifiquement, ils

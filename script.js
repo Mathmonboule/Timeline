@@ -48,6 +48,22 @@ function ouvrirPanneauInspecteur() {
   if (inspecteur) inspecteur.classList.remove('replie');
 }
 
+/* Detection manuelle de double-tap, en complement de l'evenement 'dblclick'
+   natif : sur certains navigateurs/webview mobiles (notamment iOS, encore
+   plus en PWA installee), deux taps rapproches ne declenchent pas toujours
+   un 'dblclick' fiable. Branchee sur chaque 'click' (souris ET tactile,
+   les deux le declenchent), c'est un filet de securite independant du
+   natif -- partagee entre script.js et multi.js. */
+let dernierTapCarte = null;
+let dernierTapTs = 0;
+function estDoubleTapSur(carte, delaiMs = 400) {
+  const maintenant = Date.now();
+  const estDouble = dernierTapCarte === carte && (maintenant - dernierTapTs) < delaiMs;
+  dernierTapCarte = estDouble ? null : carte;
+  dernierTapTs = estDouble ? 0 : maintenant;
+  return estDouble;
+}
+
 /* ================= FILTRES PAR CATEGORIE =================
    Liste partagee entre solo (ci-dessous) et multijoueur (multi.js) pour
    construire les cases a cocher "quelles categories inclure dans la
@@ -697,7 +713,10 @@ function renderTimeline() {
     let carteDiv = cacheCartesTimeline.get(carte);
     if (!carteDiv) {
       carteDiv = creerCarteHTML(carte, options);
-      carteDiv.addEventListener('click', () => selectionnerCartePourInspecteur(carte));
+      carteDiv.addEventListener('click', () => {
+        selectionnerCartePourInspecteur(carte);
+        if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
+      });
       carteDiv.addEventListener('dblclick', () => {
         selectionnerCartePourInspecteur(carte);
         ouvrirPanneauInspecteur();
@@ -765,6 +784,7 @@ function renderMain() {
           }
           carteChoisie = carte;
           render();
+          if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
         },
         onDepose: (zoneCible) => {
           carteChoisie = carte;
@@ -809,7 +829,10 @@ function renderPiocheErreurs() {
         <div class="titre-carte">${carte.titre}</div>
         <div class="date-carte">${formaterDate(carte.date)}</div>
       `;
-      div.addEventListener('click', () => selectionnerCartePourInspecteur(carte));
+      div.addEventListener('click', () => {
+        selectionnerCartePourInspecteur(carte);
+        if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
+      });
       div.addEventListener('dblclick', () => {
         selectionnerCartePourInspecteur(carte);
         ouvrirPanneauInspecteur();
