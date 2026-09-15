@@ -1102,21 +1102,44 @@ document.getElementById('btn-toggle-lobby').addEventListener('click', () => {
   const inspecteur = document.getElementById('inspecteur');
   if (!inspecteur) return;
   let origine = null;
-  document.addEventListener('pointerdown', (e) => {
-    if (window.innerWidth > 860 || inspecteur.classList.contains('replie')) { origine = null; return; }
-    origine = { x: e.clientX, y: e.clientY, t: Date.now() };
-  });
-  document.addEventListener('pointerup', (e) => {
+  let dernier = null; // derniere position pointermove connue -- voir pointercancel plus bas
+  function evaluerFermeture(x, y, t) {
     if (!origine) return;
-    const dx = e.clientX - origine.x;
-    const dy = e.clientY - origine.y;
-    const dt = Date.now() - origine.t;
+    const dx = x - origine.x;
+    const dy = y - origine.y;
+    const dt = t - origine.t;
     origine = null;
+    dernier = null;
     if (dx > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dt < 700) {
       inspecteur.classList.add('replie');
     }
+  }
+  document.addEventListener('pointerdown', (e) => {
+    if (window.innerWidth > 860 || inspecteur.classList.contains('replie')) { origine = null; return; }
+    origine = { x: e.clientX, y: e.clientY, t: Date.now() };
+    dernier = origine;
   });
-  document.addEventListener('pointercancel', () => { origine = null; });
+  // Suivi passif (pas de preventDefault : ne gene jamais le scroll vertical
+  // natif de .inspecteur-contenu) uniquement pour garder une derniere
+  // position connue en cas de pointercancel (voir plus bas).
+  document.addEventListener('pointermove', (e) => {
+    if (!origine) return;
+    dernier = { x: e.clientX, y: e.clientY };
+  });
+  document.addEventListener('pointerup', (e) => {
+    if (!origine) return;
+    evaluerFermeture(e.clientX, e.clientY, Date.now());
+  });
+  // Sur un geste demarre dans une zone scrollable (.inspecteur-contenu), le
+  // navigateur peut reclamer le toucher pour son propre scroll natif et
+  // n'envoyer qu'un pointercancel (pas de pointerup) -- meme si touch-action:
+  // pan-y (cf. style.css) limite deja beaucoup ce cas pour un balayage
+  // horizontal, ce filet de securite evalue quand meme la derniere position
+  // connue (via pointermove) plutot que d'abandonner silencieusement.
+  document.addEventListener('pointercancel', () => {
+    if (!origine || !dernier) { origine = null; dernier = null; return; }
+    evaluerFermeture(dernier.x, dernier.y, Date.now());
+  });
 })();
 
 /* ================= MISE EN PAGE MOBILE =================

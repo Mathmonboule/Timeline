@@ -473,6 +473,14 @@ body {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  /* pan-y (et non "auto", la valeur par defaut) : autorise le navigateur a
+     gerer nativement le scroll VERTICAL ici, mais PAS le panoramique
+     horizontal -- sinon, tout geste demarre sur cette zone scrollable (donc
+     la quasi-totalite de l'inspecteur) etait parfois reclame par le scroll
+     natif meme pour un balayage a dominante horizontale, qui se terminait
+     alors par un pointercancel au lieu d'un pointerup et ne fermait jamais
+     le panneau (voir initFermetureInspecteurParGlissement dans script.js). */
+  touch-action: pan-y;
 }
 .inspecteur.replie .inspecteur-contenu { opacity: 0; pointer-events: none; }
 .inspecteur h2 {
