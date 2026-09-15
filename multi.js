@@ -241,7 +241,7 @@ function renderLobbyMulti(partie) {
       : '';
     div.innerHTML = `
       <span class="lobby-joueur-tour">${iconeHote}</span>
-      <span class="lobby-joueur-nom">${j.pseudo}${id === JOUEUR_ID ? ' (toi)' : ''}</span>
+      <span class="lobby-joueur-nom">${j.pseudo || '?'}${id === JOUEUR_ID ? ' (toi)' : ''}</span>
       <span class="lobby-joueur-erreurs">${texteErreurs}</span>
       <span class="lobby-joueur-cartes">${texteCartes}</span>
     `;
@@ -1001,7 +1001,7 @@ function majBanniereTour(partie, restant) {
   const monTour = partie.tour_actuel === JOUEUR_ID;
   banniere.classList.toggle('multi-tour-banner--moi', monTour);
   const joueurActuel = (partie.joueurs || {})[partie.tour_actuel];
-  const pseudoActuel = joueurActuel ? joueurActuel.pseudo : '…';
+  const pseudoActuel = (joueurActuel && joueurActuel.pseudo) || '…';
   texte.textContent = monTour ? 'À toi de jouer !' : `Tour de ${pseudoActuel}`;
   compte.hidden = restant === null;
 
@@ -1012,7 +1012,7 @@ function majBanniereTour(partie, restant) {
   const idSuivant = ordre[idxSuivant];
   const estMemeJoueur = idSuivant === partie.tour_actuel;
   const joueurSuivant = (partie.joueurs || {})[idSuivant];
-  nomSuivant.textContent = estMemeJoueur ? '—' : (joueurSuivant ? (idSuivant === JOUEUR_ID ? 'toi' : joueurSuivant.pseudo) : '…');
+  nomSuivant.textContent = estMemeJoueur ? '—' : (idSuivant === JOUEUR_ID ? 'toi' : ((joueurSuivant && joueurSuivant.pseudo) || '…'));
 
   const derniereCarteZone = document.getElementById('derniere-carte-multi');
   const derniereCarteTitre = document.getElementById('derniere-carte-titre');
@@ -1071,7 +1071,7 @@ function afficherEcranFinMulti(partie) {
   const lignes = ordre.map((id) => {
     const j = joueurs[id] || { pseudo: '?' };
     const gagnant = id === partie.premier_fini;
-    return `<li>${j.pseudo}${id === JOUEUR_ID ? ' (toi)' : ''} — ${j.nb_erreurs || 0} erreur${(j.nb_erreurs || 0) > 1 ? 's' : ''}</li>`;
+    return `<li>${j.pseudo || '?'}${id === JOUEUR_ID ? ' (toi)' : ''} — ${j.nb_erreurs || 0} erreur${(j.nb_erreurs || 0) > 1 ? 's' : ''}</li>`;
   }).join('');
 
   container.innerHTML = `

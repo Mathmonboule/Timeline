@@ -139,7 +139,7 @@ body {
   transition: background 0.15s ease, transform 0.15s ease;
 }
 .btn-nouvelle-partie svg { width: 12px; height: 12px; flex-shrink: 0; }
-.btn-demarrer-partie { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.btn-demarrer-partie:not([hidden]) { display: flex; align-items: center; justify-content: center; gap: 6px; }
 .btn-demarrer-partie svg { width: 14px; height: 14px; flex-shrink: 0; }
 .btn-nouvelle-partie:hover { background: rgba(255, 255, 255, 0.16); transform: scale(1.03); }
 .lobby-joueur {
@@ -1508,10 +1508,20 @@ body {
   .pioche-erreurs-section h3 { margin: 0 0 3px 0; }
   .pioche-erreurs { min-height: 88px; padding: 6px; }
 
-  .multi-tour-banner { font-size: 12px; padding: 6px 12px; flex-wrap: wrap; justify-content: center; }
-  .multi-tour-suivant { padding-left: 8px; }
-  .multi-tour-suivant-nom { font-size: 14px; }
-  .derniere-carte-multi { padding: 6px 12px; }
+  /* Le multijoueur ajoute deux blocs que le solo n'a pas (bandeau de tour +
+     derniere carte jouee) : sans les compresser specifiquement, ils
+     mangeaient a eux seuls assez de hauteur pour repousser la main hors de
+     l'ecran sur les telephones a chrome navigateur plus envahissant
+     (constate notamment sur Android). */
+  .multi-tour-banner { font-size: 11px; padding: 4px 10px; gap: 6px; margin-bottom: 3px; flex-wrap: wrap; justify-content: center; }
+  .multi-tour-actuel { gap: 6px; }
+  .multi-tour-compte { padding: 1px 7px; }
+  .multi-tour-suivant { padding-left: 6px; gap: 3px; }
+  .multi-tour-suivant-label { font-size: 8.5px; }
+  .multi-tour-suivant-nom { font-size: 12.5px; }
+  .derniere-carte-multi { padding: 4px 10px; margin: 0 auto 3px; gap: 2px 6px; }
+  .derniere-carte-label { font-size: 8.5px; }
+  .derniere-carte-titre { font-size: 11.5px; }
 }
 
 @media (max-width: 420px) {
