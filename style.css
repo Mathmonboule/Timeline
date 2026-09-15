@@ -59,6 +59,11 @@ body {
 }
 .btn-toggle-inspecteur:hover { transform: scale(1.1); }
 .btn-toggle-inspecteur svg, .btn-toggle-lobby svg { width: 18px; height: 18px; }
+/* La loupe se change en croix quand l'inspecteur est ouvert, pour indiquer
+   que le bouton (ou un glissement, voir script.js) permet de le refermer. */
+.icone-fermer { display: none; }
+.inspecteur:not(.replie) .icone-loupe { display: none; }
+.inspecteur:not(.replie) .icone-fermer { display: block; }
 
 /* ===== LOBBY GAUCHE ===== */
 .lobby {
@@ -230,6 +235,8 @@ body {
 .btn-copier-code.copie { background: rgba(46, 204, 113, 0.25); border-color: rgba(46, 204, 113, 0.6); color: #4ade80; }
 .btn-copier-code svg { width: 14px; height: 14px; }
 .lobby-joueurs-liste { display: flex; flex-direction: column; }
+.lobby-pref-perso-ligne { display: flex; margin: 14px 0; }
+.lobby-pref-perso-ligne .btn-mode-pro { font-size: 11.5px; }
 .lobby-parametres {
   margin-top: 14px;
   padding-top: 14px;
@@ -1387,6 +1394,48 @@ body {
   background: linear-gradient(90deg, #f5c518, #e8930b) !important;
   box-shadow: 0 10px 34px rgba(245, 197, 24, 0.5);
   animation: popMessage 0.35s ease, brillePremierFini 1.4s ease-in-out 0.35s 2;
+}
+.indicateur-tour {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 42px;
+  border-radius: 24px;
+  background: rgba(10, 14, 28, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: indicateurTourPop 0.3s ease;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.indicateur-tour--fermeture { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+.indicateur-tour img { width: 72px; height: 72px; animation: indicateurTourSpin 1.1s linear; }
+.indicateur-tour-round { font-size: 11px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1.2px; font-weight: bold; }
+.indicateur-tour-texte {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #ff8fc7, #c42e8c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-align: center;
+  white-space: nowrap;
+}
+@keyframes indicateurTourPop {
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+@keyframes indicateurTourSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 @keyframes brillePremierFini {
   0%, 100% { transform: translateX(-50%) scale(1); }

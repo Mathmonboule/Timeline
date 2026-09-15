@@ -397,6 +397,32 @@ function jouerSonTonTour() {
   } catch (e) { /* audio indisponible, on ignore */ }
 }
 
+/* ================= INDICATEUR DE TOUR (multijoueur, reglage personnel) =================
+   Prefererence individuelle (localStorage, pas synchronisee via Firebase --
+   chacun choisit pour soi dans le lobby, voir #btn-indicateur-tour dans
+   multi.js) : quand actif, une courte animation du logo (tourbillon qui
+   tourne) apparait au centre de l'ecran des que c'est reellement notre
+   tour, en plus du petit carillon sonore existant (jouerSonTonTour). En
+   Mode Pro, precise aussi le numero du round en cours. */
+function indicateurTourActif() {
+  try { return localStorage.getItem('timeline_indicateur_tour') === '1'; } catch (e) { return false; }
+}
+function afficherIndicateurTonTour(numeroRound) {
+  if (!indicateurTourActif()) return;
+  const el = document.createElement('div');
+  el.className = 'indicateur-tour';
+  el.innerHTML = `
+    <img src="images/logo-vortex.svg?v=2" alt="">
+    ${numeroRound ? `<div class="indicateur-tour-round">Round ${numeroRound}</div>` : ''}
+    <div class="indicateur-tour-texte">À toi de jouer !</div>
+  `;
+  document.body.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('indicateur-tour--fermeture');
+    setTimeout(() => el.remove(), 300);
+  }, 1300);
+}
+
 /* ================= UTILITAIRES ================= */
 /* Formate une duree en "X millions/milliards d'annees" ou, au-dela de mille
    milliards, en notation "10^N ans" (seule maniere lisible d'exprimer des
@@ -1065,29 +1091,32 @@ document.getElementById('btn-toggle-lobby').addEventListener('click', () => {
 /* ================= FERMER L'INSPECTEUR PAR GLISSEMENT (mobile) =================
    Sur mobile, l'inspecteur glisse par-dessus le jeu depuis la droite : on
    peut donc aussi le repousser hors de l'ecran en balayant de gauche a
-   droite pour le refermer, en plus du bouton rond. Uniquement sur mobile
-   (< 860px, meme seuil que la mise en page en panneaux superposes) : sur
-   bureau l'inspecteur est une colonne fixe, un simple clic-glisser dessus
-   ne doit pas le fermer par accident. */
+   droite pour le refermer, en plus du bouton rond -- et ce depuis N'IMPORTE
+   OU sur l'ecran (pas seulement en demarrant le geste sur l'inspecteur
+   lui-meme : ecoute posee sur tout le document, activee uniquement pendant
+   que l'inspecteur est reellement ouvert). Uniquement sur mobile (< 860px,
+   meme seuil que la mise en page en panneaux superposes) : sur bureau
+   l'inspecteur est une colonne fixe, un simple clic-glisser ne doit pas le
+   fermer par accident. */
 (function initFermetureInspecteurParGlissement() {
   const inspecteur = document.getElementById('inspecteur');
   if (!inspecteur) return;
   let origine = null;
-  inspecteur.addEventListener('pointerdown', (e) => {
+  document.addEventListener('pointerdown', (e) => {
+    if (window.innerWidth > 860 || inspecteur.classList.contains('replie')) { origine = null; return; }
     origine = { x: e.clientX, y: e.clientY, t: Date.now() };
   });
-  inspecteur.addEventListener('pointerup', (e) => {
+  document.addEventListener('pointerup', (e) => {
     if (!origine) return;
     const dx = e.clientX - origine.x;
     const dy = e.clientY - origine.y;
     const dt = Date.now() - origine.t;
     origine = null;
-    if (window.innerWidth > 860) return;
     if (dx > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dt < 700) {
       inspecteur.classList.add('replie');
     }
   });
-  inspecteur.addEventListener('pointercancel', () => { origine = null; });
+  document.addEventListener('pointercancel', () => { origine = null; });
 })();
 
 /* ================= MISE EN PAGE MOBILE =================

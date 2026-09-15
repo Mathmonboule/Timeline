@@ -408,6 +408,21 @@ document.getElementById('btn-mode-pro').addEventListener('click', () => {
   document.getElementById('btn-mode-pro').classList.toggle('actif', modeProActif);
 });
 
+/* Indicateur de tour (reglage PERSONNEL, pas celui de l'hote -- chaque
+   joueur choisit pour lui-meme, voir afficherIndicateurTonTour et
+   indicateurTourActif dans script.js) : desactive par defaut, persiste
+   d'une partie a l'autre via localStorage. */
+(function initBoutonIndicateurTour() {
+  const btn = document.getElementById('btn-indicateur-tour');
+  if (!btn) return;
+  btn.classList.toggle('actif', indicateurTourActif());
+  btn.addEventListener('click', () => {
+    const actif = !indicateurTourActif();
+    try { localStorage.setItem('timeline_indicateur_tour', actif ? '1' : '0'); } catch (e) {}
+    btn.classList.toggle('actif', actif);
+  });
+})();
+
 /* Distribue une nouvelle manche a la partie en cours : reutilise le meme
    salon/code/joueurs, mais remet a zero timeline/mains/pioche/scores. Sert
    au demarrage initial (bouton "Demarrer") ET a "Nouvelle partie" (rejouer
@@ -454,6 +469,7 @@ async function lancerNouvelleManche() {
     tour_fin_a: dureeTourMs ? Date.now() + dureeTourMs : null,
     mode_longueur: modeLongueurChoisi,
     mode_pro: modeProActif,
+    round_actuel: 1,
     cible_cartes: cibleCartes,
     familles_actives: source === pool ? Array.from(filtresMultiActifs) : null,
     difficultes_actives: source === pool ? Array.from(filtresDifficulteMultiActifs) : null,
@@ -488,13 +504,14 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
       if (dernierePartieMulti && dernierePartieMulti.statut === 'en_cours' && dernierePartieMulti.tour_actuel === JOUEUR_ID) {
         const ordre = dernierePartieMulti.ordre_tours || [];
         const idxActuel = ordre.indexOf(JOUEUR_ID);
-        const { ordre_tours, tour_index, tour_actuel } = resoudreProchainTour(dernierePartieMulti, idxActuel, { id: JOUEUR_ID, termine: true });
+        const { ordre_tours, tour_index, tour_actuel, nouveauRound } = resoudreProchainTour(dernierePartieMulti, idxActuel, { id: JOUEUR_ID, termine: true });
         const refPartie = dbRef.ref('parties/' + codePartieActuelle);
         if (tour_actuel !== JOUEUR_ID) {
           await refPartie.update({
             ordre_tours,
             tour_index,
             tour_actuel,
+            round_actuel: nouveauRound ? (dernierePartieMulti.round_actuel || 1) + 1 : (dernierePartieMulti.round_actuel || 1),
             tour_fin_a: dernierePartieMulti.duree_tour_ms ? Date.now() + dernierePartieMulti.duree_tour_ms : null
           });
         }
@@ -589,7 +606,10 @@ function surMiseAJourPartie(partie) {
   }
 
   if (partie.statut === 'en_cours' && partie.tour_actuel !== dernierTourJoueurId) {
-    if (dernierTourJoueurId !== null && partie.tour_actuel === JOUEUR_ID) jouerSonTonTour();
+    if (dernierTourJoueurId !== null && partie.tour_actuel === JOUEUR_ID) {
+      jouerSonTonTour();
+      afficherIndicateurTonTour(partie.mode_pro ? (partie.round_actuel || 1) : null);
+    }
     dernierTourJoueurId = partie.tour_actuel;
   }
 
@@ -1039,12 +1059,12 @@ function resoudreProchainTour(partie, idxDepart, surchargeLocale) {
   // idxSuivant <= idxDepart (au lieu d'avancer normalement) signale qu'on a
   // boucle jusqu'au bout de l'ordre courant : un nouveau round commence.
   if (!partie.mode_pro || idxSuivant > idxDepart) {
-    return { ordre_tours: ordreActuel, tour_index: idxSuivant, tour_actuel: ordreActuel[idxSuivant] };
+    return { ordre_tours: ordreActuel, tour_index: idxSuivant, tour_actuel: ordreActuel[idxSuivant], nouveauRound: false };
   }
   const nouvelOrdre = melanger(ordreActuel);
   const partieNouvelOrdre = { ...partie, ordre_tours: nouvelOrdre };
   const idxDebut = prochainIndexActif(partieNouvelOrdre, -1, surchargeLocale);
-  return { ordre_tours: nouvelOrdre, tour_index: idxDebut, tour_actuel: nouvelOrdre[idxDebut] };
+  return { ordre_tours: nouvelOrdre, tour_index: idxDebut, tour_actuel: nouvelOrdre[idxDebut], nouveauRound: true };
 }
 
 /* Relit l'etat le plus frais depuis Firebase avant d'ecrire (defensif contre
@@ -1094,7 +1114,7 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
 
   const ordre = partie.ordre_tours || [];
   const idxActuel = ordre.indexOf(JOUEUR_ID);
-  const { ordre_tours: ordreToursSuivant, tour_index: prochainIndex, tour_actuel: prochainJoueur } =
+  const { ordre_tours: ordreToursSuivant, tour_index: prochainIndex, tour_actuel: prochainJoueur, nouveauRound } =
     resoudreProchainTour(partie, idxActuel, { id: JOUEUR_ID, termine: jeSuisTermine });
 
   let premierFini = partie.premier_fini || null;
@@ -1116,6 +1136,7 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
     ordre_tours: ordreToursSuivant,
     tour_index: prochainIndex,
     tour_actuel: prochainJoueur,
+    round_actuel: nouveauRound ? (partie.round_actuel || 1) + 1 : (partie.round_actuel || 1),
     tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null,
     statut: tousTermines ? 'termine' : 'en_cours'
   };
@@ -1240,13 +1261,14 @@ async function passerTourParTimeout() {
   const ordre = partie.ordre_tours || [];
   const idxActuel = ordre.indexOf(partie.tour_actuel);
   if (idxActuel === -1) return;
-  const { ordre_tours, tour_index, tour_actuel } = resoudreProchainTour(partie, idxActuel);
+  const { ordre_tours, tour_index, tour_actuel, nouveauRound } = resoudreProchainTour(partie, idxActuel);
   const cetaitMonTour = partie.tour_actuel === JOUEUR_ID;
 
   await refPartie.update({
     ordre_tours,
     tour_index,
     tour_actuel,
+    round_actuel: nouveauRound ? (partie.round_actuel || 1) + 1 : (partie.round_actuel || 1),
     tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null
   });
 
