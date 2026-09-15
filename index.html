@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Timeline">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="style.css?v=42">
+<link rel="stylesheet" href="style.css?v=43">
 </head>
 <body>
 
@@ -191,6 +191,11 @@
             <span>cartes à réussir chacun</span>
           </div>
 
+          <label class="lobby-parametres-label-suivant">Mode Pro</label>
+          <div class="lobby-mode-pro-ligne">
+            <button type="button" class="btn-mode-pro" id="btn-mode-pro">Ordre des tours retiré au sort à chaque round</button>
+          </div>
+
           <div class="lobby-filtres ouverte">
             <div class="lobby-filtres-titre-ligne">
               <button type="button" class="lobby-filtres-titre-toggle">
@@ -282,6 +287,7 @@
       <div class="derniere-carte-multi" id="derniere-carte-multi" hidden>
         <span class="derniere-carte-label">Dernière carte jouée</span>
         <span class="derniere-carte-titre" id="derniere-carte-titre">—</span>
+        <span class="derniere-carte-joueur" id="derniere-carte-joueur"></span>
       </div>
 
       <div class="timeline-wrapper">
@@ -370,11 +376,11 @@
 </div>
 
 <script src="cartes.js?v=16"></script>
-<script src="script.js?v=27"></script>
+<script src="script.js?v=28"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=20"></script>
+<script src="multi.js?v=21"></script>
 <script src="admin.js?v=1"></script>
 <script>
 if ('serviceWorker' in navigator) {

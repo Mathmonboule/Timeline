@@ -305,6 +305,34 @@ body {
   color: #7fc4ff;
 }
 .lobby-mode-longueur-boutons + .lobby-duree-ligne { margin-top: 8px; }
+.lobby-mode-pro-ligne { display: flex; }
+.btn-mode-pro {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.3;
+  flex: 1;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.btn-mode-pro:hover { background: rgba(255, 255, 255, 0.16); }
+.btn-mode-pro.actif {
+  background: rgba(212, 175, 55, 0.22);
+  border-color: rgba(212, 175, 55, 0.6);
+  color: #f0d78c;
+}
+.btn-mode-pro::before {
+  content: '☐ ';
+}
+.btn-mode-pro.actif::before {
+  content: '☑ ';
+}
 .btn-demarrer-partie {
   border: none;
   border-radius: 10px;
@@ -706,6 +734,7 @@ body {
 .derniere-carte-multi:not([hidden]) { display: flex; }
 .derniere-carte-label { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
 .derniere-carte-titre { font-size: 13px; font-weight: bold; text-align: center; }
+.derniere-carte-joueur { font-size: 11.5px; opacity: 0.65; font-style: italic; white-space: nowrap; }
 .main-joueur.pas-mon-tour { opacity: 0.5; filter: grayscale(0.4); }
 @keyframes distributionCartes {
   0% { transform: translateY(30px) scale(0.85); opacity: 0; }
@@ -1463,8 +1492,22 @@ body {
   }
   .lobby { left: 0; right: auto; border-right: none; }
   .lobby.replie { left: -84vw; }
-  .inspecteur { right: 0; left: auto; border-left: none; }
-  .inspecteur.replie { right: -84vw; }
+  /* L'inspecteur de carte prend quasiment tout l'ecran sur mobile (au lieu
+     de partager la meme largeur que le lobby) : plus facile a lire, et
+     texte agrandi ci-dessous (voir .inspecteur-contenu). */
+  .inspecteur { right: 0; left: auto; border-left: none; width: 96vw; max-width: 520px; }
+  .inspecteur.replie { right: -96vw; }
+
+  /* Texte agrandi dans l'inspecteur sur mobile (panneau bien plus large
+     desormais, autant en profiter pour mieux lire). */
+  .inspecteur h2 { font-size: 14px; }
+  .carte-grande .titre-grand { font-size: 18px; }
+  .carte-grande .date-grand { font-size: 21px; }
+  .badge-fiabilite, .badge-difficulte { font-size: 13px; padding: 7px 16px; }
+  .info-bloc { font-size: 15px; line-height: 1.55; padding: 14px 16px; }
+  .info-bloc-titre { font-size: 11.5px; }
+  .lien-externe { font-size: 14px; padding: 8px 10px; }
+  .placeholder-inspecteur { font-size: 15px; }
 
   .lobby.replie .lobby-contenu,
   .inspecteur.replie .inspecteur-contenu {
@@ -1556,6 +1599,7 @@ body {
   .derniere-carte-multi { padding: 4px 10px; margin: 0 auto 3px; gap: 2px 6px; }
   .derniere-carte-label { font-size: 8.5px; }
   .derniere-carte-titre { font-size: 11.5px; }
+  .derniere-carte-joueur { font-size: 10px; }
 }
 
 @media (max-width: 420px) {

@@ -1062,6 +1062,34 @@ document.getElementById('btn-toggle-lobby').addEventListener('click', () => {
   document.getElementById('lobby').classList.toggle('replie');
 });
 
+/* ================= FERMER L'INSPECTEUR PAR GLISSEMENT (mobile) =================
+   Sur mobile, l'inspecteur glisse par-dessus le jeu depuis la droite : on
+   peut donc aussi le repousser hors de l'ecran en balayant de gauche a
+   droite pour le refermer, en plus du bouton rond. Uniquement sur mobile
+   (< 860px, meme seuil que la mise en page en panneaux superposes) : sur
+   bureau l'inspecteur est une colonne fixe, un simple clic-glisser dessus
+   ne doit pas le fermer par accident. */
+(function initFermetureInspecteurParGlissement() {
+  const inspecteur = document.getElementById('inspecteur');
+  if (!inspecteur) return;
+  let origine = null;
+  inspecteur.addEventListener('pointerdown', (e) => {
+    origine = { x: e.clientX, y: e.clientY, t: Date.now() };
+  });
+  inspecteur.addEventListener('pointerup', (e) => {
+    if (!origine) return;
+    const dx = e.clientX - origine.x;
+    const dy = e.clientY - origine.y;
+    const dt = Date.now() - origine.t;
+    origine = null;
+    if (window.innerWidth > 860) return;
+    if (dx > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dt < 700) {
+      inspecteur.classList.add('replie');
+    }
+  });
+  inspecteur.addEventListener('pointercancel', () => { origine = null; });
+})();
+
 /* ================= MISE EN PAGE MOBILE =================
    Sur petit ecran, lobby et inspecteur passent en panneaux superposes
    (voir media query dans style.css) : on les demarre fermes pour laisser

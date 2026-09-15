@@ -122,6 +122,8 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   document.getElementById('btn-mode-cible').classList.add('actif');
   document.getElementById('btn-mode-illimite').classList.remove('actif');
   document.getElementById('lobby-cible-ligne').hidden = false;
+  modeProActif = false;
+  document.getElementById('btn-mode-pro').classList.remove('actif');
   filtresMultiActifs = new Set(FAMILLES_PAR_DEFAUT);
   filtresDifficulteMultiActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
@@ -217,6 +219,16 @@ document.getElementById('btn-rejoindre-partie').addEventListener('click', async 
 
 /* ================= ENTREE DANS LE LOBBY (creation ou jonction) ================= */
 function entrerDansLobbyMulti(code, hote) {
+  // Si un AUTRE salon avait encore son listener attache (l'utilisateur
+  // rejoint une nouvelle partie sans etre passe par "Quitter la partie" --
+  // retour accueil, PWA relancee apres avoir ete en arriere-plan, etc.), on
+  // le detache : sinon il continue de tourner en tache de fond et peut
+  // ecraser l'affichage de la NOUVELLE partie avec des donnees de
+  // l'ancienne (ex: "derniere carte jouee" restee bloquee sur la partie
+  // precedente).
+  if (codePartieActuelle && codePartieActuelle !== code) {
+    dbRef.ref('parties/' + codePartieActuelle).off();
+  }
   codePartieActuelle = code;
   estHote = hote;
   modeActuel = 'multi';
@@ -225,6 +237,11 @@ function entrerDansLobbyMulti(code, hote) {
   multiSpectateJoueurId = null;
   dernierTourJoueurId = null;
   dernierCarteRepereVue = null;
+  // Memorise le salon actif : permet de le retrouver automatiquement si la
+  // page est rechargee/relancee (mise en arriere-plan prolongee sur mobile,
+  // notamment iOS, qui peut vider la memoire JS de l'onglet) -- voir
+  // tenterReprisePartieMulti() plus bas dans ce fichier.
+  try { localStorage.setItem('timeline_partie_code', code); } catch (e) {}
 
   document.getElementById('lobby-mode-badge').textContent = 'Partie multijoueur';
   document.getElementById('btn-nouvelle-partie').hidden = true;
@@ -381,6 +398,16 @@ document.getElementById('btn-mode-cible').addEventListener('click', () => {
   document.getElementById('lobby-cible-ligne').hidden = false;
 });
 
+/* Mode Pro (hote uniquement, multijoueur seulement) : desactive par defaut.
+   Voir resoudreProchainTour plus bas pour la mecanique (ordre des tours
+   entierement retire au sort a chaque nouveau round, pour qu'aucun joueur
+   ne beneficie d'un avantage a etre toujours place tot dans la rotation). */
+let modeProActif = false;
+document.getElementById('btn-mode-pro').addEventListener('click', () => {
+  modeProActif = !modeProActif;
+  document.getElementById('btn-mode-pro').classList.toggle('actif', modeProActif);
+});
+
 /* Distribue une nouvelle manche a la partie en cours : reutilise le meme
    salon/code/joueurs, mais remet a zero timeline/mains/pioche/scores. Sert
    au demarrage initial (bouton "Demarrer") ET a "Nouvelle partie" (rejouer
@@ -426,6 +453,7 @@ async function lancerNouvelleManche() {
     duree_tour_ms: dureeTourMs,
     tour_fin_a: dureeTourMs ? Date.now() + dureeTourMs : null,
     mode_longueur: modeLongueurChoisi,
+    mode_pro: modeProActif,
     cible_cartes: cibleCartes,
     familles_actives: source === pool ? Array.from(filtresMultiActifs) : null,
     difficultes_actives: source === pool ? Array.from(filtresDifficulteMultiActifs) : null,
@@ -435,7 +463,8 @@ async function lancerNouvelleManche() {
     mains,
     erreurs: Object.fromEntries(ids.map((id) => [id, []])),
     premier_fini: null,
-    derniere_carte_jouee: null
+    derniere_carte_jouee: null,
+    derniere_carte_joueur: null
   };
   ids.forEach((id) => {
     maj[`joueurs/${id}/nb_cartes`] = mains[id].length;
@@ -459,12 +488,13 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
       if (dernierePartieMulti && dernierePartieMulti.statut === 'en_cours' && dernierePartieMulti.tour_actuel === JOUEUR_ID) {
         const ordre = dernierePartieMulti.ordre_tours || [];
         const idxActuel = ordre.indexOf(JOUEUR_ID);
-        const prochainIndex = prochainIndexActif(dernierePartieMulti, idxActuel, { id: JOUEUR_ID, termine: true });
+        const { ordre_tours, tour_index, tour_actuel } = resoudreProchainTour(dernierePartieMulti, idxActuel, { id: JOUEUR_ID, termine: true });
         const refPartie = dbRef.ref('parties/' + codePartieActuelle);
-        if (ordre[prochainIndex] !== JOUEUR_ID) {
+        if (tour_actuel !== JOUEUR_ID) {
           await refPartie.update({
-            tour_index: prochainIndex,
-            tour_actuel: ordre[prochainIndex],
+            ordre_tours,
+            tour_index,
+            tour_actuel,
             tour_fin_a: dernierePartieMulti.duree_tour_ms ? Date.now() + dernierePartieMulti.duree_tour_ms : null
           });
         }
@@ -474,6 +504,7 @@ document.getElementById('btn-quitter-partie').addEventListener('click', async ()
     dbRef.ref('parties/' + codePartieActuelle).off();
   }
   arreterTimerMulti();
+  try { localStorage.removeItem('timeline_partie_code'); } catch (e) {}
   codePartieActuelle = null;
   estHote = false;
   modeActuel = 'solo';
@@ -610,6 +641,9 @@ function surMiseAJourPartie(partie) {
 
   if (partie.statut === 'termine') {
     arreterTimerMulti();
+    // Partie finie : plus besoin d'y revenir automatiquement si la page est
+    // rechargee (voir tenterReprisePartieMulti).
+    try { localStorage.removeItem('timeline_partie_code'); } catch (e) {}
     document.getElementById('multi-tour-banner').hidden = true;
     // Une fois la partie terminee, plus personne n'est "en train de regarder
     // la main de X pendant son tour" : sans ca, ce badge (et le texte perime
@@ -989,6 +1023,30 @@ function prochainIndexActif(partie, idxDepart, surchargeLocale) {
   return idxDepart;
 }
 
+/* ================= MODE PRO (ordre des tours retire au sort a chaque round) =================
+   En mode normal, ordre_tours est fixe pour toute la manche : ca avantage
+   legerement les joueurs places tot dans cet ordre (plus de chances de finir
+   leur main en premier). En Mode Pro, des qu'un round complet vient de se
+   terminer (tous les joueurs actifs ont joue une fois dans l'ordre en
+   cours), on retire entierement l'ordre au sort avant de reprendre pour le
+   round suivant -- meme mecanique de jeu, mais plus equitable sur la duree
+   de la partie. Enveloppe prochainIndexActif : ne change rien en mode
+   normal, ne fait que decider QUAND et COMMENT re-tirer l'ordre au sort en
+   mode pro. */
+function resoudreProchainTour(partie, idxDepart, surchargeLocale) {
+  const ordreActuel = partie.ordre_tours || [];
+  const idxSuivant = prochainIndexActif(partie, idxDepart, surchargeLocale);
+  // idxSuivant <= idxDepart (au lieu d'avancer normalement) signale qu'on a
+  // boucle jusqu'au bout de l'ordre courant : un nouveau round commence.
+  if (!partie.mode_pro || idxSuivant > idxDepart) {
+    return { ordre_tours: ordreActuel, tour_index: idxSuivant, tour_actuel: ordreActuel[idxSuivant] };
+  }
+  const nouvelOrdre = melanger(ordreActuel);
+  const partieNouvelOrdre = { ...partie, ordre_tours: nouvelOrdre };
+  const idxDebut = prochainIndexActif(partieNouvelOrdre, -1, surchargeLocale);
+  return { ordre_tours: nouvelOrdre, tour_index: idxDebut, tour_actuel: nouvelOrdre[idxDebut] };
+}
+
 /* Relit l'etat le plus frais depuis Firebase avant d'ecrire (defensif contre
    un decalage local), puis avance le tour vers le prochain joueur qui a
    encore des cartes a jouer. */
@@ -1036,7 +1094,8 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
 
   const ordre = partie.ordre_tours || [];
   const idxActuel = ordre.indexOf(JOUEUR_ID);
-  const prochainIndex = prochainIndexActif(partie, idxActuel, { id: JOUEUR_ID, termine: jeSuisTermine });
+  const { ordre_tours: ordreToursSuivant, tour_index: prochainIndex, tour_actuel: prochainJoueur } =
+    resoudreProchainTour(partie, idxActuel, { id: JOUEUR_ID, termine: jeSuisTermine });
 
   let premierFini = partie.premier_fini || null;
   if (!premierFini && jeSuisTermine) premierFini = JOUEUR_ID;
@@ -1054,8 +1113,9 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
     [`joueurs/${JOUEUR_ID}/nb_erreurs`]: erreurs.length,
     [`joueurs/${JOUEUR_ID}/cartes_correctes`]: cartesCorrectes,
     premier_fini: premierFini,
+    ordre_tours: ordreToursSuivant,
     tour_index: prochainIndex,
-    tour_actuel: ordre[prochainIndex],
+    tour_actuel: prochainJoueur,
     tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null,
     statut: tousTermines ? 'termine' : 'en_cours'
   };
@@ -1063,7 +1123,10 @@ async function appliquerResolutionTour(correct, carte, indexResolu) {
   // pas deduire "la derniere carte jouee" de son dernier element, d'ou ce
   // champ dedie (mis a jour uniquement sur un placement correct, puisque
   // seules les cartes justes rejoignent la timeline).
-  if (correct) maj.derniere_carte_jouee = carte.id;
+  if (correct) {
+    maj.derniere_carte_jouee = carte.id;
+    maj.derniere_carte_joueur = JOUEUR_ID;
+  }
 
   await refPartie.update(maj);
 }
@@ -1127,16 +1190,30 @@ function majBanniereTour(partie, restant) {
   const ordre = partie.ordre_tours || [];
   const idxActuel = ordre.indexOf(partie.tour_actuel);
   const idxSuivant = prochainIndexActif(partie, idxActuel);
-  const idSuivant = ordre[idxSuivant];
-  const estMemeJoueur = idSuivant === partie.tour_actuel;
-  const joueurSuivant = (partie.joueurs || {})[idSuivant];
-  nomSuivant.textContent = estMemeJoueur ? '—' : (idSuivant === JOUEUR_ID ? 'toi' : ((joueurSuivant && joueurSuivant.pseudo) || '…'));
+  // En Mode Pro, un nouveau round (idxSuivant <= idxActuel) retire l'ordre au
+  // sort au moment ou il commence reellement -- impossible de predire ici
+  // qui jouera ensuite sans "consommer" un tirage aleatoire different de
+  // celui qui aura vraiment lieu, d'ou le "?" plutot qu'un nom devine.
+  if (partie.mode_pro && idxSuivant <= idxActuel) {
+    nomSuivant.textContent = '?';
+  } else {
+    const idSuivant = ordre[idxSuivant];
+    const estMemeJoueur = idSuivant === partie.tour_actuel;
+    const joueurSuivant = (partie.joueurs || {})[idSuivant];
+    nomSuivant.textContent = estMemeJoueur ? '—' : (idSuivant === JOUEUR_ID ? 'toi' : ((joueurSuivant && joueurSuivant.pseudo) || '…'));
+  }
 
   const derniereCarteZone = document.getElementById('derniere-carte-multi');
   const derniereCarteTitre = document.getElementById('derniere-carte-titre');
+  const derniereCarteJoueur = document.getElementById('derniere-carte-joueur');
   const derniereCarte = partie.derniere_carte_jouee != null ? CARTE_PAR_ID[partie.derniere_carte_jouee] : null;
   derniereCarteZone.hidden = !derniereCarte;
-  if (derniereCarte) derniereCarteTitre.textContent = derniereCarte.titre;
+  if (derniereCarte) {
+    derniereCarteTitre.textContent = derniereCarte.titre;
+    const idJoueurCarte = partie.derniere_carte_joueur;
+    const pseudoJoueurCarte = idJoueurCarte === JOUEUR_ID ? 'toi' : (((partie.joueurs || {})[idJoueurCarte] || {}).pseudo || null);
+    derniereCarteJoueur.textContent = pseudoJoueurCarte ? `par ${pseudoJoueurCarte}` : '';
+  }
   if (restant !== null) compte.textContent = restant + 's';
 }
 
@@ -1163,12 +1240,13 @@ async function passerTourParTimeout() {
   const ordre = partie.ordre_tours || [];
   const idxActuel = ordre.indexOf(partie.tour_actuel);
   if (idxActuel === -1) return;
-  const prochainIndex = prochainIndexActif(partie, idxActuel);
+  const { ordre_tours, tour_index, tour_actuel } = resoudreProchainTour(partie, idxActuel);
   const cetaitMonTour = partie.tour_actuel === JOUEUR_ID;
 
   await refPartie.update({
-    tour_index: prochainIndex,
-    tour_actuel: ordre[prochainIndex],
+    ordre_tours,
+    tour_index,
+    tour_actuel,
     tour_fin_a: partie.duree_tour_ms ? Date.now() + partie.duree_tour_ms : null
   });
 
@@ -1219,3 +1297,31 @@ function afficherEcranFinMulti(partie) {
     document.getElementById('btn-quitter-partie').click();
   });
 }
+
+/* ================= REPRISE AUTOMATIQUE D'UNE PARTIE EN COURS =================
+   Sur mobile (surtout iOS, en PWA installee comme en onglet Safari), mettre
+   l'app en arriere-plan un moment -- ou juste changer d'app -- peut faire
+   perdre tout l'etat JS en memoire : l'OS decharge la page, et a la reprise
+   c'est un chargement tout neuf. Sans rien pour s'en souvenir, l'utilisateur
+   se retrouve "ejecte" de sa partie alors qu'elle tourne toujours cote
+   Firebase -- exactement le bug remonte ("je quitte l'appli et ca me
+   deconnecte directement de la partie"). On memorise donc le code du salon
+   actif dans localStorage (voir entrerDansLobbyMulti) et on tente de le
+   retrouver automatiquement a chaque chargement de page. */
+async function tenterReprisePartieMulti() {
+  if (!dbRef) return;
+  let code;
+  try { code = localStorage.getItem('timeline_partie_code'); } catch (e) { return; }
+  if (!code) return;
+  try {
+    const snap = await dbRef.ref('parties/' + code).get();
+    const partie = snap.val();
+    const moi = partie && (partie.joueurs || {})[JOUEUR_ID];
+    if (!partie || partie.statut === 'termine' || !moi) {
+      try { localStorage.removeItem('timeline_partie_code'); } catch (e) {}
+      return;
+    }
+    entrerDansLobbyMulti(code, !!moi.hote);
+  } catch (e) { /* pas grave : l'utilisateur repartira simplement de l'accueil */ }
+}
+tenterReprisePartieMulti();
