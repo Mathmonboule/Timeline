@@ -1458,6 +1458,13 @@ function ouvrirModalCarte(carte) {
   if (typeof adminActif !== 'undefined' && adminActif && typeof construireFormulaireAdminHTML === 'function') {
     document.getElementById('frise-modal-contenu').innerHTML = construireFormulaireAdminHTML(carte, false);
     document.getElementById('frise-modal').hidden = false;
+    // La carte peut deja afficher une image via le repli automatique
+    // (images/ ou images-claude/, cf. candidatsImage) sans que l'admin ait
+    // jamais rien televerse : on la retrouve et on la pre-remplit dans la
+    // liste, pour que l'admin la voie et puisse la completer/reordonner au
+    // lieu de partir d'une liste vide qui laisserait croire qu'il n'y a
+    // rien. Asynchrone (sondage du systeme de fichiers), voir admin.js.
+    if (typeof completerImagesExistantesAdmin === 'function') completerImagesExistantesAdmin(carte);
     return;
   }
   document.getElementById('frise-modal-contenu').innerHTML = construireDetailCarteHTML(carte, true);

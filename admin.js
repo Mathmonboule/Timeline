@@ -185,6 +185,35 @@ function lireImagesFormulaireAdmin() {
   return Array.from(document.querySelectorAll('.admin-image-ligne')).map((ligne) => ligne.dataset.url);
 }
 
+/* Beaucoup de cartes affichent deja une image sans qu'aucun admin n'ait
+   jamais rien televerse : le repli automatique de candidatsImage() (voir
+   script.js) sert un fichier images/id-<id>.* ou images-claude/id-<id>.*
+   directement depuis le depot, sans jamais passer par carte.images. Sans
+   ceci, le formulaire s'ouvrait avec une liste vide meme quand la carte a
+   deja une (ou deux) illustrations bien visibles dans le jeu -- l'admin ne
+   pouvait alors qu'en AJOUTER une, jamais retoucher celle en place. On
+   sonde donc ici le systeme de fichiers (comme le fait deja l'inspecteur
+   pour ses fleches de navigation) et on pre-remplit la liste si l'admin
+   n'a pas deja sa propre liste ordonnee (sinon on melangerait deux
+   systemes concurrents pour rien). */
+async function completerImagesExistantesAdmin(carte) {
+  if (Array.isArray(carte.images) && carte.images.length > 0) return;
+  const [urlPerso, urlClaude] = await Promise.all([
+    trouverImageDansDossier(carte.id, 'images'),
+    trouverImageDansDossier(carte.id, 'images-claude'),
+  ]);
+  // Le formulaire peut avoir ete ferme (ou celui d'une AUTRE carte ouvert)
+  // pendant l'attente : on abandonne plutot que de polluer le mauvais
+  // formulaire, ou un formulaire disparu.
+  const liste = document.getElementById('admin-images-liste');
+  if (!liste) return;
+  const form = liste.closest('form');
+  if (!form || Number(form.dataset.carteId) !== carte.id) return;
+  [urlPerso, urlClaude].filter(Boolean).forEach((url) => {
+    liste.insertAdjacentHTML('beforeend', construireLigneImageAdminHTML(url));
+  });
+}
+
 function construireFormulaireAdminHTML(carte, estNouvelle) {
   const liens = carte.liens || [];
   // Compat : une carte editee avant l'ajout du multi-images n'a qu'un seul
@@ -194,7 +223,7 @@ function construireFormulaireAdminHTML(carte, estNouvelle) {
     : (carte.image && /^(data:|https?:\/\/)/.test(carte.image) ? [carte.image] : []);
   const idAttr = estNouvelle ? 'null' : carte.id;
   return `
-    <form class="formulaire-admin" onsubmit="return soumettreFormulaireAdmin(event, ${idAttr}, ${estNouvelle ? 'true' : 'false'})">
+    <form class="formulaire-admin" data-carte-id="${idAttr}" onsubmit="return soumettreFormulaireAdmin(event, ${idAttr}, ${estNouvelle ? 'true' : 'false'})">
       <h3>${estNouvelle ? 'Nouvelle carte' : `Modifier « ${echapperAttributAdmin(carte.titre)} »`}</h3>
       <div class="admin-champ">
         <label>Titre</label>
