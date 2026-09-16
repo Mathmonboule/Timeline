@@ -404,8 +404,17 @@ function jouerSonTonTour() {
    tourne) apparait au centre de l'ecran des que c'est reellement notre
    tour, en plus du petit carillon sonore existant (jouerSonTonTour). En
    Mode Pro, precise aussi le numero du round en cours. */
-function indicateurTourActif() {
-  try { return localStorage.getItem('timeline_indicateur_tour') === '1'; } catch (e) { return false; }
+// Etat garde en memoire (pas seulement relu depuis localStorage a chaque
+// appel) : si l'ecriture localStorage echoue silencieusement (mode prive,
+// stockage plein, etc.), le bouton se serait affiche "actif" sans que la
+// preference soit reellement enregistree, et l'animation n'aurait alors
+// jamais pu se declencher malgre un bouton visuellement coche.
+let indicateurTourEtat = false;
+try { indicateurTourEtat = localStorage.getItem('timeline_indicateur_tour') === '1'; } catch (e) {}
+function indicateurTourActif() { return indicateurTourEtat; }
+function definirIndicateurTour(actif) {
+  indicateurTourEtat = actif;
+  try { localStorage.setItem('timeline_indicateur_tour', actif ? '1' : '0'); } catch (e) {}
 }
 function afficherIndicateurTonTour(numeroRound) {
   if (!indicateurTourActif()) return;

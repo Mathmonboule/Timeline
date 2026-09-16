@@ -418,7 +418,7 @@ document.getElementById('btn-mode-pro').addEventListener('click', () => {
   btn.classList.toggle('actif', indicateurTourActif());
   btn.addEventListener('click', () => {
     const actif = !indicateurTourActif();
-    try { localStorage.setItem('timeline_indicateur_tour', actif ? '1' : '0'); } catch (e) {}
+    definirIndicateurTour(actif);
     btn.classList.toggle('actif', actif);
   });
 })();

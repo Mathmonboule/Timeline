@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Timeline">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="style.css?v=45">
+<link rel="stylesheet" href="style.css?v=46">
 </head>
 <body>
 
@@ -173,10 +173,6 @@
         </div>
         <div class="lobby-joueurs-liste" id="lobby-joueurs-liste"></div>
 
-        <div class="lobby-pref-perso-ligne">
-          <button type="button" class="btn-mode-pro" id="btn-indicateur-tour">Indicateur de tour (animation + son quand c'est à toi)</button>
-        </div>
-
         <div class="lobby-parametres" id="lobby-parametres" hidden>
           <label for="multi-duree-tour">Temps par tour</label>
           <div class="lobby-duree-ligne">
@@ -195,9 +191,13 @@
             <span>cartes à réussir chacun</span>
           </div>
 
-          <label class="lobby-parametres-label-suivant">Mode Pro</label>
-          <div class="lobby-mode-pro-ligne">
-            <button type="button" class="btn-mode-pro" id="btn-mode-pro">Ordre des tours retiré au sort à chaque round</button>
+          <div class="lobby-pref-ligne">
+            <button type="button" class="btn-pref-toggle" id="btn-indicateur-tour">Indicateur de tour</button>
+            <p class="lobby-pref-desc">(animation et son quand c'est à toi de jouer)</p>
+          </div>
+          <div class="lobby-pref-ligne">
+            <button type="button" class="btn-pref-toggle" id="btn-mode-pro">Mode Pro</button>
+            <p class="lobby-pref-desc">(l'ordre des tours est retiré au sort à chaque round)</p>
           </div>
 
           <div class="lobby-filtres ouverte">
@@ -381,11 +381,11 @@
 </div>
 
 <script src="cartes.js?v=16"></script>
-<script src="script.js?v=30"></script>
+<script src="script.js?v=31"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=22"></script>
+<script src="multi.js?v=23"></script>
 <script src="admin.js?v=1"></script>
 <script>
 if ('serviceWorker' in navigator) {
