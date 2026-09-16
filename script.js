@@ -1298,16 +1298,20 @@ function etiquetteEreLarge(date) {
   if (date < 2040) return 'XXIe siècle';
   return 'Futur';
 }
+// Palette volontairement sourde/desaturee (plutot qu'un arc-en-ciel vif) :
+// chaque teinte reste distincte tout en restant credible sur le fond bleu
+// nuit de l'appli (#0f3460/#1a1a2e), du bleu-acier le plus ancien jusqu'au
+// rose le plus recent, en passant par le violet.
 const PALETTE_ERES_LARGE = {
-  'Avant la Préhistoire': '#6b4226',
-  'Préhistoire': '#8a6d3b',
-  'Antiquité': '#c9a227',
-  'Moyen Âge': '#7d5ba6',
-  'Renaissance & Temps modernes': '#4a7dbd',
-  'XIXe siècle': '#3aa6a6',
-  'XXe siècle': '#e0663d',
-  'XXIe siècle': '#e0417d',
-  'Futur': '#2ecc71'
+  'Avant la Préhistoire': '#3a5a7a',
+  'Préhistoire': '#3d6e85',
+  'Antiquité': '#3f8383',
+  'Moyen Âge': '#5c7ab8',
+  'Renaissance & Temps modernes': '#6c74c9',
+  'XIXe siècle': '#8570c9',
+  'XXe siècle': '#a86fc0',
+  'XXIe siècle': '#c66fa0',
+  'Futur': '#4fae9e'
 };
 
 // Nombre de cartes empilees par colonne dans la grille "bureau" de la
@@ -1357,22 +1361,44 @@ function construireBarrePeriodes(segments, totalColonnes) {
   barre.innerHTML = '';
 
   const scrollZone = document.getElementById('frise-scroll');
-  segments.forEach((seg) => {
-    const el = document.createElement('div');
-    el.className = 'frise-periode-segment';
-    el.style.flexGrow = seg.colonnes;
-    el.style.setProperty('--couleur-periode', PALETTE_ERES_LARGE[seg.ere] || '#555');
-    el.innerHTML = `
-      <span class="frise-periode-nom">${seg.ere}</span>
-      <span class="frise-periode-dates">${formaterDate(seg.debut)} — ${formaterDate(seg.fin)}</span>
-    `;
-    // Clic sur un segment : saute directement au debut de cette periode,
+  const vueFrise = document.getElementById('vue-frise');
+
+  // Fine ligne degradee (couleurs des periodes, dans l'ordre) plutot qu'une
+  // succession de gros blocs colores -- le degrade fait deja sentir la
+  // progression chronologique sans surcharger l'oeil.
+  const ligne = document.createElement('div');
+  ligne.className = 'frise-periode-ligne';
+  ligne.style.background = `linear-gradient(90deg, ${segments.map((s) => PALETTE_ERES_LARGE[s.ere] || '#555').join(', ')})`;
+  barre.appendChild(ligne);
+
+  segments.forEach((seg, index) => {
+    const positionPct = totalColonnes > 1 ? (seg.colonneDebut / totalColonnes) * 100 : 0;
+    const couleur = PALETTE_ERES_LARGE[seg.ere] || '#555';
+
+    const point = document.createElement('div');
+    point.className = 'frise-periode-point';
+    point.style.left = positionPct + '%';
+    point.style.setProperty('--couleur-periode', couleur);
+    point.title = `${seg.ere} (${formaterDate(seg.debut)} — ${formaterDate(seg.fin)})`;
+    // Clic sur un point : saute directement au debut de cette periode,
     // plutot que de devoir scroller manuellement jusque-la.
-    el.addEventListener('click', () => {
+    point.addEventListener('click', () => {
       const scrollable = scrollZone.scrollWidth - scrollZone.clientWidth;
       scrollZone.scrollLeft = totalColonnes > 1 ? (seg.colonneDebut / (totalColonnes - 1 || 1)) * scrollable : 0;
     });
-    barre.appendChild(el);
+    barre.appendChild(point);
+
+    const etiquette = document.createElement('div');
+    // Etiquettes decalees en quinconce (haut/bas en alternance) : les
+    // periodes les plus anciennes se suivent de tres pres (peu de cartes),
+    // sans ca leurs libelles se chevaucheraient horizontalement.
+    etiquette.className = 'frise-periode-etiquette' + (index % 2 === 1 ? ' frise-periode-etiquette--decalee' : '');
+    etiquette.style.left = positionPct + '%';
+    etiquette.innerHTML = `
+      <span class="frise-periode-nom">${seg.ere}</span>
+      <span class="frise-periode-dates">${formaterDate(seg.debut)} — ${formaterDate(seg.fin)}</span>
+    `;
+    barre.appendChild(etiquette);
   });
 
   const curseur = document.createElement('div');
@@ -1391,7 +1417,13 @@ function construireBarrePeriodes(segments, totalColonnes) {
     const fraction = scrollable > 0 ? scrollZone.scrollLeft / scrollable : 0;
     curseur.style.left = (fraction * 100) + '%';
     const seg = segmentPourColonne(fraction * (totalColonnes - 1));
-    curseur.style.background = PALETTE_ERES_LARGE[seg.ere] || '#fff';
+    const couleur = PALETTE_ERES_LARGE[seg.ere] || '#fff';
+    curseur.style.background = couleur;
+    // Le fond de la zone de cartes prend une TRES legere teinte de la
+    // couleur de la periode actuelle (degrade vers le bleu fonce habituel
+    // de l'appli) : un indice discret de "ou on en est" en plus du curseur
+    // lui-meme, sans jamais dominer visuellement les cartes.
+    if (vueFrise) vueFrise.style.setProperty('--couleur-periode-actuelle', couleur);
   }
   scrollZone.addEventListener('scroll', majCurseur, { passive: true });
   majCurseur();

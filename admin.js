@@ -102,6 +102,25 @@ function echapperAttributAdmin(texte) {
   return String(texte == null ? '' : texte).replace(/"/g, '&quot;');
 }
 
+/* Copie titre + description courte + contexte approfondi dans le
+   presse-papiers (les trois blocs separes par une ligne vide), pour coller
+   directement ce texte ailleurs (traduction, relecture, etc.) sans avoir a
+   selectionner/copier chaque champ un par un. */
+function copierTexteCarteAdmin(bouton) {
+  const titre = document.getElementById('admin-champ-titre').value.trim();
+  const courte = document.getElementById('admin-champ-courte').value.trim();
+  const longue = document.getElementById('admin-champ-longue').value.trim();
+  const texte = [titre, courte, longue].filter(Boolean).join('\n\n');
+  navigator.clipboard.writeText(texte).then(() => {
+    const original = bouton.textContent;
+    bouton.textContent = '✓ Copié !';
+    setTimeout(() => { bouton.textContent = original; }, 1500);
+  }).catch(() => {
+    bouton.textContent = '⚠️ Échec de la copie';
+    setTimeout(() => { bouton.textContent = '📋 Copier le texte (titre + descriptions)'; }, 1500);
+  });
+}
+
 function construireLigneLienAdminHTML(lien) {
   lien = lien || { type: 'wikipedia', label: '', url: '' };
   const options = ADMIN_LIENS_TYPES.map((t) => `<option value="${t}" ${t === lien.type ? 'selected' : ''}>${t}</option>`).join('');
@@ -225,6 +244,9 @@ function construireFormulaireAdminHTML(carte, estNouvelle) {
   return `
     <form class="formulaire-admin" data-carte-id="${idAttr}" onsubmit="return soumettreFormulaireAdmin(event, ${idAttr}, ${estNouvelle ? 'true' : 'false'})">
       <h3>${estNouvelle ? 'Nouvelle carte' : `Modifier « ${echapperAttributAdmin(carte.titre)} »`}</h3>
+      ${estNouvelle ? '' : `
+      <button type="button" class="btn-admin-copier-texte" id="btn-admin-copier-texte" onclick="copierTexteCarteAdmin(this)">📋 Copier le texte (titre + descriptions)</button>
+      `}
       <div class="admin-champ">
         <label>Titre</label>
         <input type="text" id="admin-champ-titre" required value="${echapperAttributAdmin(carte.titre)}">
