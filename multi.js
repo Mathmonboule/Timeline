@@ -48,6 +48,17 @@ let JOUEUR_ID = obtenirJoueurId();
 
 let codePartieActuelle = null;
 let estHote = false;
+// Pseudo utilise pour creer/rejoindre la partie active : conserve pour
+// pouvoir se re-inscrire automatiquement dans "joueurs" si cette fiche
+// venait a disparaitre en pleine partie (voir surMiseAJourPartie).
+let monPseudoActuel = '';
+// true pendant un depart volontaire (bouton "Quitter la partie") : le
+// listener Firebase peut recevoir la mise a jour reflettant NOTRE PROPRE
+// suppression de "joueurs" avant que .off() n'ait eu le temps de couper
+// l'ecoute -- sans ce garde-fou, le filet de securite de reinscription
+// automatique (voir surMiseAJourPartie) annulerait alors notre propre
+// depart volontaire.
+let enTrainDeQuitter = false;
 
 function genererCodePartie() {
   // Sans 0/O/1/I pour eviter les confusions a l'oral/a l'ecrit.
@@ -136,6 +147,7 @@ document.getElementById('btn-creer-partie').addEventListener('click', async () =
   if (!firebasePret()) return;
   cacherErreurMulti();
   const pseudo = pseudoSaisi();
+  monPseudoActuel = pseudo;
   const code = genererCodePartie();
   try {
     await dbRef.ref('parties/' + code).set({
@@ -157,6 +169,7 @@ document.getElementById('btn-rejoindre-partie').addEventListener('click', async 
   if (!firebasePret()) return;
   cacherErreurMulti();
   const pseudo = pseudoSaisi();
+  monPseudoActuel = pseudo;
   const code = document.getElementById('multi-code-input').value.trim().toUpperCase();
   if (code.length < 4) {
     afficherErreurMulti('Entre le code de la partie (5 caractères).');
@@ -231,6 +244,7 @@ function entrerDansLobbyMulti(code, hote) {
   }
   codePartieActuelle = code;
   estHote = hote;
+  enTrainDeQuitter = false;
   modeActuel = 'multi';
   enPartieMultiAnimeeDemarrage = false;
   premierFiniAnnonce = false;
@@ -496,6 +510,7 @@ document.getElementById('btn-nouvelle-partie-multi').addEventListener('click', l
 
 /* ================= QUITTER LA PARTIE ================= */
 document.getElementById('btn-quitter-partie').addEventListener('click', async () => {
+  enTrainDeQuitter = true;
   if (codePartieActuelle && dbRef) {
     try {
       // Si c'est mon tour au moment ou je pars, je le fais avancer moi-meme
@@ -595,14 +610,47 @@ function surMiseAJourPartie(partie) {
   // un autre appareil, cf. "Rejoindre une partie") et reprendre exactement
   // la ou il en etait, sans que quitter/rejoindre un AUTRE joueur ne
   // perturbe la partie pour tout le monde.
-  if (partie.statut !== dernierStatutOnDisconnect && codePartieActuelle) {
-    dernierStatutOnDisconnect = partie.statut;
+  if (codePartieActuelle) {
     const refMoi = dbRef.ref(`parties/${codePartieActuelle}/joueurs/${JOUEUR_ID}`);
     if (partie.statut === 'lobby') {
-      refMoi.onDisconnect().remove();
+      if (partie.statut !== dernierStatutOnDisconnect) {
+        refMoi.onDisconnect().remove();
+      }
     } else {
+      // Reaffirme le cancel() a CHAQUE snapshot recu (pas seulement au
+      // changement de statut) : .onDisconnect() est une ecriture reseau
+      // asynchrone comme une autre, et un unique appel pile au moment de la
+      // transition lobby -> en_cours pouvait ne pas avoir eu le temps
+      // d'etre acquitte par le serveur avant une deconnexion quasi
+      // immediate (app mise en arriere-plan) -- rejouer ce cancel() a
+      // chaque mise a jour (frequentes en pleine partie) ferme presque
+      // totalement cette fenetre de course. Operation locale au SDK, tres
+      // bon marche et idempotente, donc sans cout reel a la repeter.
       refMoi.onDisconnect().cancel();
     }
+    dernierStatutOnDisconnect = partie.statut;
+  }
+
+  // Filet de securite complementaire : si malgre tout notre fiche "joueurs"
+  // a disparu (onDisconnect qui a eu le temps de s'executer avant le
+  // cancel(), ou toute autre cause) alors qu'on est encore activement sur
+  // cette partie, on se re-inscrit automatiquement -- la main/les erreurs/
+  // la progression sont stockees a part (mains/erreurs/joueurs sont des
+  // chemins distincts) et ne sont donc pas affectees par la disparition de
+  // cette seule fiche. Garde enTrainDeQuitter : un depart volontaire
+  // (bouton "Quitter") peut faire recevoir a CE MEME listener la mise a
+  // jour reflettant notre propre suppression AVANT que .off() ne l'ait
+  // coupe -- sans ce garde-fou, on annulerait notre propre depart.
+  if (codePartieActuelle && !enTrainDeQuitter && partie.statut !== 'lobby' && !((partie.joueurs || {})[JOUEUR_ID])) {
+    dbRef.ref(`parties/${codePartieActuelle}/joueurs/${JOUEUR_ID}`).set({
+      pseudo: monPseudoActuel || 'Joueur',
+      hote: estHote,
+      rejoint_le: firebase.database.ServerValue.TIMESTAMP,
+      nb_cartes: ((partie.mains || {})[JOUEUR_ID] || []).length,
+      nb_erreurs: ((partie.erreurs || {})[JOUEUR_ID] || []).length,
+      cartes_correctes: 0
+    });
+    return;
   }
 
   if (partie.statut === 'en_cours' && partie.tour_actuel !== dernierTourJoueurId) {
@@ -1343,6 +1391,7 @@ async function tenterReprisePartieMulti() {
       try { localStorage.removeItem('timeline_partie_code'); } catch (e) {}
       return;
     }
+    monPseudoActuel = moi.pseudo || '';
     entrerDansLobbyMulti(code, !!moi.hote);
   } catch (e) { /* pas grave : l'utilisateur repartira simplement de l'accueil */ }
 }

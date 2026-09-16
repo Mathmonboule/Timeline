@@ -421,15 +421,16 @@ function afficherIndicateurTonTour(numeroRound) {
   const el = document.createElement('div');
   el.className = 'indicateur-tour';
   el.innerHTML = `
-    <img src="images/logo-vortex.svg?v=2" alt="">
-    ${numeroRound ? `<div class="indicateur-tour-round">Round ${numeroRound}</div>` : ''}
-    <div class="indicateur-tour-texte">À toi de jouer !</div>
+    <div class="indicateur-tour-tourbillon">
+      <img src="images/logo-vortex.svg?v=2" alt="">
+      <div class="indicateur-tour-texte">${numeroRound ? `<span class="indicateur-tour-round">Round ${numeroRound}</span>` : ''}À toi de jouer !</div>
+    </div>
   `;
   document.body.appendChild(el);
   setTimeout(() => {
     el.classList.add('indicateur-tour--fermeture');
-    setTimeout(() => el.remove(), 300);
-  }, 1300);
+    setTimeout(() => el.remove(), 200);
+  }, 900);
 }
 
 /* ================= UTILITAIRES ================= */
