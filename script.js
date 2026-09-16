@@ -488,10 +488,13 @@ function candidatsImage(carte) {
   const extensions = ['jpg', 'png', 'jpeg', 'webp'];
   const dossiers = ['images', 'images-claude'];
   const base = dossiers.flatMap(dossier => extensions.map(ext => `${dossier}/id-${carte.id}.${ext}`));
-  // Une carte creee/modifiee depuis le panneau admin (admin.js) stocke son
-  // image directement en data-URL (ou URL externe) dans carte.image, plutot
-  // que comme nom de fichier documentaire -- on la propose alors en tout
-  // premier candidat.
+  // Une carte editee depuis le panneau admin (admin.js) peut avoir plusieurs
+  // images ordonnees a la main (carte.images) : toutes prioritaires, dans
+  // l'ordre choisi. carte.image (singulier) reste gere pour les cartes
+  // editees avant l'ajout de cette fonctionnalite (une seule image).
+  if (Array.isArray(carte.images) && carte.images.length > 0) {
+    return [...carte.images, ...base];
+  }
   if (carte.image && /^(data:|https?:\/\/)/.test(carte.image)) {
     return [carte.image, ...base];
   }
@@ -555,15 +558,13 @@ function trouverImageDansDossier(id, dossier) {
 function configurerNavigationIllustration(carte, zone) {
   const decor = zone.querySelector(`.decor-grand[data-carte-id="${carte.id}"]`);
   if (!decor) return;
-  Promise.all([
-    trouverImageDansDossier(carte.id, 'images'),
-    trouverImageDansDossier(carte.id, 'images-claude'),
-  ]).then(([urlPerso, urlClaude]) => {
-    // La carte inspectee a pu changer pendant l'attente : on abandonne si ce
-    // n'est plus la meme (evite d'activer des fleches sur la mauvaise carte).
+
+  function activerNavigation(sources) {
+    // La carte inspectee a pu changer pendant l'attente (cas du repli
+    // asynchrone ci-dessous) : on abandonne si ce n'est plus la meme
+    // (evite d'activer des fleches sur la mauvaise carte).
     if (!zone.contains(decor) || !decor.isConnected) return;
     if (zone.querySelector(`.decor-grand[data-carte-id="${carte.id}"]`) !== decor) return;
-    const sources = [urlPerso, urlClaude].filter(Boolean);
     if (sources.length < 2) return;
     let index = 0;
     const img = decor.querySelector('img');
@@ -578,7 +579,26 @@ function configurerNavigationIllustration(carte, zone) {
     majAffichage();
     btnGauche.addEventListener('click', () => { index = Math.max(0, index - 1); majAffichage(); });
     btnDroite.addEventListener('click', () => { index = Math.min(sources.length - 1, index + 1); majAffichage(); });
-  });
+  }
+
+  // Priorite : les images definies dans le panneau admin (carte.images,
+  // ordonnees a la main) -- navigables directement, sans sondage du
+  // systeme de fichiers.
+  if (Array.isArray(carte.images) && carte.images.length > 1) {
+    activerNavigation(carte.images);
+    return;
+  }
+
+  // Sinon, comportement historique : si la carte dispose a la fois d'une
+  // illustration personnelle (images/) ET d'une photo trouvee par Claude
+  // (images-claude/), propose de basculer entre les deux. Asynchrone : le
+  // rendu initial (emoji ou premiere image trouvee via candidatsImage)
+  // reste instantane, les fleches n'apparaissent qu'une fois la
+  // verification terminee.
+  Promise.all([
+    trouverImageDansDossier(carte.id, 'images'),
+    trouverImageDansDossier(carte.id, 'images-claude'),
+  ]).then(([urlPerso, urlClaude]) => activerNavigation([urlPerso, urlClaude].filter(Boolean)));
 }
 
 /* ================= CREATION D'ELEMENTS CARTE ================= */
@@ -1290,39 +1310,68 @@ const PALETTE_ERES_LARGE = {
   'Futur': '#2ecc71'
 };
 
-/* Barre de periodes (bureau uniquement, cf. CSS) : un segment par grande
-   ere, largeur proportionnelle a son nombre de cartes (donc a l'espace
-   qu'elle occupe reellement dans la rangee horizontale de cartes en
-   dessous), avec ses dates de debut/fin. Un curseur suit le scroll
-   horizontal de la grille et adopte la couleur de la periode survolee, pour
-   materialiser concretement "plus on avance dans la frise, plus on avance
-   dans le temps". */
-function construireBarrePeriodes(cartesTriees) {
-  const barre = document.getElementById('frise-periodes');
-  if (!barre || cartesTriees.length === 0) return;
-  barre.innerHTML = '';
+// Nombre de cartes empilees par colonne dans la grille "bureau" de la
+// frise : plus une colonne est haute a l'ecran, moins on peut en voir cote
+// a cote -- 4 est un compromis qui laisse une carte lisible tout en gardant
+// plusieurs colonnes (donc plusieurs "tranches" de temps) visibles a la
+// fois sans scroller.
+const FRISE_CARTES_PAR_COLONNE = 4;
 
+/* Regroupe les cartes triees en segments par grande ere ET calcule combien
+   de COLONNES (pas de cartes brutes) chaque segment occupe dans la grille
+   "bureau" -- c'est cette meme info qui sert a la fois a construire la
+   grille (construireFrise) et la barre de periodes (construireBarrePeriodes),
+   pour qu'elles restent PARFAITEMENT synchronisees (le curseur de la barre
+   ne peut plus se decaler des cartes reellement affichees, contrairement a
+   une version precedente qui approximait via l'index brut des cartes). */
+function calculerSegmentsEresFrise(cartesTriees) {
   const segments = [];
   cartesTriees.forEach((carte) => {
     const ere = etiquetteEreLarge(carte.date);
     let seg = segments[segments.length - 1];
     if (!seg || seg.ere !== ere) {
-      seg = { ere, debut: carte.date, fin: carte.date, count: 0 };
+      seg = { ere, debut: carte.date, fin: carte.date, cartes: [] };
       segments.push(seg);
     }
     seg.fin = carte.date;
-    seg.count++;
+    seg.cartes.push(carte);
   });
+  let colonneDebut = 0;
+  segments.forEach((seg) => {
+    seg.colonnes = Math.ceil(seg.cartes.length / FRISE_CARTES_PAR_COLONNE);
+    seg.colonneDebut = colonneDebut;
+    colonneDebut += seg.colonnes;
+  });
+  return { segments, totalColonnes: colonneDebut };
+}
 
+/* Barre de periodes (bureau uniquement, cf. CSS) : un segment par grande
+   ere, largeur proportionnelle a son nombre de COLONNES dans la grille du
+   dessous (donc a l'espace qu'elle y occupe reellement), avec ses dates de
+   debut/fin. Un curseur suit le scroll horizontal et adopte la couleur de
+   la periode actuellement affichee, pour materialiser concretement "plus on
+   avance dans la frise, plus on avance dans le temps". */
+function construireBarrePeriodes(segments, totalColonnes) {
+  const barre = document.getElementById('frise-periodes');
+  if (!barre || segments.length === 0) return;
+  barre.innerHTML = '';
+
+  const scrollZone = document.getElementById('frise-scroll');
   segments.forEach((seg) => {
     const el = document.createElement('div');
     el.className = 'frise-periode-segment';
-    el.style.flexGrow = seg.count;
-    el.style.background = PALETTE_ERES_LARGE[seg.ere] || '#555';
+    el.style.flexGrow = seg.colonnes;
+    el.style.setProperty('--couleur-periode', PALETTE_ERES_LARGE[seg.ere] || '#555');
     el.innerHTML = `
       <span class="frise-periode-nom">${seg.ere}</span>
       <span class="frise-periode-dates">${formaterDate(seg.debut)} — ${formaterDate(seg.fin)}</span>
     `;
+    // Clic sur un segment : saute directement au debut de cette periode,
+    // plutot que de devoir scroller manuellement jusque-la.
+    el.addEventListener('click', () => {
+      const scrollable = scrollZone.scrollWidth - scrollZone.clientWidth;
+      scrollZone.scrollLeft = totalColonnes > 1 ? (seg.colonneDebut / (totalColonnes - 1 || 1)) * scrollable : 0;
+    });
     barre.appendChild(el);
   });
 
@@ -1330,14 +1379,19 @@ function construireBarrePeriodes(cartesTriees) {
   curseur.className = 'frise-periode-curseur';
   barre.appendChild(curseur);
 
-  const scrollZone = document.getElementById('frise-scroll');
+  function segmentPourColonne(colonne) {
+    for (let i = segments.length - 1; i >= 0; i--) {
+      if (colonne >= segments[i].colonneDebut) return segments[i];
+    }
+    return segments[0];
+  }
+
   function majCurseur() {
     const scrollable = scrollZone.scrollWidth - scrollZone.clientWidth;
     const fraction = scrollable > 0 ? scrollZone.scrollLeft / scrollable : 0;
     curseur.style.left = (fraction * 100) + '%';
-    const indexCarte = Math.min(cartesTriees.length - 1, Math.round(fraction * (cartesTriees.length - 1)));
-    const ereActuelle = etiquetteEreLarge(cartesTriees[indexCarte].date);
-    curseur.style.background = PALETTE_ERES_LARGE[ereActuelle] || '#fff';
+    const seg = segmentPourColonne(fraction * (totalColonnes - 1));
+    curseur.style.background = PALETTE_ERES_LARGE[seg.ere] || '#fff';
   }
   scrollZone.addEventListener('scroll', majCurseur, { passive: true });
   majCurseur();
@@ -1351,16 +1405,7 @@ function construireFrise() {
   const cartesTriees = [...BASE_CARTES].sort((a, b) => a.date - b.date);
   document.getElementById('frise-nb-cartes').textContent = cartesTriees.length;
 
-  let ereActuelle = null;
-  cartesTriees.forEach((carte) => {
-    const ere = etiquetteEre(carte.date);
-    if (ere !== ereActuelle) {
-      ereActuelle = ere;
-      const repere = document.createElement('div');
-      repere.className = 'frise-ere';
-      repere.textContent = ere;
-      grille.appendChild(repere);
-    }
+  function creerCarteFrise(carte) {
     const div = creerCarteHTML(carte);
     div.classList.add('carte--frise');
     // .carte--cachee ne fait rien visuellement pour un visiteur normal (voir
@@ -1368,10 +1413,42 @@ function construireFrise() {
     // les cartes actuellement exclues des parties (carte.cachee).
     if (carte.cachee) div.classList.add('carte--cachee');
     div.addEventListener('click', () => ouvrirModalCarte(carte));
-    grille.appendChild(div);
-  });
+    return div;
+  }
 
-  construireBarrePeriodes(cartesTriees);
+  // Bureau : grille en colonnes (voir CSS, grid-auto-flow:column) -- une
+  // colonne par "tranche" de FRISE_CARTES_PAR_COLONNE cartes, plus ancien en
+  // haut. Chaque ere demarre une NOUVELLE colonne (cellules invisibles en
+  // complement si besoin) pour que ses limites correspondent exactement aux
+  // segments de la barre de periodes au-dessus. Mobile : ancien defilement
+  // vertical avec reperes de periode fins (etiquetteEre, par decennie).
+  if (window.innerWidth > 860) {
+    const { segments, totalColonnes } = calculerSegmentsEresFrise(cartesTriees);
+    segments.forEach((seg) => {
+      seg.cartes.forEach((carte) => grille.appendChild(creerCarteFrise(carte)));
+      const vides = seg.colonnes * FRISE_CARTES_PAR_COLONNE - seg.cartes.length;
+      for (let i = 0; i < vides; i++) {
+        const vide = document.createElement('div');
+        vide.className = 'frise-cellule-vide';
+        grille.appendChild(vide);
+      }
+    });
+    construireBarrePeriodes(segments, totalColonnes);
+  } else {
+    let ereActuelle = null;
+    cartesTriees.forEach((carte) => {
+      const ere = etiquetteEre(carte.date);
+      if (ere !== ereActuelle) {
+        ereActuelle = ere;
+        const repere = document.createElement('div');
+        repere.className = 'frise-ere';
+        repere.textContent = ere;
+        grille.appendChild(repere);
+      }
+      grille.appendChild(creerCarteFrise(carte));
+    });
+  }
+
   friseConstruite = true;
 }
 
@@ -1421,6 +1498,7 @@ function activerScrollHorizontal(id) {
 }
 activerScrollHorizontal('timeline-container');
 activerScrollHorizontal('pioche-erreurs');
+activerScrollHorizontal('frise-scroll');
 
 /* ================= DEMARRAGE ================= */
 initVideoAccueil();

@@ -126,11 +126,29 @@ function lireLiensFormulaireAdmin() {
     .filter((l) => l.url);
 }
 
+/* ================= LISTE D'IMAGES (ordonnee, plusieurs par carte) =================
+   Meme principe que la liste de liens (construireLigneLienAdminHTML plus
+   haut) : chaque ligne porte sa propre image en data-URL dans son attribut
+   data-url, lu a la soumission par lireImagesFormulaireAdmin(). L'ORDRE des
+   lignes dans le DOM EST l'ordre d'affichage (voir les boutons monter/
+   descendre) -- pas besoin d'un champ cache separe. */
+function construireLigneImageAdminHTML(url) {
+  return `
+    <div class="admin-image-ligne" data-url="${echapperAttributAdmin(url)}">
+      <img class="admin-image-ligne-apercu" src="${url}">
+      <div class="admin-image-ligne-boutons">
+        <button type="button" onclick="deplacerImageAdmin(this, -1)" title="Monter (affichée plus tôt)">▲</button>
+        <button type="button" onclick="deplacerImageAdmin(this, 1)" title="Descendre (affichée plus tard)">▼</button>
+        <button type="button" class="btn-admin-retirer-lien" onclick="this.closest('.admin-image-ligne').remove()" title="Retirer cette image">×</button>
+      </div>
+    </div>`;
+}
+
 /* Lit le fichier choisi, le redimensionne (comme le pipeline de sourcing
-   d'images cote Python) et stocke le resultat en data-URL JPEG dans le champ
-   cache #admin-champ-image-data -- c'est cette data-URL qui est ensuite
-   enregistree telle quelle dans Firebase et utilisee comme source d'image. */
-function gererFichierImageAdmin(input) {
+   d'images cote Python) et l'ajoute comme DERNIERE image de la liste --
+   remplacer une image existante se fait en la retirant (×) puis en en
+   ajoutant une nouvelle, plutot que d'ecraser en place. */
+function ajouterImageAdmin(input) {
   const fichier = input.files && input.files[0];
   if (!fichier) return;
   const lecteur = new FileReader();
@@ -148,25 +166,32 @@ function gererFichierImageAdmin(input) {
       canvas.height = height;
       canvas.getContext('2d').drawImage(img, 0, 0, width, height);
       const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-      document.getElementById('admin-champ-image-data').value = dataUrl;
-      const apercu = document.getElementById('admin-image-apercu');
-      apercu.src = dataUrl;
-      apercu.hidden = false;
+      document.getElementById('admin-images-liste').insertAdjacentHTML('beforeend', construireLigneImageAdminHTML(dataUrl));
     };
     img.src = evenement.target.result;
   };
   lecteur.readAsDataURL(fichier);
+  input.value = ''; // permet de re-choisir le meme fichier une seconde fois si besoin
 }
-function retirerImageAdmin() {
-  document.getElementById('admin-champ-image-data').value = '';
-  const apercu = document.getElementById('admin-image-apercu');
-  apercu.src = '';
-  apercu.hidden = true;
+function deplacerImageAdmin(bouton, direction) {
+  const ligne = bouton.closest('.admin-image-ligne');
+  if (direction < 0 && ligne.previousElementSibling) {
+    ligne.parentElement.insertBefore(ligne, ligne.previousElementSibling);
+  } else if (direction > 0 && ligne.nextElementSibling) {
+    ligne.parentElement.insertBefore(ligne.nextElementSibling, ligne);
+  }
+}
+function lireImagesFormulaireAdmin() {
+  return Array.from(document.querySelectorAll('.admin-image-ligne')).map((ligne) => ligne.dataset.url);
 }
 
 function construireFormulaireAdminHTML(carte, estNouvelle) {
   const liens = carte.liens || [];
-  const imageActuelle = carte.image && /^(data:|https?:\/\/)/.test(carte.image) ? carte.image : '';
+  // Compat : une carte editee avant l'ajout du multi-images n'a qu'un seul
+  // carte.image -- on la reprend comme premiere (et unique) image de depart.
+  const imagesActuelles = Array.isArray(carte.images) && carte.images.length > 0
+    ? carte.images
+    : (carte.image && /^(data:|https?:\/\/)/.test(carte.image) ? [carte.image] : []);
   const idAttr = estNouvelle ? 'null' : carte.id;
   return `
     <form class="formulaire-admin" onsubmit="return soumettreFormulaireAdmin(event, ${idAttr}, ${estNouvelle ? 'true' : 'false'})">
@@ -218,13 +243,11 @@ function construireFormulaireAdminHTML(carte, estNouvelle) {
         <input type="text" id="admin-champ-emoji" maxlength="4" value="${echapperAttributAdmin(carte.emoji || '🃏')}">
       </div>
       <div class="admin-champ">
-        <label>Image</label>
-        <div class="admin-image-zone">
-          <img class="admin-image-apercu" id="admin-image-apercu" src="${imageActuelle}" ${imageActuelle ? '' : 'hidden'}>
-          <input type="file" accept="image/*" onchange="gererFichierImageAdmin(this)">
-          ${imageActuelle ? '<button type="button" class="btn-admin-secondaire" onclick="retirerImageAdmin()">Retirer</button>' : ''}
+        <label>Images (affichées dans cet ordre ; utilise les flèches sur la carte s'il y en a plusieurs)</label>
+        <div class="admin-images-liste" id="admin-images-liste">
+          ${imagesActuelles.map(construireLigneImageAdminHTML).join('')}
         </div>
-        <input type="hidden" id="admin-champ-image-data" value="${echapperAttributAdmin(imageActuelle)}">
+        <input type="file" accept="image/*" onchange="ajouterImageAdmin(this)">
       </div>
       <div class="admin-champ">
         <label>Sources / liens</label>
@@ -279,7 +302,7 @@ function soumettreFormulaireAdmin(event, id, estNouvelle) {
   const fiabilite = document.getElementById('admin-champ-fiabilite').value;
   const difficulte = document.getElementById('admin-champ-difficulte').value;
   const emoji = document.getElementById('admin-champ-emoji').value.trim() || '🃏';
-  const image = document.getElementById('admin-champ-image-data').value;
+  const images = lireImagesFormulaireAdmin();
   const liens = lireLiensFormulaireAdmin();
   const cachee = document.getElementById('admin-champ-cachee').checked;
 
@@ -290,7 +313,7 @@ function soumettreFormulaireAdmin(event, id, estNouvelle) {
   }
 
   const famille = deduireFamilleAdmin(categorie);
-  const donnees = { titre, categorie, famille, date, description_courte, description_longue, anecdote, fiabilite, difficulte, emoji, image, liens, cachee };
+  const donnees = { titre, categorie, famille, date, description_courte, description_longue, anecdote, fiabilite, difficulte, emoji, images, liens, cachee };
 
   let chemin;
   if (estNouvelle) {
