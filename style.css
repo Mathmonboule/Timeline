@@ -1,5 +1,13 @@
 * { box-sizing: border-box; }
 
+/* --vh-app : 100dvh par defaut, mais recalculee en JS (voir script.js,
+   majHauteurReelleViewport) avec window.innerHeight, la hauteur REELLEMENT
+   visible. Sur certains iPhones/PWA installees, 100dvh laissait malgre tout
+   une fine bande (fond html/body different de la video/du jeu) en bas ou en
+   haut de l'ecran a cause d'un decalage de calcul de dvh au lancement --
+   window.innerHeight ne souffre pas de ce probleme. */
+:root { --vh-app: 100dvh; }
+
 html, body {
   height: 100%;
 }
@@ -19,6 +27,7 @@ body {
   display: flex;
   height: 100vh;
   height: 100dvh;
+  height: var(--vh-app);
   background: #1a1a2e;
 }
 
@@ -34,6 +43,7 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+  height: var(--vh-app);
   order: 3;
 }
 .inspecteur.replie { width: 50px; min-width: 50px; }
@@ -77,6 +87,7 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+  height: var(--vh-app);
   order: 1;
 }
 .lobby.replie { width: 50px; min-width: 50px; }
@@ -916,6 +927,7 @@ body {
   position: relative;
   height: 100vh;
   height: 100dvh;
+  height: var(--vh-app);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -1531,6 +1543,7 @@ body {
     position: fixed;
     top: 0;
     height: 100dvh;
+    height: var(--vh-app);
     width: 84vw;
     max-width: 320px;
     min-width: 0;
@@ -1687,6 +1700,7 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+  height: var(--vh-app);
   background: linear-gradient(180deg, #0b1226 0%, #150a1f 55%, #1a0f28 100%);
 }
 

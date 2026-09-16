@@ -13,7 +13,25 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Timeline">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="style.css?v=46">
+<link rel="stylesheet" href="style.css?v=47">
+<script>
+/* Hauteur REELLEMENT visible (window.innerHeight), posee en <head> pour
+   s'appliquer des le tout premier rendu -- evite une bande de couleur en
+   haut/bas de l'ecran sur certains iPhones/PWA installees, ou 100dvh seul
+   se calcule parfois mal juste au lancement (voir --vh-app dans style.css,
+   utilise par .vue-accueil/.vue-jeu/.vue-frise/.lobby/.inspecteur). */
+(function () {
+  function majHauteurReelleViewport() {
+    document.documentElement.style.setProperty('--vh-app', window.innerHeight + 'px');
+  }
+  majHauteurReelleViewport();
+  window.addEventListener('resize', majHauteurReelleViewport);
+  window.addEventListener('orientationchange', function () { setTimeout(majHauteurReelleViewport, 60); });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', majHauteurReelleViewport);
+  }
+})();
+</script>
 </head>
 <body>
 
