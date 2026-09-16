@@ -137,7 +137,7 @@ function creerGrilleFiltres(conteneurId, ensembleActif, onChange, liste = FAMILL
 
 function compterCartesFiltrees(famillesActives, difficultesActives) {
   return BASE_CARTES.reduce((n, c) =>
-    n + (famillesActives.has(c.famille) && difficultesActives.has(c.difficulte) ? 1 : 0), 0);
+    n + (!c.cachee && famillesActives.has(c.famille) && difficultesActives.has(c.difficulte) ? 1 : 0), 0);
 }
 
 /* Ouverture/fermeture des blocs de filtres repliables ("onglets") : clic sur
@@ -167,8 +167,13 @@ let filtresSoloActifs = new Set(FAMILLES_PAR_DEFAUT);
 let filtresDifficulteSoloActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
 
 function initPartie() {
-  const pool = BASE_CARTES.filter((c) => filtresSoloActifs.has(c.famille) && filtresDifficulteSoloActifs.has(c.difficulte));
-  const source = pool.length >= CARTES_MIN_PARTIE ? pool : BASE_CARTES;
+  // Une carte marquee "cachee" par l'admin (voir admin.js) est exclue de
+  // TOUTE partie tant qu'elle n'est pas reactivee -- y compris du repli
+  // ci-dessous (source = ... : BASE_CARTES), qui ignorerait sinon
+  // completement le filtre en cas de pool trop petit.
+  const cartesJouables = BASE_CARTES.filter((c) => !c.cachee);
+  const pool = cartesJouables.filter((c) => filtresSoloActifs.has(c.famille) && filtresDifficulteSoloActifs.has(c.difficulte));
+  const source = pool.length >= CARTES_MIN_PARTIE ? pool : cartesJouables;
   const toutes = melanger(source);
   carteRepereInitiale = toutes[0];
   timeline = [carteRepereInitiale];
@@ -1258,6 +1263,86 @@ function etiquetteEre(date) {
   return 'Futur';
 }
 
+// Regroupement plus large que etiquetteEre() (qui detaille chaque decennie
+// entre 1900 et 2040) : sert a la barre de periodes en haut de la frise
+// (voir construireBarrePeriodes), ou un segment par decennie serait
+// illisible. Utilisee uniquement sur la version PC (bureau).
+function etiquetteEreLarge(date) {
+  if (date < -1000000) return 'Avant la Préhistoire';
+  if (date < -3000) return 'Préhistoire';
+  if (date < 500) return 'Antiquité';
+  if (date < 1500) return 'Moyen Âge';
+  if (date < 1800) return 'Renaissance & Temps modernes';
+  if (date < 1900) return 'XIXe siècle';
+  if (date < 2000) return 'XXe siècle';
+  if (date < 2040) return 'XXIe siècle';
+  return 'Futur';
+}
+const PALETTE_ERES_LARGE = {
+  'Avant la Préhistoire': '#6b4226',
+  'Préhistoire': '#8a6d3b',
+  'Antiquité': '#c9a227',
+  'Moyen Âge': '#7d5ba6',
+  'Renaissance & Temps modernes': '#4a7dbd',
+  'XIXe siècle': '#3aa6a6',
+  'XXe siècle': '#e0663d',
+  'XXIe siècle': '#e0417d',
+  'Futur': '#2ecc71'
+};
+
+/* Barre de periodes (bureau uniquement, cf. CSS) : un segment par grande
+   ere, largeur proportionnelle a son nombre de cartes (donc a l'espace
+   qu'elle occupe reellement dans la rangee horizontale de cartes en
+   dessous), avec ses dates de debut/fin. Un curseur suit le scroll
+   horizontal de la grille et adopte la couleur de la periode survolee, pour
+   materialiser concretement "plus on avance dans la frise, plus on avance
+   dans le temps". */
+function construireBarrePeriodes(cartesTriees) {
+  const barre = document.getElementById('frise-periodes');
+  if (!barre || cartesTriees.length === 0) return;
+  barre.innerHTML = '';
+
+  const segments = [];
+  cartesTriees.forEach((carte) => {
+    const ere = etiquetteEreLarge(carte.date);
+    let seg = segments[segments.length - 1];
+    if (!seg || seg.ere !== ere) {
+      seg = { ere, debut: carte.date, fin: carte.date, count: 0 };
+      segments.push(seg);
+    }
+    seg.fin = carte.date;
+    seg.count++;
+  });
+
+  segments.forEach((seg) => {
+    const el = document.createElement('div');
+    el.className = 'frise-periode-segment';
+    el.style.flexGrow = seg.count;
+    el.style.background = PALETTE_ERES_LARGE[seg.ere] || '#555';
+    el.innerHTML = `
+      <span class="frise-periode-nom">${seg.ere}</span>
+      <span class="frise-periode-dates">${formaterDate(seg.debut)} — ${formaterDate(seg.fin)}</span>
+    `;
+    barre.appendChild(el);
+  });
+
+  const curseur = document.createElement('div');
+  curseur.className = 'frise-periode-curseur';
+  barre.appendChild(curseur);
+
+  const scrollZone = document.getElementById('frise-scroll');
+  function majCurseur() {
+    const scrollable = scrollZone.scrollWidth - scrollZone.clientWidth;
+    const fraction = scrollable > 0 ? scrollZone.scrollLeft / scrollable : 0;
+    curseur.style.left = (fraction * 100) + '%';
+    const indexCarte = Math.min(cartesTriees.length - 1, Math.round(fraction * (cartesTriees.length - 1)));
+    const ereActuelle = etiquetteEreLarge(cartesTriees[indexCarte].date);
+    curseur.style.background = PALETTE_ERES_LARGE[ereActuelle] || '#fff';
+  }
+  scrollZone.addEventListener('scroll', majCurseur, { passive: true });
+  majCurseur();
+}
+
 let friseConstruite = false;
 function construireFrise() {
   const grille = document.getElementById('frise-grille');
@@ -1278,10 +1363,15 @@ function construireFrise() {
     }
     const div = creerCarteHTML(carte);
     div.classList.add('carte--frise');
+    // .carte--cachee ne fait rien visuellement pour un visiteur normal (voir
+    // CSS, gardee par .frise-admin-actif) : seul l'admin voit un badge sur
+    // les cartes actuellement exclues des parties (carte.cachee).
+    if (carte.cachee) div.classList.add('carte--cachee');
     div.addEventListener('click', () => ouvrirModalCarte(carte));
     grille.appendChild(div);
   });
 
+  construireBarrePeriodes(cartesTriees);
   friseConstruite = true;
 }
 

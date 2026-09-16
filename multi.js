@@ -270,12 +270,6 @@ function entrerDansLobbyMulti(code, hote) {
   document.getElementById('btn-valider').hidden = false;
   document.querySelector('.pioche-erreurs-section h3').textContent = 'Poubelle commune';
 
-  // L'appartenance au lobby/a la partie se decide desormais phase par phase
-  // dans surMiseAJourPartie (retrait automatique en lobby, mais PAS en
-  // pleine partie -- voir le commentaire la-bas pour le detail). Reinitialise
-  // ici pour que chaque nouvelle entree dans un salon reparte propre.
-  dernierStatutOnDisconnect = null;
-
   // .off() avant de rattacher : evite d'accumuler plusieurs listeners sur le
   // meme salon si cette fonction est appelee plus d'une fois dans la session
   // (ex: on quitte puis on rejoint sans recharger la page), ce qui aurait
@@ -458,8 +452,12 @@ async function lancerNouvelleManche() {
   const cibleCartes = modeLongueurChoisi === 'cible' ? Math.max(5, cibleSaisie || 5) : null;
 
   const minimumRequis = 1 + TAILLE_MAIN_DEFAUT * ids.length;
-  const pool = BASE_CARTES.filter((c) => filtresMultiActifs.has(c.famille) && filtresDifficulteMultiActifs.has(c.difficulte));
-  const source = pool.length >= minimumRequis ? pool : BASE_CARTES;
+  // Une carte marquee "cachee" par l'admin (voir admin.js) est exclue de
+  // toute partie tant qu'elle n'est pas reactivee -- y compris du repli
+  // ci-dessous, qui ignorerait sinon completement le filtre.
+  const cartesJouables = BASE_CARTES.filter((c) => !c.cachee);
+  const pool = cartesJouables.filter((c) => filtresMultiActifs.has(c.famille) && filtresDifficulteMultiActifs.has(c.difficulte));
+  const source = pool.length >= minimumRequis ? pool : cartesJouables;
   const toutes = melanger(source);
   const carteRepere = toutes[0];
   let curseur = 1;
@@ -592,55 +590,35 @@ let dernierTourJoueurId = null;
 // Derniere carte repere vue, pour detecter le debut d'une TOUTE NOUVELLE
 // manche (voir bloc de reset ci-dessous).
 let dernierCarteRepereVue = null;
-// Dernier statut pour lequel on a (re)pose la regle onDisconnect -- evite de
-// rappeler l'API a chaque snapshot recu (frequent en pleine partie) alors
-// que rien n'a change sur ce plan-la.
-let dernierStatutOnDisconnect = null;
 
 function surMiseAJourPartie(partie) {
   dernierePartieMulti = partie;
   renderLobbyMulti(partie);
 
-  // Tant que la partie est en lobby, une deconnexion retire proprement le
-  // joueur de la liste (comportement historique, attendu avant meme le debut
-  // du jeu). Une fois la partie lancee, on ANNULE cette suppression
-  // automatique : un crash, un ecran qui se verrouille ou une coupure reseau
-  // en pleine partie ne doit plus faire perdre la main ni la progression du
-  // joueur -- il doit pouvoir revenir (meme appareil, ou meme pseudo depuis
-  // un autre appareil, cf. "Rejoindre une partie") et reprendre exactement
-  // la ou il en etait, sans que quitter/rejoindre un AUTRE joueur ne
-  // perturbe la partie pour tout le monde.
-  if (codePartieActuelle) {
-    const refMoi = dbRef.ref(`parties/${codePartieActuelle}/joueurs/${JOUEUR_ID}`);
-    if (partie.statut === 'lobby') {
-      if (partie.statut !== dernierStatutOnDisconnect) {
-        refMoi.onDisconnect().remove();
-      }
-    } else {
-      // Reaffirme le cancel() a CHAQUE snapshot recu (pas seulement au
-      // changement de statut) : .onDisconnect() est une ecriture reseau
-      // asynchrone comme une autre, et un unique appel pile au moment de la
-      // transition lobby -> en_cours pouvait ne pas avoir eu le temps
-      // d'etre acquitte par le serveur avant une deconnexion quasi
-      // immediate (app mise en arriere-plan) -- rejouer ce cancel() a
-      // chaque mise a jour (frequentes en pleine partie) ferme presque
-      // totalement cette fenetre de course. Operation locale au SDK, tres
-      // bon marche et idempotente, donc sans cout reel a la repeter.
-      refMoi.onDisconnect().cancel();
-    }
-    dernierStatutOnDisconnect = partie.statut;
-  }
+  // AUCUNE suppression automatique via onDisconnect, meme en lobby : ce
+  // mecanisme s'est revele peu fiable en pratique sur mobile (la connexion
+  // WebSocket peut se couper puis se rétablir plusieurs fois en quelques
+  // secondes quand l'app passe en arriere-plan -- iOS notamment suspend
+  // tres vite l'execution JS -- et .onDisconnect().cancel() n'a pas
+  // toujours le temps/l'occasion de s'executer avant que le PRECEDENT
+  // enregistrement ne se declenche cote serveur). Seul un depart VOLONTAIRE
+  // (bouton "Quitter la partie") retire desormais un joueur. Consequence
+  // acceptee : si quelqu'un ferme l'onglet en plein LOBBY (avant meme le
+  // debut de la partie) sans cliquer "Quitter", son nom reste affiche
+  // jusqu'a ce qu'un autre joueur le remarque -- trivial a corriger
+  // manuellement, bien moins genant qu'une exclusion surprise en pleine
+  // partie.
 
-  // Filet de securite complementaire : si malgre tout notre fiche "joueurs"
-  // a disparu (onDisconnect qui a eu le temps de s'executer avant le
-  // cancel(), ou toute autre cause) alors qu'on est encore activement sur
-  // cette partie, on se re-inscrit automatiquement -- la main/les erreurs/
-  // la progression sont stockees a part (mains/erreurs/joueurs sont des
-  // chemins distincts) et ne sont donc pas affectees par la disparition de
-  // cette seule fiche. Garde enTrainDeQuitter : un depart volontaire
-  // (bouton "Quitter") peut faire recevoir a CE MEME listener la mise a
-  // jour reflettant notre propre suppression AVANT que .off() ne l'ait
-  // coupe -- sans ce garde-fou, on annulerait notre propre depart.
+  // Filet de securite : si notre fiche "joueurs" venait quand meme a
+  // disparaitre (admin manuel, ancien onDisconnect d'une session avant ce
+  // correctif, etc.) alors qu'on est encore activement sur cette partie, on
+  // se re-inscrit automatiquement -- la main/les erreurs/la progression
+  // sont stockees a part (mains/erreurs/joueurs sont des chemins distincts)
+  // et ne sont donc pas affectees par la disparition de cette seule fiche.
+  // Garde enTrainDeQuitter : un depart volontaire (bouton "Quitter") peut
+  // faire recevoir a CE MEME listener la mise a jour reflettant notre
+  // propre suppression AVANT que .off() ne l'ait coupe -- sans ce
+  // garde-fou, on annulerait notre propre depart.
   if (codePartieActuelle && !enTrainDeQuitter && partie.statut !== 'lobby' && !((partie.joueurs || {})[JOUEUR_ID])) {
     dbRef.ref(`parties/${codePartieActuelle}/joueurs/${JOUEUR_ID}`).set({
       pseudo: monPseudoActuel || 'Joueur',

@@ -233,6 +233,12 @@ function construireFormulaireAdminHTML(carte, estNouvelle) {
         </div>
         <button type="button" class="btn-admin-ajouter-lien" onclick="ajouterLigneLienAdmin()">+ Ajouter un lien</button>
       </div>
+      <div class="admin-champ admin-champ-case">
+        <label class="admin-case-label">
+          <input type="checkbox" id="admin-champ-cachee" ${carte.cachee ? 'checked' : ''}>
+          Carte cachée (exclue de toutes les parties tant qu'elle est cochée, réactivable à tout moment)
+        </label>
+      </div>
       <div class="admin-formulaire-statut" id="admin-formulaire-statut"></div>
       <div class="admin-formulaire-boutons">
         <button type="button" class="btn-admin-secondaire" onclick="document.getElementById('frise-modal').hidden = true;">Annuler</button>
@@ -275,6 +281,7 @@ function soumettreFormulaireAdmin(event, id, estNouvelle) {
   const emoji = document.getElementById('admin-champ-emoji').value.trim() || '🃏';
   const image = document.getElementById('admin-champ-image-data').value;
   const liens = lireLiensFormulaireAdmin();
+  const cachee = document.getElementById('admin-champ-cachee').checked;
 
   if (!titre || !categorie || Number.isNaN(date) || !description_courte) {
     statut.textContent = 'Titre, catégorie, date et description courte sont obligatoires.';
@@ -283,7 +290,7 @@ function soumettreFormulaireAdmin(event, id, estNouvelle) {
   }
 
   const famille = deduireFamilleAdmin(categorie);
-  const donnees = { titre, categorie, famille, date, description_courte, description_longue, anecdote, fiabilite, difficulte, emoji, image, liens };
+  const donnees = { titre, categorie, famille, date, description_courte, description_longue, anecdote, fiabilite, difficulte, emoji, image, liens, cachee };
 
   let chemin;
   if (estNouvelle) {
