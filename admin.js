@@ -411,9 +411,32 @@ function appliquerCarteDepuisFirebase(id, donnees, estNouvelle) {
   Object.assign(carte, donnees, { id: idNum });
   if (!Array.isArray(carte.liens)) carte.liens = [];
 
+  // Purge cette carte des caches de reconciliation (solo ET multi, cf.
+  // script.js/multi.js) : ces caches REUTILISENT le <img> deja cree pour
+  // chaque carte deja affichee (evite de recharger son image a chaque
+  // rendu), donc sans ceci une carte deja presente dans la main/la
+  // timeline/la poubelle AVANT que cette mise a jour Firebase n'arrive
+  // (ex: partie demarree juste apres le chargement de la page, avant que
+  // le listener admin_overrides n'ait eu le temps de synchroniser) restait
+  // bloquee sur son ANCIENNE image (ou le repli generique) pour le reste
+  // de la partie, meme apres correction cote admin.
+  [cacheCartesTimeline, cacheCartesMain, cacheCartesErreurs,
+   cacheCartesTimelineMulti, cacheCartesMainMulti, cacheCartesErreursMulti]
+    .forEach((cache) => { if (cache) cache.delete(carte); });
+
   const vueFrise = document.getElementById('vue-frise');
   if (vueFrise && vueFrise.style.display !== 'none' && typeof construireFrise === 'function') {
     construireFrise();
+  }
+  // Redessine la partie en cours (solo ou multi) si elle est active, pour
+  // que la carte fraichement purgee du cache ci-dessus soit immediatement
+  // recreee avec ses donnees a jour, sans attendre le PROCHAIN coup joue.
+  if (typeof modeActuel !== 'undefined') {
+    if (modeActuel === 'solo' && typeof render === 'function') {
+      render();
+    } else if (modeActuel === 'multi' && typeof dernierePartieMulti !== 'undefined' && dernierePartieMulti && typeof renderJeuMulti === 'function') {
+      renderJeuMulti(dernierePartieMulti);
+    }
   }
 }
 
