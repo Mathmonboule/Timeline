@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Timeline">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="style.css?v=54">
+<link rel="stylesheet" href="style.css?v=55">
 <script>
 /* Hauteur REELLEMENT visible (window.innerHeight), posee en <head> pour
    s'appliquer des le tout premier rendu -- evite une bande de couleur en
@@ -217,6 +217,10 @@
             <button type="button" class="btn-pref-toggle" id="btn-mode-pro">Mode Pro</button>
             <p class="lobby-pref-desc">(l'ordre des tours est retiré au sort à chaque round)</p>
           </div>
+          <div class="lobby-pref-ligne">
+            <button type="button" class="btn-pref-toggle" id="btn-mode-expert">Mode Expert</button>
+            <p class="lobby-pref-desc">(devine la date exacte de chaque carte pour gagner des points bonus)</p>
+          </div>
 
           <div class="lobby-filtres ouverte">
             <div class="lobby-filtres-titre-ligne">
@@ -409,12 +413,38 @@
   </div>
 </div>
 
+<!-- Calculette Mode Expert (multijoueur) : deviner l'annee exacte d'une carte -->
+<div class="calculette-modal" id="calculette-modal" hidden>
+  <div class="calculette-boite">
+    <div class="calculette-titre">🧮 À quelle date exacte ?</div>
+    <div class="calculette-carte-titre" id="calculette-carte-titre"></div>
+    <div class="calculette-ecran">
+      <button type="button" class="calculette-signe" id="calculette-signe">apr. J.-C.</button>
+      <span class="calculette-valeur" id="calculette-valeur">0</span>
+    </div>
+    <div class="calculette-grille">
+      <button type="button" class="calculette-touche" data-chiffre="1">1</button>
+      <button type="button" class="calculette-touche" data-chiffre="2">2</button>
+      <button type="button" class="calculette-touche" data-chiffre="3">3</button>
+      <button type="button" class="calculette-touche" data-chiffre="4">4</button>
+      <button type="button" class="calculette-touche" data-chiffre="5">5</button>
+      <button type="button" class="calculette-touche" data-chiffre="6">6</button>
+      <button type="button" class="calculette-touche" data-chiffre="7">7</button>
+      <button type="button" class="calculette-touche" data-chiffre="8">8</button>
+      <button type="button" class="calculette-touche" data-chiffre="9">9</button>
+      <button type="button" class="calculette-touche calculette-touche--efface" id="calculette-effacer">⌫</button>
+      <button type="button" class="calculette-touche" data-chiffre="0">0</button>
+      <button type="button" class="calculette-touche calculette-touche--valider" id="calculette-valider">✓</button>
+    </div>
+  </div>
+</div>
+
 <script src="cartes.js?v=16"></script>
 <script src="script.js?v=38"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=27"></script>
+<script src="multi.js?v=28"></script>
 <script src="admin.js?v=7"></script>
 <script>
 if ('serviceWorker' in navigator) {

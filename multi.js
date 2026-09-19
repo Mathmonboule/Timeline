@@ -135,6 +135,8 @@ document.getElementById('btn-multi').addEventListener('click', () => {
   document.getElementById('lobby-cible-ligne').hidden = false;
   modeProActif = false;
   document.getElementById('btn-mode-pro').classList.remove('actif');
+  modeExpertActif = false;
+  document.getElementById('btn-mode-expert').classList.remove('actif');
   filtresMultiActifs = new Set(FAMILLES_PAR_DEFAUT);
   filtresDifficulteMultiActifs = new Set(DIFFICULTES_FILTRABLES.map((d) => d.id));
   creerGrilleFiltres('lobby-filtres-grille-multi', filtresMultiActifs, majCompteFiltresMulti);
@@ -301,6 +303,7 @@ function renderLobbyMulti(partie) {
       ? `${j.cartes_correctes || 0}/${partie.cible_cartes || 0} ✓`
       : (j.nb_cartes != null ? j.nb_cartes + ' cartes' : '');
     const texteErreurs = enJeu ? `${j.nb_erreurs || 0} erreur${(j.nb_erreurs || 0) > 1 ? 's' : ''}` : '';
+    const texteScoreExpert = (enJeu && partie.mode_expert) ? `🧮 ${j.score_expert || 0} pts` : '';
     const div = document.createElement('div');
     div.className = 'lobby-joueur'
       + (id === JOUEUR_ID ? ' lobby-joueur--actif' : '')
@@ -311,6 +314,7 @@ function renderLobbyMulti(partie) {
     div.innerHTML = `
       <span class="lobby-joueur-tour">${iconeHote}</span>
       <span class="lobby-joueur-nom">${j.pseudo || '?'}${id === JOUEUR_ID ? ' (toi)' : ''}</span>
+      ${texteScoreExpert ? `<span class="lobby-joueur-score-expert">${texteScoreExpert}</span>` : ''}
       <span class="lobby-joueur-erreurs">${texteErreurs}</span>
       <span class="lobby-joueur-cartes">${texteCartes}</span>
     `;
@@ -416,6 +420,18 @@ document.getElementById('btn-mode-pro').addEventListener('click', () => {
   document.getElementById('btn-mode-pro').classList.toggle('actif', modeProActif);
 });
 
+/* Mode Expert (hote uniquement, multijoueur seulement) : desactive par
+   defaut. Ajoute, apres chaque placement de carte, une petite calculette en
+   pop-up (voir ouvrirCalculetteExpert plus bas) pour deviner l'annee exacte
+   de la carte -- 10 points si la carte est placee au bon endroit, 10 points
+   bonus supplementaires si l'annee devinee est exacte. Score dedie, stocke
+   a part (joueurs/{id}/score_expert), indépendant du reste de la partie. */
+let modeExpertActif = false;
+document.getElementById('btn-mode-expert').addEventListener('click', () => {
+  modeExpertActif = !modeExpertActif;
+  document.getElementById('btn-mode-expert').classList.toggle('actif', modeExpertActif);
+});
+
 /* Indicateur de tour (reglage PERSONNEL, pas celui de l'hote -- chaque
    joueur choisit pour lui-meme, voir afficherIndicateurTonTour et
    indicateurTourActif dans script.js) : desactive par defaut, persiste
@@ -481,6 +497,7 @@ async function lancerNouvelleManche() {
     tour_fin_a: dureeTourMs ? Date.now() + dureeTourMs : null,
     mode_longueur: modeLongueurChoisi,
     mode_pro: modeProActif,
+    mode_expert: modeExpertActif,
     round_actuel: 1,
     cible_cartes: cibleCartes,
     familles_actives: source === pool ? Array.from(filtresMultiActifs) : null,
@@ -498,6 +515,7 @@ async function lancerNouvelleManche() {
     maj[`joueurs/${id}/nb_cartes`] = mains[id].length;
     maj[`joueurs/${id}/nb_erreurs`] = 0;
     maj[`joueurs/${id}/cartes_correctes`] = 0;
+    maj[`joueurs/${id}/score_expert`] = 0;
   });
 
   await dbRef.ref('parties/' + codePartieActuelle).update(maj);
@@ -626,7 +644,8 @@ function surMiseAJourPartie(partie) {
       rejoint_le: firebase.database.ServerValue.TIMESTAMP,
       nb_cartes: ((partie.mains || {})[JOUEUR_ID] || []).length,
       nb_erreurs: ((partie.erreurs || {})[JOUEUR_ID] || []).length,
-      cartes_correctes: 0
+      cartes_correctes: 0,
+      score_expert: 0
     });
     return;
   }
@@ -987,6 +1006,86 @@ function renderInspecteurMulti() {
   configurerNavigationIllustration(carte, zone);
 }
 
+/* ================= MODE EXPERT : CALCULETTE (deviner l'annee exacte) =================
+   Petite pop-up type calculette (10 chiffres, signe av./apr. J.-C., effacer,
+   valider) ouverte apres CHAQUE placement en Mode Expert -- que le placement
+   lui-meme soit correct ou non, deviner l'annee exacte rapporte toujours son
+   propre bonus (voir appliquerScoreExpert). Etat garde au niveau module
+   (une seule calculette a la fois, pas de gestion multi-instance necessaire). */
+let calculetteValeur = '0';
+let calculetteNegatif = false;
+let calculetteCallback = null;
+
+function calculetteMajAffichage() {
+  document.getElementById('calculette-valeur').textContent = calculetteValeur;
+  const btnSigne = document.getElementById('calculette-signe');
+  btnSigne.textContent = calculetteNegatif ? 'av. J.-C.' : 'apr. J.-C.';
+  btnSigne.classList.toggle('actif', calculetteNegatif);
+}
+
+function ouvrirCalculetteExpert(carte, onValide) {
+  calculetteValeur = '0';
+  calculetteNegatif = false;
+  calculetteCallback = onValide;
+  document.getElementById('calculette-carte-titre').textContent = carte.titre;
+  calculetteMajAffichage();
+  document.getElementById('calculette-modal').hidden = false;
+}
+
+document.querySelectorAll('.calculette-touche[data-chiffre]').forEach((bouton) => {
+  bouton.addEventListener('click', () => {
+    // 9 chiffres max : largement de quoi ecrire n'importe quelle annee
+    // plausible, evite juste un debordement visuel de l'ecran si on
+    // martele la meme touche.
+    if (calculetteValeur.length >= 9) return;
+    calculetteValeur = calculetteValeur === '0' ? bouton.dataset.chiffre : calculetteValeur + bouton.dataset.chiffre;
+    calculetteMajAffichage();
+  });
+});
+document.getElementById('calculette-effacer').addEventListener('click', () => {
+  calculetteValeur = calculetteValeur.length > 1 ? calculetteValeur.slice(0, -1) : '0';
+  calculetteMajAffichage();
+});
+document.getElementById('calculette-signe').addEventListener('click', () => {
+  calculetteNegatif = !calculetteNegatif;
+  calculetteMajAffichage();
+});
+document.getElementById('calculette-valider').addEventListener('click', () => {
+  const annee = (calculetteNegatif ? -1 : 1) * parseInt(calculetteValeur, 10);
+  const callback = calculetteCallback;
+  document.getElementById('calculette-modal').hidden = true;
+  calculetteCallback = null;
+  if (callback) callback(annee);
+});
+
+/* Anime le(s) bonus gagnes (+10 dore pour le placement, +10 dore
+   supplementaire pour l'annee exacte qui fusionnent alors en +20 vert -- cf.
+   demande utilisateur) puis ecrit le nouveau score_expert sur Firebase. */
+function appliquerScoreExpert(placementCorrect, dateExacte) {
+  const points = (placementCorrect ? 10 : 0) + (dateExacte ? 10 : 0);
+  if (points > 0) {
+    const badge1 = document.createElement('div');
+    badge1.className = 'score-expert-popup score-expert-popup--or';
+    badge1.textContent = '+10';
+    document.body.appendChild(badge1);
+    if (placementCorrect && dateExacte) {
+      setTimeout(() => {
+        badge1.remove();
+        const badge2 = document.createElement('div');
+        badge2.className = 'score-expert-popup score-expert-popup--vert';
+        badge2.textContent = '+20';
+        document.body.appendChild(badge2);
+        setTimeout(() => badge2.remove(), 1100);
+      }, 550);
+    } else {
+      setTimeout(() => badge1.remove(), 1100);
+    }
+  }
+  if (points > 0 && codePartieActuelle && dbRef) {
+    dbRef.ref(`parties/${codePartieActuelle}/joueurs/${JOUEUR_ID}/score_expert`).transaction((score) => (score || 0) + points);
+  }
+}
+
 /* ---- Validation d'un placement (mon tour uniquement) ---- */
 function validerPlacementMulti() {
   if (multiIndexZoneSelectionnee === null || !multiCarteChoisie) return;
@@ -1008,21 +1107,36 @@ function validerPlacementMulti() {
 
   const carteResolue = multiCarteChoisie;
   const indexResolu = multiIndexZoneSelectionnee;
+  const modeExpert = !!(dernierePartieMulti && dernierePartieMulti.mode_expert);
   multiCarteChoisie = null;
   multiIndexZoneSelectionnee = null;
 
   setTimeout(() => {
-    if (correct) {
-      appliquerResolutionTour(true, carteResolue, indexResolu);
+    const poursuivre = () => {
+      if (correct) {
+        appliquerResolutionTour(true, carteResolue, indexResolu);
+        return;
+      }
+      // Erreur : pop-up (carte + description courte, sans date ni contexte
+      // approfondi) avant d'ecrire le resultat sur Firebase -- la carte ne
+      // part en poubelle et le tour ne passe au joueur suivant qu'une fois la
+      // pop-up fermee par un clic.
+      afficherPopupErreur(carteResolue, () => {
+        appliquerResolutionTour(false, carteResolue, indexResolu);
+      });
+    };
+
+    if (modeExpert) {
+      // La calculette s'ouvre AVANT la pop-up d'erreur (qui revele la date)
+      // pour ne pas gacher la devinette. Le score Mode Expert (position +
+      // annee exacte) est independant du resultat du placement lui-meme.
+      ouvrirCalculetteExpert(carteResolue, (anneeDevinee) => {
+        appliquerScoreExpert(correct, anneeDevinee === carteResolue.date);
+        poursuivre();
+      });
       return;
     }
-    // Erreur : pop-up (carte + description courte, sans date ni contexte
-    // approfondi) avant d'ecrire le resultat sur Firebase -- la carte ne
-    // part en poubelle et le tour ne passe au joueur suivant qu'une fois la
-    // pop-up fermee par un clic.
-    afficherPopupErreur(carteResolue, () => {
-      appliquerResolutionTour(false, carteResolue, indexResolu);
-    });
+    poursuivre();
   }, 450);
 }
 
@@ -1330,7 +1444,8 @@ function afficherEcranFinMulti(partie) {
   const lignes = ordre.map((id) => {
     const j = joueurs[id] || { pseudo: '?' };
     const gagnant = id === partie.premier_fini;
-    return `<li>${j.pseudo || '?'}${id === JOUEUR_ID ? ' (toi)' : ''} — ${j.nb_erreurs || 0} erreur${(j.nb_erreurs || 0) > 1 ? 's' : ''}</li>`;
+    const texteScoreExpert = partie.mode_expert ? ` — 🧮 ${j.score_expert || 0} pts` : '';
+    return `<li>${j.pseudo || '?'}${id === JOUEUR_ID ? ' (toi)' : ''} — ${j.nb_erreurs || 0} erreur${(j.nb_erreurs || 0) > 1 ? 's' : ''}${texteScoreExpert}</li>`;
   }).join('');
 
   container.innerHTML = `
