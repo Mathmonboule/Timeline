@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Timeline">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="style.css?v=53">
+<link rel="stylesheet" href="style.css?v=54">
 <script>
 /* Hauteur REELLEMENT visible (window.innerHeight), posee en <head> pour
    s'appliquer des le tout premier rendu -- evite une bande de couleur en
@@ -366,6 +366,7 @@
     </div>
     <div class="frise-entete-boutons">
       <button class="btn-admin-ajouter" id="btn-admin-ajouter" hidden type="button">+ Ajouter une carte</button>
+      <button class="btn-admin-ajouter" id="btn-admin-classement" hidden type="button">🏆 Classement</button>
       <button class="btn-admin" id="btn-admin" type="button" title="Accès administrateur">🔒 Admin</button>
       <button class="btn-fermer-frise" id="btn-fermer-frise">✕ Retour à l'accueil</button>
     </div>
@@ -399,13 +400,22 @@
   </div>
 </div>
 
+<!-- Modal classement No Hit Run (admin) -->
+<div class="frise-modal" id="classement-admin-modal" hidden>
+  <div class="frise-modal-fond" id="classement-admin-modal-fond"></div>
+  <div class="frise-modal-boite">
+    <button class="btn-fermer-modal" id="btn-fermer-classement-admin">✕</button>
+    <div class="frise-modal-contenu" id="classement-admin-contenu"></div>
+  </div>
+</div>
+
 <script src="cartes.js?v=16"></script>
-<script src="script.js?v=37"></script>
+<script src="script.js?v=38"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
-<script src="multi.js?v=26"></script>
-<script src="admin.js?v=6"></script>
+<script src="multi.js?v=27"></script>
+<script src="admin.js?v=7"></script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

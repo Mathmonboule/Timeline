@@ -41,17 +41,20 @@ function deduireFamilleAdmin(categorie) {
 function appliquerEtatBoutonAdmin() {
   const bouton = document.getElementById('btn-admin');
   const boutonAjouter = document.getElementById('btn-admin-ajouter');
+  const boutonClassement = document.getElementById('btn-admin-classement');
   const vueFrise = document.getElementById('vue-frise');
   if (!bouton) return;
   if (adminActif) {
     bouton.textContent = '🔓 Admin actif';
     bouton.classList.add('actif');
     if (boutonAjouter) boutonAjouter.hidden = false;
+    if (boutonClassement) boutonClassement.hidden = false;
     if (vueFrise) vueFrise.classList.add('frise-admin-actif');
   } else {
     bouton.textContent = '🔒 Admin';
     bouton.classList.remove('actif');
     if (boutonAjouter) boutonAjouter.hidden = true;
+    if (boutonClassement) boutonClassement.hidden = true;
     if (vueFrise) vueFrise.classList.remove('frise-admin-actif');
   }
 }
@@ -447,6 +450,85 @@ function initSyncAdmin() {
   dbRef.ref('admin_overrides/nouvelles').on('child_added', (snap) => appliquerCarteDepuisFirebase(snap.key, snap.val(), true));
   dbRef.ref('admin_overrides/nouvelles').on('child_changed', (snap) => appliquerCarteDepuisFirebase(snap.key, snap.val(), true));
 }
+
+/* ================= CLASSEMENT NO HIT RUN (admin) =================
+   Permet de corriger un score errone ou de supprimer une entree (pseudo
+   abusif, score suspect...) directement depuis le panneau admin, sans avoir
+   a intervenir dans la console Firebase. Le pseudo et le score affiches
+   viennent d'un champ texte libre rempli par n'importe quel visiteur (voir
+   #pseudo-joueur / enregistrerScoreNoHit dans script.js) : jamais fiables,
+   donc jamais interpoles directement dans un attribut/onclick -- on relit
+   toujours la donnee depuis dernierClassementAdminData via data-cle au clic. */
+let dernierClassementAdminData = {};
+
+function construireLigneClassementAdminHTML(cle, entree) {
+  return `
+    <div class="admin-classement-ligne" data-cle="${echapperAttributAdmin(cle)}">
+      <span class="admin-classement-pseudo">${echapperHTML(entree.pseudo)}</span>
+      <input type="number" class="admin-classement-score" value="${Number(entree.score) || 0}" min="0">
+      <button type="button" class="admin-classement-btn admin-classement-btn--save" title="Enregistrer" onclick="enregistrerScoreClassementAdmin(this)">💾</button>
+      <button type="button" class="admin-classement-btn admin-classement-btn--del" title="Supprimer" onclick="supprimerScoreClassementAdmin(this)">🗑️</button>
+    </div>
+  `;
+}
+
+function rafraichirClassementAdmin(data) {
+  dernierClassementAdminData = data || {};
+  const zone = document.getElementById('classement-admin-liste');
+  if (!zone) return;
+  const entrees = Object.entries(dernierClassementAdminData).sort((a, b) => (Number(b[1].score) || 0) - (Number(a[1].score) || 0));
+  if (entrees.length === 0) {
+    zone.innerHTML = '<div class="admin-formulaire-statut">Aucun score enregistré pour l\'instant.</div>';
+    return;
+  }
+  zone.innerHTML = entrees.map(([cle, entree]) => construireLigneClassementAdminHTML(cle, entree)).join('');
+}
+
+let ecouteClassementAdminActive = false;
+function ouvrirClassementAdmin() {
+  document.getElementById('classement-admin-contenu').innerHTML = `
+    <h3 class="admin-formulaire-titre">🏆 Classement No Hit Run</h3>
+    <div class="admin-classement-liste" id="classement-admin-liste">Chargement...</div>
+  `;
+  document.getElementById('classement-admin-modal').hidden = false;
+  if (typeof dbRef === 'undefined' || !dbRef) {
+    document.getElementById('classement-admin-liste').innerHTML = '<div class="admin-formulaire-statut">Classement indisponible (Firebase non configuré).</div>';
+    return;
+  }
+  // L'ecoute Firebase reste branchee en continu une fois demarree (comme
+  // initSyncAdmin ci-dessus) : rouvrir la modale reaffiche juste l'etat
+  // courant, deja tenu a jour par rafraichirClassementAdmin.
+  if (!ecouteClassementAdminActive) {
+    ecouteClassementAdminActive = true;
+    dbRef.ref('classementNoHit').on('value', (snap) => rafraichirClassementAdmin(snap.val()));
+  }
+}
+function fermerClassementAdmin() {
+  document.getElementById('classement-admin-modal').hidden = true;
+}
+
+function enregistrerScoreClassementAdmin(bouton) {
+  if (typeof dbRef === 'undefined' || !dbRef) return;
+  const ligne = bouton.closest('.admin-classement-ligne');
+  const cle = ligne.dataset.cle;
+  const input = ligne.querySelector('.admin-classement-score');
+  const score = Math.max(0, parseInt(input.value, 10) || 0);
+  dbRef.ref('classementNoHit/' + cle).update({ score, maj_le: Date.now() });
+}
+
+function supprimerScoreClassementAdmin(bouton) {
+  const ligne = bouton.closest('.admin-classement-ligne');
+  const cle = ligne.dataset.cle;
+  const entree = dernierClassementAdminData[cle];
+  const pseudo = entree ? entree.pseudo : cle;
+  if (!confirm(`Supprimer le score de ${pseudo} du classement ?`)) return;
+  if (typeof dbRef === 'undefined' || !dbRef) return;
+  dbRef.ref('classementNoHit/' + cle).remove();
+}
+
+document.getElementById('btn-admin-classement').addEventListener('click', ouvrirClassementAdmin);
+document.getElementById('classement-admin-modal-fond').addEventListener('click', fermerClassementAdmin);
+document.getElementById('btn-fermer-classement-admin').addEventListener('click', fermerClassementAdmin);
 
 appliquerEtatBoutonAdmin();
 initSyncAdmin();

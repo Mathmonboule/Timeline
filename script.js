@@ -255,6 +255,16 @@ function clePseudoNoHit(pseudo) {
   return nettoye || 'anonyme';
 }
 
+// Le pseudo vient d'un champ texte libre rempli par n'importe quel visiteur
+// (voir #pseudo-joueur) : jamais fiable, toujours echappe avant toute
+// insertion dans du HTML (ici comme dans le classement cote admin, voir
+// admin.js) pour eviter qu'un pseudo contenant du HTML/JS ne s'execute chez
+// les autres visiteurs qui consultent le classement.
+function echapperHTML(texte) {
+  return String(texte == null ? '' : texte)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function chargerClassementNoHit() {
   const zone = document.getElementById('classement-nohit-liste');
   if (typeof dbRef === 'undefined' || !dbRef) {
@@ -271,7 +281,7 @@ function chargerClassementNoHit() {
     zone.innerHTML = liste.map((entree, i) => `
       <div class="classement-ligne ${i === 0 ? 'classement-ligne--or' : ''}">
         <span class="classement-rang">${i + 1}</span>
-        <span class="classement-pseudo">${entree.pseudo}</span>
+        <span class="classement-pseudo">${echapperHTML(entree.pseudo)}</span>
         <span class="classement-score">${entree.score}</span>
       </div>
     `).join('');
@@ -645,7 +655,6 @@ function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
   let origine = null;
   let pointerId = null;
   let dragActif = false;
-  let venaitDeGlisser = false;
   let fantome = null;
   let zoneSurvolee = null;
 
@@ -655,11 +664,10 @@ function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
 
   div.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
-    // estActif() est reevalue a CHAQUE geste (pas fige a la creation de la
-    // carte) : utile en multijoueur ou une carte peut etre re-servie par le
-    // cache d'un rendu a l'autre alors que ce n'est plus/pas encore le tour
-    // du joueur (voir renderMainMulti dans multi.js). Si absent, toujours actif.
-    if (estActif && !estActif()) return;
+    // Pas de verification d'estActif() ici : un tap doit TOUJOURS pouvoir
+    // ouvrir l'inspecteur (voir terminerGeste plus bas), meme hors de son
+    // tour en multijoueur -- seul le vrai GLISSER (ci-dessous, dans
+    // pointermove) reste reserve au tour du joueur.
     origine = { x: e.clientX, y: e.clientY };
     pointerId = e.pointerId;
     dragActif = false;
@@ -671,6 +679,13 @@ function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
     const dy = e.clientY - origine.y;
     if (!dragActif) {
       if (Math.hypot(dx, dy) < SEUIL_DEPLACEMENT) return;
+      // estActif() est reevalue ICI, a CHAQUE geste (pas fige a la creation
+      // de la carte) : utile en multijoueur ou une carte peut etre re-servie
+      // par le cache d'un rendu a l'autre alors que ce n'est plus/pas encore
+      // le tour du joueur (voir renderMainMulti dans multi.js). Si absent,
+      // toujours actif. Hors tour, on abandonne juste la promotion en
+      // glisser (la carte ne suit pas le doigt) sans bloquer le tap lui-meme.
+      if (estActif && !estActif()) { origine = null; return; }
       dragActif = true;
       try { div.setPointerCapture(pointerId); } catch (err) { /* ignore : deja capture ou pointeur invalide */ }
       const rect = div.getBoundingClientRect();
@@ -698,10 +713,22 @@ function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
 
   function terminerGeste(e) {
     if (origine === null || (e && e.pointerId !== pointerId)) return;
+    const typeEvenement = e && e.type;
     origine = null;
-    if (!dragActif) return;
+    if (!dragActif) {
+      // Tap simple (pas de glisser) : declenche onTap directement au
+      // relachement du pointeur (pointerup) plutot que d'attendre
+      // l'evenement "click" que le navigateur synthetise ensuite -- sur
+      // certains navigateurs/webview mobiles (notamment l'app installee en
+      // PWA), ce "click" synthetique peut etre retarde ou meme supprime lors
+      // d'un DEUXIEME tap rapproche (confondu avec un geste de zoom), ce qui
+      // rendait le double-tap peu fiable pour ouvrir l'inspecteur de carte
+      // (voir estDoubleTapSur). Sur un pointercancel (geste interrompu, pas
+      // un vrai relachement), on ne declenche rien.
+      if (typeEvenement === 'pointerup' && onTap) onTap();
+      return;
+    }
     dragActif = false;
-    venaitDeGlisser = true;
     div.classList.remove('carte-source-glissee');
     const zoneCible = zoneSurvolee;
     if (zoneSurvolee) zoneSurvolee.classList.remove('survol');
@@ -729,14 +756,31 @@ function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
   }
   div.addEventListener('pointerup', terminerGeste);
   div.addEventListener('pointercancel', terminerGeste);
+}
 
-  // Un simple tap (sans depassement du seuil de deplacement) declenche le
-  // clic normal ; un clic qui suit un VRAI glisser est ignore (sinon on
-  // declencherait aussi une (re)selection de la carte en plus de son depot).
-  div.addEventListener('click', () => {
-    if (venaitDeGlisser) { venaitDeGlisser = false; return; }
-    if (onTap) onTap();
+/* Tap fiable pour les cartes NON glissables (deja placees sur la frise, ou
+   dans la poubelle) : meme principe que rendreCarteInteractive ci-dessus
+   (declenche au relachement du pointeur plutot que sur l'evenement "click"
+   synthetise ensuite par le navigateur, moins fiable pour un DEUXIEME tap
+   rapproche sur certains navigateurs/webview mobiles), en beaucoup plus
+   simple puisqu'il n'y a ici aucun glisser-deposer a gerer. */
+function brancherTapCarte(div, onTap) {
+  const SEUIL_DEPLACEMENT = 6;
+  let origine = null;
+  let pointerId = null;
+  div.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    origine = { x: e.clientX, y: e.clientY };
+    pointerId = e.pointerId;
   });
+  div.addEventListener('pointerup', (e) => {
+    if (origine === null || e.pointerId !== pointerId) return;
+    const dx = e.clientX - origine.x;
+    const dy = e.clientY - origine.y;
+    origine = null;
+    if (Math.hypot(dx, dy) < SEUIL_DEPLACEMENT && onTap) onTap();
+  });
+  div.addEventListener('pointercancel', () => { origine = null; });
 }
 
 /* ================= RENDU PRINCIPAL ================= */
@@ -774,7 +818,7 @@ function renderTimeline() {
     let carteDiv = cacheCartesTimeline.get(carte);
     if (!carteDiv) {
       carteDiv = creerCarteHTML(carte, options);
-      carteDiv.addEventListener('click', () => {
+      brancherTapCarte(carteDiv, () => {
         selectionnerCartePourInspecteur(carte);
         if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
       });
@@ -890,7 +934,7 @@ function renderPiocheErreurs() {
         <div class="titre-carte">${carte.titre}</div>
         <div class="date-carte">${formaterDate(carte.date)}</div>
       `;
-      div.addEventListener('click', () => {
+      brancherTapCarte(div, () => {
         selectionnerCartePourInspecteur(carte);
         if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
       });

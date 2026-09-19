@@ -807,7 +807,7 @@ function renderTimelineMulti(monTour) {
     let div = cacheCartesTimelineMulti.get(carte);
     if (!div) {
       div = creerCarteHTML(carte, options);
-      div.addEventListener('click', () => {
+      brancherTapCarte(div, () => {
         multiCarteInspectee = carte;
         renderJeuMulti(dernierePartieMulti);
         if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
@@ -944,7 +944,7 @@ function renderErreursMulti() {
         <div class="titre-carte">${carte.titre}</div>
         <div class="date-carte">${formaterDate(carte.date)}</div>
       `;
-      div.addEventListener('click', () => {
+      brancherTapCarte(div, () => {
         multiCarteInspectee = carte;
         renderJeuMulti(dernierePartieMulti);
         if (estDoubleTapSur(carte)) ouvrirPanneauInspecteur();
