@@ -658,8 +658,20 @@ function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
   let fantome = null;
   let zoneSurvolee = null;
 
-  function nettoyerFantome() {
-    if (fantome) { fantome.remove(); fantome = null; }
+  // Prend en parametre le fantome a retirer (capture explicite au moment ou
+  // le setTimeout est programme, cf. terminerGeste plus bas) plutot que de
+  // relire la variable partagee `fantome` au moment ou le timeout se
+  // declenche : si un DEUXIEME glisser demarre sur la meme carte avant que
+  // le nettoyage du premier n'ait eu lieu (souris cliquee/relachee tres
+  // rapidement plusieurs fois de suite), `fantome` pointe alors deja vers le
+  // clone du second glisser -- sans cette capture, le timeout du premier
+  // fantome finissait par supprimer le SECOND (encore en cours d'animation)
+  // et laissait le PREMIER orphelin, fige en position:fixed sur l'ecran
+  // (visible meme apres avoir quitte la partie, puisqu'attache a <body>).
+  function nettoyerFantome(cible) {
+    const f = cible !== undefined ? cible : fantome;
+    if (f) f.remove();
+    if (fantome === f) fantome = null;
   }
 
   div.addEventListener('pointerdown', (e) => {
@@ -688,6 +700,11 @@ function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
       if (estActif && !estActif()) { origine = null; return; }
       dragActif = true;
       try { div.setPointerCapture(pointerId); } catch (err) { /* ignore : deja capture ou pointeur invalide */ }
+      // Filet de securite : un fantome du geste precedent encore present (son
+      // propre nettoyage programme n'a pas encore eu le temps de s'executer)
+      // est retire immediatement plutot que de laisser deux fantomes visibles
+      // en meme temps pendant quelques centaines de ms.
+      nettoyerFantome();
       const rect = div.getBoundingClientRect();
       fantome = div.cloneNode(true);
       fantome.classList.add('carte-drag-fantome');
@@ -734,24 +751,25 @@ function rendreCarteInteractive(div, { onTap, onDepose, estActif }) {
     if (zoneSurvolee) zoneSurvolee.classList.remove('survol');
     zoneSurvolee = null;
 
+    const fantomeActuel = fantome;
     if (zoneCible) {
       // Anime le fantome jusqu'a la position exacte de la zone cible avant de
       // le retirer : c'est ce petit "snap" final qui rend le geste fluide.
       const r = zoneCible.getBoundingClientRect();
-      fantome.style.transition = 'left 0.18s ease, top 0.18s ease, width 0.18s ease, height 0.18s ease';
-      fantome.style.left = r.left + 'px';
-      fantome.style.top = r.top + 'px';
-      fantome.style.width = r.width + 'px';
-      fantome.style.height = r.height + 'px';
-      setTimeout(() => { nettoyerFantome(); onDepose(zoneCible); }, 180);
+      fantomeActuel.style.transition = 'left 0.18s ease, top 0.18s ease, width 0.18s ease, height 0.18s ease';
+      fantomeActuel.style.left = r.left + 'px';
+      fantomeActuel.style.top = r.top + 'px';
+      fantomeActuel.style.width = r.width + 'px';
+      fantomeActuel.style.height = r.height + 'px';
+      setTimeout(() => { nettoyerFantome(fantomeActuel); onDepose(zoneCible); }, 180);
     } else {
       // Aucune zone valide sous le doigt/curseur au relachement : la carte
       // revient a son point de depart avec un petit effet de rebond.
       const r = div.getBoundingClientRect();
-      fantome.style.transition = 'left 0.22s cubic-bezier(.34,1.56,.64,1), top 0.22s cubic-bezier(.34,1.56,.64,1)';
-      fantome.style.left = r.left + 'px';
-      fantome.style.top = r.top + 'px';
-      setTimeout(nettoyerFantome, 220);
+      fantomeActuel.style.transition = 'left 0.22s cubic-bezier(.34,1.56,.64,1), top 0.22s cubic-bezier(.34,1.56,.64,1)';
+      fantomeActuel.style.left = r.left + 'px';
+      fantomeActuel.style.top = r.top + 'px';
+      setTimeout(() => nettoyerFantome(fantomeActuel), 220);
     }
   }
   div.addEventListener('pointerup', terminerGeste);
