@@ -1492,58 +1492,102 @@ function construireBarrePeriodes(segments, totalColonnes) {
 }
 
 let friseConstruite = false;
+// Incremente a chaque appel de construireFrise() : sert de jeton pour que le
+// lot en cours d'une construction PRECEDENTE (encore en vol via
+// requestAnimationFrame, cf. plus bas) se sache perime et s'arrete des
+// qu'une nouvelle construction demarre (ex : appliquerCarteDepuisFirebase
+// dans admin.js peut redeclencher construireFrise() alors que la
+// precedente n'a pas fini) -- sans ca, les deux boucles continueraient en
+// parallele a inserer dans la meme grille (deja reinitialisee par la
+// nouvelle), dupliquant ou melangeant les cartes affichees.
+let friseGenerationConstruction = 0;
+
 function construireFrise() {
+  const generation = ++friseGenerationConstruction;
   const grille = document.getElementById('frise-grille');
   grille.innerHTML = '';
+  friseConstruite = true;
 
   const cartesTriees = [...BASE_CARTES].sort((a, b) => a.date - b.date);
   document.getElementById('frise-nb-cartes').textContent = cartesTriees.length;
 
-  function creerCarteFrise(carte) {
-    const div = creerCarteHTML(carte);
-    div.classList.add('carte--frise');
-    // .carte--cachee ne fait rien visuellement pour un visiteur normal (voir
-    // CSS, gardee par .frise-admin-actif) : seul l'admin voit un badge sur
-    // les cartes actuellement exclues des parties (carte.cachee).
-    if (carte.cachee) div.classList.add('carte--cachee');
-    div.addEventListener('click', () => ouvrirModalCarte(carte));
-    return div;
-  }
-
+  // Construit la liste des TACHES (quel element creer, et dans quel ordre)
+  // separement de leur creation reelle : ce calcul est rapide meme avec
+  // 500+ cartes (tri + regroupement, aucune creation de DOM), contrairement
+  // a creerElementTache ci-dessous (creerCarteHTML, nettement plus couteux
+  // repete plusieurs centaines de fois -- voir la boucle par lots plus bas).
+  const taches = [];
+  const bureau = window.innerWidth > 860;
   // Bureau : grille en colonnes (voir CSS, grid-auto-flow:column) -- une
   // colonne par "tranche" de FRISE_CARTES_PAR_COLONNE cartes, plus ancien en
   // haut. Chaque ere demarre une NOUVELLE colonne (cellules invisibles en
   // complement si besoin) pour que ses limites correspondent exactement aux
   // segments de la barre de periodes au-dessus. Mobile : ancien defilement
   // vertical avec reperes de periode fins (etiquetteEre, par decennie).
-  if (window.innerWidth > 860) {
+  if (bureau) {
     const { segments, totalColonnes } = calculerSegmentsEresFrise(cartesTriees);
-    segments.forEach((seg) => {
-      seg.cartes.forEach((carte) => grille.appendChild(creerCarteFrise(carte)));
-      const vides = seg.colonnes * FRISE_CARTES_PAR_COLONNE - seg.cartes.length;
-      for (let i = 0; i < vides; i++) {
-        const vide = document.createElement('div');
-        vide.className = 'frise-cellule-vide';
-        grille.appendChild(vide);
-      }
-    });
     construireBarrePeriodes(segments, totalColonnes);
+    segments.forEach((seg) => {
+      seg.cartes.forEach((carte) => taches.push({ type: 'carte', carte }));
+      const vides = seg.colonnes * FRISE_CARTES_PAR_COLONNE - seg.cartes.length;
+      for (let i = 0; i < vides; i++) taches.push({ type: 'vide' });
+    });
   } else {
     let ereActuelle = null;
     cartesTriees.forEach((carte) => {
       const ere = etiquetteEre(carte.date);
       if (ere !== ereActuelle) {
         ereActuelle = ere;
-        const repere = document.createElement('div');
-        repere.className = 'frise-ere';
-        repere.textContent = ere;
-        grille.appendChild(repere);
+        taches.push({ type: 'ere', texte: ere });
       }
-      grille.appendChild(creerCarteFrise(carte));
+      taches.push({ type: 'carte', carte });
     });
   }
 
-  friseConstruite = true;
+  function creerElementTache(tache) {
+    if (tache.type === 'carte') {
+      const div = creerCarteHTML(tache.carte);
+      div.classList.add('carte--frise');
+      // .carte--cachee ne fait rien visuellement pour un visiteur normal
+      // (voir CSS, gardee par .frise-admin-actif) : seul l'admin voit un
+      // badge sur les cartes actuellement exclues des parties (carte.cachee).
+      if (tache.carte.cachee) div.classList.add('carte--cachee');
+      div.addEventListener('click', () => ouvrirModalCarte(tache.carte));
+      return div;
+    }
+    if (tache.type === 'ere') {
+      const repere = document.createElement('div');
+      repere.className = 'frise-ere';
+      repere.textContent = tache.texte;
+      return repere;
+    }
+    const vide = document.createElement('div');
+    vide.className = 'frise-cellule-vide';
+    return vide;
+  }
+
+  // Construit la grille par petits lots (requestAnimationFrame) plutot que
+  // tout d'un bloc synchrone : avec 500+ cartes, creerCarteHTML (appele une
+  // fois par carte) bloquait le thread principal pendant ~300-400ms a
+  // l'ouverture de la frise -- l'appli semblait totalement figee le temps
+  // que ca passe (bug signale par l'utilisateur). Chaque lot reste sous un
+  // budget de quelques ms pour laisser le navigateur peindre/repondre entre
+  // deux ; le temps TOTAL de construction ne change pas, mais l'appli reste
+  // reactive pendant qu'elle se remplit progressivement.
+  let indexTache = 0;
+  const BUDGET_MS_PAR_LOT = 8;
+  function construireLotSuivant() {
+    if (generation !== friseGenerationConstruction) return; // perime, cf. commentaire plus haut
+    const debut = performance.now();
+    const frag = document.createDocumentFragment();
+    while (indexTache < taches.length && performance.now() - debut < BUDGET_MS_PAR_LOT) {
+      frag.appendChild(creerElementTache(taches[indexTache]));
+      indexTache++;
+    }
+    grille.appendChild(frag);
+    if (indexTache < taches.length) requestAnimationFrame(construireLotSuivant);
+  }
+  construireLotSuivant();
 }
 
 function ouvrirModalCarte(carte) {
