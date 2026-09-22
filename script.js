@@ -13,6 +13,12 @@ let indexZoneSelectionnee = null;
 let carteInspectee = null;
 let carteRepereInitiale = null;
 let modeSoloNoHit = false;
+// N'a de sens que si modeSoloNoHit est actif : variante "Hardcore" du No Hit
+// Run (voir initPartie plus bas et le bouton dedie) -- une seule carte en
+// main a la fois au lieu de 5, aucun choix possible sur quelle carte jouer.
+// Utilise aussi pour pointer vers un classement Firebase separe
+// (cheminClassementNoHit), les deux variantes n'etant pas comparables.
+let modeSoloHardcore = false;
 let noHitCompteurActuel = 0;
 
 /* Cache des <div class="carte"> deja crees, par objet carte (cle) : evite de
@@ -177,8 +183,11 @@ function initPartie() {
   const toutes = melanger(source);
   carteRepereInitiale = toutes[0];
   timeline = [carteRepereInitiale];
-  main = toutes.slice(1, 6);
-  pioche = toutes.slice(6);
+  // Hardcore : une seule carte proposee a la fois (aucun choix possible sur
+  // quelle carte jouer), au lieu des 5 habituelles.
+  const tailleMain = modeSoloHardcore ? 1 : 5;
+  main = toutes.slice(1, 1 + tailleMain);
+  pioche = toutes.slice(1 + tailleMain);
   erreurs = [];
   carteChoisie = null;
   indexZoneSelectionnee = null;
@@ -227,32 +236,45 @@ document.getElementById('btn-filtres-difficulte-solo-aucun').addEventListener('c
   majCompteFiltresSolo();
 });
 
-/* ================= MODE NO HIT RUN =================
+/* ================= MODE NO HIT RUN (+ variante Hardcore) =================
    Variante solo : la moindre erreur relance aussitot une nouvelle partie.
    Le score (nombre de cartes placees sans faute) est sauvegarde dans
    Firebase sous le pseudo du panneau Lobby, un seul enregistrement par
-   pseudo (ecrase seulement si le nouveau score est meilleur). */
-document.getElementById('btn-solo-mode-normal').addEventListener('click', () => {
-  modeSoloNoHit = false;
-  document.getElementById('btn-solo-mode-normal').classList.add('actif');
-  document.getElementById('btn-solo-mode-nohit').classList.remove('actif');
-  document.getElementById('nohit-explication').hidden = true;
-  document.getElementById('lobby-classement-nohit').hidden = true;
-});
-document.getElementById('btn-solo-mode-nohit').addEventListener('click', () => {
-  modeSoloNoHit = true;
-  document.getElementById('btn-solo-mode-nohit').classList.add('actif');
-  document.getElementById('btn-solo-mode-normal').classList.remove('actif');
-  document.getElementById('nohit-explication').hidden = false;
-  document.getElementById('lobby-classement-nohit').hidden = false;
-  chargerClassementNoHit();
-});
+   pseudo (ecrase seulement si le nouveau score est meilleur).
+   Hardcore : meme principe, mais une seule carte en main a la fois (voir
+   initPartie) au lieu de 5 -- beaucoup plus difficile (aucun choix sur
+   quelle carte jouer), donc classement Firebase separe (cheminClassementNoHit)
+   pour ne pas comparer des scores non comparables entre les deux variantes. */
+const TEXTE_EXPLICATION_NOHIT = 'Place les cartes sans jamais te tromper. À la première erreur, la partie repart aussitôt à zéro. Ton record est le nombre de cartes placées sans faute — il est sauvegardé sous ton pseudo ci-dessus.';
+const TEXTE_EXPLICATION_NOHIT_HARDCORE = 'Comme le No Hit Run, mais une seule carte proposée à la fois : aucun choix possible, il faut la placer du premier coup. À la première erreur, la partie repart aussitôt à zéro.';
+
+function definirModeSolo(noHit, hardcore) {
+  modeSoloNoHit = noHit;
+  modeSoloHardcore = hardcore;
+  document.getElementById('btn-solo-mode-normal').classList.toggle('actif', !noHit);
+  document.getElementById('btn-solo-mode-nohit').classList.toggle('actif', noHit && !hardcore);
+  document.getElementById('btn-solo-mode-nohit-hardcore').classList.toggle('actif', noHit && hardcore);
+  document.getElementById('nohit-explication').hidden = !noHit;
+  document.getElementById('nohit-explication').textContent = hardcore ? TEXTE_EXPLICATION_NOHIT_HARDCORE : TEXTE_EXPLICATION_NOHIT;
+  document.getElementById('lobby-classement-nohit').hidden = !noHit;
+  document.getElementById('lobby-classement-nohit-titre').textContent = hardcore ? 'Classement No Hit Run Hardcore' : 'Classement No Hit Run';
+  if (noHit) chargerClassementNoHit();
+}
+document.getElementById('btn-solo-mode-normal').addEventListener('click', () => definirModeSolo(false, false));
+document.getElementById('btn-solo-mode-nohit').addEventListener('click', () => definirModeSolo(true, false));
+document.getElementById('btn-solo-mode-nohit-hardcore').addEventListener('click', () => definirModeSolo(true, true));
 
 // Cle Firebase valide (pas de . # $ [ ] /) derivee du pseudo : un pseudo =
 // une entree, la reecrire remplace l'ancienne au lieu d'en creer une autre.
 function clePseudoNoHit(pseudo) {
   const nettoye = (pseudo || '').trim().toLowerCase().replace(/[.#$\[\]/]/g, '_');
   return nettoye || 'anonyme';
+}
+
+// Chemin Firebase du classement actif (cf. modeSoloHardcore ci-dessus) --
+// utilise a la fois cote joueur (ici) et cote admin (voir admin.js).
+function cheminClassementNoHit() {
+  return modeSoloHardcore ? 'classementNoHitHardcore' : 'classementNoHit';
 }
 
 // Le pseudo vient d'un champ texte libre rempli par n'importe quel visiteur
@@ -271,7 +293,14 @@ function chargerClassementNoHit() {
     zone.innerHTML = '<div class="info-bloc lobby-note">Classement indisponible (Firebase non configuré).</div>';
     return;
   }
-  dbRef.ref('classementNoHit').on('value', (snap) => {
+  // Detache toute ecoute precedente (l'autre variante, normal <-> hardcore)
+  // avant d'en rattacher une nouvelle : sinon, basculer plusieurs fois entre
+  // les deux boutons laisserait plusieurs listeners actifs en meme temps,
+  // chacun ecrasant l'affichage de l'autre au prochain changement de score.
+  dbRef.ref('classementNoHit').off();
+  dbRef.ref('classementNoHitHardcore').off();
+  zone.innerHTML = 'Chargement...';
+  dbRef.ref(cheminClassementNoHit()).on('value', (snap) => {
     const data = snap.val() || {};
     const liste = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 20);
     if (liste.length === 0) {
@@ -285,6 +314,14 @@ function chargerClassementNoHit() {
         <span class="classement-score">${entree.score}</span>
       </div>
     `).join('');
+  }, (erreur) => {
+    // Le classement Hardcore vit sous une cle Firebase distincte
+    // (classementNoHitHardcore) : si les regles de la base de donnees n'ont
+    // pas encore ete etendues a cette cle (elles n'autorisent par defaut que
+    // les chemins explicitement listes), Firebase refuse la lecture -- on
+    // l'affiche clairement plutot que de laisser "Chargement..." indefiniment.
+    console.warn('Classement inaccessible :', erreur);
+    zone.innerHTML = '<div class="info-bloc lobby-note">Classement indisponible (permissions Firebase à configurer pour ce mode).</div>';
   });
 }
 
@@ -295,7 +332,7 @@ async function enregistrerScoreNoHit(score) {
   const pseudo = (champPseudo && champPseudo.value.trim()) || 'Toi';
   const cle = clePseudoNoHit(pseudo);
   try {
-    const ref = dbRef.ref('classementNoHit/' + cle);
+    const ref = dbRef.ref(cheminClassementNoHit() + '/' + cle);
     const snap = await ref.once('value');
     const existant = snap.val();
     if (!existant || score > existant.score) {

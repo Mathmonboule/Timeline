@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Timeline">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="style.css?v=55">
+<link rel="stylesheet" href="style.css?v=56">
 <script>
 /* Hauteur REELLEMENT visible (window.innerHeight), posee en <head> pour
    s'appliquer des le tout premier rendu -- evite une bande de couleur en
@@ -134,6 +134,7 @@
           <div class="lobby-mode-longueur-boutons">
             <button type="button" class="btn-mode-longueur actif" id="btn-solo-mode-normal">Normal</button>
             <button type="button" class="btn-mode-longueur" id="btn-solo-mode-nohit">No Hit Run</button>
+            <button type="button" class="btn-mode-longueur" id="btn-solo-mode-nohit-hardcore">No Hit Run Hardcore</button>
           </div>
           <div class="info-bloc lobby-note" id="nohit-explication" hidden>
             Place les cartes sans jamais te tromper. À la première erreur, la partie repart aussitôt à zéro. Ton record est le nombre de cartes placées sans faute — il est sauvegardé sous ton pseudo ci-dessus.
@@ -141,7 +142,7 @@
         </div>
 
         <div class="lobby-classement-nohit" id="lobby-classement-nohit" hidden>
-          <div class="lobby-filtres-titre">Classement No Hit Run</div>
+          <div class="lobby-filtres-titre" id="lobby-classement-nohit-titre">Classement No Hit Run</div>
           <div class="classement-nohit-liste" id="classement-nohit-liste"></div>
         </div>
 
@@ -440,12 +441,12 @@
 </div>
 
 <script src="cartes.js?v=16"></script>
-<script src="script.js?v=40"></script>
+<script src="script.js?v=42"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js?v=2"></script>
 <script src="multi.js?v=28"></script>
-<script src="admin.js?v=7"></script>
+<script src="admin.js?v=9"></script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

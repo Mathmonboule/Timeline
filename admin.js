@@ -460,6 +460,13 @@ function initSyncAdmin() {
    donc jamais interpoles directement dans un attribut/onclick -- on relit
    toujours la donnee depuis dernierClassementAdminData via data-cle au clic. */
 let dernierClassementAdminData = {};
+// Le classement Hardcore (voir modeSoloHardcore dans script.js) est stocke a
+// part sous une autre cle Firebase, les scores des deux variantes n'etant
+// pas comparables (une seule carte en main, beaucoup plus difficile).
+let classementAdminHardcore = false;
+function cheminClassementAdmin() {
+  return classementAdminHardcore ? 'classementNoHitHardcore' : 'classementNoHit';
+}
 
 function construireLigneClassementAdminHTML(cle, entree) {
   return `
@@ -484,10 +491,36 @@ function rafraichirClassementAdmin(data) {
   zone.innerHTML = entrees.map(([cle, entree]) => construireLigneClassementAdminHTML(cle, entree)).join('');
 }
 
-let ecouteClassementAdminActive = false;
+// Reattache l'ecoute Firebase sur le chemin actif (normal <-> hardcore) : se
+// detache toujours de l'ancien chemin d'abord, sinon les deux ecoutes
+// resteraient actives en parallele et se marcheraient dessus a chaque
+// changement de score.
+function ecouterClassementAdmin() {
+  if (typeof dbRef === 'undefined' || !dbRef) return;
+  dbRef.ref('classementNoHit').off();
+  dbRef.ref('classementNoHitHardcore').off();
+  document.getElementById('classement-admin-liste').innerHTML = 'Chargement...';
+  dbRef.ref(cheminClassementAdmin()).on('value', (snap) => rafraichirClassementAdmin(snap.val()), (erreur) => {
+    console.warn('Classement admin inaccessible :', erreur);
+    document.getElementById('classement-admin-liste').innerHTML = '<div class="admin-formulaire-statut erreur">Classement indisponible (permissions Firebase à configurer pour ce mode).</div>';
+  });
+}
+
+function changerModeClassementAdmin(hardcore) {
+  classementAdminHardcore = hardcore;
+  document.getElementById('btn-classement-admin-normal').classList.toggle('actif', !hardcore);
+  document.getElementById('btn-classement-admin-hardcore').classList.toggle('actif', hardcore);
+  ecouterClassementAdmin();
+}
+
 function ouvrirClassementAdmin() {
+  classementAdminHardcore = false;
   document.getElementById('classement-admin-contenu').innerHTML = `
     <h3 class="admin-formulaire-titre">🏆 Classement No Hit Run</h3>
+    <div class="lobby-mode-longueur-boutons" style="margin-bottom:14px;">
+      <button type="button" class="btn-mode-longueur actif" id="btn-classement-admin-normal" onclick="changerModeClassementAdmin(false)">Normal</button>
+      <button type="button" class="btn-mode-longueur" id="btn-classement-admin-hardcore" onclick="changerModeClassementAdmin(true)">Hardcore</button>
+    </div>
     <div class="admin-classement-liste" id="classement-admin-liste">Chargement...</div>
   `;
   document.getElementById('classement-admin-modal').hidden = false;
@@ -495,13 +528,7 @@ function ouvrirClassementAdmin() {
     document.getElementById('classement-admin-liste').innerHTML = '<div class="admin-formulaire-statut">Classement indisponible (Firebase non configuré).</div>';
     return;
   }
-  // L'ecoute Firebase reste branchee en continu une fois demarree (comme
-  // initSyncAdmin ci-dessus) : rouvrir la modale reaffiche juste l'etat
-  // courant, deja tenu a jour par rafraichirClassementAdmin.
-  if (!ecouteClassementAdminActive) {
-    ecouteClassementAdminActive = true;
-    dbRef.ref('classementNoHit').on('value', (snap) => rafraichirClassementAdmin(snap.val()));
-  }
+  ecouterClassementAdmin();
 }
 function fermerClassementAdmin() {
   document.getElementById('classement-admin-modal').hidden = true;
@@ -513,7 +540,7 @@ function enregistrerScoreClassementAdmin(bouton) {
   const cle = ligne.dataset.cle;
   const input = ligne.querySelector('.admin-classement-score');
   const score = Math.max(0, parseInt(input.value, 10) || 0);
-  dbRef.ref('classementNoHit/' + cle).update({ score, maj_le: Date.now() });
+  dbRef.ref(cheminClassementAdmin() + '/' + cle).update({ score, maj_le: Date.now() });
 }
 
 function supprimerScoreClassementAdmin(bouton) {
@@ -523,7 +550,7 @@ function supprimerScoreClassementAdmin(bouton) {
   const pseudo = entree ? entree.pseudo : cle;
   if (!confirm(`Supprimer le score de ${pseudo} du classement ?`)) return;
   if (typeof dbRef === 'undefined' || !dbRef) return;
-  dbRef.ref('classementNoHit/' + cle).remove();
+  dbRef.ref(cheminClassementAdmin() + '/' + cle).remove();
 }
 
 document.getElementById('btn-admin-classement').addEventListener('click', ouvrirClassementAdmin);

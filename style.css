@@ -303,6 +303,11 @@ body {
 }
 .lobby-mode-longueur-boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .lobby-mode-longueur-boutons .btn-mode-longueur { white-space: normal; text-align: center; }
+/* Groupe solo (Normal / No Hit Run / No Hit Run Hardcore) : 3 boutons au
+   lieu de 2 ailleurs (ex: mode de partie multijoueur) -- le 3e (libelle plus
+   long) prend toute la largeur sur sa propre ligne plutot que de se
+   retrouver seul dans une grille a moitie vide. */
+.lobby-mode-jeu-solo .lobby-mode-longueur-boutons #btn-solo-mode-nohit-hardcore { grid-column: 1 / -1; }
 .btn-mode-longueur {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
