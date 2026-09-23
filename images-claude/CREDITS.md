@@ -2805,3 +2805,356 @@ Fugitron et intervenants sur la discussion associée (montage)
 - Licence : CC BY-SA 3.0
 - Auteur : David Shankbone
 - Credit : Own work
+
+
+<!-- Lot de 50 cartes avant le XVIIe siecle, ajoute le 2026-09-24 -->
+
+## id-525.jpg
+- Source : https://fr.wikipedia.org/wiki/Domestication_du_cheval
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Przewalski-Pferd_Wildpark_Pforzheim.JPG
+- Licence : CC BY-SA 3.0
+- Auteur : 4028mdk09
+- Credit : Own work
+
+## id-526.jpg
+- Source : https://fr.wikipedia.org/wiki/%C3%82ge_du_bronze
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Solvognen_DO-6865_2000.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Nationalmuseet, John Lee
+- Credit : http://samlinger.natmus.dk/DO/6865
+
+## id-527.jpg
+- Source : https://fr.wikipedia.org/wiki/Narmer
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:King_Narmer.jpg
+- Licence : Public domain
+- Auteur : Inconnu (artefact antique, Nekhen/Hierakonpolis, XXXIe siecle av. J.-C.)
+- Credit : Nekhen (Hierakonpolis), 31st century BC
+
+## id-528.jpg
+- Source : https://fr.wikipedia.org/wiki/Uruk
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Bull_Warka_Louvre_AO8218.jpg
+- Licence : Public domain (PD-self)
+- Auteur : Jastrow
+- Credit : Own work
+
+## id-529.jpg
+- Source : https://fr.wikipedia.org/wiki/Stonehenge
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Stonehenge2007_07_30.jpg
+- Licence : CC BY 2.0
+- Auteur : garethwiscombe
+- Credit : https://www.flickr.com/photos/garethwiscombe/1071477228/
+
+## id-530.jpg
+- Source : https://fr.wikipedia.org/wiki/Civilisation_de_la_vall%C3%A9e_de_l%27Indus
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Mohenjo-daro.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Saqib Qayyum
+- Credit : Own work
+
+## id-531.jpg
+- Source : https://fr.wikipedia.org/wiki/Sargon_d%27Akkad
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Sargon_of_Akkad_on_his_victory_stele.jpg
+- Licence : CC BY-SA 2.0
+- Auteur : ALFGRN (extrait d'une autre oeuvre / photographie d'un bas-relief antique)
+- Credit : Image extracted from another file
+
+## id-532.jpg
+- Source : https://fr.wikipedia.org/wiki/%C3%89ruption_minoenne
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Santorini_ASTER.jpg
+- Licence : Public domain
+- Auteur : NASA
+- Credit : NASA/JPL, image satellite ASTER (photojournal.jpl.nasa.gov/catalog/PIA02673)
+
+## id-533.jpg
+- Source : https://fr.wikipedia.org/wiki/Bataille_de_Qadesh
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:AbydosR2QadeshBattle-81.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Roland Unger
+- Credit : Own work
+
+## id-534.jpg
+- Source : https://fr.wikipedia.org/wiki/Guerre_de_Troie
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:THAM-Battle_at_the_ships_sarcophagus.jpg
+- Licence : CC BY-SA 3.0 / CC BY 2.5 / GFDL 1.2+ (multi-licence)
+- Auteur : Marsyas
+- Credit : Sarcophage neo-attique sculpte representant la bataille pres des navires lors de la guerre de Troie, Musee archeologique de Thessalonique, inv. 1246 (2e quart du IIIe siecle ap. J.-C.)
+
+## id-535.jpg
+- Source : https://fr.wikipedia.org/wiki/Effondrement_de_l%27%C3%A2ge_du_bronze
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Seev%C3%B6lker.jpg
+- Licence : Public domain
+- Auteur : Seebeer (redessin d'apres les reliefs du temple de Medinet Habou)
+- Credit : Redessin des reliefs muraux du temple de Medinet-Habou (Thebes) representant la bataille navale entre les peuples de la mer et les forces de Ramses III (v. 1198-1166 av. J.-C.)
+
+## id-536.jpg
+- Source : https://fr.wikipedia.org/wiki/Alphabet_ph%C3%A9nicien
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ahiram_Sarcophagus_1.JPG
+- Licence : Public domain (CC0 - domaine public, autorise par l'auteur)
+- Auteur : O.Mustafin
+- Credit : Sarcophage d'Ahiram, roi de Byblos (Phenicie), Musee national de Beyrouth ; porte la plus ancienne inscription phenicienne alphabetique connue (v. 1000 av. J.-C.)
+
+## id-537.jpg
+- Source : https://fr.wikipedia.org/wiki/Carthage
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Quartier_punique_Byrsa.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Pradigue
+- Credit : Quartier punique de la colline de Byrsa, site archeologique de Carthage (travail personnel du photographe)
+
+## id-538.jpg
+- Source : https://fr.wikipedia.org/wiki/Dracon
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Draco_engraving_from_1833_(cropped)_1_1.jpg
+- Licence : Public domain (PD-1923, publie avant 1931)
+- Auteur : Max Karl Baldamus (1784-1852)
+- Credit : Gravure imaginaire de Dracon extraite de 'Chronologisch geordneter Bildniss-Saal von M. K. Baldamus', volume 1 (1833)
+
+## id-539.jpg
+- Source : https://fr.wikipedia.org/wiki/Jardins_suspendus_de_Babylone
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ishtar_gate_Pergamon_Museum.JPG
+- Licence : Public domain (domaine public, autorise par l'auteur)
+- Auteur : Bontenbal
+- Credit : Photographie de la Porte d'Ishtar de Babylone, construite sous Nabuchodonosor II, reconstituee au Pergamonmuseum de Berlin (travail personnel du photographe)
+
+## id-540.jpg
+- Source : https://fr.wikipedia.org/wiki/Cyrus_II
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Cyrus_II_(The_Great).jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Surenae
+- Credit : Relief du 'genie aile' de Pasargades (Iran), traditionnellement identifie a Cyrus le Grand (travail personnel du photographe, 2022)
+
+## id-541.jpg
+- Source : https://fr.wikipedia.org/wiki/Solon
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ignoto,_c.d._solone,_replica_del_90_dc_ca_da_orig._greco_del_110_ac._ca,_6143.JPG
+- Licence : CC BY-SA 3.0
+- Auteur : Sailko
+- Credit : Buste romain (replique v. 90 apr. J.-C. d'un original grec v. 110 av. J.-C.), traditionnellement identifie comme Solon, Musee archeologique national de Naples, collection Farnese, inv. 6143 (photo: travail personnel du photographe)
+
+## id-542.jpg
+- Source : https://fr.wikipedia.org/wiki/Bataille_de_Marathon
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:The_helmet_of_Miltiades_at_the_National_Archaeological_Museum_of_Athens_on_October_6,_2021.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : George E. Koronaios
+- Credit : Own work. Casque de bronze de type "corinthien" provenant du stade d'Olympie, portant l'inscription dédicatoire de Miltiade à Zeus ; probablement le casque de Miltiade lui-meme, offert apres la victoire de Marathon (Musee archeologique d'Olympie, expose au Musee national archeologique d'Athenes).
+
+## id-543.jpg
+- Source : https://fr.wikipedia.org/wiki/Parth%C3%A9non
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:The_Parthenon_in_Athens.jpg
+- Licence : CC BY 2.0
+- Auteur : Steve Swayne
+- Credit : Photo prise en 1978, publiee sur Flickr sous licence CC BY 2.0, transferee sur Commons (revue par l'administrateur Denniss).
+
+## id-544.jpg
+- Source : https://fr.wikipedia.org/wiki/Proc%C3%A8s_de_Socrate
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:David_-_The_Death_of_Socrates.jpg
+- Licence : Public domain (PD-old, reproduction fidele d'une oeuvre 2D du domaine public)
+- Auteur : Jacques-Louis David (1748-1825)
+- Credit : The Death of Socrates (1787), huile sur toile, Metropolitan Museum of Art, New York (https://www.metmuseum.org/collection/the-collection-online/search/436105).
+
+## id-545.jpg
+- Source : https://fr.wikipedia.org/wiki/Biblioth%C3%A8que_d%27Alexandrie
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ancientlibraryalex.jpg
+- Licence : Public domain (PD-old, XIXe siecle)
+- Auteur : O. Von Corven
+- Credit : Gravure/reconstitution artistique du XIXe siecle, publiee dans Tolzmann, Don Heinrich; Alfred Hessel and Reuben Peiss, The Memory of Mankind, Oak Knoll Press, 2001.
+
+## id-546.jpg
+- Source : https://fr.wikipedia.org/wiki/%C3%89l%C3%A9ments_d%27Euclide
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:P._Oxy._I_29.jpg
+- Licence : Public domain
+- Auteur : Euclide (texte) ; papyrus photographie/numerise par l'Universite de Pennsylvanie
+- Credit : Papyrus d'Oxyrhynchus (P.Oxy. I 29), fragment des Elements d'Euclide, https://openn.library.upenn.edu/Data/0016/html/e2748.html
+
+## id-547.jpg
+- Source : https://fr.wikipedia.org/wiki/Qin_Shi_Huang
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Qin_Terracotta_Warriors,_Pit_1_07.jpg
+- Licence : CC0 (domaine public / Creative Commons Zero)
+- Auteur : Gary Todd
+- Credit : https://www.flickr.com/photos/101561334@N08/9892641096/ (WorldHistoryPics.com)
+
+## id-548.jpg
+- Source : https://fr.wikipedia.org/wiki/Pouss%C3%A9e_d%27Archim%C3%A8de
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Domenico-Fetti_Archimedes_1620.jpg
+- Licence : Public domain (PD-old-100)
+- Auteur : Domenico Fetti (v.1589-1623)
+- Credit : "Archimedes Thoughtful" / "Portrait of a Scholar" (1620), huile sur toile, Gemaldegalerie Alte Meister, Dresde.
+
+## id-549.jpg
+- Source : https://fr.wikipedia.org/wiki/A%C5%9Boka
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Ashoka_pillar_at_Vaishali,_Bihar,_India.jpg
+- Licence : CC BY-SA 2.5
+- Auteur : Bpilgrim (utilisateur Commons)
+- Credit : Own work, pilier d'Ashoka (colonne surmontee d'un lion) a Vaishali, Bihar, Inde.
+
+## id-550.jpg
+- Source : https://fr.wikipedia.org/wiki/Octavianus
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Augustus_of_Prima_Porta_(inv._2290).jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Joel Bellviure (Macesito)
+- Credit : Own work, photographié le 17 mars 2023 aux Musées du Vatican (statue conservée au Museo Chiaramonti, Braccio Nuovo)
+
+## id-551.jpg
+- Source : https://fr.wikipedia.org/wiki/Grand_incendie_de_Rome
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Karl_von_Piloty_Nero_R%C3%B3ma_%C3%A9g%C3%A9s%C3%A9t_szeml%C3%A9li.jpg
+- Licence : CC BY-SA 3.0
+- Auteur : Karl Theodor von Piloty (1826-1886)
+- Credit : Peinture d'environ 1861 representant Néron contemplant l'incendie de Rome, source reproarte.com
+
+## id-552.jpg
+- Source : https://fr.wikipedia.org/wiki/Panth%C3%A9on_(Rome)
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Pantheon_Rom_1_cropped.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Rabax63
+- Credit : Own work, photographié le 18 novembre 2018 (vue du Panthéon et de la Fontana del Pantheon, Rome)
+
+## id-553.jpg
+- Source : https://fr.wikipedia.org/wiki/Constitutio_Antoniniana
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Caracalla_bust.jpg
+- Licence : CC BY-SA 3.0 / GFDL 1.2+
+- Auteur : ChrisO (upload original sur Wikipédia anglophone, 4 juin 2004)
+- Credit : Buste en marbre de l'empereur Caracalla, musée du Louvre (Ma 3551), art sévérien des années 210
+
+## id-554.jpg
+- Source : https://fr.wikipedia.org/wiki/Premier_concile_de_Nic%C3%A9e
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Heraklion_First-Oecumenical-Council_Damaskenos_20230606_111647(cropped).jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Michael Damaskinos (peintre, 1591) ; photo par Rigorius, uploadée par Mogador
+- Credit : Icône orthodoxe « Le premier concile œcuménique », 1591, Musée des icônes d'Héraklion (Crète)
+
+## id-555.jpg
+- Source : https://fr.wikipedia.org/wiki/Attila
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Eugene_Ferdinand_Victor_Delacroix_Attila_fragment.jpg
+- Licence : Domaine public (CC0 - reproduction fidèle d'une oeuvre 2D du domaine public)
+- Auteur : Eugène Delacroix (1798-1863)
+- Credit : Fragment de la fresque « Attila foulant aux pieds l'Italie et les Arts », bibliothèque du Palais Bourbon, 1847
+
+## id-556.jpg
+- Source : https://fr.wikipedia.org/wiki/Dynastie_Han
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Western_Han_Jade_Burial_Suit_of_Liu_Sheng_(11867373596).jpg
+- Licence : CC0 1.0 (domaine public)
+- Auteur : Gary Todd (Gary Lee Todd, Ph.D.)
+- Credit : Photo prise le 9 janvier 2014, suit funéraire en jade du prince Liu Sheng, Han occidentaux, Hebei Museum Mancheng Gallery ; posté sur Flickr par l'auteur
+
+## id-557.jpg
+- Source : https://fr.wikipedia.org/wiki/Teotihuacan
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Piramide_del_Sol,_Teotihuac%C3%A1n_-_Wiki_Loves_Pyramid.JPG
+- Licence : CC BY-SA 4.0
+- Auteur : Dario Crespi (Yiyi)
+- Credit : Own work, photographié le 20 juillet 2015, pyramide du Soleil à Teotihuacán
+
+## id-558.jpg
+- Source : https://fr.wikipedia.org/wiki/Jeu_de_balle_(M%C3%A9soam%C3%A9rique)
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Pok_ta_pok_ballgame_maya_indians_mexico_3.JPG
+- Licence : CC BY-SA 2.5
+- Auteur : de:User:Sputnik
+- Credit : shot by myself (Own work)
+
+## id-559.jpg
+- Source : https://fr.wikipedia.org/wiki/Aryabhata
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:2064_aryabhata-crp.jpg
+- Licence : Public domain (PD-self)
+- Auteur : Non specifie (statue), photo self-published (utilisateur Commons)
+- Credit : Own work
+
+## id-560.jpg
+- Source : https://fr.wikipedia.org/wiki/Mahomet
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Jabal_al-Nour_And_cave_Hira.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Sadath i
+- Credit : Own work
+
+## id-561.jpg
+- Source : https://fr.wikipedia.org/wiki/Bataille_de_Poitiers_(732)
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Steuben_-_Bataille_de_Poitiers.png
+- Licence : Public domain
+- Auteur : Charles de Steuben (peintre francais, 1788-1856)
+- Credit : Image principale de l'infobox Wikipedia ; source precise non renseignee sur Commons ("Unknown source")
+
+## id-562.jpg
+- Source : https://fr.wikipedia.org/wiki/Bagdad
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%82%D8%B5%D8%B1_%D8%A7%D9%84%D8%B9%D8%A8%D8%A7%D8%B3%D9%8A.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Zahraa raid
+- Credit : Own work (photo prise dans le cadre de Wiki Loves Monuments 2018 en Irak)
+
+## id-563.jpg
+- Source : https://fr.wikipedia.org/wiki/Muhammad_ibn_Musa_al-Khuwarizmi
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Muhammad_ibn_Musa_al-Khwarizmi.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : DierkA
+- Credit : Own work
+
+## id-564.jpg
+- Source : https://fr.wikipedia.org/wiki/Poudre_noire
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Chinese_Gunpowder_Formula.JPG
+- Licence : Public domain (PD-old / PD China)
+- Auteur : Zeng Gongliang, Ding Du et Yang Weide (auteurs du texte, XIe siecle) ; photo par l'utilisateur Commons PericlesofAthens
+- Credit : Own work (My book) - reproduction d'une page du Wujing Zongyao (manuscrit militaire chinois compile vers 1044)
+
+## id-565.jpg
+- Source : https://fr.wikipedia.org/wiki/Jiaozi_(monnaie)
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Beijing.China_printing_museum.Plate_of_Paper_money.Northern_Song_Dynasty.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Popolon
+- Credit : Own work
+
+## id-566.jpg
+- Source : https://fr.wikipedia.org/wiki/Grand_Zimbabwe
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Great-Zimbabwe.jpg
+- Licence : Public domain
+- Auteur : Jan Derk
+- Credit : Photo prise par Jan Derk en 1997 au Zimbabwe
+
+## id-567.jpg
+- Source : https://fr.wikipedia.org/wiki/%C3%89rik_le_Rouge
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Brattachurch.jpg
+- Licence : Public domain
+- Auteur : Hamish Laird
+- Credit : Photo taken by Hamish Laird of expeditionsail.com
+
+## id-568.jpg
+- Source : https://fr.wikipedia.org/wiki/Leif_Erikson
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Christian_Krohg_-_Leiv_Eirikson_discovering_America_-_Google_Art_Project.jpg
+- Licence : Public domain (PD-old, CC-PD-Mark)
+- Auteur : Christian Krohg (1852-1925)
+- Credit : Google Art Project / National Museum of Art, Architecture and Design, Norway
+
+## id-569.jpg
+- Source : https://fr.wikipedia.org/wiki/Si%C3%A8ge_de_J%C3%A9rusalem_(1099)
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Si%C3%A8ge_de_J%C3%A9rusalem_(1099)_-_Fran%C3%A7ais_9083.jpg
+- Licence : Public domain
+- Auteur : Inconnu (enlumineur medieval)
+- Credit : Gallica Digital Library (BnF), manuscrit Francais 9083, f.1 (XIVe siecle)
+
+## id-570.jpg
+- Source : https://fr.wikipedia.org/wiki/Universit%C3%A9_de_Bologne
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Palazzo_Poggi_UniBo.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Mattia Barci (Wikimedia Commons)
+- Credit : Photo prise par l'auteur (opera propria)
+
+## id-571.jpg
+- Source : https://fr.wikipedia.org/wiki/Si%C3%A8ge_de_J%C3%A9rusalem_(1187)
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:234_Alexandre-Evariste_Fragonard_Saladin_%C3%A0_J%C3%A9rusalem.jpg
+- Licence : CC BY-SA 4.0
+- Auteur : Alexandre-Evariste Fragonard (1780-1850)
+- Credit : Musee des Beaux-Arts de Quimper, photo Moreau.henri (own work)
+
+## id-572.jpg
+- Source : https://fr.wikipedia.org/wiki/Leonardo_Fibonacci
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Fibonacci5.jpg
+- Licence : Public domain
+- Auteur : Inconnu
+- Credit : A portfolio of portraits of eminent mathematicians, 1905 (HathiTrust)
+
+## id-573.jpg
+- Source : https://fr.wikipedia.org/wiki/Lunettes
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Tommaso_da_modena,_ritratti_di_domenicani_(Ugo_di_Provenza)_1352_150cm,_treviso,_ex_convento_di_san_niccol%C3%B2,_sala_del_capitolo.jpg
+- Licence : Public domain
+- Auteur : Tommaso da Modena (1326-1379)
+- Credit : Il Capitolo dei Domenicani, ex convento San Niccolo, Trevise
+
+## id-574.jpg
+- Source : https://fr.wikipedia.org/wiki/Osman_Ier
+- Fichier Commons : https://commons.wikimedia.org/wiki/File:Osman_Gazi2.jpg
+- Licence : Public domain
+- Auteur : Auteur inconnu
+- Credit : Portrait du XIXe siecle represantant Osman Ier (serie Kapidagli)
